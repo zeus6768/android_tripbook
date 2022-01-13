@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TripBook</string>
+
+    <string name="dialog_base_check">확인</string>
+    <string name="dialog_base_cancel">취소</string>
+
+</resources>
