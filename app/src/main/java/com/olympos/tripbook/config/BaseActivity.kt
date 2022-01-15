@@ -8,17 +8,17 @@ open class BaseActivity: AppCompatActivity(), View.OnClickListener, BaseDialog.B
 
     }
 
-    fun showDialog(title: String) {
-        val dig = BaseDialog(this)
-        dig.listener = this
-        dig.show(title)
-    }
-
     override fun onOKClicked() {
 
     }
 
     override fun onCancelClicked() {
-        TODO("Not yet implemented")
+
+    }
+
+    fun showDialog(title: String) {
+        val dig = BaseDialog(this)
+        dig.listener = this
+        dig.show(title)
     }
 }
