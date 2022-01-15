@@ -66,4 +66,7 @@ dependencies {
 
     //drawerLayout
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    //circle indicator
+    implementation 'me.relex:circleindicator:2.1.6'
 }
