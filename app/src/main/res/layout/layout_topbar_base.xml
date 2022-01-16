@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="95dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
@@ -13,25 +13,26 @@
     >
 
     <ImageView
-        android:id="@+id/tripcourse_back_ib"
+        android:id="@+id/topbar_back_ib"
         android:src="@drawable/img_back_basic"
         android:layout_width="30dp"
         android:layout_height="30dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tripcourse_title_layout"
+        app:layout_constraintTop_toTopOf="@id/topbar_title_layout"
         android:layout_marginTop="8dp"/>
 
     <ImageView
-        android:id="@+id/tripcourse_home_ib"
+        android:id="@+id/topbar_subbutton_ib"
         android:src="@drawable/img_home_basic"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tripcourse_back_ib"
+        app:layout_constraintTop_toTopOf="@id/topbar_back_ib"
         />
 
     <LinearLayout
-        android:id="@+id/tripcourse_title_layout"
+        android:id="@+id/topbar_title_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -44,25 +45,26 @@
         >
 
         <TextView
-            android:id="@+id/tripcourse_title_tv"
+            android:id="@+id/topbar_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/tripcourse_title_name"
-            android:textSize="22sp"
+            android:text="@string/topbar_title"
+            android:textSize="21sp"
             android:textColor="@color/black"
             android:fontFamily="@font/notosans_kr_bold"
             android:includeFontPadding="false"
             android:layout_marginBottom="8dp"
             />
         <TextView
-            android:id="@+id/tripcourse_subtitle_tv"
+            android:id="@+id/topbar_subtitle_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/tripcourse_tripTitle"
-            android:textSize="12sp"
+            android:text="@string/topbar_subtitle"
+            android:textSize="13sp"
             android:textColor="@color/black"
             android:fontFamily="@font/notosans_kr_regular"
-            android:includeFontPadding="false"/>
+            android:includeFontPadding="false"
+            android:visibility="visible"/>
     </LinearLayout>
 
     <View

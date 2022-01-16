@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -8,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -17,8 +17,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!--상단 바-->
             <include layout="@layout/layout_topbar_base"/>
-
 
             <!--타이틀 바-->
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,18 +57,48 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!--메인 앨범-->
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/looker_albumlist_recyclerview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:src=""
-                    android:layout_width="173dp"
-                    android:layout_height="235dp"
-                    />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_tripcourse_album_right"
+                />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </ScrollView>
 
-
+    <!--카드 추가하기-->
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <androidx.cardview.widget.CardView
+                android:layout_width="83dp"
+                android:layout_height="83dp"
+                android:backgroundTint="@color/tripbook_main_1"
+                app:cardCornerRadius="15dp"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="52dp"
+            android:layout_height="54dp"
+            android:layout_gravity="center"
+            android:drawableTop="@drawable/img_tripcourse_addpicture_plus"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:text="@string/tripcourse_add_card"
+            android:textColor="@color/white"
+            android:textSize="8sp"
+            android:fontFamily="@font/notosans_kr_regular"
+            android:includeFontPadding="false"
+            tools:ignore="SmallSp,UseCompatTextViewDrawableXml" />
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

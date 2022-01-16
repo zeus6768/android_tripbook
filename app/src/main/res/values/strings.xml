@@ -6,11 +6,19 @@
     <string name="dialog_base_cancel">취소</string>
 
     //activity_tripcourse
-    <string name="tripcourse_title_name">여행발자국</string>
-    <string name="tripcourse_tripTitle">여행 제목</string>
+    <string name="tripcourse_record_request">발자국을 기록해주세요</string>
+    <string name="tripcourse_add_card">카드 추가하기</string>
+
+    //activity_tripcourse_record
+    <string name="tripcourse_record_request_picture">이곳을 눌러\n사진을 첨부해주세요</string>
+    <string name="tripcourse_record_date">여행 날짜</string>
+    <string name="tripcourse_record_country">여행한 지역과 도시</string>
+    <string name="tripcourse_record_request_title">제목을 입력해주세요.</string>
+
 
     //layout_topbar_base
-
+    <string name="topbar_title">상단바 제목</string>
+    <string name="topbar_subtitle">상단바 부제목</string>
 
     <string name="app_slogan">쉽게 쓰는 여행 다이어리</string>
     <string name="user_email">이메일</string>
