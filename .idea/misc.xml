@@ -9,7 +9,9 @@
         <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/font/font.xml" value="0.1" />
         <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/dialog_base.xml" value="0.1" />
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/font/font.xml" value="0.2838541666666667" />
-        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse.xml" value="0.264" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_signin.xml" value="0.264" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse.xml" value="0.4" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/layout_topbar_base.xml" value="0.6" />
       </map>
     </option>
   </component>

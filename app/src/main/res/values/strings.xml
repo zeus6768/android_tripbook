@@ -1,12 +1,22 @@
 <resources>
     <string name="app_name">TripBook</string>
-
+    <string name="app_name_uppercase">TRIPBOOK</string>
+    <string name="app_name_lowercase">tripbook</string>
     <string name="dialog_base_check">확인</string>
     <string name="dialog_base_cancel">취소</string>
 
+    //activity_tripcourse
     <string name="tripcourse_title_name">여행발자국</string>
-
     <string name="tripcourse_tripTitle">여행 제목</string>
 
+    //layout_topbar_base
+
+
+    <string name="app_slogan">쉽게 쓰는 여행 다이어리</string>
+    <string name="user_email">이메일</string>
+    <string name="user_password">비밀번호</string>
+    <string name="user_signin">로그인</string>
+    <string name="user_signup">회원가입</string>
+    <string name="user_find_password">비밀번호를 잊으셨나요?</string>
 
 </resources>

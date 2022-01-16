@@ -7,11 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray">#DFDFDF</color>
+    <color name="transparent">#00000000</color>
 
-    <color name="tripbook_main_color1">#FF007C32</color>
-    <color name="tripbook_main_color2">#B3007C32</color>
-    <color name="tripbook_main_color3">#80007C32</color>
-    <color name="tripbook_sub_color">#80FFB800</color>
+    <color name="tripbook_main_1">#FF007C32</color>
+    <color name="tripbook_main_2">#B3007C32</color>
+    <color name="tripbook_main_3">#80007C32</color>
+    <color name="tripbook_sub">#80FFB800</color>
 
     <color name="search">#80BE99</color>
     <color name="calender">#B3D8C2</color>
