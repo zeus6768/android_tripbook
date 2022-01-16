@@ -2,11 +2,9 @@ package com.olympos.tripbook.src.home
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.navigation.NavigationView
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityMainBinding
@@ -27,9 +25,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         setSupportActionBar(binding.mainToolbar) // 툴바를 액티비티의 앱바로 지정
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // 드로어를 꺼낼 홈 버튼 활성화
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu) // 홈버튼 이미지 변경
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.btn_home_menu) // 홈버튼 이미지 변경
         supportActionBar?.setDisplayShowTitleEnabled(false) // 툴바에 타이틀 안보이게
-        supportActionBar?.setLogo(R.drawable.logo)
+        supportActionBar?.setLogo(R.drawable.img_home_logo)
         supportActionBar?.setDisplayUseLogoEnabled(true)
 
         binding.mainDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED) //스와이프 비활성화
