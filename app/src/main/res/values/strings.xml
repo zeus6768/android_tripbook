@@ -14,6 +14,8 @@
     <string name="tripcourse_record_date">여행 날짜</string>
     <string name="tripcourse_record_country">여행한 지역과 도시</string>
     <string name="tripcourse_record_request_title">제목을 입력해주세요.</string>
+    <string name="tripcourse_record_request_hashtag">해시태그를 선택해 추가해주세요.</string>
+    <string name="tripcourse_record_request_body">내용을 입력해주세요. (최대 200자)</string>
 
 
     //layout_topbar_base

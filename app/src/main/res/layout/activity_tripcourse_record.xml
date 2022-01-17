@@ -15,7 +15,9 @@
             android:orientation="vertical"
             >
 
-            <include layout="@layout/layout_topbar_base"/>
+            <include
+                android:id="@+id/tripcourse_record_topbar_layout"
+                layout="@layout/layout_topbar_base"/>
 
             <!--사진 선택 창-->
             <FrameLayout
@@ -65,6 +67,7 @@
                 android:orientation="vertical"
                 android:layout_marginTop="30dp"
                 android:gravity="center_horizontal">
+
                 <!--날짜와 여행한 지역, 도시 선택-->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -115,38 +118,64 @@
                     android:textSize="32sp"
                     android:fontFamily="@font/notosans_kr_bold"
                     android:includeFontPadding="false"/>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/gray"
                     android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="15dp"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginBottom="3dp"/>
 
 
                 <!--해시태그 선택(임시), 이후에 리사이클러뷰로 수정할 예정-->
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="해시태그를 선택해 추가해주세요."
-                    android:background="@null"
-                    android:backgroundTint="@drawable/drawable_custom_background_white"
-                    android:textSize="8sp"
-                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="25dp"
+                    android:paddingVertical="10dp">
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/tripcourse_record_hashtag_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="19dp"
+                        android:paddingHorizontal="6dp"
+                        android:text="@string/tripcourse_record_request_hashtag"
+                        android:textSize="11sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/notosans_kr_regular"
+                        android:includeFontPadding="false"
+                        android:layout_gravity="start|top"
+                        android:background="@drawable/drawable_custom_background_white"
+                        />
+                </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/gray"
                     android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"/>
 
-                <EditText
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:padding="20dp"
-                    android:background="@drawable/drawable_custom_background_white"
-                    />
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="25dp">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="133dp"
+                        android:padding="15dp"
+                        android:gravity="start|top"
+                        android:hint="@string/tripcourse_record_request_body"
+                        android:textSize="10sp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:fontFamily="@font/notosans_kr_regular"
+                        android:background="@drawable/drawable_custom_background_white"
+                        />
+                </LinearLayout>
+
 
             </LinearLayout>
         </LinearLayout>
