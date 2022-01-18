@@ -16,11 +16,12 @@
         tools:ignore="RtlSymmetry">
 
         <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:src="@drawable/btn_baise_add_black"
+            android:rotation="45"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="12dp"
-            android:src="@drawable/img_x_basic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
