@@ -4,28 +4,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="180dp"
-    android:background="@color/tripbook_main_color1"
-    android:padding="20dp">
+    android:background="@color/tripbook_main_1"
+    android:padding="25dp">
+
+    <ImageView
+        android:id="@+id/main_drawer_header_profile_iv"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/img_home_profile"
+        app:layout_constraintEnd_toStartOf="@id/main_drawer_header_comment_tv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
-        android:id="@+id/main_drawer_header_comment"
+        android:id="@+id/main_drawer_header_comment_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="여행없인 못살아!"
-        android:textColor="@color/white"
         android:fontFamily="@font/notosans_kr_medium"
-        app:layout_constraintBottom_toTopOf="@id/main_drawer_header_name"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:includeFontPadding="false"
+        android:text="무계획 여행러버"
+        android:textColor="@color/white"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toTopOf="@id/main_drawer_header_name_tv"
+        app:layout_constraintStart_toEndOf="@id/main_drawer_header_profile_iv" />
 
     <TextView
-        android:id="@+id/main_drawer_header_name"
+        android:id="@+id/main_drawer_header_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="OOO님"
-        android:textSize="22sp"
+        android:textSize="27sp"
         android:textColor="@color/white"
         android:fontFamily="@font/notosans_kr_bold"
-        app:layout_constraintStart_toStartOf="parent"
+        android:includeFontPadding="false"
+        app:layout_constraintStart_toStartOf="@id/main_drawer_header_comment_tv"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -33,19 +45,21 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/main_drawer_header_name">
+        app:layout_constraintBottom_toBottomOf="@id/main_drawer_header_name_tv">
         <TextView
-            android:id="@+id/main_drawer_header_user_logout"
+            android:id="@+id/main_drawer_header_logout_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="로그아웃"
             android:textSize="12sp"
             android:textColor="@color/white"
-            android:fontFamily="@font/notosans_kr_regular" />
+            android:fontFamily="@font/notosans_kr_regular"
+            android:includeFontPadding="false"
+            android:layout_gravity="center"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_more"
+            android:src="@drawable/btn_home_more"
             android:layout_gravity="center_vertical"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
