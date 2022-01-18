@@ -4,10 +4,47 @@
     <string name="app_name_lowercase">tripbook</string>
     <string name="dialog_base_check">확인</string>
     <string name="dialog_base_cancel">취소</string>
+
+    //activity_tripcourse
+    <string name="tripcourse_title">여행 발자국</string>
+    <string name="tripcourse_titlebar_date">여행 기간</string>
+    <string name="tripcourse_titlebar_title">여행 제목</string>
+    <string name="tripcourse_record_request">발자국을 기록해주세요</string>
+    <string name="tripcourse_delete_trip">여행 삭제하기</string>
+    <string name="tripcourse_add_card">카드 추가하기</string>
+
+    //activity_tripcourse_record
+    <string name="tripcourse_record_title">여행 발자국 기록하기</string>
+    <string name="tripcourse_record_request_picture">이곳을 눌러\n사진을 첨부해주세요</string>
+    <string name="tripcourse_record_date">여행 날짜</string>
+    <string name="tripcourse_record_country">여행한 지역과 도시</string>
+    <string name="tripcourse_record_request_title">제목을 입력해주세요.</string>
+    <string name="tripcourse_record_request_hashtag">#해시태그를 선택해 추가해주세요.</string>
+    <string name="tripcourse_record_request_body">내용을 입력해주세요. (최대 200자)</string>
+
+    //activity_select 공통
+    <string name="tripcourse_select_complete">선택 완료하기</string>
+
+    //activity_select_country
+    <string name="tripcourse_select_country_title">여행한 지역과 도시</string>
+    <string name="tripcourse_select_country_explain1">-여행했던 지역과 도시를 선택해주세요.</string>
+    <string name="tripcourse_select_country_explain2">-선택한 지역을 바탕으로 메뉴바에서\n특정 장소에 대한 나의 지난 여행을 모아볼 수 있어요.</string>
+
+    //activity_select_hashtag
+    <string name="tripcourse_select_hashtag_title">여행 해시태그</string>
+    <string name="tripcourse_select_hashtag_explain1">-당신의 여행에서의 경험들을 간단한 키워드로 남겨보세요.</string>
+    <string name="tripcourse_select_hashtag_explain2">-해시태그는 최대 15개까지 선택할 수 있어요.</string>
+    <string name="tripcourse_select_hashtag_explain3">-선택한 해시태그를 바탕으로 홈 화면의 우측에서\n나의 지난 여행을 모아볼 수 있어요.</string>
+
+    //layout_topbar_base
+    <string name="topbar_title">상단바 제목</string>
+    <string name="topbar_subtitle">상단바 부제목</string>
+
     <string name="app_slogan">쉽게 쓰는 여행 다이어리</string>
     <string name="user_email">이메일</string>
     <string name="user_password">비밀번호</string>
     <string name="user_signin">로그인</string>
     <string name="user_signup">회원가입</string>
     <string name="user_find_password">비밀번호를 잊으셨나요?</string>
+
 </resources>

@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="95dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"
     android:paddingTop="20dp"
-    android:paddingHorizontal="20dp">
+    android:paddingHorizontal="20dp"
+    >
 
     <ImageView
         android:id="@+id/topbar_back_ib"
-        android:src="@drawable/img_back_basic"
+        android:src="@drawable/btn_base_back_black"
         android:layout_width="30dp"
         android:layout_height="30dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +25,7 @@
 
     <ImageView
         android:id="@+id/topbar_subbutton_ib"
-        android:src="@drawable/img_home_basic"
+        android:src="@drawable/btn_base_home"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:visibility="visible"
@@ -47,7 +50,7 @@
             android:id="@+id/topbar_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="topbar_title"
+            android:text="@string/topbar_title"
             android:textSize="21sp"
             android:textColor="@color/black"
             android:fontFamily="@font/notosans_kr_bold"
@@ -58,7 +61,7 @@
             android:id="@+id/topbar_subtitle_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="topbar_subtitle"
+            android:text="@string/topbar_subtitle"
             android:textSize="13sp"
             android:textColor="@color/black"
             android:fontFamily="@font/notosans_kr_regular"
