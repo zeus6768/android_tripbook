@@ -36,6 +36,7 @@ class TripcourseActivity : BaseActivity() {
 
 
     private fun initView() {
+        //topbar layout view randering
         binding.tripcourseTopbarLayout.topbarTitleTv.setText(R.string.tripcourse_title)
 
         //상단바 - 뒤로가기 버튼

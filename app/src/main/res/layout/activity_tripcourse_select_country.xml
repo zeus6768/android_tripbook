@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -8,34 +9,31 @@
     <!--상단 바-->
     <include
         layout="@layout/layout_topbar_base"
+        android:id="@+id/tripcourse_select_country_topbar_layout"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:id="@+id/tripcourse_select_country_topbar_layout"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <!--설명 창-->
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tripcourse_select_country_explain_layout"
         android:layout_width="match_parent"
-        android:layout_height="94dp"
-        android:gravity="center"
-        android:orientation="vertical"
+        android:layout_height="92dp"
         app:layout_constraintTop_toBottomOf="@id/tripcourse_select_country_topbar_layout"
-        >
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
         <LinearLayout
             android:layout_width="292dp"
             android:layout_height="60dp"
             android:orientation="vertical"
-            android:paddingHorizontal="25dp"
             android:gravity="center"
             android:background="@drawable/drawable_custom_background_white"
-
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             >
             <TextView
                 android:layout_width="wrap_content"
@@ -43,43 +41,53 @@
                 android:gravity="center"
                 android:padding="3dp"
                 android:text="@string/tripcourse_select_country_explain1"
-                android:textSize="10sp"
+                android:textSize="9sp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
                 android:fontFamily="@font/notosans_kr_regular"
                 android:includeFontPadding="false"
-                />
+                tools:ignore="SmallSp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="3dp"
                 android:text="@string/tripcourse_select_country_explain2"
-                android:textSize="10sp"
+                android:textSize="9sp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
                 android:fontFamily="@font/notosans_kr_regular"
                 android:includeFontPadding="false"
-                />
+                tools:ignore="SmallSp" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/gray"
-            android:layout_marginHorizontal="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!--선택 완료 버튼-->
+    <!--여행 지역/도시 선택 메인 창-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/tripcourse_select_country_explain_layout"
+        app:layout_constraintBottom_toTopOf="@id/tripcourse_select_country_select_complete_layout"
+        />
+
+    <!--선택 완료 바-->
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tripcourse_select_country_select_complete_layout"
         android:layout_width="match_parent"
         android:layout_height="85dp"
         app:layout_constraintBottom_toBottomOf="parent"
         >
 
+        <!--선택 완료 버튼-->
         <Button
+            android:id="@+id/tripcourse_select_country_select_complete_btn"
             android:layout_width="228dp"
             android:layout_height="43dp"
             android:background="@drawable/drawable_custom_button_base"
