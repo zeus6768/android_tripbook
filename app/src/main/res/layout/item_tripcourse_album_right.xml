@@ -33,7 +33,7 @@
             </LinearLayout>
 
             <ImageView
-                android:src="@drawable/img_tripcourse_addpicture_plus"
+                android:src="@drawable/drawable_img_plus_white"
                 android:layout_width="33dp"
                 android:layout_height="33dp"
                 android:layout_gravity="center" />

@@ -19,7 +19,7 @@ class TripcourseRecordActivity : BaseActivity() {
         initView()
     }
 
-    fun initView() {
+    private fun initView() {
         //topbar layout view randering
         binding.tripcourseRecordTopbarLayout.topbarTitleTv.setText(R.string.tripcourse_record_title)
 

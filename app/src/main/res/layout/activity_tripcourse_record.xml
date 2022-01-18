@@ -53,7 +53,7 @@
                         android:textColor="@color/white"
                         android:includeFontPadding="false"
                         android:fontFamily="@font/notosans_kr_bold"
-                        android:drawableTop="@drawable/drawable_top_image_camera"
+                        android:drawableTop="@drawable/drawable_img_camera_white"
                         android:drawablePadding="0dp"
                         tools:ignore="UseCompatTextViewDrawableXml" />
 
@@ -82,7 +82,7 @@
                         android:textSize="15sp"
                         android:includeFontPadding="false"
                         android:fontFamily="@font/notosans_kr_bold"
-                        android:drawableEnd="@drawable/drawable_imge_arrow_down"
+                        android:drawableEnd="@drawable/drawable_img_arrow_down"
                         android:drawablePadding="10dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -98,7 +98,7 @@
                         android:textSize="15sp"
                         android:includeFontPadding="false"
                         android:fontFamily="@font/notosans_kr_bold"
-                        android:drawableEnd="@drawable/drawable_imge_arrow_down"
+                        android:drawableEnd="@drawable/drawable_img_arrow_down"
                         android:drawablePadding="10dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"

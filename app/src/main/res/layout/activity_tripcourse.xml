@@ -5,10 +5,20 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ScrollView
+    <!--상단 바-->
+    <include
+        layout="@layout/layout_topbar_base"
+        android:id="@+id/tripcourse_topbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <!--메인 앨범 창-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tripcourse_topbar_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -17,83 +27,61 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!--상단 바-->
-            <include layout="@layout/layout_topbar_base"/>
-
             <!--타이틀 바-->
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <FrameLayout
+                android:id="@+id/tripcourse_titlebar_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="92dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                android:layout_height="82dp"
+                android:layout_marginVertical="15dp"
+                android:background="@drawable/img_titlebar_basic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageView
-                        android:src="@drawable/img_titlebar_basic"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerInside"
-                        android:layout_gravity="center"
-                        tools:ignore="RtlHardcoded" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="25dp"
+                    android:gravity="end"
+                    android:orientation="vertical">
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/tripcourse_titlebar_period_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="60dp"
-                        android:layout_gravity="right|center_vertical"
-                        android:gravity="end">
-                        <TextView
-                            android:id="@+id/tripcourse_title_period_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="2dp"
-                            android:text="여행 기간"
-                            android:textSize="11sp"
-                            android:textColor="@color/black"
-                            android:fontFamily="@font/notosans_kr_regular"
-                            android:includeFontPadding="false"
-                            />
-                        <TextView
-                            android:id="@+id/tripcourse_title_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="여행 기간"
-                            android:textSize="20sp"
-                            android:textColor="@color/black"
-                            android:fontFamily="@font/notosans_kr_bold"
-                            android:includeFontPadding="false"
-                            />
+                        android:layout_marginBottom="2dp"
+                        android:fontFamily="@font/notosans_kr_regular"
+                        android:includeFontPadding="false"
+                        android:text="@string/tripcourse_titlebar_date"
+                        android:textColor="@color/black"
+                        android:textSize="11sp" />
 
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/tripcourse_titlebar_title_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/notosans_kr_bold"
+                        android:includeFontPadding="false"
+                        android:text="@string/tripcourse_titlebar_title"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
 
-                </FrameLayout>
+                </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/gray"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+            </FrameLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-            <!--메인 앨범-->
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:id="@+id/looker_albumlist_recyclerview"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:padding="15dp"-->
-<!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--                tools:listitem="@layout/item_tripcourse_album_right"-->
-<!--                />-->
 
+            <!--앨범 리스트-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -128,10 +116,12 @@
             </LinearLayout>
 
         </LinearLayout>
+
     </ScrollView>
 
     <!--카드 추가하기-->
     <FrameLayout
+        android:id="@+id/tripcourse_add_album_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
@@ -147,18 +137,20 @@
                 android:backgroundTint="@color/tripbook_main_1"
                 app:cardCornerRadius="15dp"/>
         </LinearLayout>
+
         <TextView
             android:layout_width="52dp"
             android:layout_height="54dp"
             android:layout_gravity="center"
-            android:drawableTop="@drawable/img_tripcourse_addpicture_plus"
+            android:drawableTop="@drawable/drawable_img_plus_white"
             android:drawablePadding="5dp"
             android:gravity="center"
             android:text="@string/tripcourse_add_card"
             android:textColor="@color/white"
-            android:textSize="8sp"
-            android:fontFamily="@font/notosans_kr_regular"
+            android:textSize="9sp"
+            android:fontFamily="@font/notosans_kr_bold"
             android:includeFontPadding="false"
             tools:ignore="SmallSp,UseCompatTextViewDrawableXml" />
     </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
