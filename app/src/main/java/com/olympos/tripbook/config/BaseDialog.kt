@@ -1,10 +1,9 @@
-package com.tutoring.mukbodiary
+package com.olympos.tripbook.config
 
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.view.Window
-import android.widget.Button
 import android.widget.TextView
 import com.olympos.tripbook.R
 
