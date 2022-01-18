@@ -1,8 +1,7 @@
 package com.olympos.tripbook.src.tripcourse
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripcourseRecordBinding
 
@@ -17,6 +16,25 @@ class TripcourseRecordActivity : BaseActivity() {
 
 
 
+        initView()
     }
 
+    fun initView() {
+        //topbar layout view randering
+        binding.tripcourseRecordTopbarLayout.topbarTitleTv.setText(R.string.tripcourse_record_title)
+
+        binding.tripcourseRecordTopbarLayout.topbarSubbuttonIb.setImageResource(R.drawable.btn_base_check_black)
+        binding.tripcourseRecordTopbarLayout.topbarSubbuttonIb.setOnClickListener {
+        }
+
+        //여행 날짜 선택
+        binding.tripcourseRecordSelectDateBtn.setOnClickListener {
+
+        }
+
+        //여행 도시 선택 :
+        binding.tripcourseRecordSelectCountryBtn.setOnClickListener {
+
+        }
+    }
 }

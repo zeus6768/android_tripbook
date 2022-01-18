@@ -16,7 +16,7 @@
         tools:ignore="RtlSymmetry">
 
         <ImageView
-            android:src="@drawable/btn_baise_add_black"
+            android:src="@drawable/btn_base_add_black"
             android:rotation="45"
             android:layout_width="13dp"
             android:layout_height="13dp"

@@ -11,6 +11,7 @@
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable-v23/drawable_imge_arrow_down.xml" value="0.14583333333333334" />
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable-v23/drawable_top_image_camera.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable/drawable_custom_background_white.xml" value="0.4" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable/drawable_custom_button_base.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable/drawable_imge_arrow_down.xml" value="0.14583333333333334" />
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable/drawable_top_image_camera.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable/signin_edittext_background.xml" value="0.36153846153846153" />
@@ -20,6 +21,8 @@
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_signin.xml" value="0.264" />
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse.xml" value="0.264" />
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse_record.xml" value="0.264" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse_select_country.xml" value="0.264" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse_select_hashtag.xml" value="0.44513137557959814" />
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/item_tripcourse_album1.xml" value="0.536" />
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/item_tripcourse_album_left_top.xml" value="0.536" />
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/item_tripcourse_album_right.xml" value="0.72" />
