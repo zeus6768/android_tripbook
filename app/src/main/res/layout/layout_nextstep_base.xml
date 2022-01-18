@@ -25,5 +25,6 @@
         android:paddingEnd="35dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"/>
 </LinearLayout>
