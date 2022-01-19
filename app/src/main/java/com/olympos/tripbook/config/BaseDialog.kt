@@ -1,5 +1,6 @@
 package com.olympos.tripbook.config
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.view.Window
@@ -23,7 +24,7 @@ open class BaseDialog(context: Context) {
         tvTitle = dialog.findViewById(R.id.dialog_base_title_tv)
         tvTitle.text = title
 
-        btnOK = dialog.findViewById(R.id.dialog_base_check_tv)
+        btnOK = dialog.findViewById(R.id.dialog_base_ok_btn_tv)
         btnOK.setOnClickListener {
 
             listener!!.onOKClicked()
@@ -31,7 +32,7 @@ open class BaseDialog(context: Context) {
             dialog.dismiss()
         }
 
-        btnCancel = dialog.findViewById(R.id.dialog_base_cancel_tv)
+        btnCancel = dialog.findViewById(R.id.dialog_base_close_btn_iv)
         btnCancel.setOnClickListener {
 
             listener!!.onCancelClicked()
