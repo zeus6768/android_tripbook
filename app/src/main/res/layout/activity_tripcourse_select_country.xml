@@ -29,7 +29,7 @@
             android:layout_height="60dp"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/drawable_custom_background_white"
+            android:background="@drawable/bg_base_main_1_empty"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

@@ -41,7 +41,7 @@
                     android:orientation="vertical"
                     android:paddingHorizontal="25dp"
                     android:gravity="center"
-                    android:background="@drawable/drawable_custom_background_white"
+                    android:background="@drawable/bg_base_main_1_empty"
 
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
