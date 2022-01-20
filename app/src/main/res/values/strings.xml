@@ -22,15 +22,20 @@
     <string name="tripcourse_record_request_hashtag">#해시태그를 선택해 추가해주세요.</string>
     <string name="tripcourse_record_request_body">내용을 입력해주세요. (최대 200자)</string>
 
-    //activity_select 공통
+    //activity_tripcourse_delete
+    <string name="tripcourse_delete_title">여행 삭제 완료</string>
+    <string name="tripcourse_delete_information">여행 이름 여행과\n여행에 남긴 발자국들이 모두 삭제되었어요.</string>
+    <string name="tripcourse_delete_home">홈 화면으로 돌아가기</string>
+
+    //activity_tripcourse_select 공통
     <string name="tripcourse_select_complete">선택 완료하기</string>
 
-    //activity_select_country
+    //activity_tripcourse_select_country
     <string name="tripcourse_select_country_title">여행한 지역과 도시</string>
     <string name="tripcourse_select_country_explain1">-여행했던 지역과 도시를 선택해주세요.</string>
     <string name="tripcourse_select_country_explain2">-선택한 지역을 바탕으로 메뉴바에서\n특정 장소에 대한 나의 지난 여행을 모아볼 수 있어요.</string>
 
-    //activity_select_hashtag
+    //activity_tripcourse_select_hashtag
     <string name="tripcourse_select_hashtag_title">여행 해시태그</string>
     <string name="tripcourse_select_hashtag_explain1">-당신의 여행에서의 경험들을 간단한 키워드로 남겨보세요.</string>
     <string name="tripcourse_select_hashtag_explain2">-해시태그는 최대 15개까지 선택할 수 있어요.</string>
