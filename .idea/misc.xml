@@ -5,44 +5,64 @@
       <map>
         <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/drawable/bg_dialog_base.xml" value="0.1" />
         <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/drawable/bg_dialog_base_btn_border.xml" value="0.1" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/drawable/bg_green_btn.xml" value="0.26979166666666665" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/drawable/bg_home_green.xml" value="0.14010416666666667" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/drawable/bg_home_trip_record.xml" value="0.16302083333333334" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/drawable/bg_home_white.xml" value="0.14010416666666667" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/drawable/bg_main_greenbtn.xml" value="0.1078125" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/drawable/bg_search.xml" value="0.26979166666666665" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/drawable/bg_trip_greybackground.xml" value="0.13958333333333334" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/drawable/ic_launcher_background.xml" value="0.14583333333333334" />
         <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/font-v26/font.xml" value="0.2838541666666667" />
         <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/font/font.xml" value="0.1" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/activity_main.xml" value="0.2" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/activity_main_content.xml" value="0.176" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/activity_main_drawer_header.xml" value="0.176" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/activity_main_layout.xml" value="0.264" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/activity_main_left_drawer_header.xml" value="0.176" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/activity_main_right_drawer_header.xml" value="0.264" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/activity_main_toolbar.xml" value="0.1125" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/activity_signin.xml" value="0.16" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/activity_toolbar.xml" value="0.13854166666666667" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/activity_trip.xml" value="0.264" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/dialog_base.xml" value="0.264" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/fragment_ex1.xml" value="0.1" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/fragment_ex2.xml" value="0.1" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/fragment_ex3.xml" value="0.2" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/fragment_home.xml" value="0.15833333333333333" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/layout_nextstep_base.xml" value="0.2" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/layout_topbar_base.xml" value="0.4" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/main.xml" value="0.12604166666666666" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/main_drawer_header.xml" value="0.4" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/main_layout.xml" value="0.12604166666666666" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/main_record_menubar.xml" value="0.146875" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/main_toolbar.xml" value="0.1296875" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/menu/activity_main_drawer_navigation.xml" value="0.264" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/menu/activity_main_left_drawer.xml" value="0.4" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/menu/activity_main_right_drawer.xml" value="0.25" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/menu/activity_main_right_drawerr.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/menu/main_drawer_navigation.xml" value="0.264" />
-        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/menu/toolbar_menu.xml" value="0.4" />
+        <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/layout/dialog_base.xml" value="0.1" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable-v23/drawable_img_plus_white.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable-v23/drawable_imge_arrow_down.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable-v23/drawable_imge_plus_white.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable-v23/drawable_top_image_camera.xml" value="0.26979166666666665" />
+
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable/bg_dialog_base.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable/bg_dialog_base_btn_border.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable/drawable_custom_background_white.xml" value="0.4" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable/drawable_custom_button_base.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable/drawable_img_plus_white.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable/drawable_imge_arrow_down.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable/drawable_top_image_camera.xml" value="0.26979166666666665" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3671875" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable/signin_edittext_background.xml" value="0.36153846153846153" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable/signin_signin_btn_background.xml" value="0.3671875" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/font/font.xml" value="0.2838541666666667" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_main_left_drawer_header.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_main_right_drawer_header.xml" value="0.4" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_signin.xml" value="0.264" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_trip.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse.xml" value="0.2" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse_delete.xml" value="0.264" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse_delete_trip.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse_record.xml" value="0.264" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse_select_country.xml" value="0.2" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse_select_hashtag.xml" value="0.536" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/dialog_base.xml" value="0.4" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/dialog_base2.xml" value="0.1125" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/fragment_home.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/item_tripcourse_album1.xml" value="0.536" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/item_tripcourse_album_left_top.xml" value="0.264" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/item_tripcourse_album_right.xml" value="0.72" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/item_tripcourse_album_right_top.xml" value="0.152" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/item_tripcourse_album_top.xml" value="0.4" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/layout_nextstep_base.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/drawable/signin_edittext_background.xml" value="0.36153846153846153" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/font/font.xml" value="0.2838541666666667" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_main_left_drawer_header.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_main_right_drawer_header.xml" value="0.6" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_signin.xml" value="0.264" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse.xml" value="0.3312159709618875" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse_delete.xml" value="0.264" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse_delete_trip.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse_record.xml" value="0.264" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse_select_country.xml" value="0.536" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse_select_hashtag.xml" value="0.2" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/dialog_base2.xml" value="0.1125" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/item_tripcourse_album1.xml" value="0.536" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/item_tripcourse_album_left_top.xml" value="0.536" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/item_tripcourse_album_right.xml" value="0.72" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/item_tripcourse_album_right_top.xml" value="0.152" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/item_tripcourse_album_top.xml" value="0.4" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/layout_topbar_base.xml" value="0.264" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/menu/activity_main_right_drawer.xml" value="0.25" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/menu/activity_tripcourse_delete_trip.xml" value="0.25" />
       </map>
     </option>
   </component>

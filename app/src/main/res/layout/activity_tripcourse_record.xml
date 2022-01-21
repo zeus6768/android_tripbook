@@ -149,7 +149,7 @@
                         android:fontFamily="@font/notosans_kr_regular"
                         android:includeFontPadding="false"
                         android:layout_gravity="start|top"
-                        android:background="@drawable/drawable_custom_background_white"
+                        android:background="@drawable/bg_base_main_1_empty"
                         />
                 </LinearLayout>
 
@@ -177,7 +177,7 @@
                         android:textColor="@color/black"
                         android:textColorHint="@color/black"
                         android:fontFamily="@font/notosans_kr_regular"
-                        android:background="@drawable/drawable_custom_background_white"
+                        android:background="@drawable/bg_base_main_1_empty"
                         tools:ignore="SmallSp" />
 
                 </LinearLayout>
