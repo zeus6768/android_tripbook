@@ -43,10 +43,19 @@
         <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/menu/activity_main_right_drawerr.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/menu/main_drawer_navigation.xml" value="0.264" />
         <entry key="..\:/Users/82104/AndroidStudioProjects/TripBook/app/src/main/res/menu/toolbar_menu.xml" value="0.4" />
+        <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/drawable/bg_main_greenbtn.xml" value="0.2361111111111111" />
+        <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/activity_signin.xml" value="0.264" />
+        <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/activity_signup.xml" value="0.22175925925925927" />
+        <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/activity_tripcourse.xml" value="0.1" />
+        <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/activity_user_signin.xml" value="0.22175925925925927" />
+        <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/activity_user_signup.xml" value="0.4" />
+        <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/activity_user_signup_done.xml" value="0.22175925925925927" />
+        <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/fragment_home.xml" value="0.1" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
