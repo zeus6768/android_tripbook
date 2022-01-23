@@ -63,7 +63,7 @@
             android:textColor="@color/white"
             android:fontFamily="@font/notosans_kr_bold"
             android:gravity="center"
-            android:background="@drawable/bg_main_greenbtn"
+            android:background="@drawable/bg_base_main_1_fill"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
