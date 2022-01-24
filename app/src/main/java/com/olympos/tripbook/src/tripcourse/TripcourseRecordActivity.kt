@@ -25,21 +25,23 @@ class TripcourseRecordActivity : BaseActivity() {
 
         //상단바 - 뒤로가기 버튼
         binding.tripcourseRecordTopbarLayout.topbarBackIb.setOnClickListener {
-
+            //다이어로그 뜨기(여행 발자국 기록을 취소하시겠습니까?)
+            //확인 -> TripcourseActivity로 이동
         }
 
         //상단바 - 편집완료 버튼
         binding.tripcourseRecordTopbarLayout.topbarSubbuttonIb.setOnClickListener {
-
+            //저장 완료
         }
 
         //여행 사진 추가
         binding.tripcourseRecordRequestImgBtn.setOnClickListener {
-
+            //사진 업로드
         }
 
         //여행 날짜 선택 - Dialog 생성
         binding.tripcourseRecordSelectDateBtn.setOnClickListener {
+
         }
 
         //여행 도시 선택 - TripcourseSelectContryActivity로 이동

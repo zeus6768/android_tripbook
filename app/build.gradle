@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    //google map
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -69,6 +71,9 @@ dependencies {
 
     //circle indicator
     implementation 'me.relex:circleindicator:2.1.6'
+
+    //구글 맵
+    implementation 'com.google.android.gms:play-services-maps:18.0.0'
 
     //custom calendar view
     implementation 'com.github.applikeysolutions:cosmocalendar:1.0.4'
