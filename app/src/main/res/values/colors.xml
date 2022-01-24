@@ -8,16 +8,15 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#DFDFDF</color>
+    <color name="red">#FF7E7E</color>
     <color name="transparent">#00000000</color>
     <color name="red">#FF0000</color>
 
-    <color name="tripbook_main_1">#FF007C32</color>
-    <color name="tripbook_main_2">#B3007C32</color>
-    <color name="tripbook_main_3">#80007C32</color>
-    <color name="tripbook_sub">#80FFB800</color>
+<!--사용 취소    <color name="tripbook_sub">#80FFB800</color>-->
 
-    <color name="tripbook_sub_1">#80BE99</color>
-    <color name="tripbook_sub_2">#B3D8C2</color>
-    <color name="tripbook_sub_3">#4DA470</color>
+    <color name="tripbook_main_1">#007C32</color>
+    <color name="tripbook_main_2">#4DA470</color>
+    <color name="tripbook_main_3">#80BE99</color>
+    <color name="tripbook_main_4">#B3D8C2</color>
 
 </resources>
