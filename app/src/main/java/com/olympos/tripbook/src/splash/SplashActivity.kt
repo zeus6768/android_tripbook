@@ -1,0 +1,51 @@
+package com.olympos.tripbook.src.splash
+
+import android.content.Intent
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.TedPermission
+import com.olympos.tripbook.databinding.ActivitySplashBinding
+import com.olympos.tripbook.src.home.MainActivity
+
+class SplashActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySplashBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        settingPermission()
+    }
+
+    private fun settingPermission() {
+        var permissionListener = object : PermissionListener {
+            override fun onPermissionGranted() {
+                startMainActivity()
+            }
+
+            override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+                Toast.makeText(this@SplashActivity, "권한 허용 후 다시 시도해주세요", Toast.LENGTH_SHORT).show()
+                ActivityCompat.finishAffinity(this@SplashActivity) // 권한 거부시 앱 종료
+            }
+        }
+
+        TedPermission.with(this)
+            .setPermissionListener(permissionListener)
+            .setRationaleMessage("카메라 사진 권한 필요")
+            .setDeniedMessage("카메라 권한 요청 거부")
+            .setPermissions(android.Manifest.permission.CAMERA)
+            .check()
+    }
+
+    private fun startMainActivity() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)},2000) //2초 delay
+    }
+}
