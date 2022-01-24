@@ -8,8 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#DFDFDF</color>
-    <color name="red">#FF7E7E</color>
+    <color name="light_red">#FF7E7E</color>
     <color name="transparent">#00000000</color>
+    <color name="red">#FF0000</color>
 
 <!--사용 취소    <color name="tripbook_sub">#80FFB800</color>-->
 

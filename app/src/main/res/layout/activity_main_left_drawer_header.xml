@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="180dp"
     android:background="@color/tripbook_main_1"
-    android:padding="25dp">
+    android:padding="22dp">
 
     <ImageView
         android:id="@+id/main_drawer_header_profile_iv"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:src="@drawable/img_home_profile"
         app:layout_constraintEnd_toStartOf="@id/main_drawer_header_comment_tv"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,6 +23,7 @@
         android:fontFamily="@font/notosans_kr_medium"
         android:includeFontPadding="false"
         android:text="무계획 여행러버"
+        android:textSize="12sp"
         android:textColor="@color/white"
         android:layout_marginStart="10dp"
         app:layout_constraintBottom_toTopOf="@id/main_drawer_header_name_tv"
@@ -33,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="OOO님"
-        android:textSize="27sp"
+        android:textSize="20sp"
         android:textColor="@color/white"
         android:fontFamily="@font/notosans_kr_bold"
         android:includeFontPadding="false"
@@ -61,10 +62,6 @@
             android:layout_height="wrap_content"
             android:src="@drawable/btn_home_more"
             android:layout_gravity="center_vertical"/>
-
     </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

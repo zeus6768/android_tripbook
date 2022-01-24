@@ -73,9 +73,20 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:padding="80dp"
         app:layout_constraintTop_toBottomOf="@id/tripcourse_select_country_explain_layout"
         app:layout_constraintBottom_toTopOf="@id/tripcourse_select_country_select_complete_layout"
-        />
+        >
+        <fragment
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/tripcourse_select_country_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            tools:context=".MapsActivity"
+            android:name="com.google.android.gms.maps.SupportMapFragment" />
+    </View>
 
     <!--선택 완료 바-->
     <androidx.constraintlayout.widget.ConstraintLayout
