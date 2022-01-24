@@ -18,8 +18,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseActivity"/>
         <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseRecordActivity"/>
+        <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseSelectCountryActivity"/>
+        <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseSelectHashtagActivity"/>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
+
     </application>
 
 </manifest>
