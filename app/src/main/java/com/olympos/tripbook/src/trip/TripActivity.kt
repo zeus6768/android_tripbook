@@ -60,9 +60,7 @@ class TripActivity : BaseActivity() {
 
         when (v!!.id) {
             R.id.topbar_back_ib ->
-                startMainActivity()
-            R.id.topbar_subbutton_ib ->
-                startMainActivity()
+                finish()
             R.id.trip_theme_theme1_ll, R.id.trip_theme_theme2_ll, R.id.trip_theme_theme3_ll ->
                 themeSelected(v)
             R.id.trip_theme_theme4_ll ->
@@ -107,12 +105,7 @@ class TripActivity : BaseActivity() {
         }
     }
 
-    private fun startMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-    }
-
-    fun settingPermission(){
+    private fun settingPermission() {
         var permissionListener = object : PermissionListener {
             //            어떠한 형식을 상속받는 익명 클래스의 객체를 생성하기 위해 다음과 같이 작성
             override fun onPermissionGranted() {
@@ -131,4 +124,10 @@ class TripActivity : BaseActivity() {
             .setPermissions(android.Manifest.permission.CAMERA)
             .check()
     }
+
+//    private fun startMainActivity() {
+//        val intent = Intent(this, MainActivity::class.java)
+//        startActivity(intent)
+//    }
+
 }

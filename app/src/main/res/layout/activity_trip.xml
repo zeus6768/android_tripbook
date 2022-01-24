@@ -90,20 +90,20 @@
                 android:text="@string/trip_date"
                 android:textColor="@color/black" />
 
-            <!--            <com.applikeysolutions.cosmocalendar.view.CalendarView-->
-            <!--                android:id="@+id/trip_calendar_cv"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="15dp"-->
-            <!--                app:orientation="horizontal"-->
-            <!--                app:selectionType="range"-->
-            <!--                app:connectedDayIconPosition="top"-->
-            <!--                app:firstDayOfTheWeek="sunday"-->
-            <!--                app:dayTextColor="@color/black"-->
-            <!--                app:selectedDayBackgroundStartColor="@color/tripbook_main_1"-->
-            <!--                app:selectedDayBackgroundEndColor="@color/tripbook_main_1"-->
-            <!--                app:selectedDayBackgroundColor="@color/tripbook_sub_1"-->
-            <!--                app:weekendDayTextColor="@color/red"/>-->
+<!--            <com.applikeysolutions.cosmocalendar.view.CalendarView-->
+<!--                android:id="@+id/trip_calendar_cv"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="15dp"-->
+<!--                app:connectedDayIconPosition="top"-->
+<!--                app:dayTextColor="@color/black"-->
+<!--                app:firstDayOfTheWeek="sunday"-->
+<!--                app:orientation="horizontal"-->
+<!--                app:selectedDayBackgroundColor="@color/tripbook_main_4"-->
+<!--                app:selectedDayBackgroundEndColor="@color/tripbook_main_1"-->
+<!--                app:selectedDayBackgroundStartColor="@color/tripbook_main_1"-->
+<!--                app:selectionType="range"-->
+<!--                app:weekendDayTextColor="@color/red"/>-->
 
             <View
                 android:id="@+id/trip_calendar_view"
