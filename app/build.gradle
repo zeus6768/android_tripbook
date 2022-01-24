@@ -69,4 +69,11 @@ dependencies {
 
     //circle indicator
     implementation 'me.relex:circleindicator:2.1.6'
+
+    //custom calendar view
+    implementation 'com.github.applikeysolutions:cosmocalendar:1.0.4'
+    implementation 'com.github.prolificinteractive:material-calendarview:2.0.1'
+
+    //ted permission
+    implementation 'gun0912.ted:tedpermission:2.2.3'
 }
