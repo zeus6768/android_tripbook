@@ -73,7 +73,7 @@ dependencies {
     implementation 'me.relex:circleindicator:2.1.6'
 
     //구글 맵
-    implementation 'com.google.android.gms:play-services-maps:18.0.0'
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
 
     //custom calendar view
     implementation 'com.github.applikeysolutions:cosmocalendar:1.0.4'
