@@ -2,6 +2,7 @@
     <string name="app_name">TripBook</string>
     <string name="app_name_uppercase">TRIPBOOK</string>
     <string name="app_name_lowercase">tripbook</string>
+    <string name="app_slogan">쉽게 쓰는 여행 다이어리</string>
     <string name="dialog_base_check">확인</string>
     <string name="dialog_base_cancel">취소</string>
 
@@ -22,15 +23,20 @@
     <string name="tripcourse_record_request_hashtag">#해시태그를 선택해 추가해주세요.</string>
     <string name="tripcourse_record_request_body">내용을 입력해주세요. (최대 200자)</string>
 
-    //activity_select 공통
+    //activity_tripcourse_delete
+    <string name="tripcourse_delete_title">여행 삭제 완료</string>
+    <string name="tripcourse_delete_information">여행 이름 여행과\n여행에 남긴 발자국들이 모두 삭제되었어요.</string>
+    <string name="tripcourse_delete_home">홈 화면으로 돌아가기</string>
+
+    //activity_tripcourse_select 공통
     <string name="tripcourse_select_complete">선택 완료하기</string>
 
-    //activity_select_country
+    //activity_tripcourse_select_country
     <string name="tripcourse_select_country_title">여행한 지역과 도시</string>
     <string name="tripcourse_select_country_explain1">-여행했던 지역과 도시를 선택해주세요.</string>
     <string name="tripcourse_select_country_explain2">-선택한 지역을 바탕으로 메뉴바에서\n특정 장소에 대한 나의 지난 여행을 모아볼 수 있어요.</string>
 
-    //activity_select_hashtag
+    //activity_tripcourse_select_hashtag
     <string name="tripcourse_select_hashtag_title">여행 해시태그</string>
     <string name="tripcourse_select_hashtag_explain1">-당신의 여행에서의 경험들을 간단한 키워드로 남겨보세요.</string>
     <string name="tripcourse_select_hashtag_explain2">-해시태그는 최대 15개까지 선택할 수 있어요.</string>
@@ -40,11 +46,48 @@
     <string name="topbar_title">상단바 제목</string>
     <string name="topbar_subtitle">상단바 부제목</string>
 
-    <string name="app_slogan">쉽게 쓰는 여행 다이어리</string>
+    //activity_user 공통
     <string name="user_email">이메일</string>
     <string name="user_password">비밀번호</string>
     <string name="user_signin">로그인</string>
     <string name="user_signup">회원가입</string>
+    <string name="user_username">이름</string>
+    <string name="user_nickname">닉네임</string>
+    <string name="user_email_hint">이메일을 입력해주세요.</string>
     <string name="user_find_password">비밀번호를 잊으셨나요?</string>
 
+    //activity_user_signup
+    <string name="user_signup_duplicate_check">중복확인</string>
+    <string name="user_signup_email_type_alert">올바른 이메일 형식이 아닙니다.</string>
+    <string name="user_signup_email_duplicate_alert">이미 등록된 회원 정보입니다.</string>
+    <string name="user_signup_email_accept">사용 가능한 이메일입니다.</string>
+    <string name="user_signup_password_hint">비밀번호를 입력해주세요.</string>
+    <string name="user_signup_password_check">비밀번호 확인</string>
+    <string name="user_signup_password_check_hint">입력하신 비밀번호를 한 번 더 입력해주세요.</string>
+    <string name="user_signup_password_check_alert">다시 입력해주세요.</string>
+    <string name="user_signup_password_type_alert">영문 / 숫자 / 특수문자 중 2가지 이상 조합하여 8자 이상 입력해주세요.</string>
+    <string name="user_signup_password_accept">사용 가능한 비밀번호입니다.</string>
+    <string name="user_signup_username_hint">사용자 이름을 입력해주세요.</string>
+    <string name="user_signup_nickname_hint">사용하실 닉네임을 입력해주세요.</string>
+    <string name="user_signup_nickname_duplicate_alert">이미 사용중인 닉네임입니다.</string>
+    <string name="user_signup_nickname_accept">사용 가능한 닉네임입니다.</string>
+    <string name="user_signup_submit_btn">가입하기</string>
+
+    //activity_user_signup_done
+    <string name="user_signup_done_title">회원가입 완료</string>
+    <string name="user_signup_done_content">함께 하게 되어서 반가워요!\n트립북 서비스 가입이 완료되었어요.\n다녀온 여행을 기록하러 가볼까요?</string>
+    <string name="user_signup_done_write_btn">트립북 쓰러가기</string>
+
+    //activity_trip
+    <string name="trip_title">제목을 입력해주세요.</string>
+    <string name="trip_region">지역을 입력해주세요.</string>
+    <string name="trip_date">여행기간을 입력해주세요.</string>
+    <string name="trip_photo">여행의 대표 사진을 등록해주세요.</string>
+    <string name="trip_theme">여행의 발자국 테마를 선택해주세요.</string>
+    <string name="trip_theme_list">현재 보유한 테마 목록</string>
+    <string name="trip_theme_1">기본</string>
+    <string name="trip_theme_2">겨울</string>
+    <string name="trip_theme_3">다꾸</string>
+    <string name="trip_theme_4">추후 추가 예정</string>
+    <string name="trip_photo_upload">이곳을 눌러 사진을 첨부해주세요.</string>
 </resources>

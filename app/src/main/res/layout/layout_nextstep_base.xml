@@ -14,9 +14,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_main_greenbtn"
+        android:background="@drawable/bg_base_main_1_fill"
         android:text="다음 단계로 이동"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:textColor="@color/white"
         android:fontFamily="@font/notosans_kr_regular"
         android:includeFontPadding="false"
@@ -26,5 +26,5 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="50dp"/>
 </LinearLayout>
