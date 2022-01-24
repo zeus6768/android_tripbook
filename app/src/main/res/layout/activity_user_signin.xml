@@ -5,12 +5,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <include
-        layout="@layout/layout_topbar_base"
+        layout="@layout/layout_topbar_signin"
         android:id="@+id/tripcourse_topbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <View
         android:id="@+id/signin_title_underscore_view"
@@ -70,8 +69,7 @@
         app:layout_constraintTop_toTopOf="@id/signin_email_background_iv"
         app:layout_constraintBottom_toBottomOf="@id/signin_email_background_iv"
         app:layout_constraintStart_toStartOf="@id/signin_email_background_iv"
-        app:layout_constraintEnd_toEndOf="@id/signin_email_background_iv"
-        />
+        app:layout_constraintEnd_toEndOf="@id/signin_email_background_iv"/>
 
     <ImageView
         android:id="@+id/signin_password_background_iv"

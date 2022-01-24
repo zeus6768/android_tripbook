@@ -48,10 +48,15 @@
         <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/activity_signin.xml" value="0.264" />
         <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/activity_signup.xml" value="0.22175925925925927" />
         <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/activity_tripcourse.xml" value="0.1" />
+        <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/activity_user_mypage.xml" value="0.22175925925925927" />
         <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/activity_user_signin.xml" value="0.22175925925925927" />
-        <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/activity_user_signup.xml" value="0.4" />
+        <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/activity_user_signup.xml" value="0.264" />
         <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/activity_user_signup_done.xml" value="0.22175925925925927" />
         <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/layout_nextstep_base.xml" value="0.22175925925925927" />
+        <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/layout_topbar_base.xml" value="0.22175925925925927" />
+        <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/layout_topbar_signin.xml" value="0.264" />
+        <entry key="..\:/Users/micru/Desktop/android_tripbook/app/src/main/res/layout/layout_topbar_signup.xml" value="0.22175925925925927" />
       </map>
     </option>
   </component>

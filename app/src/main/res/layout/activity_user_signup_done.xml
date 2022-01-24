@@ -9,8 +9,7 @@
         android:id="@+id/tripcourse_topbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
         android:id="@+id/signup_done_iv"
