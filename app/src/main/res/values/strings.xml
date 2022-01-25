@@ -46,6 +46,7 @@
     <string name="user_email">이메일</string>
     <string name="user_password">비밀번호</string>
     <string name="user_signin">로그인</string>
+    <string name="user_kakao_signin">카카오 아이디로 로그인</string>
     <string name="user_signup">회원가입</string>
     <string name="user_username">이름</string>
     <string name="user_nickname">닉네임</string>

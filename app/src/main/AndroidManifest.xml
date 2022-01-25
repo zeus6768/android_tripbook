@@ -29,6 +29,7 @@
         <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseRecordActivity"/>
         <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseSelectCountryActivity"/>
         <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseSelectHashtagActivity"/>
+        <activity android:name="com.olympos.tripbook.src.user.SigninActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
