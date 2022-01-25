@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.olympos.tripbook">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
@@ -12,7 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TripBook">
         <activity
-            android:name=".src.home.MainActivity"
+            android:name="com.olympos.tripbook.src.home.MainActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".src.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".src.trip.TripActivity"/>
+        <activity android:name="com.olympos.tripbook.src.trip.TripActivity"/>
         <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseActivity"/>
         <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseRecordActivity"/>
         <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseSelectCountryActivity"/>

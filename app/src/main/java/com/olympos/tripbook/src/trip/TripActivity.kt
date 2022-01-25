@@ -1,7 +1,6 @@
 package com.olympos.tripbook.src.trip
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,13 +9,11 @@ import com.applikeysolutions.cosmocalendar.selection.RangeSelectionManager
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripBinding
-import com.olympos.tripbook.src.home.MainActivity
-import android.widget.TextView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import com.olympos.tripbook.src.tripcourse.TripcourseActivity
 
 
 class TripActivity : BaseActivity() {
@@ -37,6 +34,7 @@ class TripActivity : BaseActivity() {
         binding.tripThemeTheme2Ll.setOnClickListener(this)
         binding.tripThemeTheme3Ll.setOnClickListener(this)
         binding.tripThemeTheme4Ll.setOnClickListener(this)
+        binding.tripNextStepBtnTv.setOnClickListener(this)
 
 
 //        binding.tripCalendarCv.isShowDaysOfWeekTitle = false
@@ -65,6 +63,8 @@ class TripActivity : BaseActivity() {
                 themeSelected(v)
             R.id.trip_theme_theme4_ll ->
                 Toast.makeText(this, "추후 추가 예정", Toast.LENGTH_SHORT).show()
+            R.id.trip_next_step_btn_tv ->
+                startTripcourseActivity()
         }
     }
 
@@ -125,9 +125,9 @@ class TripActivity : BaseActivity() {
             .check()
     }
 
-//    private fun startMainActivity() {
-//        val intent = Intent(this, MainActivity::class.java)
-//        startActivity(intent)
-//    }
+    private fun startTripcourseActivity() {
+        val intent = Intent(this, TripcourseActivity::class.java)
+        startActivity(intent)
+    }
 
 }
