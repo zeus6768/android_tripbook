@@ -24,9 +24,9 @@ class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
         binding = ActivityTripcourseSelectCountryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.tripcourse_select_country_map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+//        val mapFragment = supportFragmentManager
+//            .findFragmentById(R.id.tripcourse_select_country_map) as SupportMapFragment
+//        mapFragment.getMapAsync(this)
 
         initView()
     }

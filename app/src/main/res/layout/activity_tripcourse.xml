@@ -84,12 +84,19 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
+                <View
+                    android:id="@+id/tripcourse_card1"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="start"
+                    android:background="@color/black"/>
+
                 <include
                     layout="@layout/item_tripcourse_album_right"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:layout_gravity="start"
                     />
+
                 <include
                     layout="@layout/item_tripcourse_album_left_top"
                     android:layout_height="wrap_content"
@@ -98,6 +105,7 @@
                     />
 
                 <include
+                    android:id="@+id/tripcourse_card2"
                     layout="@layout/item_tripcourse_album_right_top"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
