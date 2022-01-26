@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_marginBottom="20dp">
+    android:orientation="vertical">
 
-    <include layout="@layout/layout_topbar_base"/>
+    <include
+        android:id="@+id/trip_topbar_layout"
+        layout="@layout/layout_topbar_base" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="10dp">
+        android:overScrollMode="never">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,184 +26,225 @@
                 android:id="@+id/trip_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="제목을 입력해주세요."
-                android:textColor="@color/black"
                 android:fontFamily="@font/notosans_kr_bold"
-                android:includeFontPadding="false"/>
+                android:includeFontPadding="false"
+                android:text="@string/trip_title"
+                android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/trip_title_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="13sp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/bg_trip_graybackground"
                 android:fontFamily="@font/notosans_kr_regular"
                 android:includeFontPadding="false"
-                android:background="@drawable/bg_trip_graybackground"
-                android:layout_marginTop="15dp"/>
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
 
             <View
                 android:id="@+id/trip_title_view"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="20dp"
-                android:background="@color/gray"/>
+                android:background="@color/gray" />
 
             <TextView
                 android:id="@+id/trip_region_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="지역을 입력해주세요."
-                android:textColor="@color/black"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/notosans_kr_bold"
                 android:includeFontPadding="false"
-                android:layout_marginTop="20dp"/>
+                android:text="@string/trip_region"
+                android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/trip_region_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/bg_trip_graybackground"
                 android:fontFamily="@font/notosans_kr_regular"
                 android:includeFontPadding="false"
+                android:inputType="text"
                 android:textColor="@color/black"
-                android:textSize="13sp"
-                android:layout_marginTop="15dp" />
+                android:textSize="13sp" />
 
             <View
                 android:id="@+id/trip_region_view"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="20dp"
-                android:background="@color/gray"/>
+                android:background="@color/gray" />
 
             <TextView
                 android:id="@+id/trip_date_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="여행기간을 입력해주세요."
-                android:textColor="@color/black"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/notosans_kr_bold"
                 android:includeFontPadding="false"
-                android:layout_marginTop="20dp"/>
+                android:text="@string/trip_date"
+                android:textColor="@color/black" />
 
-            <CalendarView
-                android:id="@+id/trip_calendar_cv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+<!--            <com.applikeysolutions.cosmocalendar.view.CalendarView-->
+<!--                android:id="@+id/trip_calendar_cv"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="15dp"-->
+<!--                app:connectedDayIconPosition="top"-->
+<!--                app:dayTextColor="@color/black"-->
+<!--                app:firstDayOfTheWeek="sunday"-->
+<!--                app:orientation="horizontal"-->
+<!--                app:selectedDayBackgroundColor="@color/tripbook_main_4"-->
+<!--                app:selectedDayBackgroundEndColor="@color/tripbook_main_1"-->
+<!--                app:selectedDayBackgroundStartColor="@color/tripbook_main_1"-->
+<!--                app:selectionType="range"-->
+<!--                app:weekendDayTextColor="@color/red"/>-->
 
             <View
                 android:id="@+id/trip_calendar_view"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="20dp"
-                android:background="@color/gray"/>
+                android:background="@color/gray" />
 
             <TextView
                 android:id="@+id/trip_photo_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="여행의 대표 사진을 등록해주세요."
-                android:textColor="@color/black"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/notosans_kr_bold"
                 android:includeFontPadding="false"
-                android:layout_marginTop="20dp"/>
+                android:text="@string/trip_photo"
+                android:textColor="@color/black" />
 
-            <ImageView
-                android:id="@+id/trip_photo_iv"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:background="@drawable/bg_trip_graybackground"
-                android:layout_marginTop="15dp"/>
+                android:layout_marginTop="15dp">
+
+                <ImageView
+                    android:id="@+id/trip_photo_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_trip_graybackground"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/trip_photo_upload"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/notosans_kr_bold"
+                        android:includeFontPadding="false"
+                        app:drawableTopCompat="@drawable/drawable_img_camera_white" />
+
+            </FrameLayout>
 
             <View
                 android:id="@+id/trip_photo_view"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="20dp"
-                android:background="@color/gray"/>
+                android:background="@color/gray" />
 
             <TextView
                 android:id="@+id/trip_theme_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="여행의 발자국 테마를 선택해주세요."
-                android:textColor="@color/black"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/notosans_kr_bold"
                 android:includeFontPadding="false"
-                android:layout_marginTop="20dp"/>
+                android:text="@string/trip_theme"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/trip_theme_list_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="현재 보유한 테마 목록"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/notosans_kr_medium"
                 android:includeFontPadding="false"
-                android:layout_marginTop="20dp"/>
+                android:text="@string/trip_theme_list"
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:layout_marginTop="10dp">
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/trip_theme_theme1_ll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginEnd="20dp">
+                    android:layout_marginEnd="20dp"
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/img_basic_theme1"/>
+                        android:src="@drawable/img_basic_theme1" />
+
                     <TextView
+                        android:id="@+id/trip_theme_theme1_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="기본"
+                        android:layout_gravity="center"
                         android:fontFamily="@font/notosans_kr_medium"
                         android:includeFontPadding="false"
-                        android:layout_gravity="center"/>
+                        android:text="@string/trip_theme_1"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/trip_theme_theme2_ll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginEnd="20dp">
+                    android:layout_marginEnd="20dp"
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/img_basic_theme2"/>
+                        android:src="@drawable/img_basic_theme2" />
+
                     <TextView
+                        android:id="@+id/trip_theme_theme2_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="겨울"
+                        android:layout_gravity="center"
                         android:fontFamily="@font/notosans_kr_medium"
                         android:includeFontPadding="false"
-                        android:layout_gravity="center"/>
+                        android:text="@string/trip_theme_2"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/trip_theme_theme3_ll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginEnd="20dp">
+                    android:layout_marginEnd="20dp"
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/img_basic_theme3"/>
+                        android:src="@drawable/img_basic_theme3" />
+
                     <TextView
+                        android:id="@+id/trip_theme_theme3_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="다꾸"
+                        android:layout_gravity="center"
                         android:fontFamily="@font/notosans_kr_medium"
                         android:includeFontPadding="false"
-                        android:layout_gravity="center"/>
+                        android:text="@string/trip_theme_3"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -210,19 +252,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/img_basic_theme1"
-                        android:layout_gravity="center"/>
+                        android:layout_gravity="center"
+                        android:src="@drawable/img_basic_theme1" />
+
                     <TextView
+                        android:id="@+id/trip_theme_theme4_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="추후 추가 예정"
-                        android:textSize="12sp"
+                        android:layout_gravity="center"
                         android:fontFamily="@font/notosans_kr_medium"
                         android:includeFontPadding="false"
-                        android:layout_gravity="center"/>
+                        android:text="@string/trip_theme_4"
+                        android:textSize="10sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -231,9 +276,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="20dp"
-                android:background="@color/gray"/>
+                android:background="@color/gray" />
 
-            <include layout="@layout/layout_nextstep_base"/>
+            <TextView
+                android:id="@+id/trip_next_step_btn_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_base_main_1_fill"
+                android:text="다음 단계로 이동"
+                android:textSize="15sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/notosans_kr_regular"
+                android:includeFontPadding="false"
+                android:layout_gravity="center"
+                android:paddingStart="35dp"
+                android:paddingEnd="35dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_marginTop="20dp"/>
 
         </LinearLayout>
     </ScrollView>

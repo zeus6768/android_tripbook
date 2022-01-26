@@ -3,7 +3,7 @@
     <style name="Theme.TripBook" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/tripbook_main_1</item>
-        <item name="colorPrimaryVariant">@color/tripbook_main_2</item>
+        <item name="colorPrimaryVariant">@color/tripbook_main_3</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -13,9 +13,8 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
 
         <!-- Customize your theme here. -->
-        //status bar, navigation 반투명하게
+        //status bar 반투명하게
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
 
         //상태바까지 view를 보여주도록
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>

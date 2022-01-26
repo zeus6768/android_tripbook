@@ -14,6 +14,6 @@ open class BaseFragment: Fragment(), View.OnClickListener, BaseDialog.BaseDialog
     }
 
     override fun onCancelClicked() {
-        TODO("Not yet implemented")
+
     }
 }

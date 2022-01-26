@@ -55,7 +55,7 @@
         android:layout_width="264dp"
         android:layout_height="43dp"
         android:layout_marginTop="85dp"
-        android:background="@drawable/bg_base_main_1_fill"
+        android:background="@drawable/bg_signup_greenbtn_radius_5"
         android:text="@string/user_signup_done_write_btn"
         android:fontFamily="@font/notosans_kr_bold"
         android:includeFontPadding="false"

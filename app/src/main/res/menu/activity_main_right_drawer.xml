@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/menu_hashtag"
         android:title="해시태그"
         app:showAsAction="never"/>
 </menu>

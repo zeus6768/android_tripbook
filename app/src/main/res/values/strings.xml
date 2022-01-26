@@ -42,10 +42,6 @@
     <string name="tripcourse_select_hashtag_explain2">-해시태그는 최대 15개까지 선택할 수 있어요.</string>
     <string name="tripcourse_select_hashtag_explain3">-선택한 해시태그를 바탕으로 홈 화면의 우측에서\n나의 지난 여행을 모아볼 수 있어요.</string>
 
-    //layout_topbar_base
-    <string name="topbar_title">상단바 제목</string>
-    <string name="topbar_subtitle">상단바 부제목</string>
-
     //activity_user 공통
     <string name="user_email">이메일</string>
     <string name="user_password">비밀번호</string>
@@ -78,4 +74,16 @@
     <string name="user_signup_done_content">함께 하게 되어서 반가워요!\n트립북 서비스 가입이 완료되었어요.\n다녀온 여행을 기록하러 가볼까요?</string>
     <string name="user_signup_done_write_btn">트립북 쓰러가기</string>
 
+    //activity_trip
+    <string name="trip_title">제목을 입력해주세요.</string>
+    <string name="trip_region">지역을 입력해주세요.</string>
+    <string name="trip_date">여행기간을 입력해주세요.</string>
+    <string name="trip_photo">여행의 대표 사진을 등록해주세요.</string>
+    <string name="trip_theme">여행의 발자국 테마를 선택해주세요.</string>
+    <string name="trip_theme_list">현재 보유한 테마 목록</string>
+    <string name="trip_theme_1">기본</string>
+    <string name="trip_theme_2">겨울</string>
+    <string name="trip_theme_3">다꾸</string>
+    <string name="trip_theme_4">추후 추가 예정</string>
+    <string name="trip_photo_upload">이곳을 눌러 사진을 첨부해주세요.</string>
 </resources>
