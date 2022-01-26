@@ -40,13 +40,14 @@
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_main_right_drawer_header.xml" value="0.4" />
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_signin.xml" value="0.264" />
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_trip.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse.xml" value="0.2" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse.xml" value="0.4" />
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse_delete.xml" value="0.264" />
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse_delete_trip.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse_record.xml" value="0.264" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse_record.xml" value="0.43913435527502254" />
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse_select_country.xml" value="0.2" />
-        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse_select_hashtag.xml" value="0.2" />
-        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_user_signup.xml" value="0.1296875" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_tripcourse_select_hashtag.xml" value="3.2" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_user_signin.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_user_signup.xml" value="0.4" />
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/activity_user_signup_done.xml" value="0.1296875" />
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/dialog_base.xml" value="0.4" />
         <entry key="..\:/Users/p0138/AndroidStudioProjects/android_tripbook/app/src/main/res/layout/dialog_base2.xml" value="0.1125" />
