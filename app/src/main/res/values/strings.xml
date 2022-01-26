@@ -77,7 +77,7 @@
     //activity_trip
     <string name="trip_title">제목을 입력해주세요.</string>
     <string name="trip_region">지역을 입력해주세요.</string>
-    <string name="trip_date">여행기간을 입력해주세요.</string>
+    <string name="trip_date">여행 기간을 입력해주세요.</string>
     <string name="trip_photo">여행의 대표 사진을 등록해주세요.</string>
     <string name="trip_theme">여행의 발자국 테마를 선택해주세요.</string>
     <string name="trip_theme_list">현재 보유한 테마 목록</string>

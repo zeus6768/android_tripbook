@@ -29,13 +29,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         binding.mainDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED) //스와이프 비활성화
 
-        //button 리스너
+        //click 리스너
         binding.homeLeftDrawerBtn.setOnClickListener(this)
-        binding.homeRightDrawerBtn.setOnClickListener(this)
         binding.mainContentRecordBtnTv.setOnClickListener(this)
-        //navigation 리스너
         binding.mainLeftNavigationView.setNavigationItemSelectedListener(this)
-        binding.mainRightNavigationView.setNavigationItemSelectedListener(this)
 
     }
 
@@ -52,10 +49,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             //왼쪽 드로어 open
             R.id.home_left_drawer_btn ->
                 binding.mainDrawerLayout.openDrawer(GravityCompat.START)
-
-            //오른쪽 드로어 open
-            R.id.home_right_drawer_btn ->
-                binding.mainDrawerLayout.openDrawer(GravityCompat.END)
 
             //여행 기록하기
             R.id.main_content_record_btn_tv ->
