@@ -4,13 +4,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <include
-        layout="@layout/layout_topbar_signin"
-        android:id="@+id/tripcourse_topbar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"/>
-
     <View
         android:id="@+id/signin_title_underscore_view"
         android:layout_width="5dp"

@@ -3,11 +3,9 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        // Kakao Login
-        maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:7.0.4"
+        classpath 'com.android.tools.build:gradle:7.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
 
         //google map

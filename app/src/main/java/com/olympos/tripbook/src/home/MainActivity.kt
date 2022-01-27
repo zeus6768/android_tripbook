@@ -13,7 +13,7 @@ import android.view.Menu
 import android.view.View
 import com.olympos.tripbook.R
 import com.olympos.tripbook.src.trip.TripActivity
-s
+
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var binding: ActivityMainBinding
