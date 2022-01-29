@@ -1,9 +1,13 @@
 package com.olympos.tripbook.src.user
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.user.UserApiClient
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityUserSigninBinding
-import com.olympos.tripbook.src.user.model.User
+import com.olympos.tripbook.src.home.MainActivity
 
 class SigninActivity : BaseActivity() {
     private lateinit var binding: ActivityUserSigninBinding
@@ -12,12 +16,48 @@ class SigninActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityUserSigninBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val callback : (OAuthToken?, Throwable?) -> Unit = { token, error ->
+            if (error != null) {
+                Log.e(TAG,"로그인 실패 $error")
+            } else if (token != null) {
+                UserApiClient.instance.me { user, error ->
+                    val kakaoID = user!!.id
+                    Log.d(TAG, "Kakao Login Succeed : $kakaoID")
+                }
+                startMainActivity()
+//                UserApiClient.instance.me { user, error ->
+//                    val kakaoID = user!!.id
+//                    viewModel?.addKakaoUser(token.accessToken, kakaoID)
+//                }
+//                Log.d("Signin Success : ", "로그인 성공 토큰 ${authManager.token}")
+            }
+        }
+
+        binding.signinSigninBtnIv.setOnClickListener {
+            if (UserApiClient.instance.isKakaoTalkLoginAvailable(this@SigninActivity)) {
+                UserApiClient.instance.loginWithKakaoTalk(this@SigninActivity, callback = callback)
+            } else {
+                UserApiClient.instance.loginWithKakaoAccount(this@SigninActivity, callback = callback)
+            }
+        }
     }
 
-    private fun getUser(): User {
-        //val email: String = binding.signupEdittext.text.toString() + "@" + binding.signupEmailEdittext.text.toString()
-        val email : String = binding.signinEmailEdittext.text.toString()
-        val pwd: String = binding.signinPasswordEdittext.text.toString()
-        return User(email, pwd, "", "")
+    private fun startMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
+
+//    private fun saveJWT(jwt: Int) {
+//        val spf = getSharedPreferences("auth", MODE_PRIVATE)
+//        val editor = spf.edit()
+//
+//        editor.putInt("jwt", jwt)
+//        editor.apply()
+//    }
+
+    companion object {
+        private const val TAG = "LoginActivity"
+    }
+
 }
