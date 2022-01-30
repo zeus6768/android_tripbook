@@ -71,10 +71,10 @@ class TripcourseActivity : BaseActivity() {
         }
 
         //(임시) 카드 선택 - TripcourseRecordActivity 이동
-        binding.tripcourseCard1.setOnClickListener {
-            val intent = Intent(this@TripcourseActivity, TripcourseRecordActivity::class.java)
-            startActivity(intent)
-        }
+//        binding.tripcourseCard1.setOnClickListener {
+//            val intent = Intent(this@TripcourseActivity, TripcourseRecordActivity::class.java)
+//            startActivity(intent)
+//        }
     }
 
 }
