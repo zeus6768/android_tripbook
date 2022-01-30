@@ -5,10 +5,15 @@ import android.os.Bundle
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripcourseRecordBinding
+import com.olympos.tripbook.src.tripcourse.model.CardInfo
+import com.olympos.tripbook.src.tripcourse.model.HashtagInfo
 
 class TripcourseRecordActivity : BaseActivity() {
 
     lateinit var binding : ActivityTripcourseRecordBinding
+
+    private var cardInfo : CardInfo = CardInfo()
+    private var hashtagInfo : HashtagInfo = HashtagInfo()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,6 +21,10 @@ class TripcourseRecordActivity : BaseActivity() {
         setContentView(binding.root)
 
         initView()
+
+        addHashtagDumyInfo()
+
+        getInputInfo()
     }
 
     private fun initView() {
@@ -27,6 +36,7 @@ class TripcourseRecordActivity : BaseActivity() {
         binding.tripcourseRecordTopbarLayout.topbarBackIb.setOnClickListener {
             //다이어로그 뜨기(여행 발자국 기록을 취소하시겠습니까?)
             //확인 -> TripcourseActivity로 이동
+            finish()
         }
 
         //상단바 - 편집완료 버튼
@@ -54,6 +64,28 @@ class TripcourseRecordActivity : BaseActivity() {
         binding.tripcourseRecordRequestHashtagBtn.setOnClickListener {
             val intent = Intent(this@TripcourseRecordActivity, TripcourseSelectHashtagActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun addHashtagDumyInfo() {
+//        var i = 0
+//        for(i in 0..10) {
+//            hashtagInfo.location
+//            hashtagInfo.weather
+//            hashtagInfo.feeling
+//            hashtagInfo.companion
+//            hashtagInfo.event
+//        }
+    }
+
+    private fun getInputInfo() {
+        if(binding.tripcourseRecordRequestTitleEt.text.toString().isEmpty()) {
+            //입력이 안된 경우
+        } else {
+            cardInfo.cardTitle = binding.tripcourseRecordRequestTitleEt.text.toString()
+        }
+        if(!binding.tripcourseRecordRequestBodyEt.text.toString().isEmpty()){
+            cardInfo.body = binding.tripcourseRecordRequestBodyEt.text.toString()
         }
     }
 }
