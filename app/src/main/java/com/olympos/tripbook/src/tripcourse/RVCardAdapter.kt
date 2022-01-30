@@ -4,68 +4,76 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.olympos.tripbook.databinding.ItemTripcourseCardBaseEmptyBinding
+import com.olympos.tripbook.src.tripcourse.model.Card
 
-class RVCardAdapter : RecyclerView.Adapter<RVLookerStorageAdapter.LookerViewHolder>() {
+class RVCardAdapter(private val card : ArrayList<Card>) : RecyclerView.Adapter<RVCardAdapter.CardViewHolder>() {
 
     /*---------- 전역 변수 ----------*/
 
-    private val cards = ArrayList<Song>()
+    private val cards = ArrayList<Card>()
 
-    lateinit var lookerItemClickListener: LookerItemClickListener
+    lateinit var cardClickListener: CardClickListener
 
     /*---------- 내부 클래스 ----------*/
-    /*---------- 인터페이스 ----------*/
-    /*---------- 오버라이딩 함수 ----------*/
-    /*---------- 추가 함수 ----------*/
 
-
-
-    //인터페이스 선언 -> 사용하려면 다시 객채 생성해야 함
-    interface LookerItemClickListener{
-        fun onRemoveSong(songId : Int)
-    }
-
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): LookerViewHolder {
-        val binding : ItemLookerStorageAlbumBinding //요게 뭔지 잘 이해가 안가넹
-                = ItemLookerStorageAlbumBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
-
-        return LookerViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: LookerViewHolder, position: Int) {
-        holder.bind(songs[position])
-        holder.binding.itemLoockerMoreIv.setOnClickListener{
-            removeSong(position)
-            lookerItemClickListener.onRemoveSong(songs[position].id)
+    //View Holder
+    inner class CardViewHolder(val binding : ItemTripcourseCardBaseEmptyBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(card : Card) {
+//            binding.itemTripcourseCardTitleTv.setText(card.cardTitle)
         }
     }
 
-    override fun getItemCount(): Int = songs.size
+    /*---------- 인터페이스 ----------*/
 
-    fun setItemClickListener(itemClickListener : LookerItemClickListener) {
-        lookerItemClickListener = itemClickListener
+    //인터페이스 선언 -> 사용하려면 다시 객채 생성해야 함
+    interface CardClickListener{
+        fun onItemClick(card : Card)
+        fun onAddCard()                     //카드 추가를 위한 인터페이스
+//        fun onRemoveCard(position : Int)      //카드 제거를 위한 인터페이스
+    }
+
+    /*---------- 오버라이딩 함수 ----------*/
+
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): CardViewHolder {
+        val binding : ItemTripcourseCardBaseEmptyBinding //Create ItemView Object
+                = ItemTripcourseCardBaseEmptyBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+
+        return CardViewHolder(binding) //to use at View Holder
+    }
+
+    //binding data and ViewHolder
+    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
+        holder.bind(cards[position])
+        holder.itemView.setOnClickListener { //카드 클릭시 이동
+            cardClickListener.onItemClick(cards[position])
+        }
+        holder.binding.itemCardEmptyDeleteIb.setOnClickListener{  //카드 삭제
+            onRemoveCard(position) //cards[position].id
+        }
+
+    }
+
+    override fun getItemCount(): Int = cards.size
+
+    /*---------- 추가 함수 ----------*/
+
+    fun setItemClickListener(itemClickListener : CardClickListener) {
+        cardClickListener = itemClickListener
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun addSongs(songs: ArrayList<Song>) {
-        this.songs.clear()
-        this.songs.addAll(songs)
+    fun onAddCard(card: Card) {
+//        this.cards.clear()          //비우고
+//        this.cards.addAll(cards)    //새로운 어레이 리스트로 둠
+        cards.add(card)
 
         notifyDataSetChanged()
     }
 
-    fun removeSong(position: Int){
-        songs.removeAt(position)
+    fun onRemoveCard(position: Int){
+        cards.removeAt(position)
+
         notifyDataSetChanged()
     }
-
-    inner class LookerViewHolder(val binding : ItemLookerStorageAlbumBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(song : Song) {
-            binding.itemLookerTitleTv.text = song.title
-            binding.itemLookerSingerTv.text = song.singer
-            binding.itemLookerAlbumImgIv.setImageResource(song.albumImg!!)
-        }
-    }
-
-
 }

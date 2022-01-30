@@ -1,6 +1,6 @@
 package com.olympos.tripbook.src.tripcourse.model
 
-data class CardInfo (
+data class Card (
     var cardDate : String = "",
     var cardCountry : String = "",
     var cardTitle : String = "",

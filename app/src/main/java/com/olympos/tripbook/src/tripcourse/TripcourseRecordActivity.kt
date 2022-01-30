@@ -5,15 +5,15 @@ import android.os.Bundle
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripcourseRecordBinding
-import com.olympos.tripbook.src.tripcourse.model.CardInfo
-import com.olympos.tripbook.src.tripcourse.model.HashtagInfo
+import com.olympos.tripbook.src.tripcourse.model.Card
+import com.olympos.tripbook.src.tripcourse.model.Hashtag
 
 class TripcourseRecordActivity : BaseActivity() {
 
     lateinit var binding : ActivityTripcourseRecordBinding
 
-    private var cardInfo : CardInfo = CardInfo()
-    private var hashtagInfo : HashtagInfo = HashtagInfo()
+    private var card : Card = Card()
+    private var hashtag : Hashtag = Hashtag()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,10 +82,10 @@ class TripcourseRecordActivity : BaseActivity() {
         if(binding.tripcourseRecordRequestTitleEt.text.toString().isEmpty()) {
             //입력이 안된 경우
         } else {
-            cardInfo.cardTitle = binding.tripcourseRecordRequestTitleEt.text.toString()
+            card.cardTitle = binding.tripcourseRecordRequestTitleEt.text.toString()
         }
         if(!binding.tripcourseRecordRequestBodyEt.text.toString().isEmpty()){
-            cardInfo.body = binding.tripcourseRecordRequestBodyEt.text.toString()
+            card.body = binding.tripcourseRecordRequestBodyEt.text.toString()
         }
     }
 }

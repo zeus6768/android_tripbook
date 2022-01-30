@@ -1,6 +1,6 @@
 package com.olympos.tripbook.src.tripcourse.model
 
-data class HashtagInfo(
+data class Hashtag(
     var location : ArrayList<String> = ArrayList(),
     var weather : ArrayList<String> = ArrayList(),
     var feeling : ArrayList<String> = ArrayList(),
