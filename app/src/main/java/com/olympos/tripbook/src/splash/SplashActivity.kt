@@ -10,7 +10,7 @@ import androidx.core.app.ActivityCompat
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.olympos.tripbook.databinding.ActivitySplashBinding
-import com.olympos.tripbook.src.home.MainActivity
+import com.olympos.tripbook.src.user.SigninActivity
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
@@ -26,7 +26,7 @@ class SplashActivity : AppCompatActivity() {
     private fun settingPermission() {
         var permissionListener = object : PermissionListener {
             override fun onPermissionGranted() {
-                startMainActivity()
+                startSigninActivity()
             }
 
             override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
@@ -43,12 +43,13 @@ class SplashActivity : AppCompatActivity() {
             .check()
     }
 
-    private fun startMainActivity() {
+    private fun startSigninActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         },1500) //1.5초 delay
 
         finish()
+
     }
 }
