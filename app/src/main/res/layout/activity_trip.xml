@@ -152,9 +152,9 @@
                         android:orientation="horizontal"
                         android:baselineAligned="true">
                         <TextView
+                            android:id="@+id/trip_date_departure_month_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="12"
                             android:textSize="20sp"
                             android:textColor="@color/tripbook_main_1"
                             android:fontFamily="@font/notosans_kr_bold"
@@ -170,9 +170,9 @@
                             android:layout_marginStart="2dp"
                             android:layout_marginEnd="5dp" />
                         <TextView
+                            android:id="@+id/trip_date_departure_day_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="12"
                             android:textSize="20sp"
                             android:textColor="@color/tripbook_main_1"
                             android:fontFamily="@font/notosans_kr_bold"
@@ -245,9 +245,9 @@
                         android:orientation="horizontal"
                         android:baselineAligned="true">
                         <TextView
+                            android:id="@+id/trip_date_arrival_month_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="12"
                             android:textSize="20sp"
                             android:textColor="@color/tripbook_main_1"
                             android:fontFamily="@font/notosans_kr_bold"
@@ -263,9 +263,9 @@
                             android:layout_marginStart="2dp"
                             android:layout_marginEnd="5dp"/>
                         <TextView
+                            android:id="@+id/trip_date_arrival_day_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="3"
                             android:textSize="20sp"
                             android:textColor="@color/tripbook_main_1"
                             android:fontFamily="@font/notosans_kr_bold"

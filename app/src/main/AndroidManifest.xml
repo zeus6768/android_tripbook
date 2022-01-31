@@ -15,19 +15,19 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.TripBook">
         <activity android:name="com.olympos.tripbook.src.home.MainActivity"/>
-        <activity android:name=".src.splash.SplashActivity"/>
-        <activity android:name="com.olympos.tripbook.src.trip.TripActivity"/>
-        <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseActivity"/>
-        <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseRecordActivity"/>
-        <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseSelectCountryActivity"/>
-        <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseSelectHashtagActivity"/>
-        <activity android:name="com.olympos.tripbook.src.user.SigninActivity"
+        <activity android:name="com.olympos.tripbook.src.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.olympos.tripbook.src.trip.TripActivity"/>
+        <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseActivity"/>
+        <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseRecordActivity"/>
+        <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseSelectCountryActivity"/>
+        <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseSelectHashtagActivity"/>
+        <activity android:name="com.olympos.tripbook.src.user.SigninActivity"/>
         <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
             <intent-filter>

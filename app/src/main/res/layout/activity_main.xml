@@ -64,7 +64,7 @@
                 android:id="@+id/main_user_trip_count_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="15"
+                android:text="0"
                 android:textColor="@color/tripbook_main_1"
                 android:textSize="24sp"
                 android:fontFamily="@font/notosans_kr_bold"
@@ -85,11 +85,12 @@
                 app:layout_constraintBottom_toBottomOf="@id/main_user_trip_count_tv"/>
 
             <LinearLayout
+                android:id="@+id/main_content_record_btn_ll"
                 android:layout_width="147dp"
                 android:layout_height="34dp"
                 android:orientation="horizontal"
-                android:background="@drawable/bg_base_main_1_fill"
                 android:gravity="center"
+                android:background="@drawable/bg_base_main_1_fill"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
