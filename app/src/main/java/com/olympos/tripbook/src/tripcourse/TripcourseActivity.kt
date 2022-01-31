@@ -2,6 +2,7 @@ package com.olympos.tripbook.src.tripcourse
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
@@ -29,6 +30,14 @@ class TripcourseActivity : BaseActivity() {
 
         initView()
 
+        val card : Card = Card()
+        cardDatas.add(card)
+        cardDatas.add(card)
+        cardDatas.add(card)
+
+//        Log.d("Check num of cardDatas", cardDatas.size.toString())
+//        Log.d("AM I HERE?", "YES YOU ARE!!")
+
         val cardRVAdapter = RVCardAdapter(cardDatas)
         binding.lookerAlbumlistRecyclerview.adapter = cardRVAdapter
         binding.lookerAlbumlistRecyclerview.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
@@ -38,15 +47,14 @@ class TripcourseActivity : BaseActivity() {
                 val intent = Intent(this@TripcourseActivity, TripcourseRecordActivity::class.java)
                 startActivity(intent)
             }
-
-            override fun onAddCard() {
-                binding.tripcourseAddAlbumBtn.setOnClickListener {
-                    val card : Card = Card()
-                    cardRVAdapter.onAddCard(card)
-                }
-            }
         })
 
+        binding.tripcourseAddAlbumBtn.setOnClickListener {
+            val card : Card = Card()
+            cardDatas.add(card)
+            Log.d("Check num of cardDatas", cardDatas.size.toString())
+            cardRVAdapter.notifyItemInserted(cardDatas.size - 1)
+        }
     }
 
     //여행 삭제하기 context menu
@@ -73,7 +81,7 @@ class TripcourseActivity : BaseActivity() {
 //            startActivity(intent)
             val backBtnDialog = object : BaseDialog(this) {
             }
-            backBtnDialog.show("대충 그럴듯한 제목")
+            backBtnDialog.show("발자국 작성을 취소하시겠습니까?")
             finish()
         }
 

@@ -28,8 +28,8 @@ class RVCardAdapter(private val card : ArrayList<Card>) : RecyclerView.Adapter<R
 
     //인터페이스 선언 -> 사용하려면 다시 객채 생성해야 함
     interface CardClickListener{
-        fun onItemClick(card : Card)
-        fun onAddCard()                     //카드 추가를 위한 인터페이스
+        fun onItemClick(card : Card)            //아이템 클릭 이벤트 인터페이스
+//        fun onAddCard()                       //카드 추가를 위한 인터페이스
 //        fun onRemoveCard(position : Int)      //카드 제거를 위한 인터페이스
     }
 
@@ -62,18 +62,19 @@ class RVCardAdapter(private val card : ArrayList<Card>) : RecyclerView.Adapter<R
         cardClickListener = itemClickListener
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun onAddCard(card: Card) {
-//        this.cards.clear()          //비우고
-//        this.cards.addAll(cards)    //새로운 어레이 리스트로 둠
-        cards.add(card)
-
-        notifyDataSetChanged()
-    }
+//    @SuppressLint("NotifyDataSetChanged")
+//    fun onAddCard(card: Card) {
+////        this.cards.clear()          //비우고
+////        this.cards.addAll(cards)    //새로운 어레이 리스트로 둠
+//        cards.add(card)
+//
+//        notifyDataSetChanged()
+//    }
 
     fun onRemoveCard(position: Int){
         cards.removeAt(position)
 
-        notifyDataSetChanged()
+//        notifyDataSetChanged()
+        notifyItemRemoved(position)
     }
 }
