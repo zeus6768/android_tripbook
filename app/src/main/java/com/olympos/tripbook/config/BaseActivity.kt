@@ -16,9 +16,9 @@ open class BaseActivity: AppCompatActivity(), View.OnClickListener, BaseDialog.B
 
     }
 
-    fun showDialog(title: String) {
+    fun showDialog(title: String, message: String , okMessage: String) {
         val dig = BaseDialog(this)
         dig.listener = this
-        dig.show(title)
+        dig.show(title, message, okMessage)
     }
 }
