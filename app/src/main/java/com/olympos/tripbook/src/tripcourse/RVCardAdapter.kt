@@ -51,7 +51,6 @@ class RVCardAdapter(private val card : ArrayList<Card>) : RecyclerView.Adapter<R
         holder.binding.itemCardEmptyDeleteIb.setOnClickListener{  //카드 삭제
             onRemoveCard(position) //cards[position].id
         }
-
     }
 
     override fun getItemCount(): Int = cards.size
