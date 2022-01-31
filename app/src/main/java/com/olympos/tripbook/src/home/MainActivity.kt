@@ -26,7 +26,17 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initFragment()
+        //기록이 0일 때
+        if(binding.mainUserTripCountTv.text == "0") {
+            initFragment()
+            showDialog("트립북을 시작해보세요!", "상단의 ‘여행 기록하러 가기’\n" +
+                    "버튼을 눌러\n" +
+                    "여행 발자국을 남겨보세요.", "확인")
+        }
+        else {
+            initFragment()
+        }
+
 
 //        initViewpager()
 
@@ -84,6 +94,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val intent = Intent(this, TripActivity::class.java)
         startActivity(intent)
     }
+
+    override fun onOKClicked() {
+        super.onOKClicked()
+        //반짝이는 효과
+//        binding.mainContentRecordBtnLl.setBackgroundResource(R.drawable.bg_home_gradation)
+    }
+
 
 //    private fun initViewpager() {
 //        val tripVP = TripViewpagerAdapter(this)
