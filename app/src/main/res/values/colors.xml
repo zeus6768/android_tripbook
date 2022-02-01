@@ -7,12 +7,15 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="light_gray">#EDEDED</color>
     <color name="gray">#DFDFDF</color>
+    <color name="graytext">#4C000000</color>
+    <color name="dark_gray">#B3B3B3</color>
     <color name="light_red">#FF7E7E</color>
-    <color name="transparent">#00000000</color>
     <color name="red">#FF0000</color>
-
-<!--사용 취소    <color name="tripbook_sub">#80FFB800</color>-->
+    <color name="transparent">#00000000</color>
+    <color name="kakao_background">#FEE500</color>
+    <color name="kakao_label">#55000000</color>
 
     <color name="tripbook_main_1">#007C32</color>
     <color name="tripbook_main_2">#4DA470</color>
