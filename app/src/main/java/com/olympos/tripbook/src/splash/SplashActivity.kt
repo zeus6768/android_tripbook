@@ -50,6 +50,5 @@ class SplashActivity : AppCompatActivity() {
         },1500) //1.5초 delay
 
         finish()
-
     }
 }
