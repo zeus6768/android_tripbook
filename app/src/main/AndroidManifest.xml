@@ -14,14 +14,19 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.TripBook">
-        <activity android:name="com.olympos.tripbook.src.home.MainActivity"/>
-        <activity android:name="com.olympos.tripbook.src.splash.SplashActivity"
+        <activity android:name="com.olympos.tripbook.src.home.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name="com.olympos.tripbook.src.splash.SplashActivity"
+            android:exported="true">
+
+        </activity>
+
         <activity android:name="com.olympos.tripbook.src.trip.TripActivity"/>
         <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseActivity"/>
         <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseRecordActivity"/>
