@@ -9,7 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light_gray">#EDEDED</color>
     <color name="gray">#DFDFDF</color>
-    <color name="graytext">#4C000000</color>
+    <color name="gray_text">#4C000000</color>
     <color name="dark_gray">#B3B3B3</color>
     <color name="light_red">#FF7E7E</color>
     <color name="red">#FF0000</color>

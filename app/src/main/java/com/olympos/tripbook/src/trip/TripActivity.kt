@@ -11,6 +11,7 @@ import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripBinding
 import com.olympos.tripbook.src.tripcourse.TripcourseActivity
+import com.olympos.tripbook.src.tripcourse.TripcourseRecordActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -39,26 +40,26 @@ class TripActivity : BaseActivity() {
 
     private fun initView() {
         //상단바
-        binding.tripTopbarLayout.topbarTitleTv.text = "여행 기록하기"
+        binding.tripTopbarLayout.topbarTitleTv.setText(R.string.trip_title)
         binding.tripTopbarLayout.topbarSubtitleTv.visibility = View.GONE
         binding.tripTopbarLayout.topbarSubbuttonIb.visibility = View.GONE
 
         //캘린더
         val calendar = binding.tripCalendarMcv
-        val year = binding.tripDatePickerYear
-        val month = binding.tripDatePickerMonth
+//        val year = binding.tripDatePickerYear
+//        val month = binding.tripDatePickerMonth
 
         //년, 월 최대 최소 값 및 현재값 세팅
-        year.maxValue = getCurrentDate().split(".")[0].toInt()
-        year.minValue = 1980
-        month.maxValue = 12
-        month.minValue = 1
-        year.value = getCurrentDate().split(".")[0].toInt()
-        month.value = getCurrentDate().split(".")[1].toInt()
-
-        //Number Picker 순환안되도록
-        year.wrapSelectorWheel = false
-        month.wrapSelectorWheel = false
+//        year.maxValue = getCurrentDate().split(".")[0].toInt()
+//        year.minValue = 1980
+//        month.maxValue = 12
+//        month.minValue = 1
+//        year.value = getCurrentDate().split(".")[0].toInt()
+//        month.value = getCurrentDate().split(".")[1].toInt()
+//
+//        //Number Picker 순환안되도록
+//        year.wrapSelectorWheel = false
+//        month.wrapSelectorWheel = false
 
         //날짜 선택
         calendar.topbarVisible = true
@@ -193,7 +194,7 @@ class TripActivity : BaseActivity() {
     }
 
     private fun startTripcourseActivity() {
-        val intent = Intent(this, TripcourseActivity::class.java)
+        val intent = Intent(this, TripcourseRecordActivity::class.java)
         startActivity(intent)
     }
 
