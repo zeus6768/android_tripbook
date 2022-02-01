@@ -37,15 +37,18 @@ class SplashActivity : AppCompatActivity() {
 
         TedPermission.with(this)
             .setPermissionListener(permissionListener)
-            .setRationaleMessage("카메라 사진 권한 필요")
-            .setDeniedMessage("카메라 권한 요청 거부")
-            .setPermissions(android.Manifest.permission.CAMERA)
+            .setRationaleMessage("사진 액세스 권한 허용 후 트립북을 이용하실 수 있습니다.")
+            .setDeniedMessage("권한 요청 거부")
+            .setPermissions(android.Manifest.permission.READ_EXTERNAL_STORAGE)
             .check()
     }
 
     private fun startSigninActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, SigninActivity::class.java)
-            startActivity(intent)},2000) //2초 delay
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        },1500) //1.5초 delay
+
+        finish()
     }
 }

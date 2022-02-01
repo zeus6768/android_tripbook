@@ -41,13 +41,14 @@
                     android:orientation="vertical"
                     android:paddingHorizontal="25dp"
                     android:gravity="center"
-                    android:background="@drawable/bg_base_main_1_empty"
+                    android:background="@drawable/bg_base_main_4_empty"
 
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     >
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -102,7 +103,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/tripcourse_select_hashtag_explain_layout">
+                app:layout_constraintTop_toBottomOf="@id/tripcourse_select_hashtag_explain_layout"
+                app:layout_constraintBottom_toBottomOf="parent">
 
             </androidx.recyclerview.widget.RecyclerView>
 

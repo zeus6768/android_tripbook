@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <!-- 상단바 -->
@@ -20,9 +21,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:orientation="vertical">
+            android:layout_marginHorizontal="25dp"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
 
             <!-- 제목 -->
             <TextView
@@ -31,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/notosans_kr_bold"
                 android:includeFontPadding="false"
-                android:text="@string/trip_title"
+                android:text="@string/trip_title_tv"
                 android:textColor="@color/black" />
 
             <EditText
@@ -39,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/bg_trip_graybackground"
+                android:background="@drawable/bg_base_light_gray_edit_text"
                 android:fontFamily="@font/notosans_kr_regular"
                 android:includeFontPadding="false"
                 android:inputType="text"
@@ -61,43 +62,43 @@
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/notosans_kr_bold"
                 android:includeFontPadding="false"
-                android:text="@string/trip_date"
+                android:text="@string/trip_date_tv"
                 android:textColor="@color/black" />
 
             <!-- 년, 월 선택 -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginTop="15dp">
-                <NumberPicker
-                    android:id="@+id/trip_date_picker_year"
-                    android:layout_width="wrap_content"
-                    android:layout_height="120dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="년"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/notosans_kr_bold"
-                    android:includeFontPadding="false"/>
-                <NumberPicker
-                    android:id="@+id/trip_date_picker_month"
-                    android:layout_width="wrap_content"
-                    android:layout_height="120dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="월"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/notosans_kr_bold"
-                    android:includeFontPadding="false"/>
-            </LinearLayout>
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_marginTop="15dp">-->
+<!--                <NumberPicker-->
+<!--                    android:id="@+id/trip_date_picker_year"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="120dp"/>-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="5dp"-->
+<!--                    android:text="년"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:fontFamily="@font/notosans_kr_bold"-->
+<!--                    android:includeFontPadding="false"/>-->
+<!--                <NumberPicker-->
+<!--                    android:id="@+id/trip_date_picker_month"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="120dp"/>-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="5dp"-->
+<!--                    android:text="월"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:fontFamily="@font/notosans_kr_bold"-->
+<!--                    android:includeFontPadding="false"/>-->
+<!--            </LinearLayout>-->
 
             <!-- 캘린더 -->
             <com.prolificinteractive.materialcalendarview.MaterialCalendarView
@@ -158,7 +159,8 @@
                             android:textSize="20sp"
                             android:textColor="@color/tripbook_main_1"
                             android:fontFamily="@font/notosans_kr_bold"
-                            android:includeFontPadding="false" />
+                            android:includeFontPadding="false"
+                            tools:text="12"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -176,7 +178,8 @@
                             android:textSize="20sp"
                             android:textColor="@color/tripbook_main_1"
                             android:fontFamily="@font/notosans_kr_bold"
-                            android:includeFontPadding="false"/>
+                            android:includeFontPadding="false"
+                            tools:text="27"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -251,7 +254,8 @@
                             android:textSize="20sp"
                             android:textColor="@color/tripbook_main_1"
                             android:fontFamily="@font/notosans_kr_bold"
-                            android:includeFontPadding="false"/>
+                            android:includeFontPadding="false"
+                            tools:text="1"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -269,7 +273,8 @@
                             android:textSize="20sp"
                             android:textColor="@color/tripbook_main_1"
                             android:fontFamily="@font/notosans_kr_bold"
-                            android:includeFontPadding="false"/>
+                            android:includeFontPadding="false"
+                            tools:text="3"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -298,7 +303,7 @@
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/notosans_kr_bold"
                 android:includeFontPadding="false"
-                android:text="@string/trip_theme"
+                android:text="@string/trip_theme_tv"
                 android:textColor="@color/black" />
 
             <!-- 다음 단계로 이동 버튼 -->
@@ -472,7 +477,8 @@
                 android:paddingBottom="10dp"
                 android:text="다음 단계로 이동"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:layout_marginBottom="30dp"/>
 
         </LinearLayout>
     </ScrollView>
