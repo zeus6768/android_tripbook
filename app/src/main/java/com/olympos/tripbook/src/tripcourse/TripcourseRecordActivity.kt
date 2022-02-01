@@ -9,10 +9,15 @@ import android.widget.Toast
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripcourseRecordBinding
-
+import com.olympos.tripbook.src.tripcourse.model.Card
+import com.olympos.tripbook.src.tripcourse.model.Hashtag
 
 class TripcourseRecordActivity : BaseActivity() {
-    lateinit var binding: ActivityTripcourseRecordBinding
+
+    lateinit var binding : ActivityTripcourseRecordBinding
+
+    private var card : Card = Card()
+    private var hashtag : Hashtag = Hashtag()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +25,9 @@ class TripcourseRecordActivity : BaseActivity() {
         setContentView(binding.root)
 
         initView()
+
+        addHashtagDumyInfo()
+        getInputInfo()
 
         //click 리스너
         binding.tripcourseRecordTopbarLayout.topbarBackIb.setOnClickListener(this)
@@ -47,6 +55,10 @@ class TripcourseRecordActivity : BaseActivity() {
                 }
             }
         })
+
+        addHashtagDumyInfo()
+
+        getInputInfo()
     }
 
     private fun initView() {
@@ -62,8 +74,7 @@ class TripcourseRecordActivity : BaseActivity() {
 
         //여행 도시 선택 - TripcourseSelectContryActivity로 이동
         binding.tripcourseRecordSelectCountryBtn.setOnClickListener {
-            val intent =
-                Intent(this@TripcourseRecordActivity, TripcourseSelectCountryActivity::class.java)
+            val intent = Intent(this@TripcourseRecordActivity, TripcourseSelectCountryActivity::class.java)
             startActivity(intent)
         }
 
@@ -103,5 +114,27 @@ class TripcourseRecordActivity : BaseActivity() {
     private fun startTripcourseActivity() {
         val intent = Intent(this, TripcourseActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun addHashtagDumyInfo() {
+//        var i = 0
+//        for(i in 0..10) {
+//            hashtagInfo.location
+//            hashtagInfo.weather
+//            hashtagInfo.feeling
+//            hashtagInfo.companion
+//            hashtagInfo.event
+//        }
+    }
+
+    private fun getInputInfo() {
+        if(binding.tripcourseRecordRequestTitleEt.text.toString().isEmpty()) {
+            //입력이 안된 경우
+        } else {
+            card.cardTitle = binding.tripcourseRecordRequestTitleEt.text.toString()
+        }
+        if(!binding.tripcourseRecordRequestBodyEt.text.toString().isEmpty()){
+            card.body = binding.tripcourseRecordRequestBodyEt.text.toString()
+        }
     }
 }
