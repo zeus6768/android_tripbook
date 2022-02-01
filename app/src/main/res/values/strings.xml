@@ -6,6 +6,10 @@
     <string name="dialog_base_check">확인</string>
     <string name="dialog_base_cancel">취소</string>
 
+    //layout_topbar_base
+    <string name="topbar_title">여행 발자국</string>
+    <string name="topbar_subtitle">여행 발자국</string>
+
     //activity_tripcourse
     <string name="tripcourse_title">여행 발자국</string>
     <string name="tripcourse_titlebar_date">여행 기간</string>
@@ -13,6 +17,7 @@
     <string name="tripcourse_record_request">발자국을 기록해주세요</string>
     <string name="tripcourse_delete_trip">여행 삭제하기</string>
     <string name="tripcourse_add_card">카드 추가하기</string>
+
 
     //activity_tripcourse_record
     <string name="tripcourse_record_title">여행 발자국 기록하기</string>
