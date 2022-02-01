@@ -157,7 +157,6 @@ class TripcourseRecordActivity : BaseActivity() {
 
         //날짜 가져오기
 
-        //도시 가져오기
 
         //해시태그 가져오기
 

@@ -34,9 +34,9 @@ class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
         setContentView(binding.root)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.tripcourse_select_country_map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+//        val mapFragment = supportFragmentManager
+//            .findFragmentById(R.id.tripcourse_select_country_map_fragment) as SupportMapFragment
+//        mapFragment.getMapAsync(this)
 
         initView()
     }

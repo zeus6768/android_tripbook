@@ -5,8 +5,6 @@
     <string name="app_slogan">쉽게 쓰는 여행 다이어리</string>
     <string name="dialog_base_check">확인</string>
     <string name="dialog_base_cancel">취소</string>
-    <string name="topbar_title">상단바 제목</string>
-    <string name="topbar_subtitle">상단바 부제목</string>
 
     //layout_topbar_base
     <string name="topbar_title">여행 발자국</string>
