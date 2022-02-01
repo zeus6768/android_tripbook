@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:text="아직 기록된 여행이 없어요!"
             android:textSize="13sp"
-            android:textColor="@color/graytext"
+            android:textColor="@color/gray_text"
             android:fontFamily="@font/notosans_kr_bold"
             android:includeFontPadding="false"
             android:layout_marginTop="30dp"
