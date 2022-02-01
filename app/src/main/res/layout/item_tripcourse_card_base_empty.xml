@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="151dp"
+        android:layout_height="235dp"
+        android:background="@drawable/img_tripcourse_card_bg_base"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/item_card_empty_delete_ib"
+            android:src="@drawable/btn_base_add_black"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:rotation="45"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/item_card_empty_cover_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="124dp"
+                    android:layout_height="135dp"
+                    android:backgroundTint="@color/gray"
+                    app:cardCornerRadius="10dp"/>
+            </LinearLayout>
+
+            <ImageView
+                android:src="@drawable/drawable_img_plus_white"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_gravity="center"
+                android:visibility="visible"/>
+        </FrameLayout>
+
+        <View
+            android:id="@+id/item_card_empty_divitionline_view"
+            android:layout_width="134dp"
+            android:layout_height="1dp"
+            android:background="@color/gray"
+            android:layout_marginTop="14dp"
+            app:layout_constraintTop_toBottomOf="@id/item_card_empty_cover_layout"
+            app:layout_constraintStart_toStartOf="@id/item_card_empty_cover_layout"
+            app:layout_constraintEnd_toEndOf="@id/item_card_empty_cover_layout"
+            />
+
+        <TextView
+            android:id="@+id/item_tripcourse_card_body_tv"
+            android:text="@string/tripcourse_record_request"
+            android:textSize="11sp"
+            android:gravity="center_horizontal"
+            android:layout_width="128dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/notosans_kr_bold"
+            android:includeFontPadding="false"
+            app:layout_constraintTop_toBottomOf="@id/item_card_empty_divitionline_view"
+            app:layout_constraintEnd_toEndOf="@id/item_card_empty_cover_layout"
+            app:layout_constraintStart_toStartOf="@id/item_card_empty_cover_layout" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
