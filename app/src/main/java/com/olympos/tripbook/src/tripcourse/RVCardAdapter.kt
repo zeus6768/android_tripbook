@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.olympos.tripbook.R
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseEmptyBinding
 import com.olympos.tripbook.src.tripcourse.model.Card
 
@@ -20,7 +21,7 @@ class RVCardAdapter(private val card : ArrayList<Card>) : RecyclerView.Adapter<R
     //View Holder
     inner class CardViewHolder(val binding : ItemTripcourseCardBaseEmptyBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(card : Card) {
-//            binding.itemTripcourseCardTitleTv.setText(card.cardTitle)
+            binding.itemTripcourseCardBodyTv.setText(R.string.tripcourse_record_request)
         }
     }
 

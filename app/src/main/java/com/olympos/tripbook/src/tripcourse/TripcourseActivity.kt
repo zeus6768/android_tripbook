@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.kakao.sdk.common.util.Utility
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.config.BaseDialog
@@ -34,6 +35,8 @@ class TripcourseActivity : BaseActivity() {
         cardDatas.add(card)
         cardDatas.add(card)
         cardDatas.add(card)
+        var keyHash = Utility.getKeyHash(this)
+        Log.d("THIS IS KEY", keyHash.toString())
 
 //        Log.d("Check num of cardDatas", cardDatas.size.toString())
 //        Log.d("AM I HERE?", "YES YOU ARE!!")
@@ -53,6 +56,7 @@ class TripcourseActivity : BaseActivity() {
             val card : Card = Card()
             cardDatas.add(card)
             Log.d("Check num of cardDatas", cardDatas.size.toString())
+            Log.d("THIS IS KEY", keyHash.toString())
             cardRVAdapter.notifyItemInserted(cardDatas.size - 1)
         }
     }
@@ -79,9 +83,9 @@ class TripcourseActivity : BaseActivity() {
         binding.tripcourseTopbarLayout.topbarBackIb.setOnClickListener {
 //            val intent = Intent(this@TripcourseActivity, MainActivity::class.java)
 //            startActivity(intent)
-            val backBtnDialog = object : BaseDialog(this) {
-            }
-            backBtnDialog.show("발자국 작성을 취소하시겠습니까?")
+//            val backBtnDialog = object : BaseDialog(this) {
+//            }
+//            backBtnDialog.show("발자국 작성을 취소하시겠습니까?")
             finish()
         }
 

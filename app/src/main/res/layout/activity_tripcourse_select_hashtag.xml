@@ -8,11 +8,7 @@
     <include
         layout="@layout/layout_topbar_base"
         android:id="@+id/tripcourse_select_hashtag_topbar_layout"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -37,7 +33,7 @@
 
                 <LinearLayout
                     android:layout_width="292dp"
-                    android:layout_height="77dp"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingHorizontal="25dp"
                     android:gravity="center"
