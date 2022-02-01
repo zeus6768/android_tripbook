@@ -128,13 +128,13 @@ class TripcourseRecordActivity : BaseActivity() {
     }
 
     private fun getInputInfo() {
-        if(binding.tripcourseRecordRequestTitleEt.text.toString().isEmpty()) {
+        if(binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
             //입력이 안된 경우
         } else {
-            card.cardTitle = binding.tripcourseRecordRequestTitleEt.text.toString()
+            card.cardTitle = binding.tripcourseRecordTitleEt.text.toString()
         }
-        if(!binding.tripcourseRecordRequestBodyEt.text.toString().isEmpty()){
-            card.body = binding.tripcourseRecordRequestBodyEt.text.toString()
+        if(!binding.tripcourseRecordContentEt.text.toString().isEmpty()){
+            card.body = binding.tripcourseRecordContentEt.text.toString()
         }
     }
 }
