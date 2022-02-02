@@ -41,6 +41,12 @@ class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
         initView()
     }
 
+    //뒤로가기 -> 다이어로그 -> 확인 -> 액티비티 종료
+    override fun onOKClicked() {
+        super.onOKClicked()
+        finish()
+    }
+
     private fun initView() {
         //topbar layout view randering
         binding.tripcourseSelectCountryTopbarLayout.topbarTitleTv.setText(R.string.tripcourse_select_country_title)
@@ -51,7 +57,6 @@ class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
         binding.tripcourseSelectCountryTopbarLayout.topbarBackIb.setOnClickListener {
             showDialog("도시 선택 취소", "도시 선택을 취소하시겠습니까?\n"
                     + "검색중인 정보는 저장되지 않습니다.", "취소하기")
-            finish()
         }
 
         //선택 완료 버튼 - 액티비티 종료(선택 결과 전달)

@@ -8,11 +8,9 @@ import com.olympos.tripbook.R
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseEmptyBinding
 import com.olympos.tripbook.src.tripcourse.model.Card
 
-class RVCardAdapter(private val card : ArrayList<Card>) : RecyclerView.Adapter<RVCardAdapter.CardViewHolder>() {
+class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<RVCardAdapter.CardViewHolder>() {
 
     /*---------- 전역 변수 ----------*/
-
-    private val cards = ArrayList<Card>()
 
     lateinit var cardClickListener: CardClickListener
 
@@ -21,7 +19,7 @@ class RVCardAdapter(private val card : ArrayList<Card>) : RecyclerView.Adapter<R
     //View Holder
     inner class CardViewHolder(val binding : ItemTripcourseCardBaseEmptyBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(card : Card) {
-            binding.itemTripcourseCardBodyTv.setText(R.string.tripcourse_record_request)
+//            binding.itemTripcourseCardBodyTv.setText(R.string.tripcourse_record_request)
         }
     }
 

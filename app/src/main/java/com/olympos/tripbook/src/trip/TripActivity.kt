@@ -194,7 +194,7 @@ class TripActivity : BaseActivity() {
     }
 
     private fun startTripcourseActivity() {
-        val intent = Intent(this, TripcourseRecordActivity::class.java)
+        val intent = Intent(this, TripcourseActivity::class.java)
         startActivity(intent)
     }
 
