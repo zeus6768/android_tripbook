@@ -10,6 +10,7 @@ import androidx.core.app.ActivityCompat
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.olympos.tripbook.databinding.ActivitySplashBinding
+import com.olympos.tripbook.src.home.MainActivity
 import com.olympos.tripbook.src.user.SigninActivity
 
 class SplashActivity : AppCompatActivity() {

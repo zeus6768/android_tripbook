@@ -2,6 +2,7 @@ package com.olympos.tripbook.src.tripcourse
 
 import android.content.Intent
 import android.os.Bundle
+import com.google.gson.Gson
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -10,14 +11,17 @@ import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripcourseRecordBinding
 import com.olympos.tripbook.src.tripcourse.model.Card
-import com.olympos.tripbook.src.tripcourse.model.Hashtag
+
 
 class TripcourseRecordActivity : BaseActivity() {
 
     lateinit var binding : ActivityTripcourseRecordBinding
 
     private var card : Card = Card()
-    private var hashtag : Hashtag = Hashtag()
+//    private var hashtag : Hashtag = Hashtag()
+
+    private val COUNTRY_ACTIVITY_CODE = 10
+    private val HASHTAG_ACTIVITY_CODE = 20
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +61,20 @@ class TripcourseRecordActivity : BaseActivity() {
                 }
             }
         })
+    }
+
+    //종료된 액티비티에서 정보 받아오기
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(resultCode) {
+            COUNTRY_ACTIVITY_CODE -> { //SelectCountryActivity에서 장소 정보 가져오기
+                card.cardCountry = data?.getStringExtra("country_result")!!
+                binding.tripcourseRecordSelectCountryBtn.setText(card.cardCountry)
+            }
+            HASHTAG_ACTIVITY_CODE -> { //SelectHashtagActivity에서 해시태그 정보 가져오기
+                //해시태그 저장
+            }
+        }
     }
 
     private fun initView() {
@@ -139,5 +157,11 @@ class TripcourseRecordActivity : BaseActivity() {
         if(!binding.tripcourseRecordContentEt.text.toString().isEmpty()){
             card.body = binding.tripcourseRecordContentEt.text.toString()
         }
+
+        //날짜 가져오기
+
+
+        //해시태그 가져오기
+
     }
 }

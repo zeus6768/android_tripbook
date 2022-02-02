@@ -14,14 +14,19 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.TripBook">
-        <activity android:name="com.olympos.tripbook.src.home.MainActivity"/>
-        <activity android:name="com.olympos.tripbook.src.splash.SplashActivity"
+        <activity android:name="com.olympos.tripbook.src.home.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name="com.olympos.tripbook.src.splash.SplashActivity"
+            android:exported="true">
+
+        </activity>
+
         <activity android:name="com.olympos.tripbook.src.trip.TripActivity"/>
         <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseActivity"/>
         <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseRecordActivity"
@@ -42,9 +47,11 @@
                     android:scheme="@string/kakao_native_key"/>
             </intent-filter>
         </activity>
+
+<!--        구글 맵 임시 API Key -> 프로젝트 전체적인 키로 변경 필요-->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}"/>
+            android:value="AIzaSyB-4JsTg2QkxvvAEg74E9KUFMxVhlnh_no" />
     </application>
 
 </manifest>

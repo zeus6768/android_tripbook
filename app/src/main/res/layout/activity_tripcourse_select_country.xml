@@ -9,7 +9,7 @@
     <!--상단 바-->
     <include
         layout="@layout/layout_topbar_base"
-        android:id="@+id/tripcourse_select_country_topbar_layout"/>
+        android:id="@+id/tripcourse_select_country_topbar_layout" />
 
     <!--설명 창-->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -89,7 +89,7 @@
             app:queryHint="검색하려는 장소를 입력해주세요"/>
 
         <fragment
-            android:id="@+id/tripcourse_select_country_map"
+            android:id="@+id/tripcourse_select_country_map_fragment"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:layout_marginTop="20dp"

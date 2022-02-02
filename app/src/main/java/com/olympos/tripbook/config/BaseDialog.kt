@@ -9,10 +9,10 @@ import com.olympos.tripbook.R
 
 open class BaseDialog(context: Context) {
     val dialog = Dialog(context)
-    private lateinit var tvTitle : TextView
-    private lateinit var tvMessage : TextView
-    private lateinit var btnOK : TextView
-    private lateinit var btnCancel : ImageView
+    protected lateinit var tvTitle : TextView
+    protected lateinit var tvMessage : TextView
+    protected lateinit var btnOK : TextView
+    protected lateinit var btnCancel : ImageView
 
     var listener : BaseDialogClickListener? = null
 

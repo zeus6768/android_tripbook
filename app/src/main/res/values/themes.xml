@@ -14,9 +14,9 @@
 
         <!-- Customize your theme here. -->
         //status bar 반투명하게
-        <item name="android:windowTranslucentStatus">true</item>
+<!--        <item name="android:windowTranslucentStatus">true</item>-->
 
         //상태바까지 view를 보여주도록
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+<!--        <item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
     </style>
 </resources>
