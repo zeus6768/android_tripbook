@@ -7,8 +7,8 @@
     <string name="dialog_base_cancel">취소</string>
 
     //layout_topbar_base
-    <string name="topbar_title">여행 발자국</string>
-    <string name="topbar_subtitle">여행 발자국</string>
+    <string name="topbar_title">상단바 제목</string>
+    <string name="topbar_subtitle">상단바 부제목</string>
 
     //activity_tripcourse
     <string name="tripcourse_title">여행 발자국</string>

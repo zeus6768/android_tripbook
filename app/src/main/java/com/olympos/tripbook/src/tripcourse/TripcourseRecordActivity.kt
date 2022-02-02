@@ -37,6 +37,8 @@ class TripcourseRecordActivity : BaseActivity() {
         binding.tripcourseRecordTopbarLayout.topbarBackIb.setOnClickListener(this)
         binding.tripcourseRecordTopbarLayout.topbarSubbuttonIb.setOnClickListener(this)
         binding.tripcourseRecordImgCl.setOnClickListener(this)
+        binding.tripcourseRecordSelectCountryBtn.setOnClickListener(this)
+        binding.tripcourseRecordHashtagAddBtn.setOnClickListener(this)
 
         //내용 최대 200자 이벤트 처리
         binding.tripcourseRecordContentEt.addTextChangedListener(object : TextWatcher {
@@ -59,10 +61,6 @@ class TripcourseRecordActivity : BaseActivity() {
                 }
             }
         })
-
-        addHashtagDumyInfo()
-
-        getInputInfo()
     }
 
     //종료된 액티비티에서 정보 받아오기
@@ -89,19 +87,6 @@ class TripcourseRecordActivity : BaseActivity() {
         binding.tripcourseRecordSelectDateBtn.setOnClickListener {
 
         }
-
-        //여행 도시 선택 - TripcourseSelectContryActivity로 이동
-        binding.tripcourseRecordSelectCountryBtn.setOnClickListener {
-            val intent = Intent(this@TripcourseRecordActivity, TripcourseSelectCountryActivity::class.java)
-            startActivity(intent)
-        }
-
-        //해시태그 선택 - TripcourseSelectHashtagActivity로 이동
-        binding.tripcourseRecordHashtagAddBtn.setOnClickListener {
-            val intent =
-                Intent(this@TripcourseRecordActivity, TripcourseSelectHashtagActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     override fun onClick(v: View?) {
@@ -109,13 +94,20 @@ class TripcourseRecordActivity : BaseActivity() {
 
         when (v!!.id) {
             R.id.topbar_back_ib ->
-                showDialog("발자국 작성 취소", "여행 발자국 기록을 취소하시겠습니까?\n"
-                    +"작성된 내용은 저장되지 않습니다.", "확인")
+                showDialog("발자국 작성 취소","발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 임시저장됩니다.", "확인")
             R.id.topbar_subbutton_ib -> {
                 //todo 저장완료
             }
             R.id.tripcourse_record_img_cl ->
                 photoSelect()
+
+            //여행 도시 선택 - TripcourseSelectContryActivity로 이동
+            R.id.tripcourse_record_select_country_btn ->
+                startTripcourseSelectCountryActivity()
+
+            //해시태그 선택 - TripcourseSelectHashtagActivity로 이동
+            R.id.tripcourse_record_hashtag_add_btn ->
+                startTripcourseSelectHashtagActivity()
         }
     }
 
@@ -127,11 +119,16 @@ class TripcourseRecordActivity : BaseActivity() {
 
     override fun onOKClicked() {
         super.onOKClicked()
-        startTripcourseActivity()
+        finish()
     }
 
-    private fun startTripcourseActivity() {
-        val intent = Intent(this, TripcourseActivity::class.java)
+    private fun startTripcourseSelectCountryActivity() {
+        val intent = Intent(this, TripcourseSelectCountryActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun startTripcourseSelectHashtagActivity() {
+        val intent = Intent(this, TripcourseSelectHashtagActivity::class.java)
         startActivity(intent)
     }
 

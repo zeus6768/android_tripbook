@@ -83,9 +83,9 @@ class TripcourseActivity : BaseActivity() {
         binding.tripcourseTopbarLayout.topbarBackIb.setOnClickListener {
 //            val intent = Intent(this@TripcourseActivity, MainActivity::class.java)
 //            startActivity(intent)
-//            val backBtnDialog = object : BaseDialog(this) {
-//            }
-//            backBtnDialog.show("발자국 작성을 취소하시겠습니까?")
+            val backBtnDialog = object : BaseDialog(this) {
+            }
+            backBtnDialog.show("안내","발자국 작성을 취소하시겠습니까?", "확인")
             finish()
         }
 
