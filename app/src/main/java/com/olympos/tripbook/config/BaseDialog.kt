@@ -49,7 +49,7 @@ open class BaseDialog(context: Context) {
         dialog.show()
     }
 
-    open fun showImgDialog(title : String, message : String, okMessage : String, img : Int) {
+    open fun show(title : String, message : String, okMessage : String, img : Int) {
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_base)

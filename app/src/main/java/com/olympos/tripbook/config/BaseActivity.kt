@@ -25,6 +25,6 @@ open class BaseActivity: AppCompatActivity(), View.OnClickListener, BaseDialog.B
     fun showImgDialog(title: String, message: String , okMessage: String, img : Int) {
         val dig = BaseDialog(this)
         dig.listener = this
-        dig.showImgDialog(title, message, okMessage, img)
+        dig.show(title, message, okMessage, img)
     }
 }
