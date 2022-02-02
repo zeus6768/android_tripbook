@@ -10,14 +10,17 @@ import androidx.core.content.ContextCompat
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripBinding
+import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.src.tripcourse.TripcourseActivity
 import com.olympos.tripbook.src.tripcourse.TripcourseRecordActivity
+import com.olympos.tripbook.src.tripcourse.model.Card
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class TripActivity : BaseActivity() {
     private lateinit var binding: ActivityTripBinding
+    private lateinit var trip: Trip
 //    private var decorator = RangeDayDecorator(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {

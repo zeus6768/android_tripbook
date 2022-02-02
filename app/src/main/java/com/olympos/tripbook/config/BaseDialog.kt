@@ -27,7 +27,7 @@ open class BaseDialog(context: Context) {
 
         tvMessage = dialog.findViewById(R.id.dialog_base_message_tv)
         tvMessage.text = message
-        tvMessage.setCompoundDrawablesRelativeWithIntrinsicBounds(0,R.drawable.img_home_notice,0,0)
+//        tvMessage.setCompoundDrawablesRelativeWithIntrinsicBounds(0,R.drawable.img_home_notice,0,0)
 
         btnOK = dialog.findViewById(R.id.dialog_base_ok_btn_tv)
         btnOK.text = okMessage

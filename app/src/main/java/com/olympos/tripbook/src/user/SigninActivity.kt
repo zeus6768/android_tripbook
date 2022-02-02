@@ -48,14 +48,6 @@ class SigninActivity : BaseActivity() {
         startActivity(intent)
     }
 
-//    private fun saveJWT(jwt: Int) {
-//        val spf = getSharedPreferences("auth", MODE_PRIVATE)
-//        val editor = spf.edit()
-//
-//        editor.putInt("jwt", jwt)
-//        editor.apply()
-//    }
-
     companion object {
         private const val TAG = "LoginActivity"
     }
