@@ -26,9 +26,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         //기록이 0일 때
         if(binding.mainUserTripCountTv.text == "0") {
             initFragment()
-            showDialog("트립북을 시작해보세요!", "상단의 ‘여행 기록하러 가기’\n" +
+            showImgDialog("트립북을 시작해보세요!", "상단의 ‘여행 기록하러 가기’\n" +
                     "버튼을 눌러\n" +
-                    "여행 발자국을 남겨보세요.", "확인")
+                    "여행 발자국을 남겨보세요.", "확인", R.drawable.img_home_notice)
         }
         else {
             initFragment()

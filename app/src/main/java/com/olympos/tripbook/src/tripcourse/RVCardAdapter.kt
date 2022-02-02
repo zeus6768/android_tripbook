@@ -1,11 +1,14 @@
 package com.olympos.tripbook.src.tripcourse
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.olympos.tripbook.R
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseEmptyBinding
+import com.olympos.tripbook.src.trip.TripActivity
 import com.olympos.tripbook.src.tripcourse.model.Card
 
 class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<RVCardAdapter.CardViewHolder>() {

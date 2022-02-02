@@ -70,8 +70,8 @@ class TripcourseRecordActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         when(resultCode) {
             COUNTRY_ACTIVITY_CODE -> { //SelectCountryActivity에서 장소 정보 가져오기
-                card.cardCountry = data?.getStringExtra("country_result")!!
-                binding.tripcourseRecordSelectCountryBtn.setText(card.cardCountry)
+                card.country = data?.getStringExtra("country_result")!!
+                binding.tripcourseRecordSelectCountryBtn.setText(card.country)
             }
             HASHTAG_ACTIVITY_CODE -> { //SelectHashtagActivity에서 해시태그 정보 가져오기
                 //해시태그 저장
@@ -109,7 +109,8 @@ class TripcourseRecordActivity : BaseActivity() {
 
         when (v!!.id) {
             R.id.topbar_back_ib ->
-                showDialog("안내", "여행 발자국 기록을 취소하시겠습니까?", "확인")
+                showDialog("발자국 작성 취소", "여행 발자국 기록을 취소하시겠습니까?\n"
+                    +"작성된 내용은 저장되지 않습니다.", "확인")
             R.id.topbar_subbutton_ib -> {
                 //todo 저장완료
             }
@@ -146,14 +147,14 @@ class TripcourseRecordActivity : BaseActivity() {
     }
 
     private fun getInputInfo() {
-        if(binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
-            //입력이 안된 경우
-        } else {
-            card.cardTitle = binding.tripcourseRecordTitleEt.text.toString()
-        }
-        if(!binding.tripcourseRecordContentEt.text.toString().isEmpty()){
-            card.body = binding.tripcourseRecordContentEt.text.toString()
-        }
+//        if(binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
+//            //입력이 안된 경우
+//        } else {
+//            card.title = binding.tripcourseRecordTitleEt.text.toString()
+//        }
+//        if(!binding.tripcourseRecordContentEt.text.toString().isEmpty()){
+//            card.body = binding.tripcourseRecordContentEt.text.toString()
+//        }
 
         //날짜 가져오기
 
