@@ -81,7 +81,7 @@ class TripcourseActivity : BaseActivity() {
 //            startActivity(intent)
             val backBtnDialog = object : BaseDialog(this) {
             }
-            backBtnDialog.show("발자국 작성을 취소하시겠습니까?")
+            backBtnDialog.show("안내","발자국 작성을 취소하시겠습니까?", "확인")
             finish()
         }
 

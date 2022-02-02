@@ -7,12 +7,7 @@
 
     <include
         layout="@layout/layout_topbar_base"
-        android:id="@+id/tripcourse_select_hashtag_topbar_layout"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:id="@+id/tripcourse_select_hashtag_topbar_layout"/>
 
     <ScrollView
         android:layout_width="match_parent"
