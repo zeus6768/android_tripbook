@@ -94,7 +94,7 @@ class TripcourseRecordActivity : BaseActivity() {
 
         when (v!!.id) {
             R.id.topbar_back_ib ->
-                showDialog("안내","발자국 작성을 취소하시겠습니까?", "확인")
+                showDialog("안내","발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 임시저장됩니다.", "확인")
             R.id.topbar_subbutton_ib -> {
                 //todo 저장완료
             }
@@ -119,12 +119,7 @@ class TripcourseRecordActivity : BaseActivity() {
 
     override fun onOKClicked() {
         super.onOKClicked()
-        startTripcourseActivity()
-    }
-
-    private fun startTripcourseActivity() {
-        val intent = Intent(this, TripcourseActivity::class.java)
-        startActivity(intent)
+        finish()
     }
 
     private fun startTripcourseSelectCountryActivity() {
