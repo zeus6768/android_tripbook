@@ -7,10 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.SearchView
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.olympos.tripbook.R
@@ -34,9 +31,9 @@ class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
         setContentView(binding.root)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-//        val mapFragment = supportFragmentManager
-//            .findFragmentById(R.id.tripcourse_select_country_map_fragment) as SupportMapFragment
-//        mapFragment.getMapAsync(this)
+        val mapFragment =  supportFragmentManager
+            .findFragmentById(R.id.tripcourse_select_country_map_fragment) as MapFragment
+        mapFragment.getMapAsync(this)
 
         initView()
     }
@@ -52,22 +49,25 @@ class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
         binding.tripcourseSelectCountryTopbarLayout.topbarTitleTv.setText(R.string.tripcourse_select_country_title)
         binding.tripcourseSelectCountryTopbarLayout.topbarSubtitleTv.visibility = View.GONE
         binding.tripcourseSelectCountryTopbarLayout.topbarSubbuttonIb.visibility = View.GONE
+    }
 
-        //상단바 - 뒤로가기 버튼
-        binding.tripcourseSelectCountryTopbarLayout.topbarBackIb.setOnClickListener {
-            showDialog("도시 선택 취소", "도시 선택을 취소하시겠습니까?\n"
-                    + "검색중인 정보는 저장되지 않습니다.", "취소하기")
-        }
+    override fun onClick(v: View?) {
+        super.onClick(v)
 
-        //선택 완료 버튼 - 액티비티 종료(선택 결과 전달)
-        binding.tripcourseSelectCountrySelectCompleteBtn.setOnClickListener {
+        when(v!!.id) {
+            R.id.tripcourse_select_country_select_complete_btn -> { //선택 완료 버튼 - 액티비티 종료(선택 결과 전달)
 
-            //결과 문자열로 변환
+                //결과 문자열로 변환 필요
 
-            val intent = Intent(this@TripcourseSelectCountryActivity, TripcourseRecordActivity::class.java)
-            intent.putExtra("country_result", intent)
-            setResult(COUNTRY_ACTIVITY_CODE, intent)
-            finish()
+                val intent = Intent(this@TripcourseSelectCountryActivity, TripcourseRecordActivity::class.java)
+                intent.putExtra("country_result", intent)
+                setResult(COUNTRY_ACTIVITY_CODE, intent)
+                finish()
+            }
+            R.id.topbar_back_ib -> { //뒤로가기 버튼
+                showDialog("도시 선택 취소", "도시 선택을 취소하시겠습니까?\n"
+                        + "검색중인 정보는 저장되지 않습니다.", "취소하기")
+            }
         }
     }
 

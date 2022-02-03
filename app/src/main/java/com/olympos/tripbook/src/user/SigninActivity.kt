@@ -25,7 +25,7 @@ class SigninActivity : BaseActivity() {
                     val kakaoID = user!!.id
                     Log.d(TAG, "Kakao Login Succeed : $kakaoID")
                 }
-                startMainActivity()
+//                startMainActivity()
 //                UserApiClient.instance.me { user, error ->
 //                    val kakaoID = user!!.id
 //                    viewModel?.addKakaoUser(token.accessToken, kakaoID)
@@ -40,6 +40,7 @@ class SigninActivity : BaseActivity() {
             } else {
                 UserApiClient.instance.loginWithKakaoAccount(this@SigninActivity, callback = callback)
             }
+            startMainActivity()
         }
     }
 
