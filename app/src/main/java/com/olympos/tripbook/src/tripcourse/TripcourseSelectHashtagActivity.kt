@@ -9,8 +9,6 @@ import com.olympos.tripbook.databinding.ActivityTripcourseSelectHashtagBinding
 
 class TripcourseSelectHashtagActivity : BaseActivity() {
 
-    private val HASHTAG_ACTIVITY_CODE = 20
-
     lateinit var binding : ActivityTripcourseSelectHashtagBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

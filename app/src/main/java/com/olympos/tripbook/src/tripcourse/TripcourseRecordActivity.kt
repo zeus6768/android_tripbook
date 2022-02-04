@@ -20,9 +20,6 @@ class TripcourseRecordActivity : BaseActivity() {
     private var card : Card = Card()
 //    private var hashtag : Hashtag = Hashtag()
 
-    private val COUNTRY_ACTIVITY_CODE = 10
-    private val HASHTAG_ACTIVITY_CODE = 20
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTripcourseRecordBinding.inflate(layoutInflater)

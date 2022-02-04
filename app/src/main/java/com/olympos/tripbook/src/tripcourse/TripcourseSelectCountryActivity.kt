@@ -18,8 +18,6 @@ import java.io.IOException
 
 class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
 
-    private val COUNTRY_ACTIVITY_CODE = 10
-
     lateinit var binding : ActivityTripcourseSelectCountryBinding
 
     private lateinit var mMap: GoogleMap
