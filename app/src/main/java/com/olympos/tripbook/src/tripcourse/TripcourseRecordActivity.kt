@@ -1,7 +1,5 @@
 package com.olympos.tripbook.src.tripcourse
 
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -12,6 +10,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.kakao.sdk.common.util.KakaoJson.toJson
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -38,8 +37,7 @@ class TripcourseRecordActivity : BaseActivity() {
     private var card: Card = Card()
 //    private var hashtag : Hashtag = Hashtag()
 
-    private val COUNTRY_ACTIVITY_CODE = 10
-    private val HASHTAG_ACTIVITY_CODE = 20
+    private var gson : Gson = Gson()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,11 +55,12 @@ class TripcourseRecordActivity : BaseActivity() {
         binding.tripcourseRecordImgCl.setOnClickListener(this)
         binding.tripcourseRecordSelectCountryBtn.setOnClickListener(this)
         binding.tripcourseRecordHashtagAddBtn.setOnClickListener(this)
+        binding.tripcourseRecordSelectDateBtn.setOnClickListener(this)
 
-        //내용 최대 200자 이벤트 처리
-        binding.tripcourseRecordContentEt.addTextChangedListener(object : TextWatcher {
+        //body : 내용 최대 200자 이벤트 처리
+        binding.tripcourseRecordBodyEt.addTextChangedListener(object : TextWatcher {
             val wordCountTv = binding.tripcourseRecordContentWordcountTv
-            var userInput = binding.tripcourseRecordContentEt
+            var userInput = binding.tripcourseRecordBodyEt
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 wordCountTv.text = "0 / 200"
@@ -75,12 +74,24 @@ class TripcourseRecordActivity : BaseActivity() {
                 if (userInput.isFocused && userInput.length() > 200) {
                     userInput.setText(s.toString().substring(0, 200))
                     userInput.setSelection(s!!.length - 1)
-                    Toast.makeText(this@TripcourseRecordActivity,
-                        "200자까지 입력 가능합니다.",
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@TripcourseRecordActivity, "200자까지 입력 가능합니다.", Toast.LENGTH_SHORT).show()
                 }
             }
         })
+    }
+
+    //종료된 액티비티에서 정보 받아오기
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(resultCode) {
+            COUNTRY_ACTIVITY_CODE -> { //SelectCountryActivity에서 장소 정보 가져오기
+                card.cardCountry = data?.getStringExtra("country_result")!!
+                binding.tripcourseRecordSelectCountryBtn.setText(card.cardCountry)
+            }
+            HASHTAG_ACTIVITY_CODE -> { //SelectHashtagActivity에서 해시태그 정보 가져오기
+                //해시태그 저장
+            }
+        }
     }
 
     private fun initView() {
@@ -99,13 +110,10 @@ class TripcourseRecordActivity : BaseActivity() {
         super.onClick(v)
 
         when (v!!.id) {
-            //뒤로 가기 버튼
             R.id.topbar_back_ib ->
-                showDialog("안내", "발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 임시저장됩니다.", "확인")
-            //작성 완료 버튼
+                showDialog("안내","발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 임시저장됩니다.", "확인")
             R.id.topbar_subbutton_ib -> {
-                //todo 저장완료, firebase storage에 이미지를 업로드
-                uploadImage(uri)
+                //todo 저장완료
             }
             R.id.tripcourse_record_img_cl ->
                 photoSelect()
@@ -113,6 +121,10 @@ class TripcourseRecordActivity : BaseActivity() {
             //여행 도시 선택 - TripcourseSelectContryActivity로 이동
             R.id.tripcourse_record_select_country_btn ->
                 startTripcourseSelectCountryActivity()
+
+            R.id.tripcourse_record_select_date_btn -> {
+                //todo 여행 날짜 선택 - Dialog 생성
+            }
 
             //해시태그 선택 - TripcourseSelectHashtagActivity로 이동
             R.id.tripcourse_record_hashtag_add_btn ->
@@ -179,33 +191,25 @@ class TripcourseRecordActivity : BaseActivity() {
     }
 
     private fun getInputInfo() {
-        if (binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
-            //입력이 안된 경우
-        } else {
-            card.cardTitle = binding.tripcourseRecordTitleEt.text.toString()
+        //필수요소 : 제목
+        if(binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
+            Toast.makeText(this.applicationContext, "제목을 입력해주세요", Toast.LENGTH_SHORT).show()
         }
-        if (!binding.tripcourseRecordContentEt.text.toString().isEmpty()) {
-            card.body = binding.tripcourseRecordContentEt.text.toString()
+        else {
+            card.hasData = TRUE
+
+            //제목 저장
+            card.title = binding.tripcourseRecordTitleEt.text.toString()
+            //body 저장
+            if(!binding.tripcourseRecordBodyEt.text.toString().isEmpty())
+                card.body = binding.tripcourseRecordBodyEt.text.toString()
+
+            val intent = Intent(this@TripcourseRecordActivity, TripcourseRecordActivity::class.java)
+            val cardData = gson.toJson(card)
+            intent.putExtra("cardInputResult", cardData)
+
+            setResult(COUNTRY_ACTIVITY_CODE, intent)
+            finish()
         }
-
-        //종료된 액티비티에서 정보 받아오기
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        when(resultCode) {
-//            COUNTRY_ACTIVITY_CODE -> { //SelectCountryActivity에서 장소 정보 가져오기
-//                card.cardCountry = data?.getStringExtra("country_result")!!
-//                binding.tripcourseRecordSelectCountryBtn.setText(card.cardCountry)
-//            }
-//            HASHTAG_ACTIVITY_CODE -> { //SelectHashtagActivity에서 해시태그 정보 가져오기
-//                //해시태그 저장
-//            }
-//        }
-//    }
-
-        //날짜 가져오기
-
-
-        //해시태그 가져오기
-
     }
 }

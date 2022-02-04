@@ -47,7 +47,7 @@
     <string name="tripcourse_select_hashtag_explain2">-해시태그는 최대 15개까지 선택할 수 있어요.</string>
     <string name="tripcourse_select_hashtag_explain3">-선택한 해시태그를 바탕으로 홈 화면의 우측에서\n나의 지난 여행을 모아볼 수 있어요.</string>
 
-    //activity_user 공통
+    //activity_user
     <string name="user_email">이메일</string>
     <string name="user_password">비밀번호</string>
     <string name="user_signin">로그인</string>
@@ -57,28 +57,9 @@
     <string name="user_nickname">닉네임</string>
     <string name="user_email_hint">이메일을 입력해주세요.</string>
     <string name="user_find_password">비밀번호를 잊으셨나요?</string>
-
-    //activity_user_signup
-    <string name="user_signup_duplicate_check">중복확인</string>
-    <string name="user_signup_email_type_alert">올바른 이메일 형식이 아닙니다.</string>
-    <string name="user_signup_email_duplicate_alert">이미 등록된 회원 정보입니다.</string>
-    <string name="user_signup_email_accept">사용 가능한 이메일입니다.</string>
-    <string name="user_signup_password_hint">비밀번호를 입력해주세요.</string>
-    <string name="user_signup_password_check">비밀번호 확인</string>
-    <string name="user_signup_password_check_hint">입력하신 비밀번호를 한 번 더 입력해주세요.</string>
-    <string name="user_signup_password_check_alert">다시 입력해주세요.</string>
-    <string name="user_signup_password_type_alert">영문 / 숫자 / 특수문자 중 2가지 이상 조합하여 8자 이상 입력해주세요.</string>
-    <string name="user_signup_password_accept">사용 가능한 비밀번호입니다.</string>
-    <string name="user_signup_username_hint">사용자 이름을 입력해주세요.</string>
-    <string name="user_signup_nickname_hint">사용하실 닉네임을 입력해주세요.</string>
-    <string name="user_signup_nickname_duplicate_alert">이미 사용중인 닉네임입니다.</string>
-    <string name="user_signup_nickname_accept">사용 가능한 닉네임입니다.</string>
-    <string name="user_signup_submit_btn">가입하기</string>
-
-    //activity_user_signup_done
-    <string name="user_signup_done_title">회원가입 완료</string>
-    <string name="user_signup_done_content">함께 하게 되어서 반가워요!\n트립북 서비스 가입이 완료되었어요.\n다녀온 여행을 기록하러 가볼까요?</string>
-    <string name="user_signup_done_write_btn">트립북 쓰러가기</string>
+    <string name="user_signin_guide_message_1">카카오 계정으로 로그인하면\n간단하게 트립북 서비스를 즐길 수 있어요.</string>
+    <string name="user_signin_guide_message_2">카카오 계정이 없으세요?</string>
+    <string name="user_signin_guide_message_3">카카오계정사이트(accounts.kakao.com)에서\n계정을 생성한 후 트립북을 이용하실 수 있어요.</string>
 
     //activity_trip
     <string name="trip_title">여행 기록하기</string>

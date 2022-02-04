@@ -93,7 +93,7 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:layout_marginTop="20dp"
-            class="com.google.android.gms.maps.MapFragment"
+            class="com.google.android.gms.maps.SupportMapFragment"
             />
     </LinearLayout>
 
