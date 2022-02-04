@@ -1,17 +1,11 @@
 package com.olympos.tripbook.src.tripcourse
 
-import android.annotation.SuppressLint
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.olympos.tripbook.R
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseEmptyBinding
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseFillBinding
-import com.olympos.tripbook.src.trip.TripActivity
 import com.olympos.tripbook.src.tripcourse.model.Card
 
 class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -20,7 +14,7 @@ class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<
 
     private lateinit var cardClickListener: CardClickListener
 
-    /*---------- 내부 클래스 ----------*/
+    /*---------- 내부 클래스(뷰 홀더) ----------*/
 
     //View Holder
     inner class EmptyCardViewHolder(val binding : ItemTripcourseCardBaseEmptyBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -103,15 +97,6 @@ class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<
     fun setItemClickListener(itemClickListener : CardClickListener) {
         cardClickListener = itemClickListener
     }
-
-//    @SuppressLint("NotifyDataSetChanged")
-//    fun onAddCard(card: Card) {
-////        this.cards.clear()          //비우고
-////        this.cards.addAll(cards)    //새로운 어레이 리스트로 둠
-//        cards.add(card)
-//
-//        notifyDataSetChanged()
-//    }
 
     private fun onRemoveCard(position: Int){
         cards.removeAt(position)

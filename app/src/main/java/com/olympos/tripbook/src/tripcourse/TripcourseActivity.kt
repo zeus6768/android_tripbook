@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
+import androidx.coordinatorlayout.widget.CoordinatorLayout.Behavior.getTag
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.gson.Gson
@@ -37,8 +38,7 @@ class TripcourseActivity : BaseActivity() {
         cardDatas.add(card)
         cardDatas.add(card)
         cardDatas.add(card)
-
-        Log.d("Check num of cardDatas", cardRVAdapter.itemCount.toString())
+        setDummyData2Card()
 
         binding.lookerAlbumlistRecyclerview.adapter = cardRVAdapter
         binding.lookerAlbumlistRecyclerview.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
@@ -46,10 +46,12 @@ class TripcourseActivity : BaseActivity() {
         cardRVAdapter.setItemClickListener(object : RVCardAdapter.CardClickListener {
             override fun onItemClick(card: Card) {
                 val intent = Intent(this@TripcourseActivity, TripcourseRecordActivity::class.java)
+
                 if(card.hasData == TRUE) { //데이터가 있는 경우
                     val cardData = gson.toJson(card)
                     intent.putExtra("card", cardData)
                 }
+
                 startActivity(intent)
             }
         })
@@ -85,6 +87,13 @@ class TripcourseActivity : BaseActivity() {
         registerForContextMenu(binding.tripcourseTitlebarLayout)
     }
 
+    //종료된 액티비티에서 정보 받아오기 : TripcourseRecord -> card Data
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        setDummyData2Card()
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     override fun onClick(v: View?) {
         super.onClick(v)
@@ -103,5 +112,23 @@ class TripcourseActivity : BaseActivity() {
                 cardRVAdapter.notifyDataSetChanged()
             }
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun setDummyData2Card() {
+        Log.d("setDummyData2Card", "start")
+        cardDatas[0].hasData = TRUE
+        cardDatas[0].coverImg = R.drawable.img_tripcourse_card_ex
+        cardDatas[0].title = "안녕 나 들어왔어"
+        cardDatas[0].date = "날짜도 바뀜"
+        cardDatas[0].body = "내용도 요래요래요래요래 바뀜"
+
+        cardDatas[1].hasData = TRUE
+        cardDatas[1].coverImg = R.drawable.img_tripcourse_card_ex
+        cardDatas[1].title = "안녕 나 들어왔어22"
+        cardDatas[1].date = "날짜도 바뀜22"
+        cardDatas[1].body = "내용도 요래요래요래요래 바뀜22"
+
+        cardRVAdapter.notifyDataSetChanged()
     }
 }
