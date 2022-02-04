@@ -165,7 +165,7 @@
                     android:layout_marginBottom="30dp">
 
                     <EditText
-                        android:id="@+id/tripcourse_record_content_et"
+                        android:id="@+id/tripcourse_record_body_et"
                         android:layout_width="match_parent"
                         android:layout_height="170dp"
                         android:background="@drawable/bg_base_main_4_empty"

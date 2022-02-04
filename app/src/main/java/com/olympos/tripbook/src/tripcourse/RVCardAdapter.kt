@@ -18,7 +18,7 @@ class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<
 
     /*---------- 전역 변수 ----------*/
 
-    lateinit var cardClickListener: CardClickListener
+    private lateinit var cardClickListener: CardClickListener
 
     /*---------- 내부 클래스 ----------*/
 
@@ -73,7 +73,6 @@ class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<
                 FillCardViewHolder(binding)
             }
         }
-
     }
 
     //binding data and ViewHolder
@@ -114,10 +113,8 @@ class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<
 //        notifyDataSetChanged()
 //    }
 
-    fun onRemoveCard(position: Int){
+    private fun onRemoveCard(position: Int){
         cards.removeAt(position)
-
-//        notifyDataSetChanged()
         notifyItemRemoved(position)
     }
 }

@@ -92,37 +92,25 @@
     </ScrollView>
 
     <!--카드 추가하기-->
-    <FrameLayout
-        android:id="@+id/tripcourse_add_album_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <TextView
+        android:id="@+id/tripcourse_add_card_btn"
+        android:layout_width="83dp"
+        android:layout_height="83dp"
+        android:padding="15dp"
+        android:background="@drawable/bg_base_main_1_fill"
+        android:drawableTop="@drawable/drawable_img_plus_white"
+        android:drawablePadding="8dp"
+
+        android:gravity="center"
+        android:text="@string/tripcourse_add_card"
+        android:textColor="@color/white"
+        android:textSize="9sp"
+        android:fontFamily="@font/notosans_kr_bold"
+        android:includeFontPadding="false"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
+        tools:ignore="SmallSp,UseCompatTextViewDrawableXml"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:layout_width="83dp"
-                android:layout_height="83dp"
-                android:backgroundTint="@color/tripbook_main_1"
-                app:cardCornerRadius="15dp"/>
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="52dp"
-            android:layout_height="54dp"
-            android:layout_gravity="center"
-            android:drawableTop="@drawable/drawable_img_plus_white"
-            android:drawablePadding="5dp"
-            android:gravity="center"
-            android:text="@string/tripcourse_add_card"
-            android:textColor="@color/white"
-            android:textSize="9sp"
-            android:fontFamily="@font/notosans_kr_bold"
-            android:includeFontPadding="false"
-            tools:ignore="SmallSp,UseCompatTextViewDrawableXml" />
-    </FrameLayout>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

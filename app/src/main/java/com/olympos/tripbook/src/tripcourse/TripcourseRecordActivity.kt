@@ -28,7 +28,6 @@ class TripcourseRecordActivity : BaseActivity() {
         initView()
 
         addHashtagDumyInfo()
-        getInputInfo()
 
         //click 리스너
         binding.tripcourseRecordTopbarLayout.topbarBackIb.setOnClickListener(this)
@@ -38,9 +37,9 @@ class TripcourseRecordActivity : BaseActivity() {
         binding.tripcourseRecordHashtagAddBtn.setOnClickListener(this)
 
         //내용 최대 200자 이벤트 처리
-        binding.tripcourseRecordContentEt.addTextChangedListener(object : TextWatcher {
+        binding.tripcourseRecordBodyEt.addTextChangedListener(object : TextWatcher {
             val wordCountTv = binding.tripcourseRecordContentWordcountTv
-            var userInput = binding.tripcourseRecordContentEt
+            var userInput = binding.tripcourseRecordBodyEt
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 wordCountTv.text = "0 / 200"
@@ -93,7 +92,7 @@ class TripcourseRecordActivity : BaseActivity() {
             R.id.topbar_back_ib ->
                 showDialog("발자국 작성 취소","발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 임시저장됩니다.", "확인")
             R.id.topbar_subbutton_ib -> {
-                //todo 저장완료
+                getInputInfo()
             }
             R.id.tripcourse_record_img_cl ->
                 photoSelect()
@@ -141,19 +140,17 @@ class TripcourseRecordActivity : BaseActivity() {
     }
 
     private fun getInputInfo() {
-//        if(binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
-//            //입력이 안된 경우
-//        } else {
-//            card.title = binding.tripcourseRecordTitleEt.text.toString()
-//        }
-//        if(!binding.tripcourseRecordContentEt.text.toString().isEmpty()){
-//            card.body = binding.tripcourseRecordContentEt.text.toString()
-//        }
+        //필수요소 : 제목
+        if(binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
+            Toast.makeText(this.applicationContext, "제목을 입력해주세요", Toast.LENGTH_SHORT).show()
+        }
+        else {
+            card.hasData = TRUE
 
-        //날짜 가져오기
+            card.title = binding.tripcourseRecordTitleEt.text.toString()
+            if(!binding.tripcourseRecordBodyEt.text.toString().isEmpty())
+                card.body = binding.tripcourseRecordBodyEt.text.toString()
 
-
-        //해시태그 가져오기
-
+        }
     }
 }

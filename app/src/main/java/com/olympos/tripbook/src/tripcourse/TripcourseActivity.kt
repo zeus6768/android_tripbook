@@ -1,5 +1,6 @@
 package com.olympos.tripbook.src.tripcourse
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -37,6 +38,7 @@ class TripcourseActivity : BaseActivity() {
         cardDatas.add(card)
         cardDatas.add(card)
 
+        Log.d("Check num of cardDatas", cardRVAdapter.itemCount.toString())
 
         binding.lookerAlbumlistRecyclerview.adapter = cardRVAdapter
         binding.lookerAlbumlistRecyclerview.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
@@ -75,13 +77,17 @@ class TripcourseActivity : BaseActivity() {
         binding.tripcourseTopbarLayout.topbarTitleTv.setText(R.string.tripcourse_title)
         binding.tripcourseTopbarLayout.topbarSubbuttonIb.setImageResource(R.drawable.btn_base_check_black)
 
+        binding.tripcourseTopbarLayout.topbarBackIb.setOnClickListener(this)
+        binding.tripcourseTopbarLayout.topbarSubbuttonIb.setOnClickListener(this)
+        binding.tripcourseAddCardBtn.setOnClickListener(this)
+
         //타이틀바 길게 클릭 - 여행 삭제하기
         registerForContextMenu(binding.tripcourseTitlebarLayout)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onClick(v: View?) {
         super.onClick(v)
-
         when(v!!.id) {
             R.id.topbar_back_ib -> //상단바 - 뒤로가기 버튼 - 현재 액티비티 종료
                 showDialog("발자국 작성 취소", "발자국 작성을 취소하시겠습니까?\n"
@@ -89,11 +95,12 @@ class TripcourseActivity : BaseActivity() {
             R.id.topbar_subbutton_ib -> { //상단바 - 체크 버튼 - 저장
                 //todo 저장
             }
-            R.id.tripcourse_add_album_btn -> {
+            R.id.tripcourse_add_card_btn -> {
                 val card : Card = Card()
                 cardDatas.add(card)
-                Log.d("Check num of cardDatas", cardDatas.size.toString())
+                Log.d("Check num of cardDatas", cardRVAdapter.itemCount.toString())
                 cardRVAdapter.notifyItemInserted(cardDatas.size - 1)
+                cardRVAdapter.notifyDataSetChanged()
             }
         }
     }
