@@ -4,6 +4,9 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface UserRetrofitInterface {
-    @POST("/app/user")
-    fun postTrip(): Call<UserResponse>
+    @GET("/app/test")
+    fun getUser(): Call<UserResponse>
+
+    @POST("/app/signin")
+    fun postUser(): Call<UserResponse>
 }
