@@ -1,5 +1,6 @@
 package com.olympos.tripbook.src.tripcourse
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -7,11 +8,8 @@ import android.os.Bundle
 import com.google.gson.Gson
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.kakao.sdk.common.util.KakaoJson.toJson
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.google.firebase.storage.FirebaseStorage
@@ -22,11 +20,10 @@ import com.olympos.tripbook.src.tripcourse.model.Card
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class TripcourseRecordActivity : BaseActivity() {
 
     lateinit var binding: ActivityTripcourseRecordBinding
-    lateinit var uri : Uri
+    lateinit var uri : Uri //사진 uri 전역변수
 
     private var launcher = registerForActivityResult(ActivityResultContracts.GetContent()) {
         binding.tripcourseRecordImgIv.setImageURI(it)
@@ -85,8 +82,8 @@ class TripcourseRecordActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         when(resultCode) {
             COUNTRY_ACTIVITY_CODE -> { //SelectCountryActivity에서 장소 정보 가져오기
-                card.cardCountry = data?.getStringExtra("country_result")!!
-                binding.tripcourseRecordSelectCountryBtn.setText(card.cardCountry)
+                card.country = data?.getStringExtra("country_result")!!
+                binding.tripcourseRecordSelectCountryBtn.setText(card.country)
             }
             HASHTAG_ACTIVITY_CODE -> { //SelectHashtagActivity에서 해시태그 정보 가져오기
                 //해시태그 저장
@@ -113,7 +110,8 @@ class TripcourseRecordActivity : BaseActivity() {
             R.id.topbar_back_ib ->
                 showDialog("안내","발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 임시저장됩니다.", "확인")
             R.id.topbar_subbutton_ib -> {
-                //todo 저장완료
+                //todo 저장완료, firebase storage에 이미지를 업로드
+                uploadImage(uri)
             }
             R.id.tripcourse_record_img_cl ->
                 photoSelect()
@@ -162,7 +160,6 @@ class TripcourseRecordActivity : BaseActivity() {
             Toast.makeText(this, "실패", Toast.LENGTH_SHORT).show()
         }
     }
-
 
     override fun onOKClicked() {
         super.onOKClicked()
