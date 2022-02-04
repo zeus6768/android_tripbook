@@ -1,8 +1,8 @@
 package com.olympos.tripbook.src.user.model
 
 import android.util.Log
-import com.olympos.tripbook.utils.SocketApplication.Companion.retrofit
-import com.olympos.tripbook.utils.SocketApplication.Companion.TAG
+import com.olympos.tripbook.utils.ApplicationClass.Companion.retrofit
+import com.olympos.tripbook.utils.ApplicationClass.Companion.TAG
 import retrofit2.*
 
 class UserService {
