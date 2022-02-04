@@ -4,16 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
-import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityUserSigninBinding
 import com.olympos.tripbook.src.home.MainActivity
 import com.olympos.tripbook.src.user.model.UserService
-import com.olympos.tripbook.utils.SocketApplication.Companion.TAG
+import com.olympos.tripbook.utils.ApplicationClass.Companion.TAG
 import com.olympos.tripbook.utils.getJwt
 import com.olympos.tripbook.utils.saveAccessToken
 import com.olympos.tripbook.utils.saveJwt
