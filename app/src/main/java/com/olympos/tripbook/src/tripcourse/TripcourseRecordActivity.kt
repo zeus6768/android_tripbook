@@ -1,23 +1,41 @@
 package com.olympos.tripbook.src.tripcourse
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import com.google.gson.Gson
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import com.google.firebase.storage.FirebaseStorage
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripcourseRecordBinding
 import com.olympos.tripbook.src.tripcourse.model.Card
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class TripcourseRecordActivity : BaseActivity() {
 
-    lateinit var binding : ActivityTripcourseRecordBinding
+    lateinit var binding: ActivityTripcourseRecordBinding
+    lateinit var uri : Uri
 
-    private var card : Card = Card()
+    private var launcher = registerForActivityResult(ActivityResultContracts.GetContent()) {
+        binding.tripcourseRecordImgIv.setImageURI(it)
+        binding.tripcourseRecordImgTv.visibility=View.GONE
+        uri = it
+    }
+
+    private var card: Card = Card()
 //    private var hashtag : Hashtag = Hashtag()
 
     private val COUNTRY_ACTIVITY_CODE = 10
@@ -57,24 +75,12 @@ class TripcourseRecordActivity : BaseActivity() {
                 if (userInput.isFocused && userInput.length() > 200) {
                     userInput.setText(s.toString().substring(0, 200))
                     userInput.setSelection(s!!.length - 1)
-                    Toast.makeText(this@TripcourseRecordActivity, "200자까지 입력 가능합니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@TripcourseRecordActivity,
+                        "200자까지 입력 가능합니다.",
+                        Toast.LENGTH_SHORT).show()
                 }
             }
         })
-    }
-
-    //종료된 액티비티에서 정보 받아오기
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when(resultCode) {
-            COUNTRY_ACTIVITY_CODE -> { //SelectCountryActivity에서 장소 정보 가져오기
-                card.cardCountry = data?.getStringExtra("country_result")!!
-                binding.tripcourseRecordSelectCountryBtn.setText(card.cardCountry)
-            }
-            HASHTAG_ACTIVITY_CODE -> { //SelectHashtagActivity에서 해시태그 정보 가져오기
-                //해시태그 저장
-            }
-        }
     }
 
     private fun initView() {
@@ -93,10 +99,13 @@ class TripcourseRecordActivity : BaseActivity() {
         super.onClick(v)
 
         when (v!!.id) {
+            //뒤로 가기 버튼
             R.id.topbar_back_ib ->
-                showDialog("안내","발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 임시저장됩니다.", "확인")
+                showDialog("안내", "발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 임시저장됩니다.", "확인")
+            //작성 완료 버튼
             R.id.topbar_subbutton_ib -> {
-                //todo 저장완료
+                //todo 저장완료, firebase storage에 이미지를 업로드
+                uploadImage(uri)
             }
             R.id.tripcourse_record_img_cl ->
                 photoSelect()
@@ -112,10 +121,36 @@ class TripcourseRecordActivity : BaseActivity() {
     }
 
     private fun photoSelect() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
-        startActivity(intent)
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        ) {
+            launcher.launch("image/*")
+        } else {
+            Toast.makeText(this, "접근 권한 거부", Toast.LENGTH_SHORT).show()
+        }
     }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun uploadImage(uri: Uri) {
+        val storage: FirebaseStorage? = FirebaseStorage.getInstance() //FirebaseStorage 인스턴스 생성
+        //파일 이름 생성
+        val fileName = "IMAGE_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}_.png"
+        //파일 업로드, 다운로드, 삭제, 메타데이터 가져오기 또는 업데이트를 하기 위해 참조를 생성.
+        //참조는 클라우드 파일을 가리키는 포인터라고 할 수 있음.
+        val imagesRef = storage!!.reference.child("images/").child(fileName)    //기본 참조 위치/images/${fileName}
+        //이미지 파일 업로드
+        imagesRef.putFile(uri).addOnSuccessListener {
+            Toast.makeText(this, "성공", Toast.LENGTH_SHORT).show()
+            it.storage.downloadUrl.addOnSuccessListener {
+                it.toString()
+                //api호출 it을 사진 text값에 post
+            }.addOnFailureListener {  }
+        }.addOnFailureListener {
+            println(it)
+            Toast.makeText(this, "실패", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 
     override fun onOKClicked() {
         super.onOKClicked()
@@ -144,14 +179,28 @@ class TripcourseRecordActivity : BaseActivity() {
     }
 
     private fun getInputInfo() {
-        if(binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
+        if (binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
             //입력이 안된 경우
         } else {
             card.cardTitle = binding.tripcourseRecordTitleEt.text.toString()
         }
-        if(!binding.tripcourseRecordContentEt.text.toString().isEmpty()){
+        if (!binding.tripcourseRecordContentEt.text.toString().isEmpty()) {
             card.body = binding.tripcourseRecordContentEt.text.toString()
         }
+
+        //종료된 액티비티에서 정보 받아오기
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        when(resultCode) {
+//            COUNTRY_ACTIVITY_CODE -> { //SelectCountryActivity에서 장소 정보 가져오기
+//                card.cardCountry = data?.getStringExtra("country_result")!!
+//                binding.tripcourseRecordSelectCountryBtn.setText(card.cardCountry)
+//            }
+//            HASHTAG_ACTIVITY_CODE -> { //SelectHashtagActivity에서 해시태그 정보 가져오기
+//                //해시태그 저장
+//            }
+//        }
+//    }
 
         //날짜 가져오기
 
