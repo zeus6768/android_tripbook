@@ -3,11 +3,21 @@ package com.olympos.tripbook.src.user
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
+import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityUserSigninBinding
 import com.olympos.tripbook.src.home.MainActivity
+import com.olympos.tripbook.src.user.model.UserService
+import com.olympos.tripbook.utils.SocketApplication.Companion.TAG
+import com.olympos.tripbook.utils.getJwt
+import com.olympos.tripbook.utils.saveAccessToken
+import com.olympos.tripbook.utils.saveJwt
+import com.olympos.tripbook.utils.saveRefreshToken
 
 class SigninActivity : BaseActivity() {
     private lateinit var binding: ActivityUserSigninBinding
@@ -17,30 +27,49 @@ class SigninActivity : BaseActivity() {
         binding = ActivityUserSigninBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.signinSigninBtnIv.setOnClickListener(this)
+
+        val userService = UserService()
+        userService.getApiTest()
+    }
+
+
+    override fun onClick(v: View?) {
+        super.onClick(v)
+
+        when(v!!.id) {
+            R.id.signin_signin_btn_iv ->
+                signinByKakaotalk()
+        }
+    }
+
+    private fun signinByKakaotalk() {
         val callback : (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
                 Log.e(TAG,"로그인 실패 $error")
             } else if (token != null) {
-                UserApiClient.instance.me { user, error ->
+                Log.d(TAG, "로그인 성공")
+                // UserApiClient가 아닌 Tripbook Server에서 값을 받아와야 함
+                UserApiClient.instance.me { user, _ ->
                     val kakaoID = user!!.id
-                    Log.d(TAG, "Kakao Login Succeed : $kakaoID")
+                    Log.d("카카오 user email", user.kakaoAccount?.profile.toString())
+                    Log.d("카카오 user nickname", user.kakaoAccount?.profile?.nickname.toString())
+                    kakaoID?.let { saveJwt(this, it.toInt()) }
+                    val userid = getJwt(this)
+                    Log.d("JWT 저장", userid.toString())
+                    saveAccessToken(this, token.accessToken)
+                    saveRefreshToken(this, token.refreshToken)
+                    sendAccessToken()
+                    sendRefreshToken()
+                    startMainActivity()
                 }
-//                startMainActivity()
-//                UserApiClient.instance.me { user, error ->
-//                    val kakaoID = user!!.id
-//                    viewModel?.addKakaoUser(token.accessToken, kakaoID)
-//                }
-//                Log.d("Signin Success : ", "로그인 성공 토큰 ${authManager.token}")
             }
         }
 
-        binding.signinSigninBtnIv.setOnClickListener {
-            if (UserApiClient.instance.isKakaoTalkLoginAvailable(this@SigninActivity)) {
-                UserApiClient.instance.loginWithKakaoTalk(this@SigninActivity, callback = callback)
-            } else {
-                UserApiClient.instance.loginWithKakaoAccount(this@SigninActivity, callback = callback)
-            }
-            startMainActivity()
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this@SigninActivity)) {
+            UserApiClient.instance.loginWithKakaoTalk(this@SigninActivity, callback = callback)
+        } else {
+            UserApiClient.instance.loginWithKakaoAccount(this@SigninActivity, callback = callback)
         }
     }
 
@@ -49,8 +78,14 @@ class SigninActivity : BaseActivity() {
         startActivity(intent)
     }
 
-    companion object {
-        private const val TAG = "LoginActivity"
+
+
+    private fun sendAccessToken() {
+
+    }
+
+    private fun sendRefreshToken() {
+
     }
 
 }
