@@ -44,7 +44,7 @@ class TripcourseActivity : BaseActivity() {
         cardRVAdapter.setItemClickListener(object : RVCardAdapter.CardClickListener {
             override fun onItemClick(card: Card) {
                 val intent = Intent(this@TripcourseActivity, TripcourseRecordActivity::class.java)
-                if(card.hasData) { //데이터가 있는 경우
+                if(card.hasData == TRUE) { //데이터가 있는 경우
                     val cardData = gson.toJson(card)
                     intent.putExtra("card", cardData)
                 }

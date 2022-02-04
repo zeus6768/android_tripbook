@@ -3,15 +3,18 @@ package com.olympos.tripbook.src.tripcourse
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.olympos.tripbook.R
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseEmptyBinding
+import com.olympos.tripbook.databinding.ItemTripcourseCardBaseFillBinding
 import com.olympos.tripbook.src.trip.TripActivity
 import com.olympos.tripbook.src.tripcourse.model.Card
 
-class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<RVCardAdapter.CardViewHolder>() {
+class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     /*---------- 전역 변수 ----------*/
 
@@ -20,9 +23,19 @@ class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<
     /*---------- 내부 클래스 ----------*/
 
     //View Holder
-    inner class CardViewHolder(val binding : ItemTripcourseCardBaseEmptyBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class EmptyCardViewHolder(val binding : ItemTripcourseCardBaseEmptyBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(card : Card) {
-//            binding.itemTripcourseCardBodyTv.setText(R.string.tripcourse_record_request)
+            //사실 얜 바인딩 할거 없음
+        }
+    }
+
+    //View Holder
+    inner class FillCardViewHolder(val binding : ItemTripcourseCardBaseFillBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(card : Card) {
+            binding.itemCardFillCoverImg.setImageResource(card.coverImg)
+            binding.itemCardFillTitleTv.setText(card.title)
+            binding.itemCardFillDateTv.setText(card.date)
+            binding.itemCardFillBodyTv.setText(card.body)
         }
     }
 
@@ -37,21 +50,50 @@ class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<
 
     /*---------- 오버라이딩 함수 ----------*/
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): CardViewHolder {
-        val binding : ItemTripcourseCardBaseEmptyBinding //Create ItemView Object
-                = ItemTripcourseCardBaseEmptyBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+    override fun getItemViewType(position: Int): Int {
+        return cards[position].hasData
+    }
 
-        return CardViewHolder(binding) //to use at View Holder
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+       val view : View?
+        //to use at View Holder
+        return when(viewType) {
+            FALSE -> { //데이터가 없는 경우 -> 빈 레이아웃
+                val binding : ItemTripcourseCardBaseEmptyBinding //Create ItemView Object
+                        = ItemTripcourseCardBaseEmptyBinding
+                            .inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+
+                EmptyCardViewHolder(binding)
+            }
+            else -> {
+                val binding : ItemTripcourseCardBaseFillBinding //Create ItemView Object
+                        = ItemTripcourseCardBaseFillBinding
+                            .inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+
+                FillCardViewHolder(binding)
+            }
+        }
+
     }
 
     //binding data and ViewHolder
-    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        holder.bind(cards[position])
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
         holder.itemView.setOnClickListener { //카드 클릭시 이동
             cardClickListener.onItemClick(cards[position])
         }
-        holder.binding.itemCardEmptyDeleteIb.setOnClickListener{  //카드 삭제
-            onRemoveCard(position) //cards[position].id
+
+        when(cards[position].hasData) {
+            FALSE -> { //데이터가 없는 경우에 바인딩
+                (holder as EmptyCardViewHolder).bind(cards[position])
+
+                holder.binding.itemCardEmptyDeleteIb.setOnClickListener{  //카드 삭제
+                    onRemoveCard(position) //cards[position].id
+                }
+            }
+            else -> { //데이터가 있는 경우에 바인딩
+                (holder as FillCardViewHolder).bind(cards[position])
+            }
         }
     }
 

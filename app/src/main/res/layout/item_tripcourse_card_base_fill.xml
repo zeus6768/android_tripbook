@@ -79,7 +79,7 @@
                     android:layout_marginBottom="2dp"/>
 
                 <TextView
-                    android:id="@+id/item_card_fill_subtitle_tv"
+                    android:id="@+id/item_card_fill_date_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="date"
@@ -111,6 +111,7 @@
             android:layout_marginTop="6dp"
             android:fontFamily="@font/notosans_kr_bold"
             android:includeFontPadding="false"
+            android:ellipsize="end"
             app:layout_constraintTop_toBottomOf="@id/item_card_fill_titlebar_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
