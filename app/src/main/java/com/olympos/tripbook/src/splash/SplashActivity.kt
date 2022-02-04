@@ -4,14 +4,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import com.kakao.sdk.auth.AuthApiClient
+import com.kakao.sdk.common.model.KakaoSdkError
+import com.kakao.sdk.user.UserApiClient
 import com.olympos.tripbook.databinding.ActivitySplashBinding
 import com.olympos.tripbook.src.home.MainActivity
 import com.olympos.tripbook.src.user.SigninActivity
+import com.olympos.tripbook.utils.SocketApplication
+import com.olympos.tripbook.utils.getJwt
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
@@ -27,7 +33,7 @@ class SplashActivity : AppCompatActivity() {
     private fun settingPermission() {
         var permissionListener = object : PermissionListener {
             override fun onPermissionGranted() {
-                startSigninActivity()
+                selectActivity()
             }
 
             override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
@@ -44,12 +50,29 @@ class SplashActivity : AppCompatActivity() {
             .check()
     }
 
+    private fun selectActivity() {
+        val jwt = getJwt(this)
+        Log.d("GET JWT RESULT", jwt.toString())
+        if (jwt != 0) {
+            startMainActivity()
+        } else {
+            startSigninActivity()
+        }
+    }
+
     private fun startSigninActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent(this, SigninActivity::class.java)
             startActivity(intent)
-        },1500) //1.5초 delay
+            finish()
+        },1500)
+    }
 
-        finish()
+    private fun startMainActivity() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        },1500)
     }
 }
