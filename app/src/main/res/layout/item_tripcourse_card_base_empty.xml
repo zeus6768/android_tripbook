@@ -23,6 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!--사진 삽입 부분-->
         <FrameLayout
             android:id="@+id/item_card_empty_cover_layout"
             android:layout_width="wrap_content"
@@ -49,6 +50,7 @@
                 android:visibility="visible"/>
         </FrameLayout>
 
+        <!--구분선-->
         <View
             android:id="@+id/item_card_empty_divitionline_view"
             android:layout_width="134dp"
@@ -60,6 +62,7 @@
             app:layout_constraintEnd_toEndOf="@id/item_card_empty_cover_layout"
             />
 
+        <!--발자국 멘트 부분-->
         <TextView
             android:id="@+id/item_tripcourse_card_body_tv"
             android:text="@string/tripcourse_record_request"

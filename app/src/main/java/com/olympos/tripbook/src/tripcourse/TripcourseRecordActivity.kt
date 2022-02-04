@@ -7,6 +7,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
+import com.kakao.sdk.common.util.KakaoJson.toJson
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripcourseRecordBinding
@@ -20,8 +21,7 @@ class TripcourseRecordActivity : BaseActivity() {
     private var card : Card = Card()
 //    private var hashtag : Hashtag = Hashtag()
 
-    private val COUNTRY_ACTIVITY_CODE = 10
-    private val HASHTAG_ACTIVITY_CODE = 20
+    private var gson : Gson = Gson()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,9 +29,27 @@ class TripcourseRecordActivity : BaseActivity() {
         setContentView(binding.root)
 
         initView()
+    }
 
-        addHashtagDumyInfo()
-        getInputInfo()
+    //종료된 액티비티에서 정보 받아오기 : Country, Hashtag
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(resultCode) {
+            COUNTRY_ACTIVITY_CODE -> { //SelectCountryActivity에서 장소 정보 가져오기
+                card.country = data?.getStringExtra("country_result")!!
+                binding.tripcourseRecordSelectCountryBtn.setText(card.country)
+            }
+            HASHTAG_ACTIVITY_CODE -> { //SelectHashtagActivity에서 해시태그 정보 가져오기
+                //해시태그 저장
+            }
+        }
+    }
+
+    private fun initView() {
+        //상단바
+        binding.tripcourseRecordTopbarLayout.topbarTitleTv.setText(R.string.tripcourse_record_title)
+        binding.tripcourseRecordTopbarLayout.topbarSubbuttonIb.setImageResource(R.drawable.btn_base_check_black)
+        binding.tripcourseRecordTopbarLayout.topbarSubtitleTv.visibility = View.GONE
 
         //click 리스너
         binding.tripcourseRecordTopbarLayout.topbarBackIb.setOnClickListener(this)
@@ -39,11 +57,12 @@ class TripcourseRecordActivity : BaseActivity() {
         binding.tripcourseRecordImgCl.setOnClickListener(this)
         binding.tripcourseRecordSelectCountryBtn.setOnClickListener(this)
         binding.tripcourseRecordHashtagAddBtn.setOnClickListener(this)
+        binding.tripcourseRecordSelectDateBtn.setOnClickListener(this)
 
-        //내용 최대 200자 이벤트 처리
-        binding.tripcourseRecordContentEt.addTextChangedListener(object : TextWatcher {
+        //body : 내용 최대 200자 이벤트 처리
+        binding.tripcourseRecordBodyEt.addTextChangedListener(object : TextWatcher {
             val wordCountTv = binding.tripcourseRecordContentWordcountTv
-            var userInput = binding.tripcourseRecordContentEt
+            var userInput = binding.tripcourseRecordBodyEt
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 wordCountTv.text = "0 / 200"
@@ -63,40 +82,14 @@ class TripcourseRecordActivity : BaseActivity() {
         })
     }
 
-    //종료된 액티비티에서 정보 받아오기
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when(resultCode) {
-            COUNTRY_ACTIVITY_CODE -> { //SelectCountryActivity에서 장소 정보 가져오기
-                card.cardCountry = data?.getStringExtra("country_result")!!
-                binding.tripcourseRecordSelectCountryBtn.setText(card.cardCountry)
-            }
-            HASHTAG_ACTIVITY_CODE -> { //SelectHashtagActivity에서 해시태그 정보 가져오기
-                //해시태그 저장
-            }
-        }
-    }
-
-    private fun initView() {
-        //상단바
-        binding.tripcourseRecordTopbarLayout.topbarTitleTv.setText(R.string.tripcourse_record_title)
-        binding.tripcourseRecordTopbarLayout.topbarSubbuttonIb.setImageResource(R.drawable.btn_base_check_black)
-        binding.tripcourseRecordTopbarLayout.topbarSubtitleTv.visibility = View.GONE
-
-        //여행 날짜 선택 - Dialog 생성
-        binding.tripcourseRecordSelectDateBtn.setOnClickListener {
-
-        }
-    }
-
     override fun onClick(v: View?) {
         super.onClick(v)
 
         when (v!!.id) {
             R.id.topbar_back_ib ->
-                showDialog("안내","발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 임시저장됩니다.", "확인")
+                showDialog("발자국 작성 취소","발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 임시저장됩니다.", "확인")
             R.id.topbar_subbutton_ib -> {
-                //todo 저장완료
+                getInputInfo()
             }
             R.id.tripcourse_record_img_cl ->
                 photoSelect()
@@ -104,6 +97,10 @@ class TripcourseRecordActivity : BaseActivity() {
             //여행 도시 선택 - TripcourseSelectContryActivity로 이동
             R.id.tripcourse_record_select_country_btn ->
                 startTripcourseSelectCountryActivity()
+
+            R.id.tripcourse_record_select_date_btn -> {
+                //todo 여행 날짜 선택 - Dialog 생성
+            }
 
             //해시태그 선택 - TripcourseSelectHashtagActivity로 이동
             R.id.tripcourse_record_hashtag_add_btn ->
@@ -144,19 +141,25 @@ class TripcourseRecordActivity : BaseActivity() {
     }
 
     private fun getInputInfo() {
+        //필수요소 : 제목
         if(binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
-            //입력이 안된 경우
-        } else {
-            card.cardTitle = binding.tripcourseRecordTitleEt.text.toString()
+            Toast.makeText(this.applicationContext, "제목을 입력해주세요", Toast.LENGTH_SHORT).show()
         }
-        if(!binding.tripcourseRecordContentEt.text.toString().isEmpty()){
-            card.body = binding.tripcourseRecordContentEt.text.toString()
+        else {
+            card.hasData = TRUE
+
+            //제목 저장
+            card.title = binding.tripcourseRecordTitleEt.text.toString()
+            //body 저장
+            if(!binding.tripcourseRecordBodyEt.text.toString().isEmpty())
+                card.body = binding.tripcourseRecordBodyEt.text.toString()
+
+            val intent = Intent(this@TripcourseRecordActivity, TripcourseRecordActivity::class.java)
+            val cardData = gson.toJson(card)
+            intent.putExtra("cardInputResult", cardData)
+
+            setResult(COUNTRY_ACTIVITY_CODE, intent)
+            finish()
         }
-
-        //날짜 가져오기
-
-
-        //해시태그 가져오기
-
     }
 }

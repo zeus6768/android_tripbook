@@ -141,7 +141,7 @@
                         android:id="@+id/tripcourse_record_hashtag_add_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
-                        android:background="@drawable/bg_base_main_1_empty"
+                        android:background="@drawable/bg_base_main_4_empty"
                         android:text="@string/tripcourse_record_request_hashtag"
                         android:textColor="@color/black"
                         android:textSize="11sp"
@@ -165,10 +165,10 @@
                     android:layout_marginBottom="30dp">
 
                     <EditText
-                        android:id="@+id/tripcourse_record_content_et"
+                        android:id="@+id/tripcourse_record_body_et"
                         android:layout_width="match_parent"
                         android:layout_height="170dp"
-                        android:background="@drawable/bg_base_main_1_empty"
+                        android:background="@drawable/bg_base_main_4_empty"
                         android:inputType="textMultiLine"
                         android:hint="@string/tripcourse_record_request_body"
                         android:textColor="@color/black"
