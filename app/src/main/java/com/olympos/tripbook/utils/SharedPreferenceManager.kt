@@ -14,7 +14,21 @@ fun saveJwt(context: Context, jwt: Int) {
 fun getJwt(context: Context): Int {
     val spf = context.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
 
-    return spf.getInt("jwt", 0)!!
+    return spf.getInt("jwt", 0)
+}
+
+fun saveTokenValidity(context: Context, isValidToken: Boolean) {
+    val spf = context.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
+    val editor = spf.edit()
+
+    editor.putBoolean("accessToken", isValidToken)
+    editor.apply()
+}
+
+fun getTokenValidity(context: Context): Boolean {
+    val spf = context.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
+
+    return spf.getBoolean("isValidToken", false)
 }
 
 fun saveNickname(context: Context, name: String) {
@@ -25,10 +39,10 @@ fun saveNickname(context: Context, name: String) {
     editor.apply()
 }
 
-fun getNickname(context: Context): String {
+fun getNickname(context: Context): String? {
     val spf = context.getSharedPreferences("user", AppCompatActivity.MODE_PRIVATE)
 
-    return spf.getString("name", "")!!
+    return spf.getString("name", "")
 }
 
 fun saveProfileImageURL(context: Context, url: String) {
@@ -39,36 +53,8 @@ fun saveProfileImageURL(context: Context, url: String) {
     editor.apply()
 }
 
-fun getProfileImageURL(context: Context): String {
+fun getProfileImageURL(context: Context): String? {
     val spf = context.getSharedPreferences("user", AppCompatActivity.MODE_PRIVATE)
 
-    return spf.getString("profileImageUrl", "")!!
-}
-
-fun saveAccessToken(context: Context, accessToken: String) {
-    val spf = context.getSharedPreferences("user", AppCompatActivity.MODE_PRIVATE)
-    val editor = spf.edit()
-
-    editor.putString("accessToken", accessToken)
-    editor.apply()
-}
-
-fun getAccessToken(context: Context): String {
-    val spf = context.getSharedPreferences("user", AppCompatActivity.MODE_PRIVATE)
-
-    return spf.getString("accessToken", "")!!
-}
-
-fun saveRefreshToken(context: Context, refreshToken: String) {
-    val spf = context.getSharedPreferences("user", AppCompatActivity.MODE_PRIVATE)
-    val editor = spf.edit()
-
-    editor.putString("refreshToken", refreshToken)
-    editor.apply()
-}
-
-fun getRefreshToken(context: Context): String {
-    val spf = context.getSharedPreferences("user", AppCompatActivity.MODE_PRIVATE)
-
-    return spf.getString("refreshToken", "")!!
+    return spf.getString("profileImageUrl", "")
 }
