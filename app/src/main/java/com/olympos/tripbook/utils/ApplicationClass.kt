@@ -6,7 +6,7 @@ import com.olympos.tripbook.R
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class Application : Application() {
+class ApplicationClass : Application() {
     companion object {
         const val TAG: String = "Tripbook-Android"
         const val BASE_URL = "https://www.tripbook.shop"
