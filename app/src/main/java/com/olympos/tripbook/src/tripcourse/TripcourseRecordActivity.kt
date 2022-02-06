@@ -43,16 +43,16 @@ class TripcourseRecordActivity : BaseActivity() {
 
         initView()
 
-        addHashtagDumyInfo()
-        getInputInfo()
+        if(intent.hasExtra("card")) {
+            card = gson.fromJson(intent.getStringExtra("card"), card::class.java)
+            binding.tripcourseRecordBodyEt.hint = card.body
+            binding.tripcourseRecordTitleEt.hint = card.title
+            binding.tripcourseRecordSelectDateBtn.text = card.date
+            binding.tripcourseRecordSelectCountryBtn.text = card.country
+            binding.tripcourseRecordImgIv.setImageResource(card.coverImg)
+        }
 
-        //click 리스너
-        binding.tripcourseRecordTopbarLayout.topbarBackIb.setOnClickListener(this)
-        binding.tripcourseRecordTopbarLayout.topbarSubbuttonIb.setOnClickListener(this)
-        binding.tripcourseRecordImgCl.setOnClickListener(this)
-        binding.tripcourseRecordSelectCountryBtn.setOnClickListener(this)
-        binding.tripcourseRecordHashtagAddBtn.setOnClickListener(this)
-        binding.tripcourseRecordSelectDateBtn.setOnClickListener(this)
+        addHashtagDumyInfo()
 
         //body : 내용 최대 200자 이벤트 처리
         binding.tripcourseRecordBodyEt.addTextChangedListener(object : TextWatcher {
@@ -98,9 +98,13 @@ class TripcourseRecordActivity : BaseActivity() {
         binding.tripcourseRecordTopbarLayout.topbarSubtitleTv.visibility = View.GONE
 
         //여행 날짜 선택 - Dialog 생성
-        binding.tripcourseRecordSelectDateBtn.setOnClickListener {
-
-        }
+        binding.tripcourseRecordSelectDateBtn.setOnClickListener(this)
+        binding.tripcourseRecordTopbarLayout.topbarBackIb.setOnClickListener(this)
+        binding.tripcourseRecordTopbarLayout.topbarSubbuttonIb.setOnClickListener(this)
+        binding.tripcourseRecordImgCl.setOnClickListener(this)
+        binding.tripcourseRecordSelectCountryBtn.setOnClickListener(this)
+        binding.tripcourseRecordHashtagAddBtn.setOnClickListener(this)
+        binding.tripcourseRecordSelectDateBtn.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -111,6 +115,8 @@ class TripcourseRecordActivity : BaseActivity() {
                 showDialog("안내","발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 임시저장됩니다.", "확인")
             R.id.topbar_subbutton_ib -> {
                 //todo 저장완료, firebase storage에 이미지를 업로드
+
+                getInputInfo()
                 uploadImage(uri)
             }
             R.id.tripcourse_record_img_cl ->

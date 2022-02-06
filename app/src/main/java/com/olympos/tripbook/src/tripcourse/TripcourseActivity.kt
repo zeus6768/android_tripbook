@@ -35,13 +35,17 @@ class TripcourseActivity : BaseActivity() {
         initView()
 
         val card : Card = Card()
+
         cardDatas.add(card)
         cardDatas.add(card)
         cardDatas.add(card)
-        setDummyData2Card()
+
+
 
         binding.lookerAlbumlistRecyclerview.adapter = cardRVAdapter
         binding.lookerAlbumlistRecyclerview.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
+
+        setDummyData2Card(cardDatas)
 
         cardRVAdapter.setItemClickListener(object : RVCardAdapter.CardClickListener {
             override fun onItemClick(card: Card) {
@@ -91,7 +95,7 @@ class TripcourseActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        setDummyData2Card()
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -114,21 +118,15 @@ class TripcourseActivity : BaseActivity() {
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun setDummyData2Card() {
+    private fun setDummyData2Card(cards : ArrayList<Card>) {
         Log.d("setDummyData2Card", "start")
-        cardDatas[0].hasData = TRUE
-        cardDatas[0].coverImg = R.drawable.img_tripcourse_card_ex
-        cardDatas[0].title = "안녕 나 들어왔어"
-        cardDatas[0].date = "날짜도 바뀜"
-        cardDatas[0].body = "내용도 요래요래요래요래 바뀜"
+        val card1 : Card = Card(0, TRUE, R.drawable.img_tripcourse_card_ex, "대충지은 제목 1", "바뀐 날짜 예시", "여긴 어디임", "바뀐 내용 11111")
+        cards.set(0, card1)
 
-        cardDatas[1].hasData = TRUE
-        cardDatas[1].coverImg = R.drawable.img_tripcourse_card_ex
-        cardDatas[1].title = "안녕 나 들어왔어22"
-        cardDatas[1].date = "날짜도 바뀜22"
-        cardDatas[1].body = "내용도 요래요래요래요래 바뀜22"
+        val card2 : Card = Card(0, TRUE, R.drawable.img_tripcourse_card_ex, "어떻게든 지어본 이름 2", "", "여긴 어디임", "바뀐 내용 22222")
+        cards.set(1, card2)
 
-        cardRVAdapter.notifyDataSetChanged()
+        cardRVAdapter.notifyItemChanged(0)
+        cardRVAdapter.notifyItemChanged(1)
     }
 }

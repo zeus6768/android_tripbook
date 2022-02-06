@@ -29,8 +29,8 @@ class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
         setContentView(binding.root)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment =  supportFragmentManager
-            .findFragmentById(R.id.tripcourse_select_country_map_fragment) as MapFragment
+        val mapFragment = supportFragmentManager
+            .findFragmentById(R.id.tripcourse_select_country_map_fragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         initView()
@@ -47,6 +47,9 @@ class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
         binding.tripcourseSelectCountryTopbarLayout.topbarTitleTv.setText(R.string.tripcourse_select_country_title)
         binding.tripcourseSelectCountryTopbarLayout.topbarSubtitleTv.visibility = View.GONE
         binding.tripcourseSelectCountryTopbarLayout.topbarSubbuttonIb.visibility = View.GONE
+
+        binding.tripcourseSelectCountryTopbarLayout.topbarBackIb.setOnClickListener(this)
+        binding.tripcourseSelectCountrySelectCompleteBtn.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -80,6 +83,7 @@ class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
             .title("Seoul")
         )
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(seoul, 16F)) //넓게 보고 싶으면 숫자를 내리고, 올리고 싶다면 숫자를 높이면 됨
+
 
         // 맵 터치 이벤트 구현 //
         mMap.setOnMapClickListener {
