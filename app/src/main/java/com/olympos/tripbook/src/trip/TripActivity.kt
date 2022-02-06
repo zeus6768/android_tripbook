@@ -18,7 +18,6 @@ import java.util.*
 
 class TripActivity : BaseActivity() {
     private lateinit var binding: ActivityTripBinding
-    private lateinit var trip: Trip
 //    private var decorator = RangeDayDecorator(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
