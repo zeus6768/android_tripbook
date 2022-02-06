@@ -12,8 +12,6 @@ import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripBinding
 import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.src.tripcourse.TripcourseActivity
-import com.olympos.tripbook.src.tripcourse.TripcourseRecordActivity
-import com.olympos.tripbook.src.tripcourse.model.Card
 import java.text.SimpleDateFormat
 import java.util.*
 
