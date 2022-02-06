@@ -24,6 +24,7 @@ class TripcourseRecordActivity : BaseActivity() {
 
     lateinit var binding: ActivityTripcourseRecordBinding
     lateinit var uri : Uri //사진 uri 전역변수
+    private val dateSelectDialog = DateSelectDialog(this)
 
     private var launcher = registerForActivityResult(ActivityResultContracts.GetContent()) {
         binding.tripcourseRecordImgIv.setImageURI(it)
@@ -121,7 +122,7 @@ class TripcourseRecordActivity : BaseActivity() {
                 startTripcourseSelectCountryActivity()
 
             R.id.tripcourse_record_select_date_btn -> {
-                //todo 여행 날짜 선택 - Dialog 생성
+                dateSelectDialog.show()
             }
 
             //해시태그 선택 - TripcourseSelectHashtagActivity로 이동
