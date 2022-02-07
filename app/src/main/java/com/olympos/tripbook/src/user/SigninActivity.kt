@@ -50,8 +50,8 @@ class SigninActivity : BaseActivity() {
                     val kakaoID = user!!.id
                     Log.d("카카오 user email", user.kakaoAccount?.profile.toString())
                     Log.d("카카오 user nickname", user.kakaoAccount?.profile?.nickname.toString())
-                    kakaoID?.let { saveJwt(this, it.toInt()) }
-                    val userid = getJwt(this)
+//                    kakaoID?.let { saveJwt(this, it.toString()) }
+                    val userid = getJwt()
                     Log.d("JWT 저장", userid.toString())
 //                    saveAccessToken(this, token.accessToken)
 //                    saveRefreshToken(this, token.refreshToken)

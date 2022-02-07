@@ -14,6 +14,15 @@ fun saveJwt(jwtToken: String) {
 
 fun getJwt(): String? = mSharedPreferences.getString(X_ACCESS_TOKEN, null)
 
+fun saveUserIdx(idx: Int) {
+    val editor = mSharedPreferences.edit()
+    editor.putInt("userIdx", idx)
+
+    editor.apply()
+}
+
+fun getUserIdx(): Int = mSharedPreferences.getInt("userIdx", 3)
+
 fun saveTokenValidity(context: Context, isValidToken: Boolean) {
     val spf = context.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
     val editor = spf.edit()
