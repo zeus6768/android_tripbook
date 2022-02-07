@@ -122,7 +122,7 @@ class TripcourseRecordActivity : BaseActivity() {
                 startTripcourseSelectCountryActivity()
 
             R.id.tripcourse_record_select_date_btn -> {
-                dateSelectDialog.show()
+//                dateSelectDialog.show()
             }
 
             //해시태그 선택 - TripcourseSelectHashtagActivity로 이동

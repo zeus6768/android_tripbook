@@ -13,9 +13,7 @@ import com.olympos.tripbook.src.home.MainActivity
 import com.olympos.tripbook.src.user.model.UserService
 import com.olympos.tripbook.utils.ApplicationClass.Companion.TAG
 import com.olympos.tripbook.utils.getJwt
-import com.olympos.tripbook.utils.saveAccessToken
 import com.olympos.tripbook.utils.saveJwt
-import com.olympos.tripbook.utils.saveRefreshToken
 
 class SigninActivity : BaseActivity() {
     private lateinit var binding: ActivityUserSigninBinding
@@ -55,8 +53,8 @@ class SigninActivity : BaseActivity() {
                     kakaoID?.let { saveJwt(this, it.toInt()) }
                     val userid = getJwt(this)
                     Log.d("JWT 저장", userid.toString())
-                    saveAccessToken(this, token.accessToken)
-                    saveRefreshToken(this, token.refreshToken)
+//                    saveAccessToken(this, token.accessToken)
+//                    saveRefreshToken(this, token.refreshToken)
                     sendAccessToken()
                     sendRefreshToken()
                     startMainActivity()

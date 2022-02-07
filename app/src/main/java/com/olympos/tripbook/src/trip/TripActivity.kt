@@ -11,13 +11,20 @@ import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripBinding
 import com.olympos.tripbook.src.trip.model.Trip
+import com.olympos.tripbook.src.trip.model.TripService
 import com.olympos.tripbook.src.tripcourse.TripcourseActivity
+import com.olympos.tripbook.utils.getJwt
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Pattern
 
 
 class TripActivity : BaseActivity() {
     private lateinit var binding: ActivityTripBinding
+    private lateinit var departureDate: String
+    private lateinit var arrivalDate: String
+
+    private var trip = Trip()
 //    private var decorator = RangeDayDecorator(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,15 +68,26 @@ class TripActivity : BaseActivity() {
 //        year.wrapSelectorWheel = false
 //        month.wrapSelectorWheel = false
 
+
+        val jwt = getJwt(this)
+        trip.userIdx = "1"
+
         //날짜 선택
         calendar.topbarVisible = true
         calendar.setOnRangeSelectedListener { widget, dates ->
+            departureDate = dates.first().toString()
+            arrivalDate = dates.last().toString()
+
             //출발일
-            binding.tripDateDepartureMonthTv.text = dates.first().toString().split("-")[1]
-            binding.tripDateDepartureDayTv.text = dates.first().toString().split("-")[2].dropLast(1)
+            binding.tripDateDepartureMonthTv.text = departureDate.split("-")[1]
+            binding.tripDateDepartureDayTv.text = departureDate.split("-")[2].dropLast(1)
             //도착일
-            binding.tripDateArrivalMonthTv.text = dates.last().toString().split("-")[1]
-            binding.tripDateArrivalDayTv.text = dates.last().toString().split("-")[2].dropLast(1)
+            binding.tripDateArrivalMonthTv.text = arrivalDate.split("-")[1]
+            binding.tripDateArrivalDayTv.text = arrivalDate.split("-")[2].dropLast(1)
+
+            trip.departureDate = departureDate
+            trip.arrivalDate = arrivalDate
+
         }
         //        calendar.setOnDateChangedListener(this)
 //        calendar.addDecorator(decorator)
@@ -85,8 +103,26 @@ class TripActivity : BaseActivity() {
                 themeSelected(v)
             R.id.trip_theme_theme4_ll ->
                 Toast.makeText(this, "추후 추가 예정", Toast.LENGTH_SHORT).show()
-            R.id.trip_next_step_btn_tv ->
-                startTripcourseActivity()
+            R.id.trip_next_step_btn_tv -> {
+                //제목 입력
+                trip.tripTitle = binding.tripTitleEt.text.toString()
+
+                //validation
+                if(
+                    trip.userIdx==""||
+                    trip.tripTitle==""||
+                    trip.departureDate==""||
+                    trip.arrivalDate==""||
+                    trip.themeIdx==0) {
+                    Toast.makeText(this, "모든 값을 입력해주세요", Toast.LENGTH_SHORT).show()
+                    Log.d("api test 확인용", "userIdx: " + trip.userIdx + "tripTitle: " + trip.tripTitle +
+                            "departureDate: " + trip.departureDate + "arrivalDate: " + trip.arrivalDate + "themeIdx: " + trip.themeIdx)
+                }
+                else {
+                    postTrip(trip)
+                    startTripcourseActivity()
+                }
+            }
         }
     }
 
@@ -101,96 +137,36 @@ class TripActivity : BaseActivity() {
                 binding.tripThemeTheme2Tv.setTextColor(ContextCompat.getColor(this, R.color.dark_gray))
                 binding.tripThemeTheme3Cv.setStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.dark_gray)))
                 binding.tripThemeTheme3Tv.setTextColor(ContextCompat.getColor(this, R.color.dark_gray))
+
+                trip.themeIdx = 1
             }
             R.id.trip_theme_theme2_ll -> {
-                binding.tripThemeTheme1Cv.setStrokeColor(
-                    ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.dark_gray
-                        )
-                    )
-                )
-                binding.tripThemeTheme1Tv.setTextColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.dark_gray
-                    )
-                )
-                binding.tripThemeTheme2Cv.setStrokeColor(
-                    ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.tripbook_main_1
-                        )
-                    )
-                )
-                binding.tripThemeTheme2Tv.setTextColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.tripbook_main_1
-                    )
-                )
-                binding.tripThemeTheme3Cv.setStrokeColor(
-                    ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.dark_gray
-                        )
-                    )
-                )
-                binding.tripThemeTheme3Tv.setTextColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.dark_gray
-                    )
-                )
+                binding.tripThemeTheme1Cv.setStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.dark_gray)))
+                binding.tripThemeTheme1Tv.setTextColor(ContextCompat.getColor(this, R.color.dark_gray))
+                binding.tripThemeTheme2Cv.setStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.tripbook_main_1)))
+                binding.tripThemeTheme2Tv.setTextColor(ContextCompat.getColor(this, R.color.tripbook_main_1))
+                binding.tripThemeTheme3Cv.setStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.dark_gray)))
+                binding.tripThemeTheme3Tv.setTextColor(ContextCompat.getColor(this, R.color.dark_gray))
+
+                trip.themeIdx = 2
             }
             R.id.trip_theme_theme3_ll -> {
-                binding.tripThemeTheme1Cv.setStrokeColor(
-                    ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.dark_gray
-                        )
-                    )
-                )
-                binding.tripThemeTheme1Tv.setTextColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.dark_gray
-                    )
-                )
-                binding.tripThemeTheme2Cv.setStrokeColor(
-                    ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.dark_gray
-                        )
-                    )
-                )
-                binding.tripThemeTheme2Tv.setTextColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.dark_gray
-                    )
-                )
-                binding.tripThemeTheme3Cv.setStrokeColor(
-                    ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.tripbook_main_1
-                        )
-                    )
-                )
-                binding.tripThemeTheme3Tv.setTextColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.tripbook_main_1
-                    )
-                )
+                binding.tripThemeTheme1Cv.setStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.dark_gray)))
+                binding.tripThemeTheme1Tv.setTextColor(ContextCompat.getColor(this, R.color.dark_gray))
+                binding.tripThemeTheme2Cv.setStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.dark_gray)))
+                binding.tripThemeTheme2Tv.setTextColor(ContextCompat.getColor(this, R.color.dark_gray))
+                binding.tripThemeTheme3Cv.setStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.tripbook_main_1)))
+                binding.tripThemeTheme3Tv.setTextColor(ContextCompat.getColor(this, R.color.tripbook_main_1))
+
+                trip.themeIdx = 3
             }
         }
+    }
+
+    private fun postTrip(trip: Trip) {
+        Log.d("들어오는지 확인", "TripActivity-postTrip")
+        val tripService = TripService()
+        tripService.postTrip(trip)
     }
 
     private fun startTripcourseActivity() {

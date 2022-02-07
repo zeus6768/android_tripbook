@@ -28,19 +28,21 @@ class TripService {
     }
 
     fun postTrip(trip: Trip) {
+        Log.d("들어오는지 확인", "TripService-postTrip")
         val tripRetrofitService = retrofit.create(TripRetrofitInterface::class.java)
         tripRetrofitService.postTrip(trip).enqueue(object : Callback<TripResponse> {
             override fun onResponse(call: Call<TripResponse>, response: Response<TripResponse>) {
-                // Log.d(TAG, response.toString())
+                Log.d("들어오는지 확인", "TripService-postTrip-onResponse")
                 if (response.isSuccessful) {
                     val res = response.body()!!
+                    Log.d("__res", response.body()!!.toString())
                     when (res.code) {
                         1000 -> Log.d("REST API TEST 성공", res.toString())
                     }
                 }
             }
             override fun onFailure(call: Call<TripResponse>, t: Throwable) {
-                Log.d("POST TRIP API Failure", t.message.toString())
+                Log.d("들어오는지 확인", "TripService-postTrip-onFailure")
             }
         })
     }

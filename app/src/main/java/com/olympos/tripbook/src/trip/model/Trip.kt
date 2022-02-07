@@ -1,7 +1,7 @@
 package com.olympos.tripbook.src.trip.model
 
 data class Trip(
-    val userIdx: String = "",
+    var userIdx: String = "",
     var tripTitle: String = "", //제목
     var departureDate: String = "", //출발일
     var arrivalDate: String = "", //도착일
