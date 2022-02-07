@@ -26,7 +26,7 @@ class TripcourseRecordActivity : BaseActivity() {
 
     lateinit var binding: ActivityTripcourseRecordBinding
     lateinit var uri : Uri //사진 uri 전역변수
-    private val dateSelectDialog = DateSelectDialog(this)
+//    private val dateSelectDialog = DateSelectDialog(this)
 
 
 
@@ -57,7 +57,7 @@ class TripcourseRecordActivity : BaseActivity() {
             binding.tripcourseRecordTitleEt.hint = card.title
             binding.tripcourseRecordSelectDateBtn.text = card.date
             binding.tripcourseRecordSelectCountryBtn.text = card.country
-            binding.tripcourseRecordImgIv.setImageResource(card.coverImg)
+//            binding.tripcourseRecordImgIv.setImageResource(card.coverImg)
         }
 
         addHashtagDumyInfo()
@@ -100,7 +100,7 @@ class TripcourseRecordActivity : BaseActivity() {
         when(resultCode) {
             COUNTRY_ACTIVITY_CODE -> { //SelectCountryActivity에서 장소 정보 가져오기
                 card.country = data?.getStringExtra("country_result")!!
-                binding.tripcourseRecordSelectCountryBtn.setText(card.country)
+                binding.tripcourseRecordSelectCountryBtn.text = card.country
             }
             HASHTAG_ACTIVITY_CODE -> { //SelectHashtagActivity에서 해시태그 정보 가져오기
                 //해시태그 저장
@@ -136,7 +136,9 @@ class TripcourseRecordActivity : BaseActivity() {
                 getInputInfo()
 
                 // todo 서버에 Card 전송
+
                 postCard(card)
+                finish()
 
                 uploadImage(uri)
             }
@@ -227,13 +229,18 @@ class TripcourseRecordActivity : BaseActivity() {
             //body 저장
             if(!binding.tripcourseRecordBodyEt.text.toString().isEmpty())
                 card.body = binding.tripcourseRecordBodyEt.text.toString()
+            //사진 저장(URL)
+            card.coverImg = uri.toString()
+
+            card.date = "0000.00.00"
+            card.time = 2
+            card.country = "000.000-000.000"
 
             val intent = Intent(this@TripcourseRecordActivity, TripcourseRecordActivity::class.java)
             val cardData = gson.toJson(card)
             intent.putExtra("cardInputResult", cardData)
 
             setResult(COUNTRY_ACTIVITY_CODE, intent)
-            finish()
         }
     }
 }

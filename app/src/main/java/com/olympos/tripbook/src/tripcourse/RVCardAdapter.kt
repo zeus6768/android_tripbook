@@ -32,7 +32,7 @@ class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<
     inner class FillCardViewHolder(val binding : ItemTripcourseCardBaseFillBinding) : RecyclerView.ViewHolder(binding.root),
         View.OnCreateContextMenuListener {
         fun bind(card : Card) {
-            binding.itemCardFillCoverImg.setImageResource(card.coverImg)
+//            binding.itemCardFillCoverImg.setImageResource(card.coverImg)
             binding.itemCardFillTitleTv.text = card.title
             binding.itemCardFillDateTv.text = card.date
             binding.itemCardFillBodyTv.text = card.body

@@ -59,6 +59,12 @@ class TripcourseActivity : BaseActivity() {
         })
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        //todo 서버에서 카드정보 가져와서 적용하기
+    }
+
     //여행 삭제하기 context menu
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo? ) {
         val inflater = menuInflater
@@ -119,10 +125,10 @@ class TripcourseActivity : BaseActivity() {
 
     private fun setDummyData2Card(cards : ArrayList<Card>) {
         Log.d("setDummyData2Card", "start")
-        val card1 : Card = Card(0, TRUE, R.drawable.img_tripcourse_card_ex, "대충지은 제목 1", "바뀐 날짜 예시", "여긴 어디임", "바뀐 내용 11111")
+        val card1 : Card = Card(0, TRUE, 1,"", "대충지은 제목 1", "바뀐 날짜 예시", 1,"여긴? 어디임", "바뀐 내용 11111")
         cards.set(0, card1)
 
-        val card2 : Card = Card(0, TRUE, R.drawable.img_tripcourse_card_ex, "어떻게든 지어본 이름 2", "", "여긴 어디임", "바뀐 내용 22222")
+        val card2 : Card = Card(0, TRUE, 1, "", "어떻게든 지어본 이름 2", "", 2, "여긴 어디임?", "바뀐 내용 22222")
         cards.set(1, card2)
 
         cardRVAdapter.notifyItemChanged(0)

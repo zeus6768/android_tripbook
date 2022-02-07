@@ -9,7 +9,7 @@ data class Card (@PrimaryKey(autoGenerate = true) @SerializedName("cardIdx") val
 
                  @SerializedName("tripIdx") var tripIdx : Int =1,
 
-                 @SerializedName("courseImg")var coverImg : Int = 0,
+                 @SerializedName("courseImg")var coverImg : String = "",
                  @SerializedName("courseTitle")var title : String = "",
                  @SerializedName("courseDate")var date : String = "어느 순간",
                  @SerializedName("courseTime")var time : Int = 2,

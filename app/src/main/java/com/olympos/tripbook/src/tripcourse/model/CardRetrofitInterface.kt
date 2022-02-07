@@ -7,5 +7,6 @@ interface CardRetrofitInterface {
     @POST("/app/course")
     fun postCard(@Body card : Card): Call<CardResponse>
 
-//    @GET("/app/course/:courseIdx")
+    @GET("/app/course/:courseIdx")
+    fun getCard() : Call<CardResponse>
 }
