@@ -16,7 +16,6 @@ import com.olympos.tripbook.src.tripcourse.TripcourseActivity
 import com.olympos.tripbook.utils.getJwt
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.regex.Pattern
 
 
 class TripActivity : BaseActivity() {
@@ -69,14 +68,17 @@ class TripActivity : BaseActivity() {
 //        month.wrapSelectorWheel = false
 
 
-        val jwt = getJwt(this)
+//        val jwt = getJwt(this)
+//        trip.userIdx = jwt.toString()
         trip.userIdx = "1"
 
         //날짜 선택
         calendar.topbarVisible = true
         calendar.setOnRangeSelectedListener { widget, dates ->
-            departureDate = dates.first().toString()
-            arrivalDate = dates.last().toString()
+            val regex = "\\^\\d{4}.\\d{1,2}.\\d{1,2}\\$/".toRegex()
+            departureDate = regex.find(dates.first().toString()).toString()
+            arrivalDate = regex.find(dates.last().toString()).toString()
+            Log.d("정규식 확인", departureDate)
 
             //출발일
             binding.tripDateDepartureMonthTv.text = departureDate.split("-")[1]
@@ -108,20 +110,21 @@ class TripActivity : BaseActivity() {
                 trip.tripTitle = binding.tripTitleEt.text.toString()
 
                 //validation
-                if(
-                    trip.userIdx==""||
+                if(trip.tripTitle.length > 15)
+                    Toast.makeText(this, "제목은 14자로 이내로 입력해주세요", Toast.LENGTH_SHORT).show()
+                if( trip.userIdx==""||
                     trip.tripTitle==""||
                     trip.departureDate==""||
                     trip.arrivalDate==""||
                     trip.themeIdx==0) {
                     Toast.makeText(this, "모든 값을 입력해주세요", Toast.LENGTH_SHORT).show()
-                    Log.d("api test 확인용", "userIdx: " + trip.userIdx + "tripTitle: " + trip.tripTitle +
-                            "departureDate: " + trip.departureDate + "arrivalDate: " + trip.arrivalDate + "themeIdx: " + trip.themeIdx)
                 }
                 else {
                     postTrip(trip)
                     startTripcourseActivity()
                 }
+                Log.d("api test 확인용", "userIdx: " + trip.userIdx + "tripTitle: " + trip.tripTitle +
+                        "departureDate: " + trip.departureDate + "arrivalDate: " + trip.arrivalDate + "themeIdx: " + trip.themeIdx)
             }
         }
     }

@@ -58,3 +58,17 @@ fun getProfileImageURL(context: Context): String? {
 
     return spf.getString("profileImageUrl", "")
 }
+
+fun saveTripIdx(context: Context, idx: Int) {
+    val spf = context.getSharedPreferences("tripIdx", AppCompatActivity.MODE_PRIVATE)
+    val editor = spf.edit()
+
+    editor.putInt("tripIdx", idx)
+    editor.apply()
+}
+
+fun getTripIdx(context: Context): Int {
+    val spf = context.getSharedPreferences("tripIdx", AppCompatActivity.MODE_PRIVATE)
+
+    return spf.getInt("tripIdx", 0)
+}
