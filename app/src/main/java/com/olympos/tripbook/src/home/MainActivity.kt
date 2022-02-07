@@ -12,16 +12,22 @@ import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.config.BaseDialog
 import com.olympos.tripbook.databinding.ActivityMainBinding
+import com.olympos.tripbook.src.home.model.HomeGetProcess
+import com.olympos.tripbook.src.home.model.HomeService
 import com.olympos.tripbook.src.trip.TripActivity
+import com.olympos.tripbook.src.trip.model.Trip
+import com.olympos.tripbook.src.trip.model.TripService
 
 
-class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, HomeGetProcess {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        initView()
 
         //기록이 0일 때
         if(binding.mainUserTripCountTv.text == "0") {
@@ -31,7 +37,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     "여행 발자국을 남겨보세요.", "확인", R.drawable.img_home_notice)
         }
         else {
-            initFragment()
+            //todo
         }
 
 
@@ -44,6 +50,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         binding.mainContentRecordBtnTv.setOnClickListener(this)
         binding.mainLeftNavigationView.setNavigationItemSelectedListener(this)
 
+    }
+
+    private fun initView() {
+        getTripCount()
     }
 
     //
@@ -96,6 +106,28 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         super.onOKClicked()
         //반짝이는 효과
 //        binding.mainContentRecordBtnLl.setBackgroundResource(R.drawable.bg_home_gradation)
+    }
+
+    private fun getTripCount() {
+        val homeService = HomeService()
+        homeService.setProcess(this)
+
+        homeService.getTripCount()
+    }
+
+    override fun onGetHomeLoading() {
+        //todo
+    }
+
+    override fun onGetHomeSuccess(result: Int) {
+        binding.mainUserTripCountTv.text = result.toString()
+    }
+
+    override fun onGetHomeFailure(code: Int, message: String) {
+        when(code) {
+            400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
+            2105 -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        }
     }
 
 
