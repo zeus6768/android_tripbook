@@ -1,9 +1,13 @@
 package com.olympos.tripbook.src.tripcourse
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.app.AlertDialog
+import android.content.Context
+import android.view.*
+import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
+import com.olympos.tripbook.R
+import com.olympos.tripbook.config.BaseActivity
+import com.olympos.tripbook.config.BaseDialog
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseEmptyBinding
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseFillBinding
 import com.olympos.tripbook.src.tripcourse.model.Card
@@ -13,23 +17,66 @@ class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<
     /*---------- 전역 변수 ----------*/
 
     private lateinit var cardClickListener: CardClickListener
+    private lateinit var context: Context
 
     /*---------- 내부 클래스(뷰 홀더) ----------*/
 
     //View Holder
     inner class EmptyCardViewHolder(val binding : ItemTripcourseCardBaseEmptyBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(card : Card) {
+        fun bind() {
             //사실 얜 바인딩 할거 없음
         }
     }
 
     //View Holder
-    inner class FillCardViewHolder(val binding : ItemTripcourseCardBaseFillBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class FillCardViewHolder(val binding : ItemTripcourseCardBaseFillBinding) : RecyclerView.ViewHolder(binding.root),
+        View.OnCreateContextMenuListener {
         fun bind(card : Card) {
             binding.itemCardFillCoverImg.setImageResource(card.coverImg)
             binding.itemCardFillTitleTv.setText(card.title)
             binding.itemCardFillDateTv.setText(card.date)
             binding.itemCardFillBodyTv.setText(card.body)
+
+            this.itemView.setOnCreateContextMenuListener(this)
+        }
+
+        override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+            val edit : MenuItem? = menu?.add(Menu.NONE, 1001, 1, "편집")
+            val delete : MenuItem? = menu?.add(Menu.NONE, 1002, 2, "삭제")
+
+            edit?.setOnMenuItemClickListener(onEditMenu)
+            delete?.setOnMenuItemClickListener(onEditMenu)
+        }
+
+        private val onEditMenu : MenuItem.OnMenuItemClickListener = object : MenuItem.OnMenuItemClickListener {
+            override fun onMenuItemClick(item: MenuItem?): Boolean {
+                when(item?.itemId) {
+                    1001 -> { //편집
+
+                    }
+                    else -> { //삭제
+                        val builder : AlertDialog.Builder = object : AlertDialog.Builder(context)
+                        val view : View = LayoutInflater.from(context).inflate(R.layout.dialog_base, null, false)
+                        builder.setView(view)
+
+                        val dialog : AlertDialog = builder.create()
+                        val dialogBtn : Button = view.findViewById(R.id.dialog_base_ok_btn_tv)
+
+                        dialogBtn.setOnClickListener{
+                            cards.removeAt(adapterPosition)
+                            notifyItemRemoved(adapterPosition)
+
+                            dialog.dismiss()
+                        }
+
+
+
+
+                    }
+                }
+                return true
+            }
+
         }
     }
 
@@ -78,7 +125,7 @@ class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<
 
         when(cards[position].hasData) {
             FALSE -> { //데이터가 없는 경우에 바인딩
-                (holder as EmptyCardViewHolder).bind(cards[position])
+                (holder as EmptyCardViewHolder).bind()
 
                 holder.binding.itemCardEmptyDeleteIb.setOnClickListener{  //카드 삭제
                     onRemoveCard(position) //cards[position].id

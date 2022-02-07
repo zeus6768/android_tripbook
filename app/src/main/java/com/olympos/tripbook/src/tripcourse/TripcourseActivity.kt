@@ -40,8 +40,6 @@ class TripcourseActivity : BaseActivity() {
         cardDatas.add(card)
         cardDatas.add(card)
 
-
-
         binding.lookerAlbumlistRecyclerview.adapter = cardRVAdapter
         binding.lookerAlbumlistRecyclerview.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
 
@@ -66,6 +64,7 @@ class TripcourseActivity : BaseActivity() {
         val inflater = menuInflater
         inflater.inflate(R.menu.context_menu_tripcourse_delete_trip, menu)
         //super.onCreateContextMenu(menu, v, menuInfo)
+        showDialog("", "", "")
     }
     //여행 삭제하기 context menu
     override fun onContextItemSelected(item: MenuItem): Boolean {
