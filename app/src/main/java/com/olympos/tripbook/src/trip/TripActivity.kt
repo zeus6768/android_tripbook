@@ -11,15 +11,12 @@ import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripBinding
 import com.olympos.tripbook.src.trip.model.Trip
+import com.olympos.tripbook.src.trip.model.TripPostProcess
 import com.olympos.tripbook.src.trip.model.TripService
 import com.olympos.tripbook.src.tripcourse.TripcourseActivity
-import com.olympos.tripbook.utils.getJwt
-import java.text.SimpleDateFormat
-import java.util.*
-import java.util.regex.Pattern
+import com.olympos.tripbook.utils.saveTripIdx
 
-
-class TripActivity : BaseActivity() {
+class TripActivity : BaseActivity(), TripPostProcess {
     private lateinit var binding: ActivityTripBinding
     private lateinit var departureDate: String
     private lateinit var arrivalDate: String
@@ -69,13 +66,18 @@ class TripActivity : BaseActivity() {
 //        month.wrapSelectorWheel = false
 
 
-        val jwt = getJwt(this)
+//        val jwt = getJwt(this)
+//        trip.userIdx = jwt.toString()
         trip.userIdx = "1"
 
         //날짜 선택
         calendar.topbarVisible = true
         calendar.setOnRangeSelectedListener { widget, dates ->
-            departureDate = dates.first().toString()
+//            val regex = "\\^\\d{4}.\\d{1,2}.\\d{1,2}\\$/".toRegex()
+//            departureDate = regex.find(dates.first().toString()).toString()
+//            arrivalDate = regex.find(dates.last().toString()).toString()
+//            Log.d("정규식 확인", departureDate)
+//            departureDate = dates.first().toString().substring(12).split("-")
             arrivalDate = dates.last().toString()
 
             //출발일
@@ -107,21 +109,21 @@ class TripActivity : BaseActivity() {
                 //제목 입력
                 trip.tripTitle = binding.tripTitleEt.text.toString()
 
-                //validation
-                if(
-                    trip.userIdx==""||
-                    trip.tripTitle==""||
-                    trip.departureDate==""||
-                    trip.arrivalDate==""||
-                    trip.themeIdx==0) {
-                    Toast.makeText(this, "모든 값을 입력해주세요", Toast.LENGTH_SHORT).show()
-                    Log.d("api test 확인용", "userIdx: " + trip.userIdx + "tripTitle: " + trip.tripTitle +
-                            "departureDate: " + trip.departureDate + "arrivalDate: " + trip.arrivalDate + "themeIdx: " + trip.themeIdx)
-                }
-                else {
-                    postTrip(trip)
-                    startTripcourseActivity()
-                }
+//                //validation
+//                if(trip.tripTitle.length > 15)
+//                    Toast.makeText(this, "제목은 14자로 이내로 입력해주세요", Toast.LENGTH_SHORT).show()
+//                if( trip.userIdx==""||
+//                    trip.tripTitle==""||
+//                    trip.departureDate==""||
+//                    trip.arrivalDate==""||
+//                    trip.themeIdx==0) {
+//                    Toast.makeText(this, "모든 값을 입력해주세요", Toast.LENGTH_SHORT).show()
+//                }
+
+                postTrip(trip)
+
+                Log.d("api test 확인용", "userIdx: " + trip.userIdx + "tripTitle: " + trip.tripTitle +
+                        "departureDate: " + trip.departureDate + "arrivalDate: " + trip.arrivalDate + "themeIdx: " + trip.themeIdx)
             }
         }
     }
@@ -164,25 +166,40 @@ class TripActivity : BaseActivity() {
     }
 
     private fun postTrip(trip: Trip) {
-        Log.d("들어오는지 확인", "TripActivity-postTrip")
         val tripService = TripService()
+        tripService.setProcess(this)
+
         tripService.postTrip(trip)
+    }
+
+    override fun onPostTripLoading() {
+        binding.tripLoadingPb.visibility = View.VISIBLE
+    }
+
+    override fun onPostTripSuccess(result : Int) {
+        binding.tripLoadingPb.visibility = View.GONE
+
+        // response로 받은 tripIdx를 저장한 후 TripcourseActivity 실행
+        saveTripIdx(this, result)
+        startTripcourseActivity()
+    }
+
+    override fun onPostTripFailure(code: Int, message: String) {
+        binding.tripLoadingPb.visibility = View.GONE
+
+        when(code) {
+            400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
+            2101 -> Toast.makeText(this, "제목을 입력해주세요", Toast.LENGTH_SHORT).show()
+            2102 -> Toast.makeText(this, "출발일을 지정해주세요.", Toast.LENGTH_SHORT).show()
+            2103 -> Toast.makeText(this, "도착일을 지정해주세요.", Toast.LENGTH_SHORT).show()
+            2104 -> Toast.makeText(this, "테마를 선택해주세요.", Toast.LENGTH_SHORT).show()
+            2105 -> Toast.makeText(this, "유저 인덱스 오류", Toast.LENGTH_SHORT).show()
+            2107 -> Toast.makeText(this, "제목을 14자 이내로 입력해주세요.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun startTripcourseActivity() {
         val intent = Intent(this, TripcourseActivity::class.java)
         startActivity(intent)
-    }
-
-    //현재 날짜 getter
-    private fun getCurrentDate(): String {
-        // 현재시간을 가져오기
-        val now: Long = System.currentTimeMillis()
-        // 현재 시간을 Date 타입으로 변환
-        val date = Date(now)
-        // 날짜, 시간을 가져오고 싶은 형태 선언
-        val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale("ko", "KR"))
-
-        return dateFormat.format(date)
     }
 }

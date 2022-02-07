@@ -21,8 +21,4 @@ class HomeFragment : BaseFragment() {
         return binding.root
 
     }
-
-
-
-
 }
