@@ -33,9 +33,9 @@ class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<
         View.OnCreateContextMenuListener {
         fun bind(card : Card) {
             binding.itemCardFillCoverImg.setImageResource(card.coverImg)
-            binding.itemCardFillTitleTv.setText(card.title)
-            binding.itemCardFillDateTv.setText(card.date)
-            binding.itemCardFillBodyTv.setText(card.body)
+            binding.itemCardFillTitleTv.text = card.title
+            binding.itemCardFillDateTv.text = card.date
+            binding.itemCardFillBodyTv.text = card.body
 
             this.itemView.setOnCreateContextMenuListener(this)
         }

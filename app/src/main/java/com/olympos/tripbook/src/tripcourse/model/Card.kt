@@ -1,15 +1,20 @@
 package com.olympos.tripbook.src.tripcourse.model
 
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 import com.olympos.tripbook.src.tripcourse.FALSE
 
-data class Card (@PrimaryKey(autoGenerate = true) val idx: Int = 0,
+data class Card (@PrimaryKey(autoGenerate = true) @SerializedName("cardIdx") val idx: Int = 1,
                  var hasData : Int = FALSE,
 
-                 var coverImg : Int = 0,
-                 var title : String = "",
-                 var date : String = "어느 순간",
+                 @SerializedName("tripIdx") var tripIdx : Int =1,
+
+                 @SerializedName("courseImg")var coverImg : Int = 0,
+                 @SerializedName("courseTitle")var title : String = "",
+                 @SerializedName("courseDate")var date : String = "어느 순간",
+                 @SerializedName("courseTime")var time : Int = 2,
+//                 @SerializedName("courseCo")
                  var country : String = "나도 모르는 곳",
 //    var hashtag : ArrayList<Boolean> = ArrayList(),
-                 var body : String = "내용이 없습니다."
+                 @SerializedName("courseComment")var body : String = "내용이 없습니다."
 )

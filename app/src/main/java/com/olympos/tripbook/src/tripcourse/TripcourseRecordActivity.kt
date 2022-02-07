@@ -8,6 +8,7 @@ import android.os.Bundle
 import com.google.gson.Gson
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,6 +18,7 @@ import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripcourseRecordBinding
 import com.olympos.tripbook.src.tripcourse.model.Card
+import com.olympos.tripbook.src.tripcourse.model.CardService
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -25,6 +27,8 @@ class TripcourseRecordActivity : BaseActivity() {
     lateinit var binding: ActivityTripcourseRecordBinding
     lateinit var uri : Uri //사진 uri 전역변수
     private val dateSelectDialog = DateSelectDialog(this)
+
+
 
     private var launcher = registerForActivityResult(ActivityResultContracts.GetContent()) {
         binding.tripcourseRecordImgIv.setImageURI(it)
@@ -43,6 +47,9 @@ class TripcourseRecordActivity : BaseActivity() {
         setContentView(binding.root)
 
         initView()
+
+
+
 
         if(intent.hasExtra("card")) {
             card = gson.fromJson(intent.getStringExtra("card"), card::class.java)
@@ -76,6 +83,15 @@ class TripcourseRecordActivity : BaseActivity() {
                 }
             }
         })
+    }
+
+    /*
+    * 레트로핏 사용 구간
+    * */
+    private fun postCard(card : Card) {
+        Log.d("들어오는지 확인", "TripActivity-postTrip")
+        val cardService = CardService()
+        cardService.postCard(card)
     }
 
     //종료된 액티비티에서 정보 받아오기
@@ -118,6 +134,10 @@ class TripcourseRecordActivity : BaseActivity() {
                 //todo 저장완료, firebase storage에 이미지를 업로드
 
                 getInputInfo()
+
+                // todo 서버에 Card 전송
+                postCard(card)
+
                 uploadImage(uri)
             }
             R.id.tripcourse_record_img_cl ->

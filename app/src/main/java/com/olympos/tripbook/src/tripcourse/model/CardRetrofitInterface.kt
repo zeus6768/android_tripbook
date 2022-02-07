@@ -5,7 +5,7 @@ import retrofit2.http.*
 
 interface CardRetrofitInterface {
     @POST("/app/course")
-    fun postCard(): Call<CardResponse>
+    fun postCard(@Body card : Card): Call<CardResponse>
 
-    @GET("/app/course/:courseIdx")
+//    @GET("/app/course/:courseIdx")
 }
