@@ -42,7 +42,7 @@ class TripcourseActivity : BaseActivity() {
 
         binding.lookerAlbumlistRecyclerview.adapter = cardRVAdapter
         binding.lookerAlbumlistRecyclerview.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
-
+        binding.lookerAlbumlistRecyclerview.addItemDecoration(RVCardAdapterDecoration())
         setDummyData2Card(cardDatas)
 
         cardRVAdapter.setItemClickListener(object : RVCardAdapter.CardClickListener {
