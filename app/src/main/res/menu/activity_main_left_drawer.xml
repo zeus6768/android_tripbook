@@ -9,11 +9,11 @@
             android:id="@+id/menu1"
             android:title="나의 지난 여행" />
         <item
-            android:id="@+id/menu2"
-            android:title="다이어리 테마" />
-        <item
             android:id="@+id/menu3"
             android:title="모두의 여행기" />
+        <item
+            android:id="@+id/menu2"
+            android:title="다이어리 테마" />
     </group>
     <group
         android:id="@+id/menu_group2">

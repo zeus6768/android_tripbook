@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_dialog_base"
+        android:paddingVertical="15dp"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/dialog_date_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/notosans_kr_bold"
+            android:includeFontPadding="false"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Title"/>
+
+        <View
+            android:id="@+id/dialog_date_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/gray"
+            app:layout_constraintTop_toBottomOf="@id/dialog_date_title_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/dialog_date_content_cl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/dialog_date_view"
+            app:layout_constraintBottom_toTopOf="@id/dialog_date_ok_btn_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+            <NumberPicker
+                android:id="@+id/dialog_date_picker_year"
+                android:layout_width="wrap_content"
+                android:layout_height="120dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="@id/dialog_date_picker_date_ll"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/notosans_kr_bold"
+                android:includeFontPadding="false"
+                android:text="년"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@id/dialog_date_picker_year"
+                app:layout_constraintTop_toTopOf="@id/dialog_date_picker_year"
+                app:layout_constraintBottom_toBottomOf="@id/dialog_date_picker_year"/>
+
+            <LinearLayout
+                android:id="@+id/dialog_date_picker_date_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/dialog_date_picker_year"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <NumberPicker
+                    android:id="@+id/dialog_date_picker_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="120dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/notosans_kr_bold"
+                    android:includeFontPadding="false"
+                    android:text="월"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"/>
+
+                <NumberPicker
+                    android:id="@+id/dialog_date_picker_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="120dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/notosans_kr_bold"
+                    android:includeFontPadding="false"
+                    android:text="일"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"/>
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <TextView
+            android:id="@+id/dialog_date_ok_btn_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:fontFamily="@font/notosans_kr_bold"
+            android:gravity="center"
+            android:background="@drawable/bg_base_main_1_fill"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@id/dialog_date_content_cl"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="확인"/>
+
+        <ImageView
+            android:id="@+id/dialog_base_close_btn_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_base_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+   </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,8 @@ plugins {
     id 'kotlin-kapt'
     //google map
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+    //firebase
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -84,7 +86,6 @@ dependencies {
     implementation'com.google.android.material:material:1.6.0-alpha02'
     implementation 'com.github.prolificinteractive:material-calendarview:2.0.1'
 
-
     //ted permission
     implementation 'gun0912.ted:tedpermission:2.2.3'
 
@@ -93,4 +94,10 @@ dependencies {
 
     //kakao login
     implementation "com.kakao.sdk:v2-user:2.8.5" // 카카오 로그인
+
+    //firebase
+    implementation 'com.google.firebase:firebase-storage:20.0.0'
+    implementation platform('com.google.firebase:firebase-bom:29.0.4')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
 }

@@ -5,5 +5,5 @@ import retrofit2.http.*
 
 interface TripRetrofitInterface {
     @POST("/app/trip")
-    fun postTrip(): Call<TripResponse>
+    fun postTrip(@Body trip: Trip): Call<TripResponse>
 }
