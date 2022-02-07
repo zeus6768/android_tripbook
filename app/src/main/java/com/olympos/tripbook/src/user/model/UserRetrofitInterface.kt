@@ -5,5 +5,8 @@ import retrofit2.http.*
 
 interface UserRetrofitInterface {
     @POST("/app/signin")
-    fun postUser(@Body userRequest: UserRequest): Call<UserResponse>
+    fun postUser(@Header("jwt") jwt: String): Call<JwtResponse>
+
+    @POST("/app/kakao/login")
+    fun postKakaoAccessToken(@Body kakaoAccessToken: String): Call<KakaoAccessTokenResponse>
 }

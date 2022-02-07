@@ -49,21 +49,12 @@ class SplashActivity : AppCompatActivity() {
 
     private fun selectActivity() {
         val jwt = getJwt(this)
-        // 서버에 request를 보내 로그인 알림
-        // response로 isValidToken, nickname, thumbnailImage URL 수신
-        // isValidToken이 false면 nickname, thumbnailImage URL는 null
-        // isValidToken이 false면 SigninActivity, true면 MainActivity
-        Log.d("GET JWT RESULT", jwt.toString())
-        if (jwt != 0) {
+        if (jwt != "") {
+
             startMainActivity()
         } else {
             startSigninActivity()
         }
-    }
-
-    private fun sendSigninRequest() {
-        val jwt = getJwt(this)
-
     }
 
     private fun startSigninActivity() {

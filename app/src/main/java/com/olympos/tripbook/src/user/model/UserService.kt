@@ -3,7 +3,7 @@ package com.olympos.tripbook.src.user.model
 import android.util.Log
 import com.olympos.tripbook.utils.ApplicationClass.Companion.retrofit
 import com.olympos.tripbook.utils.ApplicationClass.Companion.TAG
-import com.olympos.tripbook.utils.saveNickname
+import com.olympos.tripbook.utils.saveJwt
 import retrofit2.*
 
 class UserService {
@@ -25,28 +25,33 @@ class UserService {
         })
     }
 
-    fun postUser(userRequest: UserRequest) {
-        val userRetrofitService = retrofit.create(UserRetrofitInterface::class.java)
-        userRetrofitService.postUser(userRequest).enqueue(object : Callback<UserResponse> {
-            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
-                // Log.d(TAG, response.toString())
+    fun postKakaoAccessToken(kakaoAccessToken: String) {
+        val postJwtRetrofit = retrofit.create(UserRetrofitInterface::class.java)
+        postJwtRetrofit.postUser(kakaoAccessToken).enqueue(object : Callback<KakaoAccessTokenResponse> {
+            override fun onResponse(call: Call<KakaoAccessTokenResponse>, response: Response<KakaoAccessTokenResponse>) {
                 if (response.isSuccessful) {
-                    val body = response.body()!!
-                    if (body.isValidToken) acceptUser() else gotoSignin()
+                    val res = response.body()!!
+                    when (res.code) {
+                        1000 -> saveJwt(res.)
+                    }
                 }
             }
-            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                Log.d("POST USER API Failure", t.message.toString())
-                gotoSignin()
+            override fun onFailure(call: Call<JwtResponse>, t: Throwable) {
+                TODO("Not yet implemented")
             }
         })
     }
 
-    private fun acceptUser() {
-        TODO("Not yet implemented")
+    fun postRefreshJwt(refreshJwtRequest: RefreshJwtRequest) {
+
     }
 
-    private fun gotoSignin() {
-        TODO("Not yet implemented")
+    fun postKakaoAccessToken(kakaoAccessTokenRequest: KakaoAccessTokenRequest) {
+
     }
+
+    fun postKakaoRefreshToken(kakaoRefreshTokenRequest: KakaoRefreshTokenRequest) {
+
+    }
+
 }
