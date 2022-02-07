@@ -17,7 +17,7 @@ class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<
     /*---------- 전역 변수 ----------*/
 
     private lateinit var cardClickListener: CardClickListener
-    private lateinit var context: Context
+//    private lateinit var context: Context
 
     /*---------- 내부 클래스(뷰 홀더) ----------*/
 
@@ -37,47 +37,42 @@ class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<
             binding.itemCardFillDateTv.text = card.date
             binding.itemCardFillBodyTv.text = card.body
 
-            this.itemView.setOnCreateContextMenuListener(this)
+//            this.itemView.setOnCreateContextMenuListener(this)
         }
 
-        override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
-            val edit : MenuItem? = menu?.add(Menu.NONE, 1001, 1, "편집")
-            val delete : MenuItem? = menu?.add(Menu.NONE, 1002, 2, "삭제")
+        override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {}
+//            val edit : MenuItem? = menu?.add(Menu.NONE, 1001, 1, "편집")
+//            val delete : MenuItem? = menu?.add(Menu.NONE, 1002, 2, "삭제")
+//
+//            edit?.setOnMenuItemClickListener(onEditMenu)
+//            delete?.setOnMenuItemClickListener(onEditMenu)
+//        }
 
-            edit?.setOnMenuItemClickListener(onEditMenu)
-            delete?.setOnMenuItemClickListener(onEditMenu)
-        }
-
-        private val onEditMenu : MenuItem.OnMenuItemClickListener = object : MenuItem.OnMenuItemClickListener {
-            override fun onMenuItemClick(item: MenuItem?): Boolean {
-                when(item?.itemId) {
-                    1001 -> { //편집
-
-                    }
-                    else -> { //삭제
-                        val builder : AlertDialog.Builder = object : AlertDialog.Builder(context)
-                        val view : View = LayoutInflater.from(context).inflate(R.layout.dialog_base, null, false)
-                        builder.setView(view)
-
-                        val dialog : AlertDialog = builder.create()
-                        val dialogBtn : Button = view.findViewById(R.id.dialog_base_ok_btn_tv)
-
-                        dialogBtn.setOnClickListener{
-                            cards.removeAt(adapterPosition)
-                            notifyItemRemoved(adapterPosition)
-
-                            dialog.dismiss()
-                        }
-
-
-
-
-                    }
-                }
-                return true
-            }
-
-        }
+//        private val onEditMenu : MenuItem.OnMenuItemClickListener = object : MenuItem.OnMenuItemClickListener {
+//            override fun onMenuItemClick(item: MenuItem?): Boolean {
+//                when(item?.itemId) {
+//                    1001 -> { //편집
+//
+//                    }
+//                    else -> { //삭제
+//                        val builder : AlertDialog.Builder = object : AlertDialog.Builder(context)
+//                        val view : View = LayoutInflater.from(context).inflate(R.layout.dialog_base, null, false)
+//                        builder.setView(view)
+//
+//                        val dialog : AlertDialog = builder.create()
+//                        val dialogBtn : Button = view.findViewById(R.id.dialog_base_ok_btn_tv)
+//
+//                        dialogBtn.setOnClickListener{
+//                            cards.removeAt(adapterPosition)
+//                            notifyItemRemoved(adapterPosition)
+//
+//                            dialog.dismiss()
+//                        }
+//                    }
+//                }
+//                return true
+//            }
+//        }
     }
 
     /*---------- 인터페이스 ----------*/
