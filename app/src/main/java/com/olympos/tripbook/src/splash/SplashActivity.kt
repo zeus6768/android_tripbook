@@ -54,7 +54,7 @@ class SplashActivity : AppCompatActivity() {
         // isValidToken이 false면 nickname, thumbnailImage URL는 null
         // isValidToken이 false면 SigninActivity, true면 MainActivity
         Log.d("GET JWT RESULT", jwt.toString())
-        if (jwt != 0) {
+        if (jwt != "") {
             startMainActivity()
         } else {
             startSigninActivity()
