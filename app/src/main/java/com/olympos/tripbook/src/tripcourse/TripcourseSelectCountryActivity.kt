@@ -97,51 +97,43 @@ class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
                 googleMap.addMarker(mOptions)       // 마커(핀) 추가
         }
 
-        //Search View 사용 : https://machine-woong.tistory.com/135 참고
-        binding.tripcourseSelectCountrySearchSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+        //Search View 사용? : https://machine-woong.tistory.com/135 참고
 
-                override fun onQueryTextSubmit(query: String?): Boolean {  // 검색 버튼 누를 때 호출
+        binding.tripcourseSelectCountrySearchBtn.setOnClickListener{
+            val inputString : String = binding.tripcourseSelectCountrySearchEt.text.toString()
 
-                    var addressList: List<Address>? = null
-                    try { // search view에 입력한 텍스트(주소, 지역, 장소 등)을 지오 코딩을 이용해 변환
-                        addressList = geocoder.getFromLocationName(query, 10) //str = 주소, 10 = 최대 검색 결과 개수
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                    Log.d("First Search Address", addressList!![0].toString())
-
-                    // 콤마를 기준으로 split
-                    val splitStr: List<String> = addressList!![0].toString().split(",")
-                    val address = splitStr[0].substring(splitStr[0].indexOf("\"") + 1, splitStr[0].length - 2) // 주소
-                    Log.d("Search Address", address)
-
-                    val latitude = splitStr[10].substring(splitStr[10].indexOf("=") + 1) // 위도
-                    val longitude = splitStr[12].substring(splitStr[12].indexOf("=") + 1) // 경도
-                    Log.d("Result of latitude", latitude)
-                    Log.d("Result of longitude", longitude)
-
-                    // 좌표(위도, 경도) 생성
-                    val point = LatLng(latitude.toDouble(), longitude.toDouble())
-
-                    // 마커 생성
-                    val mOptions2 = MarkerOptions()
-                    mOptions2.title("search result")
-                    mOptions2.snippet(address)
-                    mOptions2.position(point)
-
-                    // 마커 추가
-                    mMap.addMarker(mOptions2)
-
-                    // 해당 좌표로 화면 줌
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 15f))
-                    return true
-                }
-
-            // 글자가 쓰면서 발생하는 이벤트
-            override fun onQueryTextChange(newText: String?): Boolean {
-                TODO("Not yet implemented")
+            var addressList: List<Address>? = null
+            try { // search view에 입력한 텍스트(주소, 지역, 장소 등)을 지오 코딩을 이용해 변환
+                addressList = geocoder.getFromLocationName(inputString, 10) //str = 주소, 10 = 최대 검색 결과 개수
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
-        })
+            Log.d("First Search Address", addressList!![0].toString())
+
+            // 콤마를 기준으로 split
+            val splitStr: List<String> = addressList!![0].toString().split(",")
+            val address = splitStr[0].substring(splitStr[0].indexOf("\"") + 1, splitStr[0].length - 2) // 주소
+            Log.d("Search Address", address)
+
+            val latitude = splitStr[10].substring(splitStr[10].indexOf("=") + 1) // 위도
+            val longitude = splitStr[12].substring(splitStr[12].indexOf("=") + 1) // 경도
+            Log.d("Result of latitude", latitude)
+            Log.d("Result of longitude", longitude)
+
+            // 좌표(위도, 경도) 생성
+            val point = LatLng(latitude.toDouble(), longitude.toDouble())
+
+            // 마커 생성
+            val mOptions2 = MarkerOptions()
+            mOptions2.title("search result")
+            mOptions2.snippet(address)
+            mOptions2.position(point)
+
+            // 마커 추가
+            mMap.addMarker(mOptions2)
+
+            // 해당 좌표로 화면 줌
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 15f))
+        }
     }
 }

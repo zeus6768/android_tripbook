@@ -82,11 +82,33 @@
 <!--            tools:context=".MapsActivity"-->
 <!--            android:name="com.google.android.gms.maps.SupportMapFragment" />-->
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/tripcourse_select_country_search_searchView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            app:queryHint="검색하려는 장소를 입력해주세요"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/tripcourse_select_country_search_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="검색하려는 장소를 입력해주세요"
+                android:textSize="11sp"
+                android:inputType="text"
+                />
+
+            <Button
+                android:id="@+id/tripcourse_select_country_search_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_base_main_1_fill"
+                android:gravity="center"
+                android:text="검색"
+                android:textSize="11sp"
+                android:fontFamily="@font/gmarket_sans_bold"
+                android:includeFontPadding="false" />
+
+        </LinearLayout>
+
 
         <fragment
             android:id="@+id/tripcourse_select_country_map_fragment"
