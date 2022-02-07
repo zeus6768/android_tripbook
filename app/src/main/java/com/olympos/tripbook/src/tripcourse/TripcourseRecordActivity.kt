@@ -28,8 +28,6 @@ class TripcourseRecordActivity : BaseActivity() {
     lateinit var uri : Uri //사진 uri 전역변수
 //    private val dateSelectDialog = DateSelectDialog(this)
 
-
-
     private var launcher = registerForActivityResult(ActivityResultContracts.GetContent()) {
         binding.tripcourseRecordImgIv.setImageURI(it)
         binding.tripcourseRecordImgTv.visibility=View.GONE
@@ -232,7 +230,7 @@ class TripcourseRecordActivity : BaseActivity() {
             //사진 저장(URL)
             card.coverImg = uri.toString()
 
-            card.date = "0000.00.00"
+            card.date = "0000-00-00"
             card.time = 2
             card.country = "000.000-000.000"
 

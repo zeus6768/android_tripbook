@@ -1,10 +1,10 @@
 package com.olympos.tripbook.src.tripcourse.model
 
-import androidx.room.PrimaryKey
+
 import com.google.gson.annotations.SerializedName
 import com.olympos.tripbook.src.tripcourse.FALSE
 
-data class Card (@PrimaryKey(autoGenerate = true) @SerializedName("cardIdx") val idx: Int = 1,
+data class Card (@SerializedName("cardIdx") val idx: Int = 1,
                  var hasData : Int = FALSE,
 
                  @SerializedName("tripIdx") var tripIdx : Int =1,

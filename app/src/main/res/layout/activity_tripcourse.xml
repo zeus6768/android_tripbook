@@ -69,11 +69,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/looker_albumlist_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
         tools:listitem="@layout/item_tripcourse_card_base_empty"
         app:layout_constraintTop_toBottomOf="@id/tripcourse_titlebar_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 
     <!--카드 추가하기-->
