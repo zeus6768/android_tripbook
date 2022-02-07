@@ -14,7 +14,7 @@ fun saveJwt(context: Context, jwt: String) {
 fun getJwt(context: Context): String? {
     val spf = context.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
 
-    return spf.getString("jwt", "")
+    return spf.getString("jwt", "aaa")
 }
 
 fun saveTokenValidity(context: Context, isValidToken: Boolean) {

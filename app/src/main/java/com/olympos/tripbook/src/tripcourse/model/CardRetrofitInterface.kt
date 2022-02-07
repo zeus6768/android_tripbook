@@ -1,9 +1,11 @@
-package com.olympos.tripbook.src.trip.model
+package com.olympos.tripbook.src.tripcourse.model
 
 import retrofit2.Call
 import retrofit2.http.*
 
-interface TripRetrofitInterface {
-    @POST("/app/trip")
-    fun postTrip(): Call<TripResponse>
+interface CardRetrofitInterface {
+    @POST("/app/course")
+    fun postCard(): Call<CardResponse>
+
+    @GET("/app/course/:courseIdx")
 }
