@@ -12,25 +12,8 @@ import retrofit2.*
 class TripService {
     private lateinit var process: TripPostProcess
 
-    fun setloadingView(process: TripPostProcess) {
+    fun setProcess(process: TripPostProcess) {
         this.process = process
-    }
-    fun getApiTest() {
-        val apiTestService = retrofit.create(ApiTestRetrofitInterface::class.java)
-        apiTestService.getApiTest().enqueue(object : Callback<ApiTestResponse> {
-            override fun onResponse(call: Call<ApiTestResponse>, response: Response<ApiTestResponse>) {
-                Log.d(TAG, response.toString())
-                if (response.isSuccessful) {
-                    val res = response.body()!!
-                    when (res.code) {
-                        1000 -> Log.d("REST API TEST 성공", res.toString())
-                    }
-                }
-            }
-            override fun onFailure(call: Call<ApiTestResponse>, t: Throwable) {
-                Log.d("REST API 실패", t.message.toString())
-            }
-        })
     }
 
     fun postTrip(trip: Trip) {

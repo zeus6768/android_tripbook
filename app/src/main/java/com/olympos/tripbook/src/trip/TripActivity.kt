@@ -73,10 +73,12 @@ class TripActivity : BaseActivity(), TripPostProcess {
         //날짜 선택
         calendar.topbarVisible = true
         calendar.setOnRangeSelectedListener { widget, dates ->
-            val regex = "\\^\\d{4}.\\d{1,2}.\\d{1,2}\\$/".toRegex()
-            departureDate = regex.find(dates.first().toString()).toString()
-            arrivalDate = regex.find(dates.last().toString()).toString()
-            Log.d("정규식 확인", departureDate)
+//            val regex = "\\^\\d{4}.\\d{1,2}.\\d{1,2}\\$/".toRegex()
+//            departureDate = regex.find(dates.first().toString()).toString()
+//            arrivalDate = regex.find(dates.last().toString()).toString()
+//            Log.d("정규식 확인", departureDate)
+//            departureDate = dates.first().toString().substring(12).split("-")
+            arrivalDate = dates.last().toString()
 
             //출발일
             binding.tripDateDepartureMonthTv.text = departureDate.split("-")[1]
@@ -165,7 +167,7 @@ class TripActivity : BaseActivity(), TripPostProcess {
 
     private fun postTrip(trip: Trip) {
         val tripService = TripService()
-        tripService.setloadingView(this)
+        tripService.setProcess(this)
 
         tripService.postTrip(trip)
     }
