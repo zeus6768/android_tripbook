@@ -26,8 +26,6 @@ class SigninActivity : BaseActivity() {
 
         binding.signinSigninBtnIv.setOnClickListener(this)
 
-        val userService = UserService()
-        userService.getApiTest()
     }
 
 
@@ -47,16 +45,20 @@ class SigninActivity : BaseActivity() {
             } else if (token != null) {
                 Log.d("카카오 로그인 성공", ".")
                 UserApiClient.instance.me { user, _ ->
-                    Log.d("카카오 user", user.toString())
-                    Log.d("카카오 user", user?.kakaoAccount.toString())
-                    Log.d("카카오 user email", user?.kakaoAccount?.profile.toString())
-                    Log.d("카카오 user nickname", user?.kakaoAccount?.profile?.nickname.toString())
-                    startMainActivity()
-                    finish()
+                    if (user!!.kakaoAccount?.emailNeedsAgreement == true) {
+                        // 추가 동의 필요한 경우
+                        requireEmailNeedsAgreement()
+                    } else {
+                        // 추가 동의 필요하지 않은 경우
+                        Log.d("kakao user", user.toString())
+                        Log.d("kakao user account", user.kakaoAccount.toString())
+                        Log.d("kakao user profile", user.kakaoAccount?.profile.toString())
+                        Log.d("kakao user nickname", user.kakaoAccount?.profile?.nickname.toString())
+                        startMainActivity()
+                    }
                 }
             }
         }
-
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(this@SigninActivity)) {
             UserApiClient.instance.loginWithKakaoTalk(this@SigninActivity, callback = callback)
         } else {
@@ -64,34 +66,32 @@ class SigninActivity : BaseActivity() {
         }
     }
 
-    private fun requireEmailNeedsAgreement(user: User): Boolean {
-        var result = false
+    private fun requireEmailNeedsAgreement() {
         var scopes = mutableListOf<String>()
-        if (user.kakaoAccount?.emailNeedsAgreement == true) {
-            Log.d(TAG, "사용자에게 추가 동의를 받아야 합니다.")
-            scopes.add("account_email")
-        }
+
+        scopes.add("account_email")
+        Log.d(TAG, "사용자에게 추가 동의를 받아야 합니다.")
+
         UserApiClient.instance.loginWithNewScopes(this@SigninActivity, scopes) { token, error ->
             if (error != null) {
                 Log.e(TAG, "사용자 추가 동의 실패", error)
             } else {
                 Log.d(TAG, "allowed scopes: ${token!!.scopes}")
-
                 UserApiClient.instance.me { user, error ->
                     if (error != null) {
                         Log.e(TAG, "사용자 정보 요청 실패", error)
                     } else if (user != null) {
                         Log.i(TAG, "사용자 정보 요청 성공")
-                        var result = true
+                        startMainActivity()
                     }
                 }
             }
         }
-        return result
     }
 
     private fun startMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+        finish()
     }
 }

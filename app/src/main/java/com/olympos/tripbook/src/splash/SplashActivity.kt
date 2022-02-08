@@ -13,11 +13,13 @@ import com.gun0912.tedpermission.TedPermission
 import com.olympos.tripbook.databinding.ActivitySplashBinding
 import com.olympos.tripbook.src.home.MainActivity
 import com.olympos.tripbook.src.user.SigninActivity
+import com.olympos.tripbook.src.user.model.UserService
 import com.olympos.tripbook.utils.ApplicationClass
 import com.olympos.tripbook.utils.getJwt
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
+    private val userService = UserService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +51,10 @@ class SplashActivity : AppCompatActivity() {
 
     private fun selectActivity() {
         if (getJwt() != null) {
-
+            userService.postUser()
+            startMainActivity()
+        } else {
+            startSigninActivity()
         }
     }
 
