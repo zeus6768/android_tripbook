@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
+import com.kakao.sdk.user.model.User
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityUserSigninBinding
@@ -42,22 +43,16 @@ class SigninActivity : BaseActivity() {
     private fun signinByKakaotalk() {
         val callback : (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
-                Log.e(TAG,"로그인 실패 $error")
+                Log.e("카카오 로그인 실패", error.toString())
             } else if (token != null) {
-                Log.d(TAG, "로그인 성공")
-                // UserApiClient가 아닌 Tripbook Server에서 값을 받아와야 함
+                Log.d("카카오 로그인 성공", ".")
                 UserApiClient.instance.me { user, _ ->
-                    val kakaoID = user!!.id
-                    Log.d("카카오 user email", user.kakaoAccount?.profile.toString())
-                    Log.d("카카오 user nickname", user.kakaoAccount?.profile?.nickname.toString())
-                    kakaoID?.let { saveJwt(this, it.toInt()) }
-                    val userid = getJwt(this)
-                    Log.d("JWT 저장", userid.toString())
-//                    saveAccessToken(this, token.accessToken)
-//                    saveRefreshToken(this, token.refreshToken)
-                    sendAccessToken()
-                    sendRefreshToken()
+                    Log.d("카카오 user", user.toString())
+                    Log.d("카카오 user", user?.kakaoAccount.toString())
+                    Log.d("카카오 user email", user?.kakaoAccount?.profile.toString())
+                    Log.d("카카오 user nickname", user?.kakaoAccount?.profile?.nickname.toString())
                     startMainActivity()
+                    finish()
                 }
             }
         }
@@ -69,19 +64,34 @@ class SigninActivity : BaseActivity() {
         }
     }
 
+    private fun requireEmailNeedsAgreement(user: User): Boolean {
+        var result = false
+        var scopes = mutableListOf<String>()
+        if (user.kakaoAccount?.emailNeedsAgreement == true) {
+            Log.d(TAG, "사용자에게 추가 동의를 받아야 합니다.")
+            scopes.add("account_email")
+        }
+        UserApiClient.instance.loginWithNewScopes(this@SigninActivity, scopes) { token, error ->
+            if (error != null) {
+                Log.e(TAG, "사용자 추가 동의 실패", error)
+            } else {
+                Log.d(TAG, "allowed scopes: ${token!!.scopes}")
+
+                UserApiClient.instance.me { user, error ->
+                    if (error != null) {
+                        Log.e(TAG, "사용자 정보 요청 실패", error)
+                    } else if (user != null) {
+                        Log.i(TAG, "사용자 정보 요청 성공")
+                        var result = true
+                    }
+                }
+            }
+        }
+        return result
+    }
+
     private fun startMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
-
-
-
-    private fun sendAccessToken() {
-
-    }
-
-    private fun sendRefreshToken() {
-
-    }
-
 }

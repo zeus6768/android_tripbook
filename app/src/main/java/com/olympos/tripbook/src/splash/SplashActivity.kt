@@ -48,12 +48,8 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun selectActivity() {
-        val jwt = getJwt(this)
-        if (jwt != "") {
+        if (getJwt() != null) {
 
-            startMainActivity()
-        } else {
-            startSigninActivity()
         }
     }
 

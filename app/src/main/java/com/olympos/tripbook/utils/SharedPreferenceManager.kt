@@ -8,64 +8,51 @@ import com.olympos.tripbook.utils.ApplicationClass.Companion.mSharedPreferences
 fun saveJwt(jwtToken: String) {
     val editor = mSharedPreferences.edit()
     editor.putString(X_ACCESS_TOKEN, jwtToken)
-
     editor.apply()
 }
 
 fun getJwt(): String? = mSharedPreferences.getString(X_ACCESS_TOKEN, null)
 
-fun saveTokenValidity(context: Context, isValidToken: Boolean) {
-    val spf = context.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
-    val editor = spf.edit()
-
-    editor.putBoolean("accessToken", isValidToken)
+fun saveRefreshJwt(refreshJwt: String) {
+    val editor = mSharedPreferences.edit()
+    editor.putString("refreshJwt", refreshJwt)
     editor.apply()
 }
 
-fun getTokenValidity(context: Context): Boolean {
-    val spf = context.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
+fun getRefreshJwt(): String? = mSharedPreferences.getString("refreshJwt", null)
 
-    return spf.getBoolean("isValidToken", false)
-}
-
-fun saveNickname(context: Context, name: String) {
-    val spf = context.getSharedPreferences("user", AppCompatActivity.MODE_PRIVATE)
-    val editor = spf.edit()
-
-    editor.putString("name", name)
+fun saveKakaoAccessToken(kakaoAccessToken: String) {
+    val editor = mSharedPreferences.edit()
+    editor.putString("kakaoAccessToken", kakaoAccessToken)
     editor.apply()
 }
 
-fun getNickname(context: Context): String? {
-    val spf = context.getSharedPreferences("user", AppCompatActivity.MODE_PRIVATE)
+fun getKakaoAccessToken(): String? = mSharedPreferences.getString("kakaoAccessToken", null)
 
-    return spf.getString("name", "")
-}
-
-fun saveProfileImageURL(context: Context, url: String) {
-    val spf = context.getSharedPreferences("user", AppCompatActivity.MODE_PRIVATE)
-    val editor = spf.edit()
-
-    editor.putString("profileImageUrl", url)
+fun saveKakaoRefreshToken(kakaoRefreshToken: String) {
+    val editor = mSharedPreferences.edit()
+    editor.putString("kakaoRefreshToken", kakaoRefreshToken)
     editor.apply()
 }
 
-fun getProfileImageURL(context: Context): String? {
-    val spf = context.getSharedPreferences("user", AppCompatActivity.MODE_PRIVATE)
+fun getKakaoRefreshToken(): String? = mSharedPreferences.getString("kakaoRefreshToken", null)
 
-    return spf.getString("profileImageUrl", "")
+fun saveUserIdx(userIdx: Int) {
+    val editor = mSharedPreferences.edit()
+    editor.putInt("userIdx", userIdx)
+    editor.apply()
 }
+
+fun getUserIdx(): Int = mSharedPreferences.getInt("userIdx", 0)
 
 fun saveTripIdx(context: Context, idx: Int) {
     val spf = context.getSharedPreferences("tripIdx", AppCompatActivity.MODE_PRIVATE)
     val editor = spf.edit()
-
     editor.putInt("tripIdx", idx)
     editor.apply()
 }
 
 fun getTripIdx(context: Context): Int {
     val spf = context.getSharedPreferences("tripIdx", AppCompatActivity.MODE_PRIVATE)
-
     return spf.getInt("tripIdx", 0)
 }
