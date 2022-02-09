@@ -27,7 +27,7 @@ class TripcourseActivity : BaseActivity() {
     private val cardDatas = ArrayList<Card>() //Datas in here. from Sever
     val cardRVAdapter = RVCardAdapter(cardDatas)
 
-    private var cardIdx = 4
+    private var cardIdx = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,16 +36,21 @@ class TripcourseActivity : BaseActivity() {
 
         initView()
 
-        val card1 : Card = Card(1)
-        val card2 : Card = Card(2)
-        val card3 : Card = Card(3)
-        cardDatas.add(card1)
-        cardDatas.add(card2)
-        cardDatas.add(card3)
+        val defaultCard1 : Card = Card(cardIdx) //cardIdx =1
+        cardIdx++
+        val defaultCard2 : Card = Card(cardIdx) //cardIdx =2
+        cardIdx++
+        val defaultCard3 : Card = Card(cardIdx) //cardIdx =3
+        cardIdx++
+
+        cardDatas.add(defaultCard1)
+        cardDatas.add(defaultCard2)
+        cardDatas.add(defaultCard3)
 
         binding.lookerAlbumlistRecyclerview.adapter = cardRVAdapter
         binding.lookerAlbumlistRecyclerview.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
         binding.lookerAlbumlistRecyclerview.addItemDecoration(RVCardAdapterDecoration())
+
         setDummyData2Card(cardDatas)
 
         cardRVAdapter.setItemClickListener(object : RVCardAdapter.CardClickListener {
@@ -130,10 +135,10 @@ class TripcourseActivity : BaseActivity() {
 
     private fun setDummyData2Card(cards : ArrayList<Card>) {
         Log.d("setDummyData2Card", "start")
-        val card1 : Card = Card(0, TRUE, 1,"", "대충지은 제목 1", "바뀐 날짜 예시", 1,"여긴? 어디임", "바뀐 내용 11111")
+        val card1 : Card = Card(0, 1, TRUE,"", "대충지은 제목 1", "바뀐 날짜 예시", 1,"여긴? 어디임", "바뀐 내용 11111")
         cards.set(0, card1)
 
-        val card2 : Card = Card(0, TRUE, 1, "", "어떻게든 지어본 이름 2", "", 2, "여긴 어디임?", "바뀐 내용 22222")
+        val card2 : Card = Card(0, 1, TRUE, "", "어떻게든 지어본 이름 2", "", 2, "여긴 어디임?", "바뀐 내용 22222")
         cards.set(1, card2)
 
         cardRVAdapter.notifyItemChanged(0)

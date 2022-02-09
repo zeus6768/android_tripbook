@@ -5,8 +5,9 @@ import retrofit2.http.*
 
 interface CardRetrofitInterface {
     @POST("/app/course")
-    fun postCard(@Body card : Card): Call<CardResponse>
+    fun postCard(@Body card : Card): Call<PostCardResponse>
+    //Gson 객체로 바꿔서 서버로 보내는 어노테이션 : @Body
 
     @GET("/app/course/:courseIdx")
-    fun getCard() : Call<CardResponse>
+    fun getCard() : Call<GetCardResponse>
 }
