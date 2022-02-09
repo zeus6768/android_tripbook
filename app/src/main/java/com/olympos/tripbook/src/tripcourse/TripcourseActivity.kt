@@ -27,6 +27,8 @@ class TripcourseActivity : BaseActivity() {
     private val cardDatas = ArrayList<Card>() //Datas in here. from Sever
     val cardRVAdapter = RVCardAdapter(cardDatas)
 
+    private var cardIdx = 4
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTripcourseBinding.inflate(layoutInflater)
@@ -34,11 +36,12 @@ class TripcourseActivity : BaseActivity() {
 
         initView()
 
-        val card : Card = Card()
-
-        cardDatas.add(card)
-        cardDatas.add(card)
-        cardDatas.add(card)
+        val card1 : Card = Card(1)
+        val card2 : Card = Card(2)
+        val card3 : Card = Card(3)
+        cardDatas.add(card1)
+        cardDatas.add(card2)
+        cardDatas.add(card3)
 
         binding.lookerAlbumlistRecyclerview.adapter = cardRVAdapter
         binding.lookerAlbumlistRecyclerview.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
@@ -114,10 +117,12 @@ class TripcourseActivity : BaseActivity() {
                 //todo 저장
             }
             R.id.tripcourse_add_card_btn -> {
-                val card : Card = Card()
+                val card : Card = Card(cardIdx)
+                cardIdx++
+
                 cardDatas.add(card)
                 Log.d("Check num of cardDatas", cardRVAdapter.itemCount.toString())
-                cardRVAdapter.notifyItemInserted(cardDatas.size - 1)
+//                cardRVAdapter.notifyItemInserted(cardDatas.size - 1)
                 cardRVAdapter.notifyDataSetChanged()
             }
         }

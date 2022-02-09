@@ -1,13 +1,10 @@
 package com.olympos.tripbook.src.tripcourse
 
-import android.app.AlertDialog
-import android.content.Context
-import android.view.*
-import android.widget.Button
+import android.view.ContextMenu
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.olympos.tripbook.R
-import com.olympos.tripbook.config.BaseActivity
-import com.olympos.tripbook.config.BaseDialog
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseEmptyBinding
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseFillBinding
 import com.olympos.tripbook.src.tripcourse.model.Card
@@ -138,6 +135,10 @@ class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<
 
     fun setItemClickListener(itemClickListener : CardClickListener) {
         cardClickListener = itemClickListener
+    }
+
+    fun getPosition() {
+        return
     }
 
     private fun onRemoveCard(position: Int){

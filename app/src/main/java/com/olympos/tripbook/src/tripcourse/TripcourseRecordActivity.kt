@@ -27,6 +27,7 @@ class TripcourseRecordActivity : BaseActivity() {
     lateinit var binding: ActivityTripcourseRecordBinding
     lateinit var uri : Uri //사진 uri 전역변수
 //    private val dateSelectDialog = DateSelectDialog(this)
+    var position : Int = 0 // 리사이클러 뷰에서 가져올 현재 카드의포지션
 
     private var launcher = registerForActivityResult(ActivityResultContracts.GetContent()) {
         binding.tripcourseRecordImgIv.setImageURI(it)
@@ -45,9 +46,6 @@ class TripcourseRecordActivity : BaseActivity() {
         setContentView(binding.root)
 
         initView()
-
-
-
 
         if(intent.hasExtra("card")) {
             card = gson.fromJson(intent.getStringExtra("card"), card::class.java)
@@ -85,7 +83,7 @@ class TripcourseRecordActivity : BaseActivity() {
 
     /*
     * 레트로핏 사용 구간
-    * */
+    */
     private fun postCard(card : Card) {
         Log.d("들어오는지 확인", "TripActivity-postTrip")
         val cardService = CardService()
