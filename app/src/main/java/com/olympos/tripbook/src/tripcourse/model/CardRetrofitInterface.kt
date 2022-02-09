@@ -10,4 +10,7 @@ interface CardRetrofitInterface {
 
     @GET("/app/course/:courseIdx")
     fun getCard() : Call<GetCardResponse>
+
+    @GET("/app/trip/:tripIdx/courses")
+    fun getTrip() : Call<GetTripResponse>
 }

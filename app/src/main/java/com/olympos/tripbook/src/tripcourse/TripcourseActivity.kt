@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout.Behavior.getTag
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -18,8 +19,9 @@ import com.olympos.tripbook.config.BaseDialog
 import com.olympos.tripbook.databinding.ActivityTripcourseBinding
 import com.olympos.tripbook.src.home.MainActivity
 import com.olympos.tripbook.src.tripcourse.model.Card
+import com.olympos.tripbook.src.tripcourse.model.CardsView
 
-class TripcourseActivity : BaseActivity() {
+class TripcourseActivity : BaseActivity(), CardsView {
 
     lateinit var binding : ActivityTripcourseBinding
     private var gson : Gson = Gson()
@@ -105,11 +107,9 @@ class TripcourseActivity : BaseActivity() {
     }
 
     //종료된 액티비티에서 정보 받아오기 : TripcourseRecord -> card Data
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//    }
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onClick(v: View?) {
@@ -135,13 +135,28 @@ class TripcourseActivity : BaseActivity() {
 
     private fun setDummyData2Card(cards : ArrayList<Card>) {
         Log.d("setDummyData2Card", "start")
-        val card1 : Card = Card(0, 1, TRUE,"", "대충지은 제목 1", "바뀐 날짜 예시", 1,"여긴? 어디임", "바뀐 내용 11111")
+        val card1 : Card = Card(1, 1, TRUE,"", "대충지은 제목 1", "바뀐 날짜 예시", 1,"여긴? 어디임", "바뀐 내용 11111")
         cards.set(0, card1)
 
-        val card2 : Card = Card(0, 1, TRUE, "", "어떻게든 지어본 이름 2", "", 2, "여긴 어디임?", "바뀐 내용 22222")
+        val card2 : Card = Card(2, 1, TRUE, "", "어떻게든 지어본 이름 2", "", 2, "여긴 어디임?", "바뀐 내용 22222")
         cards.set(1, card2)
 
         cardRVAdapter.notifyItemChanged(0)
         cardRVAdapter.notifyItemChanged(1)
+    }
+
+    override fun onGetCardsLoading() {
+        //todo 로딩바 생성
+    }
+
+    override fun onGetCardsSuccess(cards: ArrayList<Card>) { //
+        this.cardDatas.clear()
+        this.cardDatas.addAll(cards)
+
+        cardRVAdapter.notifyDataSetChanged()
+    }
+
+    override fun onGetCardsFailure(code: Int, message: String) { //통신 실패 View
+        Toast.makeText(this, "$code : $message", Toast.LENGTH_LONG).show()
     }
 }

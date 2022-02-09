@@ -8,7 +8,13 @@ import com.olympos.tripbook.utils.ApplicationClass.Companion.TAG
 import com.olympos.tripbook.utils.saveNickname
 import retrofit2.*
 
-class CardService {
+class CardService{
+
+    private lateinit var cardsView : CardsView
+
+    fun setCardsView(cardsView : CardsView) {
+        this.cardsView = cardsView
+    }
 
     //작성 완료한 카드 서버로 전송
     fun postCard(card : Card) {
@@ -28,6 +34,38 @@ class CardService {
             override fun onFailure(call: Call<PostCardResponse>, t: Throwable) {
                 //통신 실패 -> 에러 건네줌
                 Log.d("CardService-postCard", t.toString()) //네트워크 실패
+            }
+        })
+    }
+
+    //여행 가져오기
+    fun getTrip(){
+        val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
+
+        cardsView.onGetCardsLoading()
+
+        cardRetrofitService.getTrip().enqueue(object : Callback<GetTripResponse> {
+            override fun onResponse(call: Call<GetTripResponse>, response: Response<GetTripResponse>) {
+                Log.d("들어오는지 확인", "CardService-getTrip-onResponse")
+                if (response.isSuccessful) {
+                    val res = response.body()!!
+                    Log.d("__res", response.body()!!.toString())
+                    when (res.code) {
+                        1000 -> {
+                            Log.d("REST API TEST 성공", res.toString())
+                            cardsView.onGetCardsSuccess(res.cards)
+                        }
+
+                        else -> {
+                            Log.d("통신 실패 : ", res.toString())
+                            cardsView.onGetCardsFailure(res.code, res.message)
+                        }
+                    }
+                }
+            }
+            override fun onFailure(call: Call<GetTripResponse>, t: Throwable) {
+                Log.d("들어오는지 확인", "CardService-getTrip-onFailure")
+                cardsView.onGetCardsFailure(400, t.message.toString())
             }
         })
     }

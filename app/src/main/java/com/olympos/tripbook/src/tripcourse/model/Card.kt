@@ -10,7 +10,7 @@ data class Card (
     @SerializedName("tripIdx") var tripIdx : Int = 0,
     var hasData : Int = FALSE,
 
-    @SerializedName("courseImg")var coverImg : String = "",
+    @SerializedName("courseImg")var coverImg : String? = null,
     @SerializedName("courseTitle")var title : String = "",
     @SerializedName("courseDate")var date : String = "어느 순간",
     @SerializedName("courseTime")var time : Int = 2,

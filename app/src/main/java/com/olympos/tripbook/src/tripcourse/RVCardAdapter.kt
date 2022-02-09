@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.olympos.tripbook.R
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseEmptyBinding
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseFillBinding
 import com.olympos.tripbook.src.tripcourse.model.Card
@@ -29,7 +31,12 @@ class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<
     inner class FillCardViewHolder(val binding : ItemTripcourseCardBaseFillBinding) : RecyclerView.ViewHolder(binding.root),
         View.OnCreateContextMenuListener {
         fun bind(card : Card) {
-//            binding.itemCardFillCoverImg.setImageResource(card.coverImg)
+            if(card.coverImg == null){
+                binding.itemCardFillCoverImg.setImageResource(R.drawable.img_tripcourse_card_ex)
+            } else {
+//                Glide.with(context).load(card.coverImg).into(binding.itemCardFillCoverImg) //context 인자로 받아와야 함
+            }
+
             binding.itemCardFillTitleTv.text = card.title
             binding.itemCardFillDateTv.text = card.date
             binding.itemCardFillBodyTv.text = card.body
