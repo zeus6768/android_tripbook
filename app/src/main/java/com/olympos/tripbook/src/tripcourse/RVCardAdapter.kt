@@ -34,13 +34,10 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
 //    private var baseDialog = BaseDialog(context)
 
     inner class DialogClass(context: Context) : BaseDialog.BaseDialogClickListener {
-
         val thisContext = context
-
         override fun onOKClicked() {
             TODO("카드 삭제")
         }
-
         override fun onCancelClicked() {
 
         }
@@ -50,7 +47,6 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
             dig.show(title, message, okMessage)
         }
     }
-
 
     /*---------- 내부 클래스(뷰 홀더) ----------*/
 

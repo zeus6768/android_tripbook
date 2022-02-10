@@ -49,7 +49,7 @@ class TripcourseRecordActivity : BaseActivity() {
             binding.tripcourseRecordBodyEt.hint = card.body
             binding.tripcourseRecordTitleEt.hint = card.title
             binding.tripcourseRecordSelectDateBtn.text = card.date
-            binding.tripcourseRecordSelectCountryBtn.text = card.country
+//            binding.tripcourseRecordSelectCountryBtn.text = card.country
 //            binding.tripcourseRecordImgIv.setImageResource(card.coverImg)
         }
 
@@ -81,8 +81,8 @@ class TripcourseRecordActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         when(resultCode) {
             COUNTRY_ACTIVITY_CODE -> { //SelectCountryActivity에서 장소 정보 가져오기
-                card.country = data?.getStringExtra("country_result")!!
-                binding.tripcourseRecordSelectCountryBtn.text = card.country
+//                card.country = data?.getStringExtra("country_result")!!
+//                binding.tripcourseRecordSelectCountryBtn.text = card.country
             }
             HASHTAG_ACTIVITY_CODE -> { //SelectHashtagActivity에서 해시태그 정보 가져오기
                 //해시태그 저장
@@ -206,7 +206,7 @@ class TripcourseRecordActivity : BaseActivity() {
             //아직 구현이 안된 더미 데이터들
             card.date = "0000-00-00"
             card.time = 2
-            card.country = "000.000-000.000"
+//            card.country = "000.000-000.000"
 
             //아직까진 다시 TripcourseActivity로 보내진 않고 서버로 바로 카드를 보냄
 //            val intent = Intent(this@TripcourseRecordActivity, TripcourseRecordActivity::class.java)
