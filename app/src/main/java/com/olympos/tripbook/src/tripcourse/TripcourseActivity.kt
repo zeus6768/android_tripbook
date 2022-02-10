@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout.Behavior.getTag
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -18,30 +19,56 @@ import com.olympos.tripbook.config.BaseDialog
 import com.olympos.tripbook.databinding.ActivityTripcourseBinding
 import com.olympos.tripbook.src.home.MainActivity
 import com.olympos.tripbook.src.tripcourse.model.Card
+import com.olympos.tripbook.src.tripcourse.model.CardService
+import com.olympos.tripbook.src.tripcourse.model.CardsView
 
-class TripcourseActivity : BaseActivity() {
+class TripcourseActivity : BaseActivity(), CardsView {
 
     lateinit var binding : ActivityTripcourseBinding
     private var gson : Gson = Gson()
 
-    private val cardDatas = ArrayList<Card>() //Datas in here. from Sever
-    val cardRVAdapter = RVCardAdapter(cardDatas)
+    private var cards = ArrayList<Card>() //Datas in here. from Sever
+
+    private lateinit var cardRVAdapter : RVCardAdapter
+
+    private var cardIdx = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTripcourseBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initView()
+        val cardService = CardService()
+        cardService.setCardsView(this)
 
-        val card : Card = Card()
-        cardDatas.add(card)
-        cardDatas.add(card)
-        cardDatas.add(card)
-        setDummyData2Card()
+        initView()
+        initRecyclerView()
+
+//        val defaultCard1 : Card = Card(cardIdx) //cardIdx =1
+//        cardRVAdapter.addCard(defaultCard1)
+//        cardIdx++
+//
+//        val defaultCard2 : Card = Card(cardIdx) //cardIdx =2
+//        cardRVAdapter.addCard(defaultCard2)
+//        cardIdx++
+
+        val setTestCard1 : Card = Card(2, cardIdx, TRUE,"https://post-phinf.pstatic.net/MjAxOTEyMjRfODgg/MDAxNTc3MTY0NzE3ODI0.td40390rDg76HqexxOaLbmw4FMvAE5-taBjKL0QqGw4g.O1S4JTJnFfVcGPgHiCn09gNG2VtFZDO6umEH6e6fqygg.JPEG/%EC%A0%9C%EC%A3%BC%EB%8F%84_%EB%9A%9C%EB%B2%85%EC%9D%B4_%EC%97%AC%ED%96%89.jpg?type=w1200", "2000-00-00", 2, "이름있는제목 1","바뀐 내용 11111", "", "") //cardIdx =1
+        cardRVAdapter.addCard(setTestCard1)
+        cardIdx++
+
+        val setTestCard2 : Card = Card(2, cardIdx, TRUE, "https://korean.nlcsjeju.co.kr/userfiles/nlcsjejukrmvc/images/body/IMG_9153.jpg", "2000-11-11", 3, "어떻게든 지어본 이름 2", "바뀌어버린 내용", "", "") //cardIdx =2
+        cardRVAdapter.addCard(setTestCard2)
+        cardIdx++
+
+        val defaultCard3 : Card = Card(cardIdx) //cardIdx =3
+        cardRVAdapter.addCard(defaultCard3)
+        cardIdx++
 
         binding.lookerAlbumlistRecyclerview.adapter = cardRVAdapter
         binding.lookerAlbumlistRecyclerview.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
+        binding.lookerAlbumlistRecyclerview.addItemDecoration(RVCardAdapterDecoration())
+
+//        setDummyData2Card(cardDatas)
 
         cardRVAdapter.setItemClickListener(object : RVCardAdapter.CardClickListener {
             override fun onItemClick(card: Card) {
@@ -57,11 +84,19 @@ class TripcourseActivity : BaseActivity() {
         })
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        getTrip()
+        //todo 서버에서 카드정보 가져와서 적용하기
+        initRecyclerView()
+    }
+
     //여행 삭제하기 context menu
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo? ) {
         val inflater = menuInflater
         inflater.inflate(R.menu.context_menu_tripcourse_delete_trip, menu)
-        //super.onCreateContextMenu(menu, v, menuInfo)
+//        super.onCreateContextMenu(menu, v, menuInfo)
+        showDialog("", "", "")
     }
     //여행 삭제하기 context menu
     override fun onContextItemSelected(item: MenuItem): Boolean {
@@ -88,10 +123,19 @@ class TripcourseActivity : BaseActivity() {
     }
 
     //종료된 액티비티에서 정보 받아오기 : TripcourseRecord -> card Data
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//    }
 
-        setDummyData2Card()
+    private fun initRecyclerView() {
+        cardRVAdapter = RVCardAdapter(this)
+        binding.lookerAlbumlistRecyclerview.adapter = cardRVAdapter
+    }
+
+    private fun getTrip(){
+        val cardService = CardService()
+        cardService.setCardsView(this)
+        cardService.getTrip()
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -105,30 +149,38 @@ class TripcourseActivity : BaseActivity() {
                 //todo 저장
             }
             R.id.tripcourse_add_card_btn -> {
-                val card : Card = Card()
-                cardDatas.add(card)
+                val card : Card = Card(cardIdx)
+                cardIdx++
+
+                cardRVAdapter.addCard(card)
+                cardRVAdapter.notifyItemInserted(cardRVAdapter.itemCount -1)
+
                 Log.d("Check num of cardDatas", cardRVAdapter.itemCount.toString())
-                cardRVAdapter.notifyItemInserted(cardDatas.size - 1)
-                cardRVAdapter.notifyDataSetChanged()
             }
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun setDummyData2Card() {
-        Log.d("setDummyData2Card", "start")
-        cardDatas[0].hasData = TRUE
-        cardDatas[0].coverImg = R.drawable.img_tripcourse_card_ex
-        cardDatas[0].title = "안녕 나 들어왔어"
-        cardDatas[0].date = "날짜도 바뀜"
-        cardDatas[0].body = "내용도 요래요래요래요래 바뀜"
+//    private fun setDummyData2Card(cards : ArrayList<Card>) {
+//        Log.d("setDummyData2Card", "start")
+//        val card1 : Card = Card(1, 1, TRUE,"", "대충지은 제목 1", "바뀐 날짜 예시", 1,"여긴? 어디임", "바뀐 내용 11111")
+//        cards.set(0, card1)
+//
+//        val card2 : Card = Card(2, 1, TRUE, "", "어떻게든 지어본 이름 2", "", 2, "여긴 어디임?", "바뀐 내용 22222")
+//        cards.set(1, card2)
+//
+//        cardRVAdapter.notifyItemChanged(0)
+//        cardRVAdapter.notifyItemChanged(1)
+//    }
 
-        cardDatas[1].hasData = TRUE
-        cardDatas[1].coverImg = R.drawable.img_tripcourse_card_ex
-        cardDatas[1].title = "안녕 나 들어왔어22"
-        cardDatas[1].date = "날짜도 바뀜22"
-        cardDatas[1].body = "내용도 요래요래요래요래 바뀜22"
+    override fun onGetCardsLoading() {
+        //todo 로딩바 생성
+    }
 
-        cardRVAdapter.notifyDataSetChanged()
+    override fun onGetCardsSuccess(cards: ArrayList<Card>) {
+        cardRVAdapter.setCards(cards)
+    }
+
+    override fun onGetCardsFailure(code: Int, message: String) { //통신 실패 View
+        Toast.makeText(this, "$code : $message", Toast.LENGTH_LONG).show()
     }
 }

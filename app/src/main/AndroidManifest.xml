@@ -46,7 +46,7 @@
 <!--        구글 맵 임시 API Key -> 프로젝트 전체적인 키로 변경 필요-->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB-4JsTg2QkxvvAEg74E9KUFMxVhlnh_no" />
+            android:value="AIzaSyCXPqyHh43IFw-ywrq_ne2gK2ehwuOG2Wo" />
     </application>
 
 </manifest>
