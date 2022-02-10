@@ -17,6 +17,7 @@ import com.olympos.tripbook.src.home.model.HomeService
 import com.olympos.tripbook.src.trip.TripActivity
 import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.src.trip.model.TripService
+import com.olympos.tripbook.src.tripcourse.TripcourseActivity
 
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, HomeGetProcess {
@@ -98,7 +99,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     private fun startTripActivity() {
-        val intent = Intent(this, TripActivity::class.java)
+        //val intent = Intent(this, TripActivity::class.java)
+        val intent = Intent(this, TripcourseActivity::class.java)
         startActivity(intent)
     }
 

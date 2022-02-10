@@ -27,7 +27,8 @@ class TripcourseActivity : BaseActivity(), CardsView {
     private var gson : Gson = Gson()
 
     private val cardDatas = ArrayList<Card>() //Datas in here. from Sever
-    val cardRVAdapter = RVCardAdapter(cardDatas)
+
+    val cardRVAdapter = RVCardAdapter()
 
     private var cardIdx = 1
 
@@ -39,21 +40,26 @@ class TripcourseActivity : BaseActivity(), CardsView {
         initView()
 
         val defaultCard1 : Card = Card(cardIdx) //cardIdx =1
-        cardIdx++
-        val defaultCard2 : Card = Card(cardIdx) //cardIdx =2
-        cardIdx++
-        val defaultCard3 : Card = Card(cardIdx) //cardIdx =3
+        cardRVAdapter.addCard(defaultCard1)
         cardIdx++
 
-        cardDatas.add(defaultCard1)
-        cardDatas.add(defaultCard2)
-        cardDatas.add(defaultCard3)
+        val defaultCard2 : Card = Card(cardIdx) //cardIdx =2
+        cardRVAdapter.addCard(defaultCard2)
+        cardIdx++
+
+        val defaultCard3 : Card = Card(cardIdx) //cardIdx =3
+        cardRVAdapter.addCard(defaultCard3)
+        cardIdx++
+
+//        cardDatas.add(defaultCard1)
+//        cardDatas.add(defaultCard2)
+//        cardDatas.add(defaultCard3)
 
         binding.lookerAlbumlistRecyclerview.adapter = cardRVAdapter
         binding.lookerAlbumlistRecyclerview.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
         binding.lookerAlbumlistRecyclerview.addItemDecoration(RVCardAdapterDecoration())
 
-        setDummyData2Card(cardDatas)
+//        setDummyData2Card(cardDatas)
 
         cardRVAdapter.setItemClickListener(object : RVCardAdapter.CardClickListener {
             override fun onItemClick(card: Card) {
@@ -63,7 +69,6 @@ class TripcourseActivity : BaseActivity(), CardsView {
                     val cardData = gson.toJson(card)
                     intent.putExtra("card", cardData)
                 }
-
                 startActivity(intent)
             }
         })
@@ -125,10 +130,10 @@ class TripcourseActivity : BaseActivity(), CardsView {
                 val card : Card = Card(cardIdx)
                 cardIdx++
 
-                cardDatas.add(card)
+                cardRVAdapter.addCard(card)
+                cardRVAdapter.notifyItemInserted(cardRVAdapter.itemCount -1)
+
                 Log.d("Check num of cardDatas", cardRVAdapter.itemCount.toString())
-//                cardRVAdapter.notifyItemInserted(cardDatas.size - 1)
-                cardRVAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -149,6 +154,7 @@ class TripcourseActivity : BaseActivity(), CardsView {
         //todo 로딩바 생성
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onGetCardsSuccess(cards: ArrayList<Card>) { //
         this.cardDatas.clear()
         this.cardDatas.addAll(cards)

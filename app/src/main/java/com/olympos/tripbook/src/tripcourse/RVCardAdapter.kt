@@ -1,5 +1,6 @@
 package com.olympos.tripbook.src.tripcourse
 
+import android.annotation.SuppressLint
 import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
@@ -11,12 +12,23 @@ import com.olympos.tripbook.databinding.ItemTripcourseCardBaseEmptyBinding
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseFillBinding
 import com.olympos.tripbook.src.tripcourse.model.Card
 
-class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RVCardAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    /*---------- 인터페이스 ----------*/
+
+    //인터페이스 선언 -> 사용하려면 다시 객채 생성해야 함
+    interface CardClickListener{
+        fun onItemClick(card : Card)            //아이템 클릭 이벤트 인터페이스
+//        fun addCard(card : Card)                       //카드 추가를 위한 인터페이스
+//        fun onRemoveCard(position : Int)      //카드 제거를 위한 인터페이스
+    }
 
     /*---------- 전역 변수 ----------*/
 
+    //인터페이스 구현
     private lateinit var cardClickListener: CardClickListener
-//    private lateinit var context: Context
+
+    private var cards = ArrayList<Card>()
 
     /*---------- 내부 클래스(뷰 홀더) ----------*/
 
@@ -79,20 +91,14 @@ class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<
 //        }
     }
 
-    /*---------- 인터페이스 ----------*/
-
-    //인터페이스 선언 -> 사용하려면 다시 객채 생성해야 함
-    interface CardClickListener{
-        fun onItemClick(card : Card)            //아이템 클릭 이벤트 인터페이스
-//        fun onAddCard()                       //카드 추가를 위한 인터페이스
-//        fun onRemoveCard(position : Int)      //카드 제거를 위한 인터페이스
-    }
 
     /*---------- 오버라이딩 함수 ----------*/
 
     override fun getItemViewType(position: Int): Int {
         return cards[position].hasData
     }
+
+
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
        val view : View?
@@ -136,7 +142,7 @@ class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<
         }
     }
 
-    override fun getItemCount(): Int = cards.size
+    override fun getItemCount() : Int = cards.size
 
     /*---------- 추가 함수 ----------*/
 
@@ -144,12 +150,29 @@ class RVCardAdapter(private val cards : ArrayList<Card>) : RecyclerView.Adapter<
         cardClickListener = itemClickListener
     }
 
-    fun getPosition() {
-        return
+    @SuppressLint("NotifyDataSetChanged")
+    fun setCards(cards : ArrayList<Card>) {
+        this.cards.clear()
+        this.cards.addAll(cards)
+
+        notifyDataSetChanged()
     }
 
+    fun addCard(card : Card) {
+        this.cards.add(card)
+
+        notifyItemInserted(itemCount-1)
+    }
+
+    fun removeCard(position: Int) {
+
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
     private fun onRemoveCard(position: Int){
         cards.removeAt(position)
-        notifyItemRemoved(position)
+//        notifyItemRemoved(position) // 얘 문제임 아마 이미 지워진 애를 지워졌다고 알려서 그런게 아닐까 추측함
+        //ex) 3번 사라짐(124 남음) 근데 3번 사라졌다고 알림(4번 지목함) -> 자세히는 나도 모름
+        notifyDataSetChanged()
     }
 }
