@@ -74,9 +74,10 @@ class TripActivity : BaseActivity(), TripPostProcess {
         calendar.topbarVisible = true
         calendar.setOnRangeSelectedListener { widget, dates ->
 //            val regex = "\\^\\d{4}.\\d{1,2}.\\d{1,2}\\$/".toRegex()
-//            departureDate = regex.find(dates.first().toString()).toString()
-//            arrivalDate = regex.find(dates.last().toString()).toString()
+            departureDate = dates.first().toString()
+            arrivalDate = dates.last().toString()
 //            Log.d("정규식 확인", departureDate)
+
 
             //출발일
             binding.tripDateDepartureMonthTv.text = departureDate.split("-")[1]
