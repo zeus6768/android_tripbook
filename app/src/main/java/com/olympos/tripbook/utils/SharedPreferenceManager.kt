@@ -2,6 +2,7 @@ package com.olympos.tripbook.utils
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
+import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.utils.ApplicationClass.Companion.X_ACCESS_TOKEN
 import com.olympos.tripbook.utils.ApplicationClass.Companion.mSharedPreferences
 
