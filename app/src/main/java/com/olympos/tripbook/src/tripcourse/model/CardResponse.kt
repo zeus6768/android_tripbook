@@ -16,13 +16,23 @@ data class GetCardResponse(
     @SerializedName("result") val cards : ArrayList<Card>?
 )
 
-//data class Cards(
-//    @SerializedName("cards") val cards : ArrayList<Card> //얘 이름 확실하지 않음(이름 없는듯)
+//data class CardResponse(
+//    @SerializedName("courseIdx") val courseIdx :Int,
+//    @SerializedName("tripIdx") val tripIdx : Int,
+//    @SerializedName("cardIdx") val cardIdx : Int,
+//    @SerializedName("courseImg") val courseImg : String,
+//    @SerializedName("courseDate") val courseDate : String,
+//    @SerializedName("courseTime") val courseTime : Int,
+//    @SerializedName("courseTitle") val courseTitle : String,
+//    @SerializedName("courseComment") val courseComment : String,
+//    @SerializedName("latitude") val latitude : String?,
+//    @SerializedName("longitude") val longitude : String?
+//    @SerializedName("status") val status : String
 //)
 
-data class  GetTripResponse(
+data class GetTripResponse(
     @SerializedName("isSuccess") val isSuccess: Boolean,
     @SerializedName("code") val code: Int,
     @SerializedName("message") val message: String,
-    @SerializedName("result") val cards : ArrayList<Card> //얘도 이름 바꿔야 함
+    @SerializedName("result") val result : ArrayList<Card> //얘도 이름 바꿔야 함
 )

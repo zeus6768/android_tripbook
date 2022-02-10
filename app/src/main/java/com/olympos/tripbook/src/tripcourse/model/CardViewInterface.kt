@@ -5,6 +5,6 @@ interface CardViewInterface {
 
 interface CardsView {
     fun onGetCardsLoading()
-    fun onGetCardsSuccess(cards : ArrayList<Card>)
+    fun onGetCardsSuccess(cards : ArrayList<CardResponse>)
     fun onGetCardsFailure(code : Int, message : String)
 }

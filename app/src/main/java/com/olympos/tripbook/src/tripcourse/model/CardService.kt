@@ -53,7 +53,7 @@ class CardService{
                     when (res.code) {
                         1000 -> {
                             Log.d("REST API TEST 성공", res.toString())
-                            cardsView.onGetCardsSuccess(res.cards)
+                            cardsView.onGetCardsSuccess(res.result)
                         }
 
                         else -> {

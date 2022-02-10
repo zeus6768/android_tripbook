@@ -1,18 +1,18 @@
 package com.olympos.tripbook.src.tripcourse
 
 import android.annotation.SuppressLint
-import android.view.ContextMenu
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.content.Context
+import android.util.Log
+import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.olympos.tripbook.R
+import com.olympos.tripbook.config.BaseDialog
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseEmptyBinding
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseFillBinding
 import com.olympos.tripbook.src.tripcourse.model.Card
 
-class RVCardAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     /*---------- 인터페이스 ----------*/
 
@@ -29,6 +29,28 @@ class RVCardAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var cardClickListener: CardClickListener
 
     private var cards = ArrayList<Card>()
+    private val mContext = context
+
+//    private var baseDialog = BaseDialog(context)
+
+    inner class DialogClass(context: Context) : BaseDialog.BaseDialogClickListener {
+
+        val thisContext = context
+
+        override fun onOKClicked() {
+            TODO("카드 삭제")
+        }
+
+        override fun onCancelClicked() {
+
+        }
+        fun showDialog(title: String, message: String , okMessage: String) {
+            val dig = BaseDialog(thisContext)
+            dig.listener = this
+            dig.show(title, message, okMessage)
+        }
+    }
+
 
     /*---------- 내부 클래스(뷰 홀더) ----------*/
 
@@ -46,49 +68,42 @@ class RVCardAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             if(card.coverImg == null){
                 binding.itemCardFillCoverImg.setImageResource(R.drawable.img_tripcourse_card_ex)
             } else {
-//                Glide.with(context).load(card.coverImg).into(binding.itemCardFillCoverImg) //context 인자로 받아와야 함
+                Glide.with(mContext).load(card.coverImg).into(binding.itemCardFillCoverImg) //context 인자로 받아와야 함
             }
 
             binding.itemCardFillTitleTv.text = card.title
             binding.itemCardFillDateTv.text = card.date
             binding.itemCardFillBodyTv.text = card.body
 
-//            this.itemView.setOnCreateContextMenuListener(this)
+            binding.root.setOnCreateContextMenuListener(this)
+            //this.itemView.setOnCreateContextMenuListener(this)
         }
 
-        override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {}
-//            val edit : MenuItem? = menu?.add(Menu.NONE, 1001, 1, "편집")
-//            val delete : MenuItem? = menu?.add(Menu.NONE, 1002, 2, "삭제")
-//
-//            edit?.setOnMenuItemClickListener(onEditMenu)
-//            delete?.setOnMenuItemClickListener(onEditMenu)
-//        }
+        override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+            //Log.d("asdf", "ASDFASDF")
+            //baseDialog.show("여행 카드 삭제", "여행 카드를 삭제하시겠습니까?\n 삭제한 카드는 복구되지 않습니다.", "삭제하기")
+            //DialogClass(mContext).showDialog("여행 카드 삭제", "여행 카드를 삭제하시겠습니까?\n 삭제한 카드는 복구되지 않습니다.", "삭제하기")
 
-//        private val onEditMenu : MenuItem.OnMenuItemClickListener = object : MenuItem.OnMenuItemClickListener {
-//            override fun onMenuItemClick(item: MenuItem?): Boolean {
-//                when(item?.itemId) {
-//                    1001 -> { //편집
-//
-//                    }
-//                    else -> { //삭제
-//                        val builder : AlertDialog.Builder = object : AlertDialog.Builder(context)
-//                        val view : View = LayoutInflater.from(context).inflate(R.layout.dialog_base, null, false)
-//                        builder.setView(view)
-//
-//                        val dialog : AlertDialog = builder.create()
-//                        val dialogBtn : Button = view.findViewById(R.id.dialog_base_ok_btn_tv)
-//
-//                        dialogBtn.setOnClickListener{
-//                            cards.removeAt(adapterPosition)
-//                            notifyItemRemoved(adapterPosition)
-//
-//                            dialog.dismiss()
-//                        }
-//                    }
-//                }
-//                return true
-//            }
-//        }
+            val edit : MenuItem? = menu?.add(Menu.NONE, 1001, 1, "편집")
+            val delete : MenuItem? = menu?.add(Menu.NONE, 1002, 2, "삭제")
+
+            edit?.setOnMenuItemClickListener(onEditMenu)
+            delete?.setOnMenuItemClickListener(onEditMenu)
+        }
+
+        private val onEditMenu : MenuItem.OnMenuItemClickListener = object : MenuItem.OnMenuItemClickListener {
+            override fun onMenuItemClick(item: MenuItem?): Boolean {
+                when(item?.itemId) {
+                    1001 -> { //편집
+
+                    }
+                    else -> { //삭제
+                        DialogClass(mContext).showDialog("여행 카드 삭제", "여행 카드를 삭제하시겠습니까?\n 삭제한 카드는 복구되지 않습니다.", "삭제하기")
+                    }
+                }
+                return true
+            }
+        }
     }
 
 
@@ -97,8 +112,6 @@ class RVCardAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemViewType(position: Int): Int {
         return cards[position].hasData
     }
-
-
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
        val view : View?

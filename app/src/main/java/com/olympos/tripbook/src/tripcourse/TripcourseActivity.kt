@@ -19,6 +19,8 @@ import com.olympos.tripbook.config.BaseDialog
 import com.olympos.tripbook.databinding.ActivityTripcourseBinding
 import com.olympos.tripbook.src.home.MainActivity
 import com.olympos.tripbook.src.tripcourse.model.Card
+import com.olympos.tripbook.src.tripcourse.model.CardResponse
+import com.olympos.tripbook.src.tripcourse.model.CardService
 import com.olympos.tripbook.src.tripcourse.model.CardsView
 
 class TripcourseActivity : BaseActivity(), CardsView {
@@ -26,9 +28,9 @@ class TripcourseActivity : BaseActivity(), CardsView {
     lateinit var binding : ActivityTripcourseBinding
     private var gson : Gson = Gson()
 
-    private val cardDatas = ArrayList<Card>() //Datas in here. from Sever
+    private var cards = ArrayList<Card>() //Datas in here. from Sever
 
-    val cardRVAdapter = RVCardAdapter()
+    private lateinit var cardRVAdapter : RVCardAdapter
 
     private var cardIdx = 1
 
@@ -38,22 +40,27 @@ class TripcourseActivity : BaseActivity(), CardsView {
         setContentView(binding.root)
 
         initView()
+        initRecyclerView()
 
-        val defaultCard1 : Card = Card(cardIdx) //cardIdx =1
-        cardRVAdapter.addCard(defaultCard1)
+//        val defaultCard1 : Card = Card(cardIdx) //cardIdx =1
+//        cardRVAdapter.addCard(defaultCard1)
+//        cardIdx++
+//
+//        val defaultCard2 : Card = Card(cardIdx) //cardIdx =2
+//        cardRVAdapter.addCard(defaultCard2)
+//        cardIdx++
+
+        val setTestCard1 : Card = Card(cardIdx, 1, TRUE,"", "대충지은 제목 1", "바뀐 날짜 예시", 1,"여긴? 어디임", "바뀐 내용 11111") //cardIdx =1
+        cardRVAdapter.addCard(setTestCard1)
         cardIdx++
 
-        val defaultCard2 : Card = Card(cardIdx) //cardIdx =2
-        cardRVAdapter.addCard(defaultCard2)
+        val setTestCard2 : Card = Card(cardIdx, 1, TRUE, "", "어떻게든 지어본 이름 2", "", 2, "여긴 어디임?", "바뀐 내용 22222") //cardIdx =2
+        cardRVAdapter.addCard(setTestCard2)
         cardIdx++
 
         val defaultCard3 : Card = Card(cardIdx) //cardIdx =3
         cardRVAdapter.addCard(defaultCard3)
         cardIdx++
-
-//        cardDatas.add(defaultCard1)
-//        cardDatas.add(defaultCard2)
-//        cardDatas.add(defaultCard3)
 
         binding.lookerAlbumlistRecyclerview.adapter = cardRVAdapter
         binding.lookerAlbumlistRecyclerview.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
@@ -69,6 +76,7 @@ class TripcourseActivity : BaseActivity(), CardsView {
                     val cardData = gson.toJson(card)
                     intent.putExtra("card", cardData)
                 }
+
                 startActivity(intent)
             }
         })
@@ -78,13 +86,15 @@ class TripcourseActivity : BaseActivity(), CardsView {
         super.onStart()
 
         //todo 서버에서 카드정보 가져와서 적용하기
+        initRecyclerView()
+        getTrip()
     }
 
     //여행 삭제하기 context menu
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo? ) {
         val inflater = menuInflater
         inflater.inflate(R.menu.context_menu_tripcourse_delete_trip, menu)
-        //super.onCreateContextMenu(menu, v, menuInfo)
+//        super.onCreateContextMenu(menu, v, menuInfo)
         showDialog("", "", "")
     }
     //여행 삭제하기 context menu
@@ -115,6 +125,16 @@ class TripcourseActivity : BaseActivity(), CardsView {
 //    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 //        super.onActivityResult(requestCode, resultCode, data)
 //    }
+
+    private fun initRecyclerView() {
+        cardRVAdapter = RVCardAdapter(this)
+        binding.lookerAlbumlistRecyclerview.adapter = cardRVAdapter
+    }
+
+    private fun getTrip(){
+        val cardService = CardService()
+        cardService.getTrip()
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onClick(v: View?) {
@@ -154,12 +174,10 @@ class TripcourseActivity : BaseActivity(), CardsView {
         //todo 로딩바 생성
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    override fun onGetCardsSuccess(cards: ArrayList<Card>) { //
-        this.cardDatas.clear()
-        this.cardDatas.addAll(cards)
-
-        cardRVAdapter.notifyDataSetChanged()
+    override fun onGetCardsSuccess(results: ArrayList<CardResponse>) {
+//        var i = 0
+//
+//        cardRVAdapter.setCards(results)
     }
 
     override fun onGetCardsFailure(code: Int, message: String) { //통신 실패 View
