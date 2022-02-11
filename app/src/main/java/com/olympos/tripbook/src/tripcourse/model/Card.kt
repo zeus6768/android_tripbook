@@ -7,7 +7,7 @@ import com.olympos.tripbook.src.tripcourse.FALSE
 data class Card (
     //관리 데이터(유저와 상관 x)
     @SerializedName("tripIdx") var tripIdx : Int = 0,
-    @SerializedName("cardIdx") val idx: Int = 0,
+    @SerializedName("cardIdx") var idx: Int = 0,
 
     var hasData : Int = FALSE,
 

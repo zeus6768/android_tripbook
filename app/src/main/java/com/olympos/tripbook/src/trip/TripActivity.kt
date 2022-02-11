@@ -73,23 +73,23 @@ class TripActivity : BaseActivity(), TripPostProcess {
         //날짜 선택
         calendar.topbarVisible = true
         calendar.setOnRangeSelectedListener { widget, dates ->
-//            val regex = "\\^\\d{4}.\\d{1,2}.\\d{1,2}\\$/".toRegex()
-//            departureDate = regex.find(dates.first().toString()).toString()
-//            arrivalDate = regex.find(dates.last().toString()).toString()
-//            Log.d("정규식 확인", departureDate)
+//        val regex = "\^\d{4}.\d{1,2}.\d{1,2}\$/".toRegex()
+        departureDate = dates.first().toString()
+        arrivalDate = dates.last().toString()
+//        Log.d("정규식 확인", departureDate)
 
-            //출발일
-            binding.tripDateDepartureMonthTv.text = departureDate.split("-")[1]
-            binding.tripDateDepartureDayTv.text = departureDate.split("-")[2].dropLast(1)
-            //도착일
-            binding.tripDateArrivalMonthTv.text = arrivalDate.split("-")[1]
-            binding.tripDateArrivalDayTv.text = arrivalDate.split("-")[2].dropLast(1)
+        //출발일
+        binding.tripDateDepartureMonthTv.text = departureDate.split("-")[1]
+        binding.tripDateDepartureDayTv.text = departureDate.split("-")[2].dropLast(1)
+        //도착일
+        binding.tripDateArrivalMonthTv.text = arrivalDate.split("-")[1]
+        binding.tripDateArrivalDayTv.text = arrivalDate.split("-")[2].dropLast(1)
 
-            trip.departureDate = departureDate
-            trip.arrivalDate = arrivalDate
+        trip.departureDate = departureDate
+        trip.arrivalDate = arrivalDate
 
         }
-        //        calendar.setOnDateChangedListener(this)
+//        calendar.setOnDateChangedListener(this)
 //        calendar.addDecorator(decorator)
     }
 

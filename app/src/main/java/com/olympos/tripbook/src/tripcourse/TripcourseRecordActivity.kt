@@ -13,16 +13,19 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripcourseRecordBinding
 import com.olympos.tripbook.src.tripcourse.model.Card
 import com.olympos.tripbook.src.tripcourse.model.CardService
+import com.olympos.tripbook.src.tripcourse.model.ServerView
+import com.olympos.tripbook.utils.getTripIdx
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TripcourseRecordActivity : BaseActivity() {
+class TripcourseRecordActivity : BaseActivity(), ServerView {
 
     lateinit var binding: ActivityTripcourseRecordBinding
     private var gson : Gson = Gson()
@@ -42,15 +45,39 @@ class TripcourseRecordActivity : BaseActivity() {
         binding = ActivityTripcourseRecordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val cardService = CardService()
+        cardService.setServerView(this)
+
         initView()
+    }
+
+    //종료된 액티비티에서 정보 받아오기
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(resultCode) {
+            COUNTRY_ACTIVITY_CODE -> { //SelectCountryActivity에서 장소 정보 가져오기
+//                card.country = data?.getStringExtra("country_result")!!
+//                binding.tripcourseRecordSelectCountryBtn.text = card.country
+            }
+            HASHTAG_ACTIVITY_CODE -> { //SelectHashtagActivity에서 해시태그 정보 가져오기
+                //해시태그 저장
+            }
+        }
+    }
+
+    private fun initView() {
+        //상단바
+        binding.tripcourseRecordTopbarLayout.topbarTitleTv.setText(R.string.tripcourse_record_title)
+        binding.tripcourseRecordTopbarLayout.topbarSubbuttonIb.setImageResource(R.drawable.btn_base_check_black)
+        binding.tripcourseRecordTopbarLayout.topbarSubtitleTv.visibility = View.GONE
 
         if(intent.hasExtra("card")) {
             card = gson.fromJson(intent.getStringExtra("card"), card::class.java)
             binding.tripcourseRecordBodyEt.hint = card.body
             binding.tripcourseRecordTitleEt.hint = card.title
             binding.tripcourseRecordSelectDateBtn.text = card.date
+            Glide.with(this.applicationContext).load(card.coverImg).into(binding.tripcourseRecordImgIv)
 //            binding.tripcourseRecordSelectCountryBtn.text = card.country
-//            binding.tripcourseRecordImgIv.setImageResource(card.coverImg)
         }
 
         //body : 내용 최대 200자 이벤트 처리
@@ -74,27 +101,6 @@ class TripcourseRecordActivity : BaseActivity() {
                 }
             }
         })
-    }
-
-    //종료된 액티비티에서 정보 받아오기
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when(resultCode) {
-            COUNTRY_ACTIVITY_CODE -> { //SelectCountryActivity에서 장소 정보 가져오기
-//                card.country = data?.getStringExtra("country_result")!!
-//                binding.tripcourseRecordSelectCountryBtn.text = card.country
-            }
-            HASHTAG_ACTIVITY_CODE -> { //SelectHashtagActivity에서 해시태그 정보 가져오기
-                //해시태그 저장
-            }
-        }
-    }
-
-    private fun initView() {
-        //상단바
-        binding.tripcourseRecordTopbarLayout.topbarTitleTv.setText(R.string.tripcourse_record_title)
-        binding.tripcourseRecordTopbarLayout.topbarSubbuttonIb.setImageResource(R.drawable.btn_base_check_black)
-        binding.tripcourseRecordTopbarLayout.topbarSubtitleTv.visibility = View.GONE
 
         //여행 날짜 선택 - Dialog 생성
         binding.tripcourseRecordSelectDateBtn.setOnClickListener(this)
@@ -116,12 +122,11 @@ class TripcourseRecordActivity : BaseActivity() {
                 //todo 저장완료, firebase storage에 이미지를 업로드
                 uploadImage(uri)
 
+                //입력받은 정보를 Card에 담기
                 getInputInfo(card)
 
-                // todo 서버에 Card 전송
+                //서버에 Card 전송
                 postCard(card)
-
-                finish()
             }
             R.id.tripcourse_record_img_cl ->
                 photoSelect()
@@ -193,8 +198,10 @@ class TripcourseRecordActivity : BaseActivity() {
         }
         else {
             card.hasData = TRUE
+            card.tripIdx = intent.getIntExtra("tripIdx", 0)
+            card.idx = intent.getIntExtra("cardIdx", 0)
 
-            //사진 저장(URL)
+            //사진 저장(Uri)
             card.coverImg = uri.toString()
             //제목 저장
             card.title = binding.tripcourseRecordTitleEt.text.toString()
@@ -221,5 +228,20 @@ class TripcourseRecordActivity : BaseActivity() {
     private fun postCard(card : Card) {
         val cardService = CardService()
         cardService.postCard(card)
+    }
+
+    override fun onServerLoading() {
+        //todo 로딩바 만들기
+    }
+
+    override fun onServerSuccess() {
+        //todo 로딩바 없애기
+        Toast.makeText(this, "서버에 카드 전송 완료", Toast.LENGTH_SHORT).show()
+        finish()
+    }
+
+    override fun onServerFailure(code: Int, message: String) {
+        //todo 로딩바 없애기
+        Toast.makeText(this, "서버 전송 실패. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
     }
 }
