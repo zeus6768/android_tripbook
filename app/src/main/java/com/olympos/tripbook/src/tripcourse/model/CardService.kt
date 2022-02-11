@@ -52,12 +52,12 @@ class CardService{
     }
 
     //여행 가져오기
-    fun getTrip(){
+    fun getTrip(tripIdx : String){
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
 
         cardsView.onGetCardsLoading()
 
-        cardRetrofitService.getTrip().enqueue(object : Callback<GetTripResponse> {
+        cardRetrofitService.getTrip(tripIdx).enqueue(object : Callback<GetTripResponse> {
             override fun onResponse(call: Call<GetTripResponse>, response: Response<GetTripResponse>) {
                 Log.d("들어오는지 확인", "CardService-getTrip-onResponse")
                 if (response.isSuccessful) {

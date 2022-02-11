@@ -45,8 +45,7 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
         binding = ActivityTripcourseRecordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val cardService = CardService()
-        cardService.setServerView(this)
+
 
         initView()
     }
@@ -227,6 +226,7 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
     //Retrofit
     private fun postCard(card : Card) {
         val cardService = CardService()
+        cardService.setServerView(this)
         cardService.postCard(card)
     }
 

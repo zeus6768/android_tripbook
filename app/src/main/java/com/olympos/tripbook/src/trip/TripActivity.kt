@@ -187,5 +187,6 @@ class TripActivity : BaseActivity(), TripPostProcess {
     private fun startTripcourseActivity() {
         val intent = Intent(this, TripcourseActivity::class.java)
         startActivity(intent)
+        finish()
     }
 }
