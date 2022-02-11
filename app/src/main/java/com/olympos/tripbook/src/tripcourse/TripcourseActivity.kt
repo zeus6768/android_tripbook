@@ -94,7 +94,6 @@ class TripcourseActivity : BaseActivity(), CardsView {
         super.onRestart()
         initRecyclerView()
         getTrip(tripIdx)
-        //todo 서버에서 카드정보 가져와서 적용하기
     }
 
     //여행 삭제하기 context menu
@@ -112,6 +111,7 @@ class TripcourseActivity : BaseActivity(), CardsView {
 
     override fun onOKClicked() {
         super.onOKClicked()
+        //todo 현재 여행 삭제
         finish()
     }
 
@@ -141,7 +141,7 @@ class TripcourseActivity : BaseActivity(), CardsView {
     private fun getTrip(tripIdx : Int){
         val cardService = CardService()
         cardService.setCardsView(this)
-        cardService.getTrip(tripIdx.toString())
+        cardService.getTrip(tripIdx)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -152,7 +152,8 @@ class TripcourseActivity : BaseActivity(), CardsView {
                 showDialog("발자국 작성 취소", "발자국 작성을 취소하시겠습니까?\n"
                         + "작성중인 정보는 저장되지 않습니다.", "확인")
             R.id.topbar_subbutton_ib -> { //상단바 - 체크 버튼 - 저장
-                //todo 저장
+                //서버에 카드는 다 올라갔으므로 그냥 종료
+                finish()
             }
             R.id.tripcourse_add_card_btn -> {
                 addCard()
