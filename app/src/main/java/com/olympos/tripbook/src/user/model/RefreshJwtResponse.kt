@@ -9,5 +9,6 @@ data class RefreshJwtResponse(
 
 data class RefreshJwtResult(
     val userIdx : Int,
-    val jwt : String
+    val jwt : String,
+    val jwtRefreshToken : String
 )

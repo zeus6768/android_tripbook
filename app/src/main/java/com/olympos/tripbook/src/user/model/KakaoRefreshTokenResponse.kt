@@ -8,6 +8,7 @@ data class KakaoRefreshTokenResponse(
 )
 
 data class KakaoRefreshTokenResult (
-    val userIdx : Int,
-    val jwt : String
+    val access_token : String,
+    val token_type : String,
+    val expires_in : Int
 )

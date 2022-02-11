@@ -9,5 +9,6 @@ data class KakaoAccessTokenResponse(
 
 data class KakaoAccessTokenResult (
     val userIdx : Int,
-    val jwt : String
+    val jwt : String,
+    val jwtRefreshToken : String
 )
