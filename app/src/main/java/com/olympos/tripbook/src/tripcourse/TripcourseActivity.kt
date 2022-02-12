@@ -162,7 +162,7 @@ class TripcourseActivity : BaseActivity(), CardsView {
     }
 
     private fun addCard() {
-        val card: Card = Card(cardIdx)
+        val card: Card = Card(tripIdx, cardIdx)
         cardIdx++
 
         cardRVAdapter.addCard(card)
