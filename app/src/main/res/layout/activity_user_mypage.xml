@@ -1,10 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <include
         layout="@layout/layout_topbar_base"
-        android:id="@+id/tripcourse_topbar_layout"/>
+        android:id="@+id/mypage_topbar_layout"/>
+    
+    <View
+        android:id="@+id/mypage_profile_view"
+        android:layout_width="match_parent"
+        android:layout_height="191dp"
+        android:background="@color/tripbook_main_1"
+        app:layout_constraintTop_toBottomOf="@id/mypage_topbar_layout"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/mypage_profile_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="14dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintTop_toTopOf="@id/mypage_profile_view"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="91dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp">
+
+            <ImageView
+                android:id="@+id/mypage_profile_iv"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/img_home_profile"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/mypage_profile_iv">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="17dp"
+                android:text="@string/user_profile_greeting"
+                android:textSize="10sp"
+                android:textColor="@color/black_b3"
+                android:fontFamily="@font/notosans_kr_bold"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/mypage_profile_iv"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="17dp"
+                android:text="OOO님"
+                android:textSize="18sp"
+                android:textColor="@color/black_b3"
+                android:fontFamily="@font/notosans_kr_bold"
+                android:includeFontPadding="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/mypage_profile_iv"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/mypage_record_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="14dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintTop_toBottomOf="@id/mypage_profile_cardview"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="@id/mypage_profile_view"
+            app:layout_constraintStart_toStartOf="@id/mypage_profile_view"/>
+
+    </androidx.cardview.widget.CardView>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

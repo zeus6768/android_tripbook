@@ -50,9 +50,8 @@ class SigninActivity : BaseActivity() {
                         requireEmailNeedsAgreement()
                     } else {
                         // 추가 동의 필요하지 않은 경우
-                        Log.d("kakao user", user.toString())
-                        Log.d("kakao user account", user.kakaoAccount.toString())
-                        Log.d("kakao user profile", user.kakaoAccount?.profile.toString())
+                        Log.d("ACCESS-TOKEN", token.accessToken)
+                        Log.d("REFRESH-TOKEN", token.refreshToken)
                         Log.d("kakao user nickname", user.kakaoAccount?.profile?.nickname.toString())
                         startMainActivity()
                     }
