@@ -1,9 +1,13 @@
 package com.olympos.tripbook.src.home.model
 
+import com.olympos.tripbook.src.tripcourse.model.GetTripResponse
 import retrofit2.Call
 import retrofit2.http.*
 
 interface HomeRetrofitInterface {
     @GET("/app/trips/count/{userIdx}")
     fun getTripCount(@Path("userIdx") userIdx: Int): Call<HomeResponse>
+
+    @GET("/app/trip/:tripIdx/courses")
+    fun getTrip(@Path("tripIdx") tripIdx : Int) : Call<RecentTripResponse>
 }
