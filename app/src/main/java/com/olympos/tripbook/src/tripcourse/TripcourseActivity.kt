@@ -18,6 +18,7 @@ import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.config.BaseDialog
 import com.olympos.tripbook.databinding.ActivityTripcourseBinding
 import com.olympos.tripbook.src.home.MainActivity
+import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.src.tripcourse.model.Card
 import com.olympos.tripbook.src.tripcourse.model.CardService
 import com.olympos.tripbook.src.tripcourse.model.CardsView
@@ -119,6 +120,25 @@ class TripcourseActivity : BaseActivity(), CardsView {
         //topbar layout view randering
         binding.tripcourseTopbarLayout.topbarTitleTv.setText(R.string.tripcourse_title)
         binding.tripcourseTopbarLayout.topbarSubbuttonIb.setImageResource(R.drawable.btn_base_check_black)
+
+        if(intent.hasExtra("tripData")) {
+            Log.d("들어오는지 확인,,", "들어오긴 하냐")
+            val json = intent.getStringExtra("tripData")
+            val tripData = gson.fromJson(json, Trip::class.java)
+            Log.d("__tripData__ tripcourse", tripData.toString())
+            val d_date = tripData.departureDate.split("-")
+            val d_year = d_date[0].substring(2,4)
+            val d_month = d_date[1]
+            val d_day = d_date[2]
+            val a_date = tripData.arrivalDate.split("-")
+            val a_year = a_date[0].substring(2,4)
+            val a_month = a_date[1]
+            val a_day = a_date[2]
+            val period = d_year + "년 " + d_month + "월 " + d_day + "일 ~ " + a_year + "년 " + a_month + "월 " + a_day + "일의 추억"
+            binding.tripcourseTitlebarPeriodTv.text = period
+            binding.tripcourseTitlebarTitleTv.text = tripData.tripTitle
+        }
+
 
         binding.tripcourseTopbarLayout.topbarBackIb.setOnClickListener(this)
         binding.tripcourseTopbarLayout.topbarSubbuttonIb.setOnClickListener(this)
