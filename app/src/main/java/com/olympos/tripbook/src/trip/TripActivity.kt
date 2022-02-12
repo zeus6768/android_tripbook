@@ -15,6 +15,7 @@ import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.src.trip.model.TripPostProcess
 import com.olympos.tripbook.src.trip.model.TripService
 import com.olympos.tripbook.src.tripcourse.TripcourseActivity
+import com.olympos.tripbook.src.tripcourse.TripcourseRecordActivity
 import com.olympos.tripbook.utils.saveTripIdx
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -111,10 +112,13 @@ class TripActivity : BaseActivity(), TripPostProcess {
                 //제목 입력
                 trip.tripTitle = binding.tripTitleEt.text.toString()
 
-                postTrip(trip)
-
+                val intent = Intent(this, TripcourseActivity::class.java)
+                val gson = Gson()
                 val tripData = gson.toJson(trip)
-//                saveTrip(tripData)
+                Log.d("__tripData__ trip", tripData.toString())
+                intent.putExtra("tripData", tripData)
+
+                postTrip(trip)
 
 //                Log.d("api test 확인용", " userIdx: " + trip.userIdx + " tripTitle: " + trip.tripTitle +
 //                        " departureDate: " + trip.departureDate + " arrivalDate: " + trip.arrivalDate + " themeIdx: " + trip.themeIdx)
