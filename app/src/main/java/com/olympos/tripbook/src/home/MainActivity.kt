@@ -99,8 +99,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     private fun startTripActivity() {
-        //val intent = Intent(this, TripActivity::class.java)
-        val intent = Intent(this, TripcourseActivity::class.java)
+        val intent = Intent(this, TripActivity::class.java)
+//        val intent = Intent(this, TripcourseActivity::class.java)
         startActivity(intent)
     }
 

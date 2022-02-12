@@ -39,9 +39,9 @@
                 android:layout_marginBottom="2dp"
                 android:fontFamily="@font/notosans_kr_regular"
                 android:includeFontPadding="false"
-                android:text="@string/tripcourse_titlebar_date"
                 android:textColor="@color/black"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                tools:text="@string/tripcourse_titlebar_date"/>
 
             <TextView
                 android:id="@+id/tripcourse_titlebar_title_tv"
@@ -49,9 +49,9 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/notosans_kr_bold"
                 android:includeFontPadding="false"
-                android:text="@string/tripcourse_titlebar_title"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                tools:text="@string/tripcourse_titlebar_title"/>
 
         </LinearLayout>
 
