@@ -11,14 +11,21 @@ import retrofit2.*
 class CardService{
 
     private lateinit var cardsView : CardsView
+    private lateinit var serverView: ServerView
 
     fun setCardsView(cardsView : CardsView) {
         this.cardsView = cardsView
     }
 
+    fun setServerView(serverView: ServerView) {
+        this.serverView = serverView
+    }
+
     //작성 완료한 카드 서버로 전송
     fun postCard(card : Card) {
         Log.d("CheckPoint : ", "CardService-postCard Activated")
+        serverView.onServerLoading()
+
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
         cardRetrofitService.postCard(card).enqueue(object : Callback<PostCardResponse> {
             override fun onResponse(call: Call<PostCardResponse>, response: Response<PostCardResponse>) {
@@ -26,25 +33,31 @@ class CardService{
                     val res = response.body()!!
                     Log.d("__res", response.body()!!.toString())
                     when (res.code) {
-                        1000 -> Log.d("CardService-postCard", res.code.toString() + " : " + res.message) //성공
-                        else -> Log.d("CardService-postCard", res.code.toString() + " : " + res.message) //의도된 실패
+                        1000 -> { //성공
+                            Log.d("CardService-postCard", res.code.toString() + " : " + res.message)
+                            serverView.onServerSuccess()
+                        }
+                        else -> { //의도된 실패
+                            Log.d("CardService-postCard", res.code.toString() + " : " + res.message)
+                            serverView.onServerFailure(res.code, res.message)
+                        }
                     }
                 }
             }
             override fun onFailure(call: Call<PostCardResponse>, t: Throwable) {
-                //통신 실패 -> 에러 건네줌
+                serverView.onServerFailure(400, t.message.toString())
                 Log.d("CardService-postCard", t.toString()) //네트워크 실패
             }
         })
     }
 
     //여행 가져오기
-    fun getTrip(){
+    fun getTrip(tripIdx : Int){
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
 
         cardsView.onGetCardsLoading()
 
-        cardRetrofitService.getTrip().enqueue(object : Callback<GetTripResponse> {
+        cardRetrofitService.getTrip(tripIdx).enqueue(object : Callback<GetTripResponse> {
             override fun onResponse(call: Call<GetTripResponse>, response: Response<GetTripResponse>) {
                 Log.d("들어오는지 확인", "CardService-getTrip-onResponse")
                 if (response.isSuccessful) {

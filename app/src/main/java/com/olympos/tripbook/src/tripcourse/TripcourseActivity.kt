@@ -22,17 +22,17 @@ import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.src.tripcourse.model.Card
 import com.olympos.tripbook.src.tripcourse.model.CardService
 import com.olympos.tripbook.src.tripcourse.model.CardsView
+import com.olympos.tripbook.utils.getTripIdx
 
 class TripcourseActivity : BaseActivity(), CardsView {
 
     lateinit var binding : ActivityTripcourseBinding
     private var gson : Gson = Gson()
 
-    private var cards = ArrayList<Card>() //Datas in here. from Sever
-
     private lateinit var cardRVAdapter : RVCardAdapter
 
     private var cardIdx = 1
+    private var tripIdx : Int =0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,54 +42,59 @@ class TripcourseActivity : BaseActivity(), CardsView {
         val cardService = CardService()
         cardService.setCardsView(this)
 
+        tripIdx = getTripIdx(this)
+
         initView()
         initRecyclerView()
 
-//        val defaultCard1 : Card = Card(cardIdx) //cardIdx =1
+//        val defaultCard1 : Card = Card(tripIdx, cardIdx) //cardIdx =1
 //        cardRVAdapter.addCard(defaultCard1)
 //        cardIdx++
 //
-//        val defaultCard2 : Card = Card(cardIdx) //cardIdx =2
+//        val defaultCard2 : Card = Card(tripIdx, cardIdx) //cardIdx =2
 //        cardRVAdapter.addCard(defaultCard2)
 //        cardIdx++
 
-        val setTestCard1 : Card = Card(2, cardIdx, TRUE,"https://post-phinf.pstatic.net/MjAxOTEyMjRfODgg/MDAxNTc3MTY0NzE3ODI0.td40390rDg76HqexxOaLbmw4FMvAE5-taBjKL0QqGw4g.O1S4JTJnFfVcGPgHiCn09gNG2VtFZDO6umEH6e6fqygg.JPEG/%EC%A0%9C%EC%A3%BC%EB%8F%84_%EB%9A%9C%EB%B2%85%EC%9D%B4_%EC%97%AC%ED%96%89.jpg?type=w1200", "2000-00-00", 2, "이름있는제목 1","바뀐 내용 11111", "", "") //cardIdx =1
+        val setTestCard1 : Card = Card(tripIdx, cardIdx, TRUE,"https://post-phinf.pstatic.net/MjAxOTEyMjRfODgg/MDAxNTc3MTY0NzE3ODI0.td40390rDg76HqexxOaLbmw4FMvAE5-taBjKL0QqGw4g.O1S4JTJnFfVcGPgHiCn09gNG2VtFZDO6umEH6e6fqygg.JPEG/%EC%A0%9C%EC%A3%BC%EB%8F%84_%EB%9A%9C%EB%B2%85%EC%9D%B4_%EC%97%AC%ED%96%89.jpg?type=w1200", "2000-00-00", 2, "이름있는제목 1","바뀐 내용 11111", "", "") //cardIdx =1
         cardRVAdapter.addCard(setTestCard1)
         cardIdx++
 
-        val setTestCard2 : Card = Card(2, cardIdx, TRUE, "https://korean.nlcsjeju.co.kr/userfiles/nlcsjejukrmvc/images/body/IMG_9153.jpg", "2000-11-11", 3, "어떻게든 지어본 이름 2", "바뀌어버린 내용", "", "") //cardIdx =2
+        val setTestCard2 : Card = Card(tripIdx, cardIdx, TRUE, "https://korean.nlcsjeju.co.kr/userfiles/nlcsjejukrmvc/images/body/IMG_9153.jpg", "2000-11-11", 3, "어떻게든 지어본 이름 2", "바뀌어버린 내용", "", "") //cardIdx =2
         cardRVAdapter.addCard(setTestCard2)
         cardIdx++
 
-        val defaultCard3 : Card = Card(cardIdx) //cardIdx =3
+        val defaultCard3 : Card = Card(tripIdx, cardIdx) //cardIdx =3
         cardRVAdapter.addCard(defaultCard3)
         cardIdx++
 
-        binding.lookerAlbumlistRecyclerview.adapter = cardRVAdapter
         binding.lookerAlbumlistRecyclerview.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
         binding.lookerAlbumlistRecyclerview.addItemDecoration(RVCardAdapterDecoration())
 
-//        setDummyData2Card(cardDatas)
-
         cardRVAdapter.setItemClickListener(object : RVCardAdapter.CardClickListener {
             override fun onItemClick(card: Card) {
-                val intent = Intent(this@TripcourseActivity, TripcourseRecordActivity::class.java)
-
-                if(card.hasData == TRUE) { //데이터가 있는 경우
-                    val cardData = gson.toJson(card)
-                    intent.putExtra("card", cardData)
-                }
-
-                startActivity(intent)
+                startTripcourseRecordActivity(card)
             }
         })
     }
 
+    private fun startTripcourseRecordActivity(card: Card) {
+        val intent = Intent(this@TripcourseActivity, TripcourseRecordActivity::class.java)
+
+        if (card.hasData == TRUE) { //데이터가 있는 경우
+            val cardData = gson.toJson(card)
+            intent.putExtra("card", cardData)
+        }
+
+        intent.putExtra("cardIdx", card.idx)
+        intent.putExtra("tripIdx", card.tripIdx)
+
+        startActivity(intent)
+    }
+
     override fun onRestart() {
         super.onRestart()
-        getTrip()
-        //todo 서버에서 카드정보 가져와서 적용하기
         initRecyclerView()
+        getTrip(tripIdx)
     }
 
     //여행 삭제하기 context menu
@@ -107,6 +112,7 @@ class TripcourseActivity : BaseActivity(), CardsView {
 
     override fun onOKClicked() {
         super.onOKClicked()
+        //todo 현재 여행 삭제
         finish()
     }
 
@@ -152,10 +158,10 @@ class TripcourseActivity : BaseActivity(), CardsView {
         binding.lookerAlbumlistRecyclerview.adapter = cardRVAdapter
     }
 
-    private fun getTrip(){
+    private fun getTrip(tripIdx : Int){
         val cardService = CardService()
         cardService.setCardsView(this)
-        cardService.getTrip()
+        cardService.getTrip(tripIdx)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -166,41 +172,36 @@ class TripcourseActivity : BaseActivity(), CardsView {
                 showDialog("발자국 작성 취소", "발자국 작성을 취소하시겠습니까?\n"
                         + "작성중인 정보는 저장되지 않습니다.", "확인")
             R.id.topbar_subbutton_ib -> { //상단바 - 체크 버튼 - 저장
-                //todo 저장
+                //서버에 카드는 다 올라갔으므로 그냥 종료
+                finish()
             }
             R.id.tripcourse_add_card_btn -> {
-                val card : Card = Card(cardIdx)
-                cardIdx++
-
-                cardRVAdapter.addCard(card)
-                cardRVAdapter.notifyItemInserted(cardRVAdapter.itemCount -1)
-
-                Log.d("Check num of cardDatas", cardRVAdapter.itemCount.toString())
+                addCard()
             }
         }
     }
 
-//    private fun setDummyData2Card(cards : ArrayList<Card>) {
-//        Log.d("setDummyData2Card", "start")
-//        val card1 : Card = Card(1, 1, TRUE,"", "대충지은 제목 1", "바뀐 날짜 예시", 1,"여긴? 어디임", "바뀐 내용 11111")
-//        cards.set(0, card1)
-//
-//        val card2 : Card = Card(2, 1, TRUE, "", "어떻게든 지어본 이름 2", "", 2, "여긴 어디임?", "바뀐 내용 22222")
-//        cards.set(1, card2)
-//
-//        cardRVAdapter.notifyItemChanged(0)
-//        cardRVAdapter.notifyItemChanged(1)
-//    }
+    private fun addCard() {
+        val card: Card = Card(tripIdx, cardIdx)
+        cardIdx++
+
+        cardRVAdapter.addCard(card)
+        cardRVAdapter.notifyItemInserted(cardRVAdapter.itemCount - 1)
+
+        Log.d("Check num of cardDatas", cardRVAdapter.itemCount.toString())
+    }
 
     override fun onGetCardsLoading() {
         //todo 로딩바 생성
     }
 
     override fun onGetCardsSuccess(cards: ArrayList<Card>) {
+        //todo 로딩바 제거
         cardRVAdapter.setCards(cards)
     }
 
     override fun onGetCardsFailure(code: Int, message: String) { //통신 실패 View
+        //todo 로딩바 제거
         Toast.makeText(this, "$code : $message", Toast.LENGTH_LONG).show()
     }
 }

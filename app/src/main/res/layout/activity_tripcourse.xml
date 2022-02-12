@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!--로딩 바-->
+
     <!--상단 바-->
     <include
         layout="@layout/layout_topbar_base"

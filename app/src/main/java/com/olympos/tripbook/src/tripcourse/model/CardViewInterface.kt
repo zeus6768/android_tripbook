@@ -8,3 +8,9 @@ interface CardsView {
     fun onGetCardsSuccess(cards : ArrayList<Card>)
     fun onGetCardsFailure(code : Int, message : String)
 }
+
+interface ServerView {
+    fun onServerLoading()
+    fun onServerSuccess()
+    fun onServerFailure(code : Int, message : String)
+}

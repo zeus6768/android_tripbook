@@ -90,11 +90,11 @@ class TripActivity : BaseActivity(), TripPostProcess {
             binding.tripDateArrivalMonthTv.text = arrivalDate.split("-")[1]
             binding.tripDateArrivalDayTv.text = arrivalDate.split("-")[2]
 
-            trip.departureDate = departureDate
-            trip.arrivalDate = arrivalDate
+        trip.departureDate = departureDate
+        trip.arrivalDate = arrivalDate
 
         }
-        //        calendar.setOnDateChangedListener(this)
+//        calendar.setOnDateChangedListener(this)
 //        calendar.addDecorator(decorator)
     }
 
@@ -199,5 +199,6 @@ class TripActivity : BaseActivity(), TripPostProcess {
     private fun startTripcourseActivity() {
         val intent = Intent(this, TripcourseActivity::class.java)
         startActivity(intent)
+        finish()
     }
 }
