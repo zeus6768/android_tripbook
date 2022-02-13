@@ -90,7 +90,7 @@ class TripcourseActivity : BaseActivity(), CardsView, ServerView {
     override fun onRestart() {
         super.onRestart()
         initRecyclerView()
-        getTrip(tripIdx)
+        getTrip(tripIdx.toString())
     }
 
     //여행 삭제하기 context menu
@@ -167,8 +167,8 @@ class TripcourseActivity : BaseActivity(), CardsView, ServerView {
         })
     }
 
-    private fun getTrip(tripIdx : Int){
-        Log.d("Check tripIdx", tripIdx.toString())
+    private fun getTrip(tripIdx : String){
+        Log.d("Check tripIdx", tripIdx)
         cardService.getTrip(tripIdx)
     }
 

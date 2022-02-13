@@ -51,7 +51,7 @@ class CardService{
     }
 
     //여행 가져오기
-    fun getTrip(tripIdx : Int){
+    fun getTrip(tripIdx : String){
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
 
         cardsView.onGetCardsLoading()

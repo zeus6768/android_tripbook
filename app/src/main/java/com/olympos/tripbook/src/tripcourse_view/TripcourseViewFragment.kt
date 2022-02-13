@@ -1,11 +1,13 @@
 package com.olympos.tripbook.src.tripcourse_view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.gson.Gson
 import com.olympos.tripbook.config.BaseFragment
 import com.olympos.tripbook.databinding.FragmentHomeBinding
 import com.olympos.tripbook.databinding.FragmentTripcourseViewBinding
@@ -18,6 +20,7 @@ class TripcourseViewFragment : BaseFragment() , TripResponseView {
     lateinit var binding: FragmentTripcourseViewBinding
 
     private lateinit var cardRVAdapter : RVCardAdapter
+    private val gson = Gson()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,7 +60,10 @@ class TripcourseViewFragment : BaseFragment() , TripResponseView {
     }
 
     private fun startTripcourseRecordViewActivity(card : Card) {
-
+        val intent = Intent(requireContext(), TripcourseRecordViewActivity::class.java)
+        val cardData = gson.toJson(card)
+        intent.putExtra("card", cardData)
+        startActivity(intent)
     }
 
     override fun onGetCardsLoading() {

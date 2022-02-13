@@ -235,13 +235,13 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
         cardService.setServerView(this)
 
         //사진 저장(Uri)
-        cardService.patchImg(userIdx.toInt(), tripIdx.toInt(), card.coverImg)
+        cardService.patchImg(userIdx, tripIdx, card.coverImg)
 
         //제목 저장
-        cardService.patchTitle(userIdx.toInt(), tripIdx.toInt(), card.title)
+        cardService.patchTitle(userIdx, tripIdx, card.title)
 
         //body 저장
-        cardService.patchBody(userIdx.toInt(), tripIdx.toInt(), card.body)
+        cardService.patchBody(userIdx, tripIdx, card.body)
 
         //아직 구현이 안된 더미 데이터들
         //card.date = "0000-00-00"
