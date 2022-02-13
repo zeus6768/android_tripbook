@@ -1,16 +1,13 @@
 package com.olympos.tripbook.src.tripcourse.model
 
 import android.util.Log
-import com.olympos.tripbook.src.user.model.ApiTestResponse
-import com.olympos.tripbook.src.user.model.ApiTestRetrofitInterface
 import com.olympos.tripbook.utils.ApplicationClass.Companion.retrofit
-import com.olympos.tripbook.utils.ApplicationClass.Companion.TAG
-import com.olympos.tripbook.utils.saveNickname
 import retrofit2.*
 
 class CardService{
 
     private lateinit var cardsView : CardsView
+
     fun setCardsView(cardsView : CardsView) {
         this.cardsView = cardsView
     }
@@ -51,13 +48,13 @@ class CardService{
     }
 
     //여행 가져오기
-    fun getTrip(tripIdx : String){
+    fun getTripcourses(tripIdx : String){
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
 
         cardsView.onGetCardsLoading()
 
-        cardRetrofitService.getTrip(tripIdx).enqueue(object : Callback<GetTripResponse> {
-            override fun onResponse(call: Call<GetTripResponse>, response: Response<GetTripResponse>) {
+        cardRetrofitService.getTripcourses(tripIdx).enqueue(object : Callback<GetTripcourseResponse> {
+            override fun onResponse(call: Call<GetTripcourseResponse>, response: Response<GetTripcourseResponse>) {
                 Log.d("들어오는지 확인", "CardService-getTrip-onResponse")
                 if (response.isSuccessful) {
                     val res = response.body()!!
@@ -75,7 +72,7 @@ class CardService{
                     }
                 }
             }
-            override fun onFailure(call: Call<GetTripResponse>, t: Throwable) {
+            override fun onFailure(call: Call<GetTripcourseResponse>, t: Throwable) {
                 Log.d("들어오는지 확인", "CardService-getTrip-onFailure")
                 cardsView.onGetCardsFailure(400, t.message.toString())
             }

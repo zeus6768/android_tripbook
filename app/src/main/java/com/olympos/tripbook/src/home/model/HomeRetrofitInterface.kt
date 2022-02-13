@@ -1,6 +1,5 @@
 package com.olympos.tripbook.src.home.model
 
-import com.olympos.tripbook.src.tripcourse.model.GetTripResponse
 import retrofit2.Call
 import retrofit2.http.*
 
