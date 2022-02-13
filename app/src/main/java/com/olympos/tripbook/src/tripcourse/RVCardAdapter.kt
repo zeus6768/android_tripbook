@@ -182,6 +182,22 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
         notifyItemInserted(itemCount-1)
     }
 
+    fun onRemoveEmptyCard() {
+        var i = 0
+        var deleteList = ArrayList<Int>()
+        for(i in 0..itemCount-1) {
+            if(cards[i].hasData == FALSE) {
+                deleteList.add(cards[i].courseIdx)
+            }
+        }
+        if(!deleteList.isEmpty()) {
+            //todo deleteList에 있는 카드들의 courseIdx를 가지고 서버에서 삭제
+            for(i in 0..deleteList.size-1) {
+                deleteCard(deleteList[i])
+            }
+        }
+    }
+
     fun removeCard(position: Int) {
 
     }

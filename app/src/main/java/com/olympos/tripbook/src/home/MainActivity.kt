@@ -16,7 +16,6 @@ import com.olympos.tripbook.src.home.model.HomeService
 import com.olympos.tripbook.src.trip.TripActivity
 import com.olympos.tripbook.src.tripcourse_view.TripcourseViewFragment
 
-
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, HomeGetProcess {
     private lateinit var binding: ActivityMainBinding
 
@@ -35,7 +34,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     "여행 발자국을 남겨보세요.", "확인", R.drawable.img_home_notice)
         }
         else {
-            val recentTripIdx = 0 //여기에 가장 최근 여행의 index 삽입
+            val recentTripIdx = getTripIdx()
             showRecentTripcourse(recentTripIdx)
         }
 

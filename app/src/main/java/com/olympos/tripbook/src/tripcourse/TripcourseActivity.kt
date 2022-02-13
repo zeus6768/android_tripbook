@@ -185,7 +185,8 @@ class TripcourseActivity : BaseActivity(), CardsView, ServerView {
                 showDialog("발자국 작성 취소", "발자국 작성을 취소하시겠습니까?\n"
                         + "작성중인 정보는 저장되지 않습니다.", "확인")
             R.id.topbar_subbutton_ib -> { //상단바 - 체크 버튼 - 저장
-                //서버에 카드는 다 올라갔으므로 그냥 종료
+                //빈 카드 모두삭제하고 끝
+                cardRVAdapter.onRemoveEmptyCard()
                 finish()
             }
             R.id.tripcourse_add_card_btn -> {

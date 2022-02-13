@@ -20,10 +20,15 @@ class CardService{
         this.serverView = serverView
     }
 
+    private lateinit var postCardView : PostCardView
+    fun setPostCardView(postCardView : PostCardView) {
+        this.postCardView = postCardView
+    }
+
     //카드 서버로 전송
     fun postCard(card : Card) {
         Log.d("CheckPoint : ", "CardService-postCard Activated")
-        serverView.onServerLoading()
+        postCardView.onPostCardLoading()
 
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
         cardRetrofitService.postCard(card).enqueue(object : Callback<PostCardResponse> {
@@ -33,12 +38,12 @@ class CardService{
                     Log.d("__res", response.body()!!.toString())
                     when (res.code) {
                         1000 -> { //성공
-                            Log.d("CardService-postCard", res.code.toString() + " : " + res.message)
-                            serverView.onServerSuccess()
+                            Log.d("CardService-postCard", res.code.toString() + " : " + res.message+ "courseIdx : "+ res.courseIdx)
+                            postCardView.onPostCardSuccess(res.courseIdx)
                         }
                         else -> { //의도된 실패
                             Log.d("CardService-postCard", res.code.toString() + " : " + res.message)
-                            serverView.onServerFailure(res.code, res.message)
+                            postCardView.onPostCardFailure(res.code, res.message)
                         }
                     }
                 }
