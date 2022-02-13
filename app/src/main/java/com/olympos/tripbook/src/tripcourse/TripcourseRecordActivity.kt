@@ -253,17 +253,17 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
     }
 
     override fun onServerLoading() {
-        //todo 로딩바 만들기
+        binding.tripcourseRecordLoadingPb.visibility = View.GONE
     }
 
     override fun onServerSuccess() {
-        //todo 로딩바 없애기
+        binding.tripcourseRecordLoadingPb.visibility = View.VISIBLE
         Toast.makeText(this, "서버에 카드 전송 완료", Toast.LENGTH_SHORT).show()
         finish()
     }
 
     override fun onServerFailure(code: Int, message: String) {
-        //todo 로딩바 없애기
+        binding.tripcourseRecordLoadingPb.visibility = View.VISIBLE
         Toast.makeText(this, "서버 전송 실패. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
     }
 }
