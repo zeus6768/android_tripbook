@@ -82,12 +82,12 @@ class CardService{
         })
     }
 
-    fun deleteCard(userIdx : String, tripIdx : String) {
+    fun deleteCard(userIdx : String, courseIdx : String) {
         Log.d("CheckPoint : ", "CardService-deleteCard Activated")
         serverView.onServerLoading()
 
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
-        cardRetrofitService.deleteCard(userIdx, tripIdx).enqueue(object : Callback<ServerDefaultResponse> {
+        cardRetrofitService.deleteCard(userIdx, courseIdx).enqueue(object : Callback<ServerDefaultResponse> {
             override fun onResponse(call: Call<ServerDefaultResponse>, response: Response<ServerDefaultResponse>) {
                 if (response.isSuccessful) {
                     val res = response.body()!!
@@ -114,12 +114,12 @@ class CardService{
 
     //카드 세부내용 올리기
     //작성 완료한 카드 서버로 전송
-    fun patchTitle(userIdx : String, tripIdx : String, title : String) {
+    fun patchTitle(userIdx : String, courseIdx : String, title : String) {
         Log.d("CheckPoint : ", "CardService-patchTitle Activated")
         serverView.onServerLoading()
 
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
-        cardRetrofitService.patchTitle(userIdx, tripIdx, title).enqueue(object : Callback<ServerDefaultResponse> {
+        cardRetrofitService.patchTitle(userIdx, courseIdx, title).enqueue(object : Callback<ServerDefaultResponse> {
             override fun onResponse(call: Call<ServerDefaultResponse>, response: Response<ServerDefaultResponse>) {
                 if (response.isSuccessful) {
                     val res = response.body()!!
@@ -143,12 +143,12 @@ class CardService{
         })
     }
 
-    fun patchBody(userIdx : String, tripIdx : String, body : String) {
+    fun patchBody(userIdx : String, courseIdx : String, body : String) {
         Log.d("CheckPoint : ", "CardService-patchBody Activated")
         serverView.onServerLoading()
 
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
-        cardRetrofitService.patchBody(userIdx, tripIdx, body).enqueue(object : Callback<ServerDefaultResponse> {
+        cardRetrofitService.patchBody(userIdx, courseIdx, body).enqueue(object : Callback<ServerDefaultResponse> {
             override fun onResponse(call: Call<ServerDefaultResponse>, response: Response<ServerDefaultResponse>) {
                 if (response.isSuccessful) {
                     val res = response.body()!!
@@ -172,12 +172,12 @@ class CardService{
         })
     }
 
-    fun patchImg(userIdx : String, tripIdx : String, img : String) {
+    fun patchImg(userIdx : String, courseIdx : String, img : String) {
         Log.d("CheckPoint : ", "CardService-patchImg Activated")
         serverView.onServerLoading()
 
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
-        cardRetrofitService.patchImg(userIdx, tripIdx, img).enqueue(object : Callback<ServerDefaultResponse> {
+        cardRetrofitService.patchImg(userIdx, courseIdx, img).enqueue(object : Callback<ServerDefaultResponse> {
             override fun onResponse(call: Call<ServerDefaultResponse>, response: Response<ServerDefaultResponse>) {
                 if (response.isSuccessful) {
                     val res = response.body()!!

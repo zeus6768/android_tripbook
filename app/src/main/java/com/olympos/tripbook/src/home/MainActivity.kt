@@ -35,7 +35,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     "여행 발자국을 남겨보세요.", "확인", R.drawable.img_home_notice)
         }
         else {
-            showRecentTripcourse()
+            val recentTripIdx = 0 //여기에 가장 최근 여행의 index 삽입
+            showRecentTripcourse(recentTripIdx)
         }
 
 //        initViewpager()
@@ -59,8 +60,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             .commitAllowingStateLoss()
     }
 
-    private fun showRecentTripcourse() {
-        supportFragmentManager.beginTransaction().replace(R.id.main_content_fl, TripcourseViewFragment())
+    private fun showRecentTripcourse(recentTripIdx : Int) {
+        val tripcourseViewFragment = TripcourseViewFragment()
+        val bundle = Bundle()
+        bundle.putInt("tripIdx", recentTripIdx)
+        tripcourseViewFragment.arguments = bundle
+
+        supportFragmentManager.beginTransaction().replace(R.id.main_content_fl, tripcourseViewFragment)
             .commitAllowingStateLoss()
     }
 

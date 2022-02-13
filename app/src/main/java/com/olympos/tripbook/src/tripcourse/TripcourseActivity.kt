@@ -24,6 +24,7 @@ import com.olympos.tripbook.src.tripcourse.model.CardService
 import com.olympos.tripbook.src.tripcourse.model.CardsView
 import com.olympos.tripbook.src.tripcourse.model.ServerView
 import com.olympos.tripbook.utils.getTripIdx
+import com.olympos.tripbook.utils.getUserIdx
 
 class TripcourseActivity : BaseActivity(), CardsView, ServerView {
 
@@ -39,6 +40,8 @@ class TripcourseActivity : BaseActivity(), CardsView, ServerView {
         super.onCreate(savedInstanceState)
         binding = ActivityTripcourseBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        tripIdx = getTripIdx(this)
 
         initView()
         initRecyclerView()
@@ -134,8 +137,7 @@ class TripcourseActivity : BaseActivity(), CardsView, ServerView {
             val period = d_year + "년 " + d_month + "월 " + d_day + "일 ~ " + a_year + "년 " + a_month + "월 " + a_day + "일의 추억"
 
             //임시 데이터
-            userIdx = tripData.userIdx
-            tripIdx = getTripIdx(this)
+//            tripIdx = getTripIdx(this)
 
             binding.tripcourseTitlebarPeriodTv.text = period
             binding.tripcourseTitlebarTitleTv.text = tripData.tripTitle
@@ -193,7 +195,7 @@ class TripcourseActivity : BaseActivity(), CardsView, ServerView {
     }
 
     private fun addCard() {
-        val card: Card = Card(tripIdx, cardIdx)
+        val card: Card = Card(0, tripIdx, cardIdx)
         cardIdx++
 
         postCard(card)
