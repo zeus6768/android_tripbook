@@ -164,6 +164,8 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, ServerView
     }
 
     private fun getTripcourses(tripIdx : String) {
+        val cardService = CardService()
+        cardService.setCardsView(this)
         Log.d("Check tripIdx", tripIdx)
         cardService.getTripcourses(tripIdx)
     }
