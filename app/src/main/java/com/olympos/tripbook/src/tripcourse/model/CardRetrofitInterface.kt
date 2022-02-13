@@ -15,17 +15,17 @@ interface CardRetrofitInterface {
     fun getTrip(@Path("tripIdx") tripIdx : Int) : Call<GetTripResponse>
 
     @PATCH("/app/course/courseDate/{userIdx}/{courseIdx}")
-    fun patchDate(@Path("userIdx") userIdx : Int, @Path("courseIdx") courseIdx :Int, @Body courseDate : String) : Call<ServerDefaultResponse>
+    fun patchDate(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx :String, @Body courseDate : String) : Call<ServerDefaultResponse>
 
     @PATCH("/app/course/courseDate/{userIdx}/{courseIdx}")
-    fun patchTime(@Path("userIdx") userIdx : Int, @Path("courseIdx") courseIdx : Int, @Body courseTime : String) : Call<ServerDefaultResponse>
+    fun patchTime(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx : String, @Body courseTime : String) : Call<ServerDefaultResponse>
 
     @PATCH("/app/course/courseDate/{userIdx}/{courseIdx}")
-    fun patchTitle(@Path("userIdx") userIdx : Int, @Path("courseIdx") courseIdx:Int, @Body courseTitle : String) : Call<ServerDefaultResponse>
+    fun patchTitle(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx:String, @Body courseTitle : String) : Call<ServerDefaultResponse>
 
     @PATCH("/app/course/courseDate/:userIdx/:courseIdx")
-    fun patchImg(@Path("userIdx") userIdx : Int, @Path("courseIdx") courseIdx:Int, @Body courseImg : String) : Call<ServerDefaultResponse>
+    fun patchImg(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx:String, @Body courseImg : String) : Call<ServerDefaultResponse>
 
     @PATCH("/app/course/courseDate/:userIdx/:courseIdx")
-    fun patchBody(@Path("userIdx") userIdx : Int, @Path("courseIdx") courseIdx:Int, @Body courseComment : String) : Call<ServerDefaultResponse>
+    fun patchBody(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx:String, @Body courseComment : String) : Call<ServerDefaultResponse>
 }

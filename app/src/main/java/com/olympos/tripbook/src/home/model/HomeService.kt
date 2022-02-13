@@ -26,7 +26,7 @@ class HomeService {
         process.onGetHomeLoading()
 
         //api 호출 후 응답받으면 callback
-        homeRetrofitService.getTripCount(getUserIdx()).enqueue(object : Callback<HomeResponse> {
+        homeRetrofitService.getTripCount(getUserIdx().toString()).enqueue(object : Callback<HomeResponse> {
             override fun onResponse(call: Call<HomeResponse>, response: Response<HomeResponse>) {
                 if (response.isSuccessful) {
                     val res = response.body()!!
@@ -46,7 +46,7 @@ class HomeService {
     }
 
     //여행 가져오기
-    fun getTrip(tripIdx : Int){
+    fun getTrip(tripIdx : String){
         val homeRetrofitService = retrofit.create(HomeRetrofitInterface::class.java)
 
         cardsView.onGetCardsLoading()

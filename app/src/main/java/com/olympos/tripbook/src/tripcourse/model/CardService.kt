@@ -84,7 +84,7 @@ class CardService{
 
     //카드 세부내용 올리기
     //작성 완료한 카드 서버로 전송
-    fun patchTitle(userIdx : Int, tripIdx : Int, title : String) {
+    fun patchTitle(userIdx : String, tripIdx : String, title : String) {
         Log.d("CheckPoint : ", "CardService-patchTitle Activated")
         serverView.onServerLoading()
 
@@ -113,7 +113,7 @@ class CardService{
         })
     }
 
-    fun patchBody(userIdx : Int, tripIdx : Int, body : String) {
+    fun patchBody(userIdx : String, tripIdx : String, body : String) {
         Log.d("CheckPoint : ", "CardService-patchBody Activated")
         serverView.onServerLoading()
 
@@ -142,7 +142,7 @@ class CardService{
         })
     }
 
-    fun patchImg(userIdx : Int, tripIdx : Int, img : String) {
+    fun patchImg(userIdx : String, tripIdx : String, img : String) {
         Log.d("CheckPoint : ", "CardService-patchImg Activated")
         serverView.onServerLoading()
 

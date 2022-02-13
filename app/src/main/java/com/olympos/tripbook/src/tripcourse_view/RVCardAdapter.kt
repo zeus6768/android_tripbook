@@ -1,14 +1,10 @@
-package com.olympos.tripbook.src.home
+package com.olympos.tripbook.src.tripcourse_view
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.olympos.tripbook.R
-import com.olympos.tripbook.config.BaseDialog
-import com.olympos.tripbook.databinding.ItemTripcourseCardBaseEmptyBinding
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseFillBinding
 import com.olympos.tripbook.src.tripcourse.model.Card
 

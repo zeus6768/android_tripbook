@@ -46,8 +46,6 @@ class TripcourseActivity : BaseActivity(), CardsView, ServerView {
         initView()
         initRecyclerView()
         addDefaultCard()
-
-
     }
 
     private fun addDefaultCard() {

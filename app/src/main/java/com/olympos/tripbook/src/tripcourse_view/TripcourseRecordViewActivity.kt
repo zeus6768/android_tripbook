@@ -28,6 +28,8 @@ class TripcourseRecordViewActivity : BaseActivity() {
 
         Glide.with(this.applicationContext).load(card.coverImg).into(binding.tripcourseRecordImgIv)
 
+        
+
         binding.tripcourseRecordViewBodyTv.text = card.body
         binding.tripcourseRecordViewTitleTv.text = card.title
         binding.tripcourseRecordViewSelectDateBtn.text = card.date
