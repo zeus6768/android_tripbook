@@ -11,17 +11,16 @@ import retrofit2.*
 class CardService{
 
     private lateinit var cardsView : CardsView
-    private lateinit var serverView: ServerView
-
     fun setCardsView(cardsView : CardsView) {
         this.cardsView = cardsView
     }
 
+    private lateinit var serverView: ServerView
     fun setServerView(serverView: ServerView) {
         this.serverView = serverView
     }
 
-    //작성 완료한 카드 서버로 전송
+    //카드 서버로 전송
     fun postCard(card : Card) {
         Log.d("CheckPoint : ", "CardService-postCard Activated")
         serverView.onServerLoading()
@@ -83,23 +82,91 @@ class CardService{
         })
     }
 
-    fun getCard(){
-        val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
+    //카드 세부내용 올리기
+    //작성 완료한 카드 서버로 전송
+    fun patchTitle(userIdx : Int, tripIdx : Int, title : String) {
+        Log.d("CheckPoint : ", "CardService-postCard Activated")
+        serverView.onServerLoading()
 
-        cardRetrofitService.getCard().enqueue(object : Callback<GetCardResponse> {
-            override fun onResponse(call: Call<GetCardResponse>, response: Response<GetCardResponse>) {
-                Log.d("들어오는지 확인", "CardService-postCard-onResponse")
+        val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
+        cardRetrofitService.patchTitle(userIdx, tripIdx, title).enqueue(object : Callback<ServerDefaultResponse> {
+            override fun onResponse(call: Call<ServerDefaultResponse>, response: Response<ServerDefaultResponse>) {
                 if (response.isSuccessful) {
                     val res = response.body()!!
                     Log.d("__res", response.body()!!.toString())
                     when (res.code) {
-                        1000 -> Log.d("REST API TEST 성공", res.toString())
-                        else -> Log.d("통신 실패 : ", res.toString())
+                        1000 -> { //성공
+                            Log.d("CardService-postCard", res.code.toString() + " : " + res.message)
+                            serverView.onServerSuccess()
+                        }
+                        else -> { //의도된 실패
+                            Log.d("CardService-postCard", res.code.toString() + " : " + res.message)
+                            serverView.onServerFailure(res.code, res.message)
+                        }
                     }
                 }
             }
-            override fun onFailure(call: Call<GetCardResponse>, t: Throwable) {
-                Log.d("들어오는지 확인", "CardService-postCard-onFailure")
+            override fun onFailure(call: Call<ServerDefaultResponse>, t: Throwable) {
+                serverView.onServerFailure(400, t.message.toString())
+                Log.d("CardService-postCard", t.toString()) //네트워크 실패
+            }
+        })
+    }
+
+    fun patchBody(userIdx : Int, tripIdx : Int, body : String) {
+        Log.d("CheckPoint : ", "CardService-postCard Activated")
+        serverView.onServerLoading()
+
+        val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
+        cardRetrofitService.patchBody(userIdx, tripIdx, body).enqueue(object : Callback<ServerDefaultResponse> {
+            override fun onResponse(call: Call<ServerDefaultResponse>, response: Response<ServerDefaultResponse>) {
+                if (response.isSuccessful) {
+                    val res = response.body()!!
+                    Log.d("__res", response.body()!!.toString())
+                    when (res.code) {
+                        1000 -> { //성공
+                            Log.d("CardService-postCard", res.code.toString() + " : " + res.message)
+                            serverView.onServerSuccess()
+                        }
+                        else -> { //의도된 실패
+                            Log.d("CardService-postCard", res.code.toString() + " : " + res.message)
+                            serverView.onServerFailure(res.code, res.message)
+                        }
+                    }
+                }
+            }
+            override fun onFailure(call: Call<ServerDefaultResponse>, t: Throwable) {
+                serverView.onServerFailure(400, t.message.toString())
+                Log.d("CardService-postCard", t.toString()) //네트워크 실패
+            }
+        })
+    }
+
+    fun patchImg(userIdx : Int, tripIdx : Int, img : String) {
+        Log.d("CheckPoint : ", "CardService-postCard Activated")
+        serverView.onServerLoading()
+
+        val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
+        cardRetrofitService.patchImg(userIdx, tripIdx, img).enqueue(object : Callback<ServerDefaultResponse> {
+            override fun onResponse(call: Call<ServerDefaultResponse>, response: Response<ServerDefaultResponse>) {
+                if (response.isSuccessful) {
+                    val res = response.body()!!
+                    Log.d("__res", response.body()!!.toString())
+                    when (res.code) {
+                        1000 -> { //성공
+                            Log.d("CardService-postCard", res.code.toString() + " : " + res.message)
+                            serverView.onServerSuccess()
+                        }
+                        else -> { //의도된 실패
+                            Log.d("CardService-postCard", res.code.toString() + " : " + res.message)
+                            serverView.onServerFailure(res.code, res.message)
+                        }
+                    }
+                }
+            }
+            override fun onFailure(call: Call<ServerDefaultResponse>, t: Throwable) {
+                serverView.onServerFailure(400, t.message.toString())
+                Log.d("CardService-postCard", t.toString()) //네트워크 실패
             }
         })
     }

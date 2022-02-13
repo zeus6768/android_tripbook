@@ -22,9 +22,10 @@ import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.src.tripcourse.model.Card
 import com.olympos.tripbook.src.tripcourse.model.CardService
 import com.olympos.tripbook.src.tripcourse.model.CardsView
+import com.olympos.tripbook.src.tripcourse.model.ServerView
 import com.olympos.tripbook.utils.getTripIdx
 
-class TripcourseActivity : BaseActivity(), CardsView {
+class TripcourseActivity : BaseActivity(), CardsView, ServerView {
 
     lateinit var binding : ActivityTripcourseBinding
     private var gson : Gson = Gson()
@@ -32,7 +33,7 @@ class TripcourseActivity : BaseActivity(), CardsView {
     private lateinit var cardRVAdapter : RVCardAdapter
 
     private var cardIdx = 1
-    private var tripIdx : Int =0
+    private var tripIdx : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -185,12 +186,21 @@ class TripcourseActivity : BaseActivity(), CardsView {
         val card: Card = Card(tripIdx, cardIdx)
         cardIdx++
 
+        postCard(card)
+
         cardRVAdapter.addCard(card)
         cardRVAdapter.notifyItemInserted(cardRVAdapter.itemCount - 1)
 
         Log.d("Check num of cardDatas", cardRVAdapter.itemCount.toString())
     }
 
+    private fun postCard(card : Card) {
+        val cardService = CardService()
+        cardService.setServerView(this)
+        cardService.postCard(card)
+    }
+
+    //서버에서 카드들 가져오는 View
     override fun onGetCardsLoading() {
         //todo 로딩바 생성
     }
@@ -201,6 +211,20 @@ class TripcourseActivity : BaseActivity(), CardsView {
     }
 
     override fun onGetCardsFailure(code: Int, message: String) { //통신 실패 View
+        //todo 로딩바 제거
+        Toast.makeText(this, "$code : $message", Toast.LENGTH_LONG).show()
+    }
+
+    //서버에 카드 보내는 중 View
+    override fun onServerLoading() {
+        //todo 로딩바 생성
+    }
+
+    override fun onServerSuccess() {
+        //todo 로딩바 제거
+    }
+
+    override fun onServerFailure(code: Int, message: String) {
         //todo 로딩바 제거
         Toast.makeText(this, "$code : $message", Toast.LENGTH_LONG).show()
     }

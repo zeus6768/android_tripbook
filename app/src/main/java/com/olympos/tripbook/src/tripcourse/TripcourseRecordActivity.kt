@@ -33,6 +33,8 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
     private var card: Card = Card() //채울 카드
     //    private val dateSelectDialog = DateSelectDialog(this)
 
+
+
     lateinit var uri : Uri //사진 uri 전역변수
     private var launcher = registerForActivityResult(ActivityResultContracts.GetContent()) {
         binding.tripcourseRecordImgIv.setImageURI(it)
@@ -122,10 +124,13 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
                 uploadImage(uri)
 
                 //입력받은 정보를 Card에 담기
-                getInputInfo(card)
+                getInputInfo()
 
-                //서버에 Card 전송
-                postCard(card)
+                //서버에 Card의 수정된 정보를 전송
+
+//                postCard(card)
+                postInfo(card)
+
             }
             R.id.tripcourse_record_img_cl ->
                 photoSelect()
@@ -190,12 +195,13 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
         startActivity(intent)
     }
 
-    private fun getInputInfo(card : Card) {
-        //필수요소 : 제목
+    private fun getInputInfo() {
+        //필수요소 : 제목, 내용
         if(binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
             Toast.makeText(this.applicationContext, "제목을 입력해주세요", Toast.LENGTH_SHORT).show()
-        }
-        else {
+        } else if (binding.tripcourseRecordBodyEt.text.toString().isEmpty()) {
+            Toast.makeText(this.applicationContext, "내용을 입력해주세요", Toast.LENGTH_SHORT).show()
+        } else {
             card.hasData = TRUE
             card.tripIdx = intent.getIntExtra("tripIdx", 0)
             card.idx = intent.getIntExtra("cardIdx", 0)
@@ -205,14 +211,11 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
             //제목 저장
             card.title = binding.tripcourseRecordTitleEt.text.toString()
             //body 저장
-            if(!binding.tripcourseRecordBodyEt.text.toString().isEmpty())
-                card.body = binding.tripcourseRecordBodyEt.text.toString()
-
+            card.body = binding.tripcourseRecordBodyEt.text.toString()
 
             //아직 구현이 안된 더미 데이터들
             card.date = "0000-00-00"
             card.time = 2
-//            card.country = "000.000-000.000"
 
             //아직까진 다시 TripcourseActivity로 보내진 않고 서버로 바로 카드를 보냄
 //            val intent = Intent(this@TripcourseRecordActivity, TripcourseRecordActivity::class.java)
@@ -224,10 +227,29 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
     }
 
     //Retrofit
-    private fun postCard(card : Card) {
+//    private fun postCard(card : Card) {
+//        val cardService = CardService()
+//        cardService.setServerView(this)
+//        cardService.postCard(card)
+//    }
+
+    private fun postInfo(card : Card) {
+
         val cardService = CardService()
         cardService.setServerView(this)
-        cardService.postCard(card)
+
+        //사진 저장(Uri)
+        cardService.patchImg(userIdx, tripIdx, card.coverImg)
+
+        //제목 저장
+        cardService.patchTitle(userIdx, tripIdx, card.title)
+
+        //body 저장
+        cardService.patchBody(userIdx, tripIdx, card.body)
+
+        //아직 구현이 안된 더미 데이터들
+        //card.date = "0000-00-00"
+        //card.time = 2
     }
 
     override fun onServerLoading() {
