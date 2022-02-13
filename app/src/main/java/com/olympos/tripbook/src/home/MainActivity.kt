@@ -27,7 +27,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         initView()
 
         //기록이 0일 때
@@ -41,7 +40,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             //todo
         }
 
-
 //        initViewpager()
 
         binding.mainDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED) //스와이프 비활성화
@@ -50,6 +48,23 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         binding.homeLeftDrawerBtn.setOnClickListener(this)
         binding.mainContentRecordBtnTv.setOnClickListener(this)
         binding.mainLeftNavigationView.setNavigationItemSelectedListener(this)
+
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        initView()
+
+        //기록이 0일 때
+        if(binding.mainUserTripCountTv.text == "0") {
+            initFragment()
+            showImgDialog("트립북을 시작해보세요!", "상단의 ‘여행 기록하러 가기’\n" +
+                    "버튼을 눌러\n" +
+                    "여행 발자국을 남겨보세요.", "확인", R.drawable.img_home_notice)
+        }
+        else {
+            //todo
+        }
 
     }
 

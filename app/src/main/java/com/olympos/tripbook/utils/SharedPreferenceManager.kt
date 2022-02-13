@@ -22,7 +22,7 @@ fun saveUserIdx(idx: Int) {
     editor.apply()
 }
 
-fun getUserIdx(): Int = mSharedPreferences.getInt("userIdx", 3)
+fun getUserIdx(): Int = mSharedPreferences.getInt("userIdx", 4)
 
 fun saveTokenValidity(context: Context, isValidToken: Boolean) {
     val spf = context.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)

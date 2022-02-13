@@ -17,12 +17,14 @@ import com.google.firebase.storage.FirebaseStorage
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripcourseRecordBinding
-import com.olympos.tripbook.src.tripcourse.model.Card
-import com.olympos.tripbook.src.tripcourse.model.CardService
+import com.olympos.tripbook.src.trip.model.Trip
+import com.olympos.tripbook.src.trip.model.TripService
+import com.olympos.tripbook.src.tripcourse.model.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
-class TripcourseRecordActivity : BaseActivity() {
+class TripcourseRecordActivity : BaseActivity(), CardsView{
 
     lateinit var binding: ActivityTripcourseRecordBinding
     private var gson : Gson = Gson()
@@ -221,5 +223,17 @@ class TripcourseRecordActivity : BaseActivity() {
     private fun postCard(card : Card) {
         val cardService = CardService()
         cardService.postCard(card)
+    }
+
+    override fun onGetCardsLoading() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onGetCardsSuccess(cards: ArrayList<Card>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onGetCardsFailure(code: Int, message: String) {
+        TODO("Not yet implemented")
     }
 }

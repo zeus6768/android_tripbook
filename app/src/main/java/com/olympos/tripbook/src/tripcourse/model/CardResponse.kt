@@ -30,7 +30,7 @@ data class GetCardResponse(
 //    @SerializedName("status") val status : String
 //)
 
-data class GetTripResponse(
+data class GetTripcourseResponse(
     @SerializedName("isSuccess") val isSuccess: Boolean,
     @SerializedName("code") val code: Int,
     @SerializedName("message") val message: String,

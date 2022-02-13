@@ -19,15 +19,15 @@ import com.olympos.tripbook.config.BaseDialog
 import com.olympos.tripbook.databinding.ActivityTripcourseBinding
 import com.olympos.tripbook.src.home.MainActivity
 import com.olympos.tripbook.src.trip.model.Trip
-import com.olympos.tripbook.src.tripcourse.model.Card
-import com.olympos.tripbook.src.tripcourse.model.CardService
-import com.olympos.tripbook.src.tripcourse.model.CardsView
+import com.olympos.tripbook.src.trip.model.TripGetProcess
+import com.olympos.tripbook.src.trip.model.TripService
+import com.olympos.tripbook.src.tripcourse.model.*
 
-class TripcourseActivity : BaseActivity(), CardsView {
+class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess {
 
     lateinit var binding : ActivityTripcourseBinding
     private var gson : Gson = Gson()
-
+    private var tripData = Trip()
     private var cards = ArrayList<Card>() //Datas in here. from Sever
 
     private lateinit var cardRVAdapter : RVCardAdapter
@@ -87,7 +87,7 @@ class TripcourseActivity : BaseActivity(), CardsView {
 
     override fun onRestart() {
         super.onRestart()
-        getTrip()
+        getTripcourses()
         //todo 서버에서 카드정보 가져와서 적용하기
         initRecyclerView()
     }
@@ -107,7 +107,7 @@ class TripcourseActivity : BaseActivity(), CardsView {
 
     override fun onOKClicked() {
         super.onOKClicked()
-        finish()
+        startMainActivity()
     }
 
     private fun initView() {
@@ -115,28 +115,16 @@ class TripcourseActivity : BaseActivity(), CardsView {
         binding.tripcourseTopbarLayout.topbarTitleTv.setText(R.string.tripcourse_title)
         binding.tripcourseTopbarLayout.topbarSubbuttonIb.setImageResource(R.drawable.btn_base_check_black)
 
-        if(intent.hasExtra("tripData")) {
-            Log.d("들어오는지 확인,,", "들어오긴 하냐")
-            val json = intent.getStringExtra("tripData")
-            val tripData = gson.fromJson(json, Trip::class.java)
-            Log.d("__tripData__ tripcourse", tripData.toString())
-            val d_date = tripData.departureDate.split("-")
-            val d_year = d_date[0].substring(2,4)
-            val d_month = d_date[1]
-            val d_day = d_date[2]
-            val a_date = tripData.arrivalDate.split("-")
-            val a_year = a_date[0].substring(2,4)
-            val a_month = a_date[1]
-            val a_day = a_date[2]
-            val period = d_year + "년 " + d_month + "월 " + d_day + "일 ~ " + a_year + "년 " + a_month + "월 " + a_day + "일의 추억"
-            binding.tripcourseTitlebarPeriodTv.text = period
-            binding.tripcourseTitlebarTitleTv.text = tripData.tripTitle
-        }
+        //여행 정보 가져옴
+        getTrip()
+
+
 
 
         binding.tripcourseTopbarLayout.topbarBackIb.setOnClickListener(this)
         binding.tripcourseTopbarLayout.topbarSubbuttonIb.setOnClickListener(this)
         binding.tripcourseAddCardBtn.setOnClickListener(this)
+        Log.d("tripData", tripData.toString())
 
         //타이틀바 길게 클릭 - 여행 삭제하기
         registerForContextMenu(binding.tripcourseTitlebarLayout)
@@ -147,12 +135,24 @@ class TripcourseActivity : BaseActivity(), CardsView {
 //        super.onActivityResult(requestCode, resultCode, data)
 //    }
 
+    private fun startMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
+
     private fun initRecyclerView() {
         cardRVAdapter = RVCardAdapter(this)
         binding.lookerAlbumlistRecyclerview.adapter = cardRVAdapter
     }
 
-    private fun getTrip(){
+    private fun getTrip() {
+        val tripService = TripService()
+        tripService.setGetProcess(this)
+
+        tripService.getTrip()
+    }
+
+    private fun getTripcourses() {
         val cardService = CardService()
         cardService.setCardsView(this)
         cardService.getTrip()
@@ -192,6 +192,7 @@ class TripcourseActivity : BaseActivity(), CardsView {
 //        cardRVAdapter.notifyItemChanged(1)
 //    }
 
+
     override fun onGetCardsLoading() {
         //todo 로딩바 생성
     }
@@ -202,5 +203,34 @@ class TripcourseActivity : BaseActivity(), CardsView {
 
     override fun onGetCardsFailure(code: Int, message: String) { //통신 실패 View
         Toast.makeText(this, "$code : $message", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onGetTripLoading() {
+        //todo
+    }
+
+    override fun onGetTripSuccess(result: Trip) {
+        tripData = result
+
+        val dDate = tripData.departureDate.split("-")
+        val dYear = dDate[0].substring(2,4)
+        val dMonth = dDate[1]
+        val dDay = dDate[2]
+        val aDate = tripData.arrivalDate.split("-")
+        val aYear = aDate[0].substring(2,4)
+        val aMonth = aDate[1]
+        val aDay = aDate[2]
+        val period = dYear + "년 " + dMonth + "월 " + dDay + "일 ~ " + aYear + "년 " + aMonth + "월 " + aDay + "일"
+
+        binding.tripcourseTitlebarPeriodTv.text = period
+        binding.tripcourseTitlebarTitleTv.text = tripData.tripTitle
+    }
+
+    override fun onGetTripFailure(code: Int, message: String) {
+        when(code) {
+            400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
+            2105 -> Toast.makeText(this, "유저를 확인해주세요.", Toast.LENGTH_SHORT).show()
+            2107 -> Toast.makeText(this, "여행 기록이 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
+        }
     }
 }

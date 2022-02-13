@@ -44,8 +44,8 @@ class CardService{
 
         cardsView.onGetCardsLoading()
 
-        cardRetrofitService.getTrip().enqueue(object : Callback<GetTripResponse> {
-            override fun onResponse(call: Call<GetTripResponse>, response: Response<GetTripResponse>) {
+        cardRetrofitService.getTripcourses().enqueue(object : Callback<GetTripcourseResponse> {
+            override fun onResponse(call: Call<GetTripcourseResponse>, response: Response<GetTripcourseResponse>) {
                 Log.d("들어오는지 확인", "CardService-getTrip-onResponse")
                 if (response.isSuccessful) {
                     val res = response.body()!!
@@ -63,7 +63,7 @@ class CardService{
                     }
                 }
             }
-            override fun onFailure(call: Call<GetTripResponse>, t: Throwable) {
+            override fun onFailure(call: Call<GetTripcourseResponse>, t: Throwable) {
                 Log.d("들어오는지 확인", "CardService-getTrip-onFailure")
                 cardsView.onGetCardsFailure(400, t.message.toString())
             }
