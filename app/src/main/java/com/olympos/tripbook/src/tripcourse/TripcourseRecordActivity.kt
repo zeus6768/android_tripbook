@@ -123,9 +123,8 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
                 getInputInfo()
 
                 //서버에 Card의 수정된 정보를 전송
-
-//                postCard(card)
                 postInfo(card)
+
 
             }
             R.id.tripcourse_record_img_cl ->

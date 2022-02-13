@@ -27,9 +27,9 @@ interface CardRetrofitInterface {
     @PATCH("/app/course/courseDate/{userIdx}/{courseIdx}")
     fun patchTitle(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx:String, @Body courseTitle : String) : Call<ServerDefaultResponse>
 
-    @PATCH("/app/course/courseDate/:userIdx/:courseIdx")
+    @PATCH("/app/course/courseDate/{userIdx}/{courseIdx}")
     fun patchImg(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx:String, @Body courseImg : String) : Call<ServerDefaultResponse>
 
-    @PATCH("/app/course/courseDate/:userIdx/:courseIdx")
+    @PATCH("/app/course/courseDate/{userIdx}/{courseIdx}")
     fun patchBody(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx:String, @Body courseComment : String) : Call<ServerDefaultResponse>
 }
