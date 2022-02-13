@@ -10,14 +10,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
-import com.olympos.tripbook.config.BaseDialog
 import com.olympos.tripbook.databinding.ActivityMainBinding
 import com.olympos.tripbook.src.home.model.HomeGetProcess
 import com.olympos.tripbook.src.home.model.HomeService
 import com.olympos.tripbook.src.trip.TripActivity
-import com.olympos.tripbook.src.trip.model.Trip
-import com.olympos.tripbook.src.trip.model.TripService
-import com.olympos.tripbook.src.tripcourse.TripcourseActivity
+import com.olympos.tripbook.src.tripcourse_view.TripcourseViewFragment
 
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, HomeGetProcess {
@@ -37,7 +34,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     "여행 발자국을 남겨보세요.", "확인", R.drawable.img_home_notice)
         }
         else {
-            //todo
+            showRecentTripcourse()
         }
 
 //        initViewpager()
@@ -75,6 +72,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     //
     private fun initFragment() {
         supportFragmentManager.beginTransaction().replace(R.id.main_content_fl, HomeFragment())
+            .commitAllowingStateLoss()
+    }
+
+    private fun showRecentTripcourse() {
+        supportFragmentManager.beginTransaction().replace(R.id.main_content_fl, TripcourseViewFragment())
             .commitAllowingStateLoss()
     }
 

@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.viewpager2.widget.ViewPager2
 import com.olympos.tripbook.config.BaseFragment
 import com.olympos.tripbook.databinding.FragmentHomeBinding
+import com.olympos.tripbook.src.home.model.CardsView
+import com.olympos.tripbook.src.home.model.HomeService
+import com.olympos.tripbook.src.tripcourse.model.Card
+import com.olympos.tripbook.src.tripcourse_view.RVCardAdapter
 
 class HomeFragment : BaseFragment() {
     lateinit var binding: FragmentHomeBinding
@@ -19,6 +22,6 @@ class HomeFragment : BaseFragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         return binding.root
-
     }
+
 }

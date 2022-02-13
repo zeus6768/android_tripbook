@@ -9,11 +9,24 @@ data class PostCardResponse(
 //    @SerializedName("result") val card : Card
 )
 
+data class ServerDefaultResponse(
+    @SerializedName("isSuccess") val isSuccess: Boolean,
+    @SerializedName("code") val code: Int,
+    @SerializedName("message") val message: String
+)
+
 data class GetCardResponse(
     @SerializedName("isSuccess") val isSuccess: Boolean,
     @SerializedName("code") val code: Int,
     @SerializedName("message") val message: String,
     @SerializedName("result") val cards : ArrayList<Card>?
+)
+
+data class GetTripResponse(
+    @SerializedName("isSuccess") val isSuccess: Boolean,
+    @SerializedName("code") val code: Int,
+    @SerializedName("message") val message: String,
+    @SerializedName("result") val result : ArrayList<Card> //얘도 이름 바꿔야 함
 )
 
 //data class CardResponse(
@@ -29,10 +42,3 @@ data class GetCardResponse(
 //    @SerializedName("longitude") val longitude : String?
 //    @SerializedName("status") val status : String
 //)
-
-data class GetTripcourseResponse(
-    @SerializedName("isSuccess") val isSuccess: Boolean,
-    @SerializedName("code") val code: Int,
-    @SerializedName("message") val message: String,
-    @SerializedName("result") val result : ArrayList<Card> //얘도 이름 바꿔야 함
-)
