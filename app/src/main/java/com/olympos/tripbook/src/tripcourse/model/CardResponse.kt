@@ -22,7 +22,7 @@ data class GetCardResponse(
     @SerializedName("result") val cards : ArrayList<Card>?
 )
 
-data class GetTripResponse(
+data class GetTripcourseResponse(
     @SerializedName("isSuccess") val isSuccess: Boolean,
     @SerializedName("code") val code: Int,
     @SerializedName("message") val message: String,
