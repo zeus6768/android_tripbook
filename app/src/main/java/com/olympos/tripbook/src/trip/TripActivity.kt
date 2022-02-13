@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.google.gson.Gson
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripBinding
@@ -14,12 +15,14 @@ import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.src.trip.model.TripPostProcess
 import com.olympos.tripbook.src.trip.model.TripService
 import com.olympos.tripbook.src.tripcourse.TripcourseActivity
+import com.olympos.tripbook.src.tripcourse.TripcourseRecordActivity
 import com.olympos.tripbook.utils.saveTripIdx
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class TripActivity : BaseActivity(), TripPostProcess {
     private lateinit var binding: ActivityTripBinding
-    private lateinit var departureDate: String
-    private lateinit var arrivalDate: String
+    private var gson : Gson = Gson()
 
     private var trip = Trip()
 //    private var decorator = RangeDayDecorator(this)
@@ -73,25 +76,25 @@ class TripActivity : BaseActivity(), TripPostProcess {
         //날짜 선택
         calendar.topbarVisible = true
         calendar.setOnRangeSelectedListener { widget, dates ->
-//            val regex = "\\^\\d{4}.\\d{1,2}.\\d{1,2}\\$/".toRegex()
-//            departureDate = regex.find(dates.first().toString()).toString()
-//            arrivalDate = regex.find(dates.last().toString()).toString()
-//            Log.d("정규식 확인", departureDate)
-//            departureDate = dates.first().toString().substring(12).split("-")
-            arrivalDate = dates.last().toString()
+
+            // yyyy-MM-dd 패턴 찾아 문자열 추출
+            val dMatch = Regex("(\\d+).(\\d+).(\\d+)").find(dates.first().toString())!!
+            val aMatch = Regex("(\\d+).(\\d+).(\\d+)").find(dates.last().toString())!!
+            val departureDate = dMatch.value
+            val arrivalDate = aMatch.value
 
             //출발일
             binding.tripDateDepartureMonthTv.text = departureDate.split("-")[1]
-            binding.tripDateDepartureDayTv.text = departureDate.split("-")[2].dropLast(1)
+            binding.tripDateDepartureDayTv.text = departureDate.split("-")[2]
             //도착일
             binding.tripDateArrivalMonthTv.text = arrivalDate.split("-")[1]
-            binding.tripDateArrivalDayTv.text = arrivalDate.split("-")[2].dropLast(1)
+            binding.tripDateArrivalDayTv.text = arrivalDate.split("-")[2]
 
-            trip.departureDate = departureDate
-            trip.arrivalDate = arrivalDate
+        trip.departureDate = departureDate
+        trip.arrivalDate = arrivalDate
 
         }
-        //        calendar.setOnDateChangedListener(this)
+//        calendar.setOnDateChangedListener(this)
 //        calendar.addDecorator(decorator)
     }
 
@@ -109,21 +112,16 @@ class TripActivity : BaseActivity(), TripPostProcess {
                 //제목 입력
                 trip.tripTitle = binding.tripTitleEt.text.toString()
 
-//                //validation
-//                if(trip.tripTitle.length > 15)
-//                    Toast.makeText(this, "제목은 14자로 이내로 입력해주세요", Toast.LENGTH_SHORT).show()
-//                if( trip.userIdx==""||
-//                    trip.tripTitle==""||
-//                    trip.departureDate==""||
-//                    trip.arrivalDate==""||
-//                    trip.themeIdx==0) {
-//                    Toast.makeText(this, "모든 값을 입력해주세요", Toast.LENGTH_SHORT).show()
-//                }
+                val intent = Intent(this, TripcourseActivity::class.java)
+                val gson = Gson()
+                val tripData = gson.toJson(trip)
+                Log.d("__tripData__ trip", tripData.toString())
+                intent.putExtra("tripData", tripData)
 
                 postTrip(trip)
 
-                Log.d("api test 확인용", "userIdx: " + trip.userIdx + "tripTitle: " + trip.tripTitle +
-                        "departureDate: " + trip.departureDate + "arrivalDate: " + trip.arrivalDate + "themeIdx: " + trip.themeIdx)
+//                Log.d("api test 확인용", " userIdx: " + trip.userIdx + " tripTitle: " + trip.tripTitle +
+//                        " departureDate: " + trip.departureDate + " arrivalDate: " + trip.arrivalDate + " themeIdx: " + trip.themeIdx)
             }
         }
     }
@@ -201,5 +199,6 @@ class TripActivity : BaseActivity(), TripPostProcess {
     private fun startTripcourseActivity() {
         val intent = Intent(this, TripcourseActivity::class.java)
         startActivity(intent)
+        finish()
     }
 }

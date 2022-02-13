@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-
     <!-- Drop Shadow Stack -->
     <item>
         <shape>
@@ -129,6 +128,4 @@
                 android:color="@android:color/transparent" />
         </shape>
     </item>
-
-    출처: https://selfish-developer.com/entry/안드로이드-그림자Shadow-효과-넣기 [아는 개발자]
 </layer-list>
