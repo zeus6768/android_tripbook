@@ -112,12 +112,6 @@ class TripActivity : BaseActivity(), TripPostProcess {
                 //제목 입력
                 trip.tripTitle = binding.tripTitleEt.text.toString()
 
-                val intent = Intent(this, TripcourseActivity::class.java)
-                val gson = Gson()
-                val tripData = gson.toJson(trip)
-                Log.d("__tripData__ trip", tripData.toString())
-                intent.putExtra("tripData", tripData)
-
                 postTrip(trip)
 
 //                Log.d("api test 확인용", " userIdx: " + trip.userIdx + " tripTitle: " + trip.tripTitle +
@@ -198,7 +192,15 @@ class TripActivity : BaseActivity(), TripPostProcess {
 
     private fun startTripcourseActivity() {
         val intent = Intent(this, TripcourseActivity::class.java)
+        val gson = Gson()
+        val tripData = gson.toJson(trip)
+        Log.d("__tripData__ trip", tripData.toString())
+        intent.putExtra("tripData", tripData)
+
+        Log.d("userIdx Check", trip.userIdx)
+
         startActivity(intent)
+
         finish()
     }
 }
