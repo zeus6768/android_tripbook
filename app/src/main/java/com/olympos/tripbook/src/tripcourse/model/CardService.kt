@@ -1,11 +1,7 @@
 package com.olympos.tripbook.src.tripcourse.model
 
 import android.util.Log
-import com.olympos.tripbook.src.user.model.ApiTestResponse
-import com.olympos.tripbook.src.user.model.ApiTestRetrofitInterface
 import com.olympos.tripbook.utils.ApplicationClass.Companion.retrofit
-import com.olympos.tripbook.utils.ApplicationClass.Companion.TAG
-import com.olympos.tripbook.utils.saveNickname
 import retrofit2.*
 
 class CardService{
@@ -57,8 +53,8 @@ class CardService{
 
         cardsView.onGetCardsLoading()
 
-        cardRetrofitService.getTripcourses(tripIdx).enqueue(object : Callback<GetTripResponse> {
-            override fun onResponse(call: Call<GetTripResponse>, response: Response<GetTripResponse>) {
+        cardRetrofitService.getTripcourses(tripIdx).enqueue(object : Callback<GetTripcourseResponse> {
+            override fun onResponse(call: Call<GetTripcourseResponse>, response: Response<GetTripcourseResponse>) {
                 Log.d("들어오는지 확인", "CardService-getTrip-onResponse")
                 if (response.isSuccessful) {
                     val res = response.body()!!

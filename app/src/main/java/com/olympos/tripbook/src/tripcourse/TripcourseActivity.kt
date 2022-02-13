@@ -126,9 +126,6 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, ServerView
         //여행 정보 가져옴
         getTrip()
 
-
-
-
         binding.tripcourseTopbarLayout.topbarBackIb.setOnClickListener(this)
         binding.tripcourseTopbarLayout.topbarSubbuttonIb.setOnClickListener(this)
         binding.tripcourseAddCardBtn.setOnClickListener(this)
