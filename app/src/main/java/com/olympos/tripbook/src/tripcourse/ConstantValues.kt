@@ -10,5 +10,5 @@ const val FALSE = 0
 const val TRUE = 1
 
 //임시 데이터
-val userIdx = 11
-val tripIdx = 22
+var userIdx : String = "11"
+var tripIdx : String = "22"

@@ -85,7 +85,7 @@ class CardService{
     //카드 세부내용 올리기
     //작성 완료한 카드 서버로 전송
     fun patchTitle(userIdx : Int, tripIdx : Int, title : String) {
-        Log.d("CheckPoint : ", "CardService-postCard Activated")
+        Log.d("CheckPoint : ", "CardService-patchTitle Activated")
         serverView.onServerLoading()
 
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
@@ -96,11 +96,11 @@ class CardService{
                     Log.d("__res", response.body()!!.toString())
                     when (res.code) {
                         1000 -> { //성공
-                            Log.d("CardService-postCard", res.code.toString() + " : " + res.message)
+                            Log.d("CardService-patchTitle", res.code.toString() + " : " + res.message)
                             serverView.onServerSuccess()
                         }
                         else -> { //의도된 실패
-                            Log.d("CardService-postCard", res.code.toString() + " : " + res.message)
+                            Log.d("CardService-patchTitle", res.code.toString() + " : " + res.message)
                             serverView.onServerFailure(res.code, res.message)
                         }
                     }
@@ -108,13 +108,13 @@ class CardService{
             }
             override fun onFailure(call: Call<ServerDefaultResponse>, t: Throwable) {
                 serverView.onServerFailure(400, t.message.toString())
-                Log.d("CardService-postCard", t.toString()) //네트워크 실패
+                Log.d("CardService-patchTitle", t.toString()) //네트워크 실패
             }
         })
     }
 
     fun patchBody(userIdx : Int, tripIdx : Int, body : String) {
-        Log.d("CheckPoint : ", "CardService-postCard Activated")
+        Log.d("CheckPoint : ", "CardService-patchBody Activated")
         serverView.onServerLoading()
 
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
@@ -125,11 +125,11 @@ class CardService{
                     Log.d("__res", response.body()!!.toString())
                     when (res.code) {
                         1000 -> { //성공
-                            Log.d("CardService-postCard", res.code.toString() + " : " + res.message)
+                            Log.d("CardService-patchBody", res.code.toString() + " : " + res.message)
                             serverView.onServerSuccess()
                         }
                         else -> { //의도된 실패
-                            Log.d("CardService-postCard", res.code.toString() + " : " + res.message)
+                            Log.d("CardService-patchBody", res.code.toString() + " : " + res.message)
                             serverView.onServerFailure(res.code, res.message)
                         }
                     }
@@ -137,13 +137,13 @@ class CardService{
             }
             override fun onFailure(call: Call<ServerDefaultResponse>, t: Throwable) {
                 serverView.onServerFailure(400, t.message.toString())
-                Log.d("CardService-postCard", t.toString()) //네트워크 실패
+                Log.d("CardService-patchBody", t.toString()) //네트워크 실패
             }
         })
     }
 
     fun patchImg(userIdx : Int, tripIdx : Int, img : String) {
-        Log.d("CheckPoint : ", "CardService-postCard Activated")
+        Log.d("CheckPoint : ", "CardService-patchImg Activated")
         serverView.onServerLoading()
 
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
@@ -154,11 +154,11 @@ class CardService{
                     Log.d("__res", response.body()!!.toString())
                     when (res.code) {
                         1000 -> { //성공
-                            Log.d("CardService-postCard", res.code.toString() + " : " + res.message)
+                            Log.d("CardService-patchImg", res.code.toString() + " : " + res.message)
                             serverView.onServerSuccess()
                         }
                         else -> { //의도된 실패
-                            Log.d("CardService-postCard", res.code.toString() + " : " + res.message)
+                            Log.d("CardService-patchImg", res.code.toString() + " : " + res.message)
                             serverView.onServerFailure(res.code, res.message)
                         }
                     }
@@ -166,7 +166,7 @@ class CardService{
             }
             override fun onFailure(call: Call<ServerDefaultResponse>, t: Throwable) {
                 serverView.onServerFailure(400, t.message.toString())
-                Log.d("CardService-postCard", t.toString()) //네트워크 실패
+                Log.d("CardService-patchImg", t.toString()) //네트워크 실패
             }
         })
     }

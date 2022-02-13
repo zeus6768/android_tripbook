@@ -33,8 +33,6 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
     private var card: Card = Card() //채울 카드
     //    private val dateSelectDialog = DateSelectDialog(this)
 
-
-
     lateinit var uri : Uri //사진 uri 전역변수
     private var launcher = registerForActivityResult(ActivityResultContracts.GetContent()) {
         binding.tripcourseRecordImgIv.setImageURI(it)
@@ -46,8 +44,6 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
         super.onCreate(savedInstanceState)
         binding = ActivityTripcourseRecordBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
 
         initView()
     }
@@ -239,13 +235,13 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
         cardService.setServerView(this)
 
         //사진 저장(Uri)
-        cardService.patchImg(userIdx, tripIdx, card.coverImg)
+        cardService.patchImg(userIdx.toInt(), tripIdx.toInt(), card.coverImg)
 
         //제목 저장
-        cardService.patchTitle(userIdx, tripIdx, card.title)
+        cardService.patchTitle(userIdx.toInt(), tripIdx.toInt(), card.title)
 
         //body 저장
-        cardService.patchBody(userIdx, tripIdx, card.body)
+        cardService.patchBody(userIdx.toInt(), tripIdx.toInt(), card.body)
 
         //아직 구현이 안된 더미 데이터들
         //card.date = "0000-00-00"

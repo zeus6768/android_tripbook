@@ -196,6 +196,9 @@ class TripActivity : BaseActivity(), TripPostProcess {
         val tripData = gson.toJson(trip)
         Log.d("__tripData__ trip", tripData.toString())
         intent.putExtra("tripData", tripData)
+
+        Log.d("userIdx Check", trip.userIdx)
+
         startActivity(intent)
 
         finish()
