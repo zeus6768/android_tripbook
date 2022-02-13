@@ -14,6 +14,10 @@ interface CardRetrofitInterface {
     @GET("/app/trip/{tripIdx}/courses")
     fun getTrip(@Path("tripIdx") tripIdx : String) : Call<GetTripResponse>
 
+    @PATCH("/app/course/deleteCourse/{userIdx}/{courseIdx}")
+    fun deleteCard(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx :String) : Call<ServerDefaultResponse>
+
+
     @PATCH("/app/course/courseDate/{userIdx}/{courseIdx}")
     fun patchDate(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx :String, @Body courseDate : String) : Call<ServerDefaultResponse>
 

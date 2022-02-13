@@ -11,8 +11,10 @@ import com.olympos.tripbook.config.BaseDialog
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseEmptyBinding
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseFillBinding
 import com.olympos.tripbook.src.tripcourse.model.Card
+import com.olympos.tripbook.src.tripcourse.model.CardService
+import com.olympos.tripbook.src.tripcourse.model.ServerView
 
-class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ServerView {
 
     /*---------- 인터페이스 ----------*/
 
@@ -36,7 +38,7 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
     inner class DialogClass(context: Context) : BaseDialog.BaseDialogClickListener {
         val thisContext = context
         override fun onOKClicked() {
-            TODO("카드 삭제")
+            deleteCard()
         }
         override fun onCancelClicked() {
 
@@ -159,6 +161,12 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
         cardClickListener = itemClickListener
     }
 
+    fun deleteCard() {
+        val cardservice = CardService()
+        cardservice.setServerView(this)
+        cardservice.deleteCard(userIdx, tripIdx)
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     fun setCards(cards : ArrayList<Card>) {
         this.cards.clear()
@@ -182,6 +190,21 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
         cards.removeAt(position)
 //        notifyItemRemoved(position) // 얘 문제임 아마 이미 지워진 애를 지워졌다고 알려서 그런게 아닐까 추측함
         //ex) 3번 사라짐(124 남음) 근데 3번 사라졌다고 알림(4번 지목함) -> 자세히는 나도 모름
+
+        deleteCard()
+
         notifyDataSetChanged()
+    }
+
+    override fun onServerLoading() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onServerSuccess() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onServerFailure(code: Int, message: String) {
+        TODO("Not yet implemented")
     }
 }

@@ -82,6 +82,36 @@ class CardService{
         })
     }
 
+    fun deleteCard(userIdx : String, tripIdx : String) {
+        Log.d("CheckPoint : ", "CardService-deleteCard Activated")
+        serverView.onServerLoading()
+
+        val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
+        cardRetrofitService.deleteCard(userIdx, tripIdx).enqueue(object : Callback<ServerDefaultResponse> {
+            override fun onResponse(call: Call<ServerDefaultResponse>, response: Response<ServerDefaultResponse>) {
+                if (response.isSuccessful) {
+                    val res = response.body()!!
+                    Log.d("__res", response.body()!!.toString())
+                    when (res.code) {
+                        1000 -> { //성공
+                            Log.d("CardService-deleteCard", res.code.toString() + " : " + res.message)
+                            serverView.onServerSuccess()
+                        }
+                        else -> { //의도된 실패
+                            Log.d("CardService-deleteCard", res.code.toString() + " : " + res.message)
+                            serverView.onServerFailure(res.code, res.message)
+                        }
+                    }
+                }
+            }
+            override fun onFailure(call: Call<ServerDefaultResponse>, t: Throwable) {
+                serverView.onServerFailure(400, t.message.toString())
+                Log.d("CardService-patchTitle", t.toString()) //네트워크 실패
+            }
+        })
+    }
+
+
     //카드 세부내용 올리기
     //작성 완료한 카드 서버로 전송
     fun patchTitle(userIdx : String, tripIdx : String, title : String) {
