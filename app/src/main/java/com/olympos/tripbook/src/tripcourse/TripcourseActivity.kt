@@ -50,6 +50,7 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
 
         initView()
         initRecyclerView()
+        binding.lookerAlbumlistRecyclerview.addItemDecoration(RVCardAdapterDecoration())
         addDefaultCard()
     }
 
@@ -177,7 +178,6 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
         binding.lookerAlbumlistRecyclerview.adapter = cardRVAdapter
 
         binding.lookerAlbumlistRecyclerview.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
-        binding.lookerAlbumlistRecyclerview.addItemDecoration(RVCardAdapterDecoration())
 
         cardRVAdapter.setItemClickListener(object : RVCardAdapter.CardClickListener {
             override fun onItemClick(card: Card) {

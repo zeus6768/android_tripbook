@@ -64,7 +64,7 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
     inner class FillCardViewHolder(val binding : ItemTripcourseCardBaseFillBinding) : RecyclerView.ViewHolder(binding.root),
         View.OnCreateContextMenuListener {
         fun bind(card : Card) {
-            if(card.coverImg == null){
+            if(card.coverImg == "NONE"){
                 binding.itemCardFillCoverImg.setImageResource(R.drawable.img_tripcourse_card_ex)
             } else {
                 Glide.with(mContext).load(card.coverImg).into(binding.itemCardFillCoverImg) //context 인자로 받아와야 함
@@ -198,30 +198,24 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    fun removeCard(position: Int) {
-
-    }
-
     @SuppressLint("NotifyDataSetChanged")
     private fun onRemoveCard(position: Int){
-        cards.removeAt(position)
-//        notifyItemRemoved(position) // 얘 문제임 아마 이미 지워진 애를 지워졌다고 알려서 그런게 아닐까 추측함
-        //ex) 3번 사라짐(124 남음) 근데 3번 사라졌다고 알림(4번 지목함) -> 자세히는 나도 모름
-
         deleteCard(cards[position].courseIdx)
-
+        cards.removeAt(position)
+        //notifyItemRemoved(position) // 얘 문제임 아마 이미 지워진 애를 지워졌다고 알려서 그런게 아닐까 추측함
+        //ex) 3번 사라짐(124 남음) 근데 3번 사라졌다고 알림(4번 지목함) -> 자세히는 나도 모름
         notifyDataSetChanged()
     }
 
     override fun onServerLoading() {
-        TODO("Not yet implemented")
+        Log.d("RVCardAdapter Response", "delete Card Loading")
     }
 
     override fun onServerSuccess() {
-        TODO("Not yet implemented")
+        Log.d("RVCardAdapter Response", "delete Card Success")
     }
 
     override fun onServerFailure(code: Int, message: String) {
-        TODO("Not yet implemented")
+        Log.d("RVCardAdapter Response", code.toString() + "delete Card Fail : " + message)
     }
 }
