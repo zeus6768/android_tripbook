@@ -27,6 +27,7 @@ import com.olympos.tripbook.src.tripcourse.model.CardService
 import com.olympos.tripbook.src.tripcourse.model.CardsView
 import com.olympos.tripbook.src.tripcourse.model.ServerView
 import com.olympos.tripbook.utils.getTripIdx
+import com.olympos.tripbook.utils.getUserIdx
 
 class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, ServerView {
 
@@ -40,14 +41,13 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, ServerView
 
     private var cardIdx = 1
     private var tripIdx : Int = 0
-    val cardService = CardService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTripcourseBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        cardService.setCardsView(this)
+        tripIdx = getTripIdx(this)
 
         initView()
         initRecyclerView()
@@ -55,28 +55,32 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, ServerView
     }
 
     private fun addDefaultCard() {
-        //        val setTestCard1 : Card = Card(tripIdx, cardIdx, TRUE,"https://post-phinf.pstatic.net/MjAxOTEyMjRfODgg/MDAxNTc3MTY0NzE3ODI0.td40390rDg76HqexxOaLbmw4FMvAE5-taBjKL0QqGw4g.O1S4JTJnFfVcGPgHiCn09gNG2VtFZDO6umEH6e6fqygg.JPEG/%EC%A0%9C%EC%A3%BC%EB%8F%84_%EB%9A%9C%EB%B2%85%EC%9D%B4_%EC%97%AC%ED%96%89.jpg?type=w1200", "2000-00-00", 2, "이름있는제목 1","바뀐 내용 11111", "", "") //cardIdx =1
-        //        cardRVAdapter.addCard(setTestCard1)
-        //        cardIdx++
-        //
-        //        val setTestCard2 : Card = Card(tripIdx, cardIdx, TRUE, "https://korean.nlcsjeju.co.kr/userfiles/nlcsjejukrmvc/images/body/IMG_9153.jpg", "2000-11-11", 3, "어떻게든 지어본 이름 2", "바뀌어버린 내용", "", "") //cardIdx =2
-        //        cardRVAdapter.addCard(setTestCard2)
-        //        cardIdx++
+//        val setTestCard1 : Card = Card(tripIdx, cardIdx, TRUE,"https://post-phinf.pstatic.net/MjAxOTEyMjRfODgg/MDAxNTc3MTY0NzE3ODI0.td40390rDg76HqexxOaLbmw4FMvAE5-taBjKL0QqGw4g.O1S4JTJnFfVcGPgHiCn09gNG2VtFZDO6umEH6e6fqygg.JPEG/%EC%A0%9C%EC%A3%BC%EB%8F%84_%EB%9A%9C%EB%B2%85%EC%9D%B4_%EC%97%AC%ED%96%89.jpg?type=w1200", "2000-00-00", 2, "이름있는제목 1","바뀐 내용 11111", "", "") //cardIdx =1
+//        cardRVAdapter.addCard(setTestCard1)
+//        cardIdx++
+//
+//        val setTestCard2 : Card = Card(tripIdx, cardIdx, TRUE, "https://korean.nlcsjeju.co.kr/userfiles/nlcsjejukrmvc/images/body/IMG_9153.jpg", "2000-11-11", 3, "어떻게든 지어본 이름 2", "바뀌어버린 내용", "", "") //cardIdx =2
+//        cardRVAdapter.addCard(setTestCard2)
+//        cardIdx++
 
-        val defaultCard1: Card = Card(tripIdx, cardIdx) //cardIdx =1
-        cardRVAdapter.addCard(defaultCard1)
-        postCard(defaultCard1)
-        cardIdx++
+//        val defaultCard1: Card = Card(tripIdx, cardIdx) //cardIdx =1
+//        cardRVAdapter.addCard(defaultCard1)
+//        postCard(defaultCard1)
+//        cardIdx++
+//
+//        val defaultCard2: Card = Card(tripIdx, cardIdx) //cardIdx =2
+//        cardRVAdapter.addCard(defaultCard2)
+//        postCard(defaultCard2)
+//        cardIdx++
+//
+//        val defaultCard3: Card = Card(tripIdx, cardIdx) //cardIdx =3
+//        cardRVAdapter.addCard(defaultCard3)
+//        postCard(defaultCard3)
+//        cardIdx++
 
-        val defaultCard2: Card = Card(tripIdx, cardIdx) //cardIdx =2
-        cardRVAdapter.addCard(defaultCard2)
-        postCard(defaultCard2)
-        cardIdx++
-
-        val defaultCard3: Card = Card(tripIdx, cardIdx) //cardIdx =3
-        cardRVAdapter.addCard(defaultCard3)
-        postCard(defaultCard3)
-        cardIdx++
+        addCard()
+        addCard()
+        addCard()
     }
 
     private fun startTripcourseRecordActivity(card: Card) {
@@ -160,6 +164,8 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, ServerView
     }
 
     private fun getTripcourses(tripIdx : String) {
+        val cardService = CardService()
+        cardService.setCardsView(this)
         Log.d("Check tripIdx", tripIdx)
         cardService.getTripcourses(tripIdx)
     }
@@ -179,7 +185,8 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, ServerView
                 showDialog("발자국 작성 취소", "발자국 작성을 취소하시겠습니까?\n"
                         + "작성중인 정보는 저장되지 않습니다.", "확인")
             R.id.topbar_subbutton_ib -> { //상단바 - 체크 버튼 - 저장
-                //서버에 카드는 다 올라갔으므로 그냥 종료
+                //빈 카드 모두삭제하고 끝
+                cardRVAdapter.onRemoveEmptyCard()
                 finish()
             }
             R.id.tripcourse_add_card_btn -> {
@@ -189,7 +196,7 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, ServerView
     }
 
     private fun addCard() {
-        val card: Card = Card(tripIdx, cardIdx)
+        val card: Card = Card(0, tripIdx, cardIdx)
         cardIdx++
 
         postCard(card)
@@ -201,6 +208,8 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, ServerView
     }
 
     private fun postCard(card : Card) {
+        val cardService = CardService()
+        cardService.setServerView(this)
         Log.d("Check card Data", card.toString())
         cardService.postCard(card)
     }

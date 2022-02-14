@@ -9,6 +9,12 @@ interface CardsView {
     fun onGetCardsFailure(code : Int, message : String)
 }
 
+interface PostCardView {
+    fun onPostCardLoading()
+    fun onPostCardSuccess(courseIdx : Int)
+    fun onPostCardFailure(code : Int, message : String)
+}
+
 interface ServerView {
     fun onServerLoading()
     fun onServerSuccess()

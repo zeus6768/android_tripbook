@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class PostCardResponse(
     @SerializedName("isSuccess") val isSuccess: Boolean,
     @SerializedName("code") val code: Int,
-    @SerializedName("message") val message: String
-//    @SerializedName("result") val card : Card
+    @SerializedName("message") val message: String,
+    @SerializedName("courseIdx") val courseIdx : Int
 )
 
 data class ServerDefaultResponse(

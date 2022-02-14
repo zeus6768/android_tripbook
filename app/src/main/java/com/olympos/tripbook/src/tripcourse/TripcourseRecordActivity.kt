@@ -22,6 +22,7 @@ import com.olympos.tripbook.src.tripcourse.model.Card
 import com.olympos.tripbook.src.tripcourse.model.CardService
 import com.olympos.tripbook.src.tripcourse.model.ServerView
 import com.olympos.tripbook.utils.getTripIdx
+import com.olympos.tripbook.utils.getUserIdx
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -123,9 +124,8 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
                 getInputInfo()
 
                 //서버에 Card의 수정된 정보를 전송
-
-//                postCard(card)
                 postInfo(card)
+
 
             }
             R.id.tripcourse_record_img_cl ->
@@ -230,18 +230,17 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
 //    }
 
     private fun postInfo(card : Card) {
-
         val cardService = CardService()
         cardService.setServerView(this)
 
         //사진 저장(Uri)
-        cardService.patchImg(userIdx, tripIdx, card.coverImg)
+        cardService.patchImg(getUserIdx().toString(), card.courseIdx.toString(), card.coverImg)
 
         //제목 저장
-        cardService.patchTitle(userIdx, tripIdx, card.title)
+        cardService.patchTitle(getUserIdx().toString(), card.courseIdx.toString(), card.title)
 
         //body 저장
-        cardService.patchBody(userIdx, tripIdx, card.body)
+        cardService.patchBody(getUserIdx().toString(), card.courseIdx.toString(), card.body)
 
         //아직 구현이 안된 더미 데이터들
         //card.date = "0000-00-00"

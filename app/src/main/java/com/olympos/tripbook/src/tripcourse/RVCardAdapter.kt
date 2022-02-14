@@ -13,6 +13,7 @@ import com.olympos.tripbook.databinding.ItemTripcourseCardBaseFillBinding
 import com.olympos.tripbook.src.tripcourse.model.Card
 import com.olympos.tripbook.src.tripcourse.model.CardService
 import com.olympos.tripbook.src.tripcourse.model.ServerView
+import com.olympos.tripbook.utils.getUserIdx
 
 class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ServerView {
 
@@ -38,7 +39,7 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
     inner class DialogClass(context: Context) : BaseDialog.BaseDialogClickListener {
         val thisContext = context
         override fun onOKClicked() {
-            deleteCard()
+            // todo 카드의 courseIdx 받아와서 deleteCard(courseIdx)
         }
         override fun onCancelClicked() {
 
@@ -161,10 +162,10 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
         cardClickListener = itemClickListener
     }
 
-    fun deleteCard() {
+    fun deleteCard(courseIdx : Int) {
         val cardservice = CardService()
         cardservice.setServerView(this)
-        cardservice.deleteCard(userIdx, tripIdx)
+        cardservice.deleteCard(getUserIdx().toString(), courseIdx.toString())
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -181,6 +182,22 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
         notifyItemInserted(itemCount-1)
     }
 
+    fun onRemoveEmptyCard() {
+        var i = 0
+        var deleteList = ArrayList<Int>()
+        for(i in 0..itemCount-1) {
+            if(cards[i].hasData == FALSE) {
+                deleteList.add(cards[i].courseIdx)
+            }
+        }
+        if(!deleteList.isEmpty()) {
+            //todo deleteList에 있는 카드들의 courseIdx를 가지고 서버에서 삭제
+            for(i in 0..deleteList.size-1) {
+                deleteCard(deleteList[i])
+            }
+        }
+    }
+
     fun removeCard(position: Int) {
 
     }
@@ -191,7 +208,7 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
 //        notifyItemRemoved(position) // 얘 문제임 아마 이미 지워진 애를 지워졌다고 알려서 그런게 아닐까 추측함
         //ex) 3번 사라짐(124 남음) 근데 3번 사라졌다고 알림(4번 지목함) -> 자세히는 나도 모름
 
-        deleteCard()
+        deleteCard(cards[position].courseIdx)
 
         notifyDataSetChanged()
     }

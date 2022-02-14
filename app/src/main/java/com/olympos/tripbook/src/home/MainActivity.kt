@@ -15,7 +15,7 @@ import com.olympos.tripbook.src.home.model.HomeGetProcess
 import com.olympos.tripbook.src.home.model.HomeService
 import com.olympos.tripbook.src.trip.TripActivity
 import com.olympos.tripbook.src.tripcourse_view.TripcourseViewFragment
-
+import com.olympos.tripbook.utils.getTripIdx
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, HomeGetProcess {
     private lateinit var binding: ActivityMainBinding
@@ -34,7 +34,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     "여행 발자국을 남겨보세요.", "확인", R.drawable.img_home_notice)
         }
         else {
-            showRecentTripcourse()
+            val recentTripIdx = getTripIdx(this)
+            showRecentTripcourse(recentTripIdx)
         }
 
 //        initViewpager()
@@ -75,8 +76,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             .commitAllowingStateLoss()
     }
 
-    private fun showRecentTripcourse() {
-        supportFragmentManager.beginTransaction().replace(R.id.main_content_fl, TripcourseViewFragment())
+    private fun showRecentTripcourse(recentTripIdx : Int) {
+        val tripcourseViewFragment = TripcourseViewFragment()
+        val bundle = Bundle()
+        bundle.putInt("tripIdx", recentTripIdx)
+        tripcourseViewFragment.arguments = bundle
+
+        supportFragmentManager.beginTransaction().replace(R.id.main_content_fl, tripcourseViewFragment)
             .commitAllowingStateLoss()
     }
 
