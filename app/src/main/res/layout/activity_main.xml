@@ -52,7 +52,7 @@
                 android:id="@+id/main_user_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="OOO님의 추억"
+                android:text="조자운님의 추억"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 android:fontFamily="@font/notosans_kr_medium"
