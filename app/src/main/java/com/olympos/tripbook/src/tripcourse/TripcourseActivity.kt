@@ -39,6 +39,8 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
     private var cardIdx = 1
     private var tripIdx : Int = 0
 
+    private var card = Card()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTripcourseBinding.inflate(layoutInflater)
@@ -83,13 +85,13 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
     private fun startTripcourseRecordActivity(card: Card) {
         val intent = Intent(this@TripcourseActivity, TripcourseRecordActivity::class.java)
 
-        if (card.hasData == TRUE) { //데이터가 있는 경우
-            val cardData = gson.toJson(card)
-            intent.putExtra("card", cardData)
-        }
+        //if (card.hasData == TRUE) { //데이터가 있는 경우
+        val cardData = gson.toJson(card)
+        intent.putExtra("card", cardData)
+        //}
 
-        intent.putExtra("cardIdx", card.idx)
-        intent.putExtra("tripIdx", card.tripIdx)
+//        intent.putExtra("cardIdx", card.idx)
+//        intent.putExtra("tripIdx", card.tripIdx)
 
         startActivity(intent)
     }
@@ -210,28 +212,25 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
     }
 
     private fun addCard() {
-        val card: Card = Card(0, tripIdx, cardIdx)
+        card = Card(0, tripIdx, cardIdx)
         cardIdx++
 
-        card.courseIdx = postCard(card)
+        postCard(card)
 
-        cardRVAdapter.addCard(card)
-        cardRVAdapter.notifyItemInserted(cardRVAdapter.itemCount - 1)
+//        cardRVAdapter.addCard(card)
+//        cardRVAdapter.notifyItemInserted(cardRVAdapter.itemCount - 1)
 
         Log.d("Check num of cardDatas", cardRVAdapter.itemCount.toString())
     }
 
-    private fun postCard(card : Card) : Int {
+    private fun postCard(card : Card) {
         val cardService = CardService()
         cardService.setPostCardView(this)
         Log.d("Check card Data", card.toString())
 
-        //확인용 코드
-        val asdf = cardService.postCard(card)
-        Log.d("CheckCourseIdxAAAAA", asdf.toString())
-        return asdf
+        cardService.postCard(card)
         //return cardService.postCard(card)
-        }
+    }
 
     //서버에서 tripcourse의 카드들을 가져오는 View
     override fun onGetCardsLoading() {
@@ -255,6 +254,11 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
 
     override fun onPostCardSuccess(courseIdx: Int) {
         binding.tripcourseLoadingPb.visibility = View.GONE
+
+        card.courseIdx = courseIdx
+        cardRVAdapter.addCard(card)
+        Log.d("Check CardData>>>", card.toString())
+        cardRVAdapter.notifyItemInserted(cardRVAdapter.itemCount - 1)
     }
 
     override fun onPostCardFailure(code: Int, message: String) {
