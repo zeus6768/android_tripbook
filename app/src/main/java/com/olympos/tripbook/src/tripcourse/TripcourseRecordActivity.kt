@@ -26,11 +26,10 @@ import com.olympos.tripbook.utils.getUserIdx
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TripcourseRecordActivity : BaseActivity(), ServerView {
+class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.DialogClickListener {
 
     lateinit var binding: ActivityTripcourseRecordBinding
     private var gson : Gson = Gson()
-
     private var card: Card = Card() //채울 카드
     //    private val dateSelectDialog = DateSelectDialog(this)
 
@@ -117,8 +116,9 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
             R.id.topbar_back_ib ->
                 showDialog("안내","발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 임시저장됩니다.", "확인")
             R.id.topbar_subbutton_ib -> {
-                //todo 저장완료, firebase storage에 이미지를 업로드
+                //firebase storage에 이미지를 업로드
                 uploadImage(uri)
+                //todo 저장완료
 
                 //입력받은 정보를 Card에 담기
                 getInputInfo()
@@ -136,13 +136,27 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
                 startTripcourseSelectCountryActivity()
 
             R.id.tripcourse_record_select_date_btn -> {
-//                dateSelectDialog.show()
+                showDateDialog("여행 날짜 선택", "날짜 선택 완료")
             }
 
             //해시태그 선택 - TripcourseSelectHashtagActivity로 이동
             R.id.tripcourse_record_hashtag_add_btn ->
                 startTripcourseSelectHashtagActivity()
         }
+    }
+
+    private fun showDateDialog(title: String, okMessage: String) {
+        val dig = DateSelectDialog(this)
+        dig.listener = this
+        dig.show(title, okMessage)
+    }
+
+    override fun onDateOKClicked() {
+
+    }
+
+    override fun onDateCancelClicked() {
+
     }
 
     override fun onOKClicked() {

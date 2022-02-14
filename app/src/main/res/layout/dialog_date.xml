@@ -131,7 +131,7 @@
             tools:text="확인"/>
 
         <ImageView
-            android:id="@+id/dialog_base_close_btn_iv"
+            android:id="@+id/dialog_date_close_btn_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/btn_base_close"
