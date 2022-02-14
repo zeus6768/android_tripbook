@@ -23,20 +23,24 @@ class CardService{
     }
 
     //카드 서버로 전송
-    fun postCard(card : Card) {
+    fun postCard(card : Card) : Int{
+
+        var courseIdxReturn : Int = 1
+
         Log.d("CheckPoint : ", "CardService-postCard Activated")
         postCardView.onPostCardLoading()
 
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
         cardRetrofitService.postCard(card).enqueue(object : Callback<PostCardResponse> {
-            override fun onResponse(call: Call<PostCardResponse>, response: Response<PostCardResponse>) {
+            override fun onResponse(call: Call<PostCardResponse>, response: Response<PostCardResponse>){
                 if (response.isSuccessful) {
                     val res = response.body()!!
                     Log.d("__res", response.body()!!.toString())
                     when (res.code) {
                         1000 -> { //성공
-                            Log.d("CardService-postCard", res.code.toString() + " : " + res.message+ "courseIdx : "+ res.courseIdx)
+                            Log.d("CardService-postCard", res.code.toString() + " : " + res.message+ "courseIdx : "+ res.courseIdx.toString())
                             postCardView.onPostCardSuccess(res.courseIdx)
+                            courseIdxReturn = res.courseIdx
                         }
                         else -> { //의도된 실패
                             Log.d("CardService-postCard", res.code.toString() + " : " + res.message)
@@ -50,6 +54,7 @@ class CardService{
                 Log.d("CardService-postCard", t.toString()) //네트워크 실패
             }
         })
+        return courseIdxReturn
     }
 
     //여행 가져오기
