@@ -2,13 +2,16 @@ package com.olympos.tripbook.src.tripcourse
 
 import android.app.Dialog
 import android.content.Context
+import android.util.Log
 import android.view.Window
 import android.widget.ImageView
 import android.widget.NumberPicker
 import android.widget.TextView
 import com.olympos.tripbook.R
+import com.olympos.tripbook.utils.*
+import java.lang.Integer.max
 
-open class DateSelectDialog(context: Context) {
+open class DateSelectDialog(val context: Context) {
     val dialog = Dialog(context)
     protected lateinit var tvTitle : TextView
     protected lateinit var year : NumberPicker
@@ -17,9 +20,9 @@ open class DateSelectDialog(context: Context) {
     protected lateinit var btnOK : TextView
     protected lateinit var btnCancel : ImageView
 
-    var listener : BaseDialogClickListener? = null
+    var listener : DialogClickListener? = null
 
-    open fun show(title : String, message : String, okMessage : String) {
+    open fun show(title : String, okMessage : String) {
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_date)
@@ -33,19 +36,19 @@ open class DateSelectDialog(context: Context) {
         day = dialog.findViewById(R.id.dialog_date_picker_day)
         initView()
 
-        btnOK = dialog.findViewById(R.id.dialog_base_ok_btn_tv)
+        btnOK = dialog.findViewById(R.id.dialog_date_ok_btn_tv)
         btnOK.text = okMessage
         btnOK.setOnClickListener {
 
-            listener!!.onOKClicked()
+            listener!!.onDateOKClicked()
 
             dialog.dismiss()
         }
 
-        btnCancel = dialog.findViewById(R.id.dialog_base_close_btn_iv)
+        btnCancel = dialog.findViewById(R.id.dialog_date_close_btn_iv)
         btnCancel.setOnClickListener {
 
-            listener!!.onCancelClicked()
+            listener!!.onDateCancelClicked()
 
             dialog.dismiss()
         }
@@ -67,7 +70,7 @@ open class DateSelectDialog(context: Context) {
         btnOK.text = okMessage
         btnOK.setOnClickListener {
 
-            listener!!.onOKClicked()
+            listener!!.onDateOKClicked()
 
             dialog.dismiss()
         }
@@ -75,7 +78,7 @@ open class DateSelectDialog(context: Context) {
         btnCancel = dialog.findViewById(R.id.dialog_base_close_btn_iv)
         btnCancel.setOnClickListener {
 
-            listener!!.onCancelClicked()
+            listener!!.onDateCancelClicked()
 
             dialog.dismiss()
         }
@@ -83,12 +86,22 @@ open class DateSelectDialog(context: Context) {
         dialog.show()
     }
 
-    interface BaseDialogClickListener {
-        fun onOKClicked()
-        fun onCancelClicked()
+    interface DialogClickListener {
+        fun onDateOKClicked()
+        fun onDateCancelClicked()
     }
 
     private fun initView() {
+        Log.d("date", getArrivalYear(context).toString())
+        year.maxValue = getArrivalYear(context)
+        year.minValue = getDepartureYear(context)
+        year.value = getDepartureYear(context)
+        month.maxValue = maxOf(getDepartureMonth(context), getArrivalMonth(context))
+        month.minValue = minOf(getDepartureMonth(context), getArrivalMonth(context))
+        month.value = getDepartureMonth(context)
+        day.maxValue = maxOf((getDepartureDay(context)), getArrivalDay(context))
+        day.minValue = minOf((getDepartureDay(context)), getArrivalDay(context))
+        day.value = getDepartureDay(context)
 
     }
 }
