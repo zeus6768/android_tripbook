@@ -14,8 +14,7 @@ import com.olympos.tripbook.databinding.ActivitySplashBinding
 import com.olympos.tripbook.src.home.MainActivity
 import com.olympos.tripbook.src.user.SigninActivity
 import com.olympos.tripbook.src.user.model.UserService
-import com.olympos.tripbook.utils.ApplicationClass
-import com.olympos.tripbook.utils.getJwt
+import com.olympos.tripbook.utils.getAccessToken
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
@@ -34,7 +33,6 @@ class SplashActivity : AppCompatActivity() {
             override fun onPermissionGranted() {
                 selectActivity()
             }
-
             override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
                 Toast.makeText(this@SplashActivity, "권한 허용 후 다시 시도해주세요", Toast.LENGTH_SHORT).show()
                 ActivityCompat.finishAffinity(this@SplashActivity) // 권한 거부시 앱 종료
@@ -50,10 +48,17 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun selectActivity() {
-        if (getJwt() != null) {
-            userService.postUser()
-            startMainActivity()
+        val accessToken = getAccessToken()
+        if (accessToken != null) {
+            Log.d("SplashActivity", accessToken)
+            if (userService.autoSignin(accessToken)) {
+                startMainActivity()
+            } else {
+                Log.d("SplashActivity", "autoSignin 실패")
+                startSigninActivity()
+            }
         } else {
+            Log.d("SplashActivity", "accessToken 없음")
             startSigninActivity()
         }
     }

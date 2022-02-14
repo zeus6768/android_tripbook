@@ -2,21 +2,26 @@ package com.olympos.tripbook.src.user
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
-import com.kakao.sdk.user.model.User
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityUserSigninBinding
 import com.olympos.tripbook.src.home.MainActivity
 import com.olympos.tripbook.src.user.model.UserService
 import com.olympos.tripbook.utils.ApplicationClass.Companion.TAG
-import com.olympos.tripbook.utils.getJwt
-import com.olympos.tripbook.utils.saveJwt
+import com.olympos.tripbook.utils.getAccessToken
+import com.olympos.tripbook.utils.getRefreshToken
+import com.olympos.tripbook.utils.getUserIdx
+
 
 class SigninActivity : BaseActivity() {
+    val userService = UserService()
+
     private lateinit var binding: ActivityUserSigninBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +32,6 @@ class SigninActivity : BaseActivity() {
         binding.signinSigninBtnIv.setOnClickListener(this)
 
     }
-
 
     override fun onClick(v: View?) {
         super.onClick(v)
@@ -46,14 +50,21 @@ class SigninActivity : BaseActivity() {
                 Log.d("카카오 로그인 성공", ".")
                 UserApiClient.instance.me { user, _ ->
                     if (user!!.kakaoAccount?.emailNeedsAgreement == true) {
-                        // 추가 동의 필요한 경우
                         requireEmailNeedsAgreement()
                     } else {
-                        // 추가 동의 필요하지 않은 경우
-                        Log.d("ACCESS-TOKEN", token.accessToken)
-                        Log.d("REFRESH-TOKEN", token.refreshToken)
-                        Log.d("kakao user nickname", user.kakaoAccount?.profile?.nickname.toString())
-                        startMainActivity()
+                        val tokens = HashMap<String, String>()
+                        tokens["kakaoAccessToken"] = token.accessToken
+                        tokens["kakaoRefreshToken"] = token.refreshToken
+
+                        userService.postKakaoTokens(tokens)
+                        Log.d("check SPFs",
+                            getUserIdx().toString() +
+                                    "\nAccessToken: " +
+                                    getAccessToken() +
+                                    "\nRefreshToken: " +
+                                    getRefreshToken()
+                        )
+                        selectActivity()
                     }
                 }
             }
@@ -81,10 +92,21 @@ class SigninActivity : BaseActivity() {
                         Log.e(TAG, "사용자 정보 요청 실패", error)
                     } else if (user != null) {
                         Log.i(TAG, "사용자 정보 요청 성공")
-                        startMainActivity()
+                        selectActivity()
                     }
                 }
             }
+        }
+    }
+
+    private fun selectActivity() {
+        val accessToken = getAccessToken()
+        if (accessToken != null) {
+            Log.d("SigninActivity", accessToken)
+            userService.autoSignin(accessToken)
+            startMainActivity()
+        } else {
+            Log.d("SigninActivity", "accessToken 없음")
         }
     }
 

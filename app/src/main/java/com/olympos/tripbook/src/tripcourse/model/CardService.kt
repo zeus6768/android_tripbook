@@ -5,7 +5,6 @@ import com.olympos.tripbook.src.user.model.ApiTestResponse
 import com.olympos.tripbook.src.user.model.ApiTestRetrofitInterface
 import com.olympos.tripbook.utils.ApplicationClass.Companion.retrofit
 import com.olympos.tripbook.utils.ApplicationClass.Companion.TAG
-import com.olympos.tripbook.utils.saveNickname
 import retrofit2.*
 
 class CardService{

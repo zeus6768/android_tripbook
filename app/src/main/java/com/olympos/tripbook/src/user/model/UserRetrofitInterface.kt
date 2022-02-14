@@ -1,18 +1,22 @@
 package com.olympos.tripbook.src.user.model
 
+import com.olympos.tripbook.utils.ApplicationClass.Companion.X_ACCESS_TOKEN
 import retrofit2.Call
 import retrofit2.http.*
 
 interface UserRetrofitInterface {
-    @POST("/app/test")
-    fun postUser(): Call<UserResponse>
+    @GET("/app/autosignin")
+    fun autoSignin(@Header(X_ACCESS_TOKEN) accessToken: String?): Call<UserResponse>
+
+    @POST("/app/kakao/signup")
+    fun signUp(@Body kakaoAccessToken: String): Call<SignupResponse>
+
+    @POST("/app/kakao/signupprofile")
+    fun signUpProfile(@Body kakaoAccessToken: String): Call<SignupResponse>
 
     @POST("/app/test")
-    fun postRefreshJWT(@Body reFreshJwt: String): Call<RefreshJwtResponse>
+    fun postRefreshToken(@Body refreshToken: String): Call<RefreshTokenResponse>
 
     @POST("/app/kakao/login")
-    fun postKakaoAccessToken(@Body kakaoAccessToken: String): Call<KakaoAccessTokenResponse>
-
-    @POST("/app/kakao/login/refresh")
-    fun postKakaoRefreshToken(@Body kakaoRefreshToken: String): Call<KakaoRefreshTokenResponse>
+    fun postKakaoTokens(@Body params: HashMap<String, String>): Call<KakaoTokensResponse>
 }

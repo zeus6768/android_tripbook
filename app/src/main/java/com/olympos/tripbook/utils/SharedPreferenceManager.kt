@@ -5,37 +5,21 @@ import androidx.appcompat.app.AppCompatActivity
 import com.olympos.tripbook.utils.ApplicationClass.Companion.X_ACCESS_TOKEN
 import com.olympos.tripbook.utils.ApplicationClass.Companion.mSharedPreferences
 
-fun saveJwt(jwtToken: String) {
+fun saveAccessToken(accessToken: String) {
     val editor = mSharedPreferences.edit()
-    editor.putString(X_ACCESS_TOKEN, jwtToken)
+    editor.putString(X_ACCESS_TOKEN, accessToken)
     editor.apply()
 }
 
-fun getJwt(): String? = mSharedPreferences.getString(X_ACCESS_TOKEN, null)
+fun getAccessToken(): String? = mSharedPreferences.getString(X_ACCESS_TOKEN, null)
 
-fun saveRefreshJwt(refreshJwt: String) {
+fun saveRefreshToken(refreshToken: String) {
     val editor = mSharedPreferences.edit()
-    editor.putString("refreshJwt", refreshJwt)
+    editor.putString("refreshToken", refreshToken)
     editor.apply()
 }
 
-fun getRefreshJwt(): String? = mSharedPreferences.getString("refreshJwt", null)
-
-fun saveKakaoAccessToken(kakaoAccessToken: String) {
-    val editor = mSharedPreferences.edit()
-    editor.putString("kakaoAccessToken", kakaoAccessToken)
-    editor.apply()
-}
-
-fun getKakaoAccessToken(): String? = mSharedPreferences.getString("kakaoAccessToken", null)
-
-fun saveKakaoRefreshToken(kakaoRefreshToken: String) {
-    val editor = mSharedPreferences.edit()
-    editor.putString("kakaoRefreshToken", kakaoRefreshToken)
-    editor.apply()
-}
-
-fun getKakaoRefreshToken(): String? = mSharedPreferences.getString("kakaoRefreshToken", null)
+fun getRefreshToken(): String? = mSharedPreferences.getString("refreshToken", null)
 
 fun saveUserIdx(userIdx: Int) {
     val editor = mSharedPreferences.edit()

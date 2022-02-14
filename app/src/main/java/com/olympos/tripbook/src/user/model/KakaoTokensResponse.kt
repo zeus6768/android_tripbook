@@ -1,6 +1,6 @@
 package com.olympos.tripbook.src.user.model
 
-data class KakaoAccessTokenResponse(
+data class KakaoTokensResponse(
     val isSuccess : Boolean,
     val code : Int,
     val message : String,

@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="191dp"
         android:background="@color/tripbook_main_1"
-        app:layout_constraintTop_toBottomOf="@id/mypage_topbar_layout"
+        app:layout_constraintTop_toBottomOf="@+id/mypage_topbar_layout"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.cardview.widget.CardView
