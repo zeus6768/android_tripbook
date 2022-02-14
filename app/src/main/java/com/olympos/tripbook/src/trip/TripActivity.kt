@@ -15,11 +15,8 @@ import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.src.trip.model.TripPostProcess
 import com.olympos.tripbook.src.trip.model.TripService
 import com.olympos.tripbook.src.tripcourse.TripcourseActivity
-import com.olympos.tripbook.src.tripcourse.TripcourseRecordActivity
 import com.olympos.tripbook.utils.getUserIdx
 import com.olympos.tripbook.utils.saveTripIdx
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 class TripActivity : BaseActivity(), TripPostProcess {
     private lateinit var binding: ActivityTripBinding
@@ -197,13 +194,11 @@ class TripActivity : BaseActivity(), TripPostProcess {
         val intent = Intent(this, TripcourseActivity::class.java)
         val gson = Gson()
         val tripData = gson.toJson(trip)
-        Log.d("__tripData__ trip", tripData.toString())
+
         intent.putExtra("tripData", tripData)
-
-        Log.d("userIdx Check", trip.userIdx)
-
         startActivity(intent)
 
-        finish()
+        Log.d("__tripData__ trip", tripData)
+        Log.d("userIdx Check", trip.userIdx)
     }
 }
