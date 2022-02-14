@@ -70,11 +70,13 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
 
         if(intent.hasExtra("card")) {
             card = gson.fromJson(intent.getStringExtra("card"), card::class.java)
-            binding.tripcourseRecordBodyEt.hint = card.body
-            binding.tripcourseRecordTitleEt.hint = card.title
-            binding.tripcourseRecordSelectDateBtn.text = card.date
-            Glide.with(this.applicationContext).load(card.coverImg).into(binding.tripcourseRecordImgIv)
-//            binding.tripcourseRecordSelectCountryBtn.text = card.country
+            if(card.hasData == TRUE) {
+                binding.tripcourseRecordBodyEt.hint = card.body
+                binding.tripcourseRecordTitleEt.hint = card.title
+                binding.tripcourseRecordSelectDateBtn.text = card.date
+                Glide.with(this.applicationContext).load(card.coverImg).into(binding.tripcourseRecordImgIv)
+                //binding.tripcourseRecordSelectCountryBtn.text = card.country
+            }
         }
 
         //body : 내용 최대 200자 이벤트 처리
@@ -124,9 +126,7 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
                 getInputInfo()
 
                 //서버에 Card의 수정된 정보를 전송
-                postInfo(card)
-
-
+                patchInfo(card)
             }
             R.id.tripcourse_record_img_cl ->
                 photoSelect()
@@ -213,8 +213,6 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
             Toast.makeText(this.applicationContext, "내용을 입력해주세요", Toast.LENGTH_SHORT).show()
         } else {
             card.hasData = TRUE
-            card.tripIdx = intent.getIntExtra("tripIdx", 0)
-            card.idx = intent.getIntExtra("cardIdx", 0)
 
             //사진 저장(Uri)
             card.coverImg = uri.toString()
@@ -243,9 +241,11 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
 //        cardService.postCard(card)
 //    }
 
-    private fun postInfo(card : Card) {
+    private fun patchInfo(card : Card) {
         val cardService = CardService()
         cardService.setServerView(this)
+
+        Log.d("Last check before patch", card.toString())
 
         //사진 저장(Uri)
         cardService.patchImg(getUserIdx().toString(), card.courseIdx.toString(), card.coverImg)

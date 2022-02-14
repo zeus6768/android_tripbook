@@ -23,9 +23,7 @@ class CardService{
     }
 
     //카드 서버로 전송
-    fun postCard(card : Card) : Int{
-
-        var courseIdxReturn : Int = 1
+    fun postCard(card : Card){
 
         Log.d("CheckPoint : ", "CardService-postCard Activated")
         postCardView.onPostCardLoading()
@@ -40,7 +38,6 @@ class CardService{
                         1000 -> { //성공
                             Log.d("CardService-postCard", res.code.toString() + " : " + res.message+ "courseIdx : "+ res.courseIdx.toString())
                             postCardView.onPostCardSuccess(res.courseIdx)
-                            courseIdxReturn = res.courseIdx
                         }
                         else -> { //의도된 실패
                             Log.d("CardService-postCard", res.code.toString() + " : " + res.message)
@@ -54,7 +51,6 @@ class CardService{
                 Log.d("CardService-postCard", t.toString()) //네트워크 실패
             }
         })
-        return courseIdxReturn
     }
 
     //여행 가져오기

@@ -85,13 +85,13 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, PostCardVi
     private fun startTripcourseRecordActivity(card: Card) {
         val intent = Intent(this@TripcourseActivity, TripcourseRecordActivity::class.java)
 
-        if (card.hasData == TRUE) { //데이터가 있는 경우
-            val cardData = gson.toJson(card)
-            intent.putExtra("card", cardData)
-        }
+        //if (card.hasData == TRUE) { //데이터가 있는 경우
+        val cardData = gson.toJson(card)
+        intent.putExtra("card", cardData)
+        //}
 
-        intent.putExtra("cardIdx", card.idx)
-        intent.putExtra("tripIdx", card.tripIdx)
+//        intent.putExtra("cardIdx", card.idx)
+//        intent.putExtra("tripIdx", card.tripIdx)
 
         startActivity(intent)
     }
@@ -198,23 +198,20 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, PostCardVi
         card = Card(0, tripIdx, cardIdx)
         cardIdx++
 
-        card.courseIdx = postCard(card)
+        postCard(card)
 
-        cardRVAdapter.addCard(card)
-        cardRVAdapter.notifyItemInserted(cardRVAdapter.itemCount - 1)
+//        cardRVAdapter.addCard(card)
+//        cardRVAdapter.notifyItemInserted(cardRVAdapter.itemCount - 1)
 
         Log.d("Check num of cardDatas", cardRVAdapter.itemCount.toString())
     }
 
-    private fun postCard(card : Card) : Int {
+    private fun postCard(card : Card) {
         val cardService = CardService()
         cardService.setPostCardView(this)
         Log.d("Check card Data", card.toString())
 
-        //확인용 코드
-        val asdf = cardService.postCard(card)
-        Log.d("CheckCourseIdxAAAAA", asdf.toString())
-        return asdf
+        cardService.postCard(card)
         //return cardService.postCard(card)
     }
 
@@ -282,7 +279,7 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, PostCardVi
 
         card.courseIdx = courseIdx
         cardRVAdapter.addCard(card)
-        Log.d("CheckCourseIdxAAAAA", card.toString())
+        Log.d("Check CardData>>>", card.toString())
         cardRVAdapter.notifyItemInserted(cardRVAdapter.itemCount - 1)
     }
 
