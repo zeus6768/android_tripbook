@@ -9,7 +9,6 @@ import android.widget.NumberPicker
 import android.widget.TextView
 import com.olympos.tripbook.R
 import com.olympos.tripbook.utils.*
-import java.lang.Integer.max
 
 open class DateSelectDialog(val context: Context) {
     val dialog = Dialog(context)
@@ -34,13 +33,17 @@ open class DateSelectDialog(val context: Context) {
         year = dialog.findViewById(R.id.dialog_date_picker_year)
         month = dialog.findViewById(R.id.dialog_date_picker_month)
         day = dialog.findViewById(R.id.dialog_date_picker_day)
+
         initView()
 
         btnOK = dialog.findViewById(R.id.dialog_date_ok_btn_tv)
         btnOK.text = okMessage
         btnOK.setOnClickListener {
+            val selectedYear = year.value
+            val selectedMonth = month.value
+            val selectedDay = day.value
 
-            listener!!.onDateOKClicked()
+            listener!!.onDateOKClicked(selectedYear, selectedMonth, selectedDay)
 
             dialog.dismiss()
         }
@@ -56,38 +59,8 @@ open class DateSelectDialog(val context: Context) {
         dialog.show()
     }
 
-    open fun show(title : String, message : String, okMessage : String, img : Int) {
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.dialog_base)
-        dialog.setCancelable(false)
-
-        tvTitle = dialog.findViewById(R.id.dialog_base_title_tv)
-        tvTitle.text = title
-
-
-        btnOK = dialog.findViewById(R.id.dialog_base_ok_btn_tv)
-        btnOK.text = okMessage
-        btnOK.setOnClickListener {
-
-            listener!!.onDateOKClicked()
-
-            dialog.dismiss()
-        }
-
-        btnCancel = dialog.findViewById(R.id.dialog_base_close_btn_iv)
-        btnCancel.setOnClickListener {
-
-            listener!!.onDateCancelClicked()
-
-            dialog.dismiss()
-        }
-
-        dialog.show()
-    }
-
     interface DialogClickListener {
-        fun onDateOKClicked()
+        fun onDateOKClicked(selectedYear: Int, selectedMonth: Int, selectedDay: Int)
         fun onDateCancelClicked()
     }
 
