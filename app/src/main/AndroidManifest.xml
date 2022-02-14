@@ -28,10 +28,6 @@
         <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseRecordActivity"
             android:windowSoftInputMode="adjustPan"
             android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
         </activity>
         <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseSelectCountryActivity"/>
         <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseSelectHashtagActivity"/>
