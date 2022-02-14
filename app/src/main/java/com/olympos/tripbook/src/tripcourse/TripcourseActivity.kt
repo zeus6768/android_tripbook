@@ -29,13 +29,11 @@ import com.olympos.tripbook.src.tripcourse.model.ServerView
 import com.olympos.tripbook.utils.getTripIdx
 import com.olympos.tripbook.utils.getUserIdx
 
-class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, ServerView {
+class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, PostCardView {
 
     lateinit var binding : ActivityTripcourseBinding
     private var gson : Gson = Gson()
     private var tripData = Trip()
-    private var cards = ArrayList<Card>() //Datas in here. from Sever
-
 
     private lateinit var cardRVAdapter : RVCardAdapter
 
@@ -199,7 +197,7 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, ServerView
         val card: Card = Card(0, tripIdx, cardIdx)
         cardIdx++
 
-        postCard(card)
+        card.courseIdx = postCard(card)
 
         cardRVAdapter.addCard(card)
         cardRVAdapter.notifyItemInserted(cardRVAdapter.itemCount - 1)
@@ -207,14 +205,19 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, ServerView
         Log.d("Check num of cardDatas", cardRVAdapter.itemCount.toString())
     }
 
-    private fun postCard(card : Card) {
+    private fun postCard(card : Card) : Int {
         val cardService = CardService()
-        cardService.setServerView(this)
+        cardService.setPostCardView(this)
         Log.d("Check card Data", card.toString())
-        cardService.postCard(card)
-    }
 
-    //서버에서 카드들 가져오는 View
+        //확인용 코드
+        val asdf = cardService.postCard(card)
+        Log.d("CheckCourseIdxAAAAA", asdf.toString())
+        return asdf
+        //return cardService.postCard(card)
+        }
+
+    //서버에서 tripcourse의 카드들을 가져오는 View
     override fun onGetCardsLoading() {
         binding.tripcourseLoadingPb.visibility = View.VISIBLE
     }
@@ -225,20 +228,6 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, ServerView
     }
 
     override fun onGetCardsFailure(code: Int, message: String) { //통신 실패 View
-        binding.tripcourseLoadingPb.visibility = View.GONE
-        Toast.makeText(this, "$code : $message", Toast.LENGTH_LONG).show()
-    }
-
-    //서버에 카드 보내는 중 View
-    override fun onServerLoading() {
-        binding.tripcourseLoadingPb.visibility = View.VISIBLE
-    }
-
-    override fun onServerSuccess() {
-        binding.tripcourseLoadingPb.visibility = View.GONE
-    }
-
-    override fun onServerFailure(code: Int, message: String) {
         binding.tripcourseLoadingPb.visibility = View.GONE
         Toast.makeText(this, "$code : $message", Toast.LENGTH_LONG).show()
     }
@@ -270,5 +259,19 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, ServerView
             2105 -> Toast.makeText(this, "유저를 확인해주세요.", Toast.LENGTH_SHORT).show()
             2107 -> Toast.makeText(this, "여행 기록이 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    //서버에 카드 보내는 중 View
+    override fun onPostCardLoading() {
+        binding.tripcourseLoadingPb.visibility = View.VISIBLE
+    }
+
+    override fun onPostCardSuccess(courseIdx: Int) {
+        binding.tripcourseLoadingPb.visibility = View.GONE
+    }
+
+    override fun onPostCardFailure(code: Int, message: String) {
+        binding.tripcourseLoadingPb.visibility = View.GONE
+        Toast.makeText(this, "$code : $message", Toast.LENGTH_LONG).show()
     }
 }
