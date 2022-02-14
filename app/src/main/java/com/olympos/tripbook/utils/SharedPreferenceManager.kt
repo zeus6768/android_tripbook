@@ -92,7 +92,7 @@ fun saveDepartureYear(context: Context, year: Int) {
 fun getDepartureYear(context: Context): Int {
     val spf = context.getSharedPreferences("trip", AppCompatActivity.MODE_PRIVATE)
 
-    return spf.getInt("departureYear", 2021)
+    return spf.getInt("departureYear", 0)
 }
 
 fun saveDepartureMonth(context: Context, month: Int) {
@@ -106,7 +106,7 @@ fun saveDepartureMonth(context: Context, month: Int) {
 fun getDepartureMonth(context: Context): Int {
     val spf = context.getSharedPreferences("trip", AppCompatActivity.MODE_PRIVATE)
 
-    return spf.getInt("departureMonth", 12)
+    return spf.getInt("departureMonth", 0)
 }
 
 fun saveDepartureDay(context: Context, day: Int) {
@@ -120,7 +120,7 @@ fun saveDepartureDay(context: Context, day: Int) {
 fun getDepartureDay(context: Context): Int {
     val spf = context.getSharedPreferences("trip", AppCompatActivity.MODE_PRIVATE)
 
-    return spf.getInt("departureDay", 28)
+    return spf.getInt("departureDay", 0)
 }
 
 fun saveArrivalYear(context: Context, year: Int) {
@@ -134,7 +134,7 @@ fun saveArrivalYear(context: Context, year: Int) {
 fun getArrivalYear(context: Context): Int {
     val spf = context.getSharedPreferences("trip", AppCompatActivity.MODE_PRIVATE)
 
-    return spf.getInt("arrivalYear", 2021)
+    return spf.getInt("arrivalYear", 0)
 }
 
 fun saveArrivalMonth(context: Context, month: Int) {
@@ -148,7 +148,7 @@ fun saveArrivalMonth(context: Context, month: Int) {
 fun getArrivalMonth(context: Context): Int {
     val spf = context.getSharedPreferences("trip", AppCompatActivity.MODE_PRIVATE)
 
-    return spf.getInt("arrivalMonth", 12)
+    return spf.getInt("arrivalMonth", 0)
 }
 
 fun saveArrivalDay(context: Context, day: Int) {
@@ -162,5 +162,5 @@ fun saveArrivalDay(context: Context, day: Int) {
 fun getArrivalDay(context: Context): Int {
     val spf = context.getSharedPreferences("trip", AppCompatActivity.MODE_PRIVATE)
 
-    return spf.getInt("arrivalDay", 31)
+    return spf.getInt("arrivalDay", 0)
 }

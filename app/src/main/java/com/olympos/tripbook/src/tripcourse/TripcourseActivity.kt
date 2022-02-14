@@ -28,7 +28,7 @@ import com.olympos.tripbook.src.tripcourse.model.CardsView
 import com.olympos.tripbook.src.tripcourse.model.ServerView
 import com.olympos.tripbook.utils.*
 
-class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, PostCardView {
+class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
 
     lateinit var binding : ActivityTripcourseBinding
     private var gson : Gson = Gson()
@@ -125,12 +125,36 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, PostCardVi
         binding.tripcourseTopbarLayout.topbarSubbuttonIb.setImageResource(R.drawable.btn_base_check_black)
 
         //여행 정보 가져옴
-        getTrip()
+        tripData = getTrip()
 
+        //출발일
+        val dDate = tripData.departureDate.split("-")
+        val dYear = dDate[0].substring(2,4)
+        val dMonth = dDate[1]
+        val dDay = dDate[2]
+        saveDepartureYear(this, dYear.toInt())
+        saveDepartureMonth(this, dMonth.toInt())
+        saveDepartureDay(this, dDay.toInt())
+
+        //도착일
+        val aDate = tripData.arrivalDate.split("-")
+        val aYear = aDate[0].substring(2,4)
+        val aMonth = aDate[1]
+        val aDay = aDate[2]
+        saveArrivalYear(this, aYear.toInt())
+        saveArrivalMonth(this, aMonth.toInt())
+        saveArrivalDay(this, aDay.toInt())
+
+        val period = dYear + "년 " + dMonth + "월 " + dDay + "일 ~ " + aYear + "년 " + aMonth + "월 " + aDay + "일"
+
+        //여행 제목 띄우기
+        binding.tripcourseTitlebarPeriodTv.text = period
+        binding.tripcourseTitlebarTitleTv.text = tripData.tripTitle
+
+        //click listener
         binding.tripcourseTopbarLayout.topbarBackIb.setOnClickListener(this)
         binding.tripcourseTopbarLayout.topbarSubbuttonIb.setOnClickListener(this)
         binding.tripcourseAddCardBtn.setOnClickListener(this)
-        Log.d("tripData", tripData.toString())
 
         //타이틀바 길게 클릭 - 여행 삭제하기
         registerForContextMenu(binding.tripcourseTitlebarLayout)
@@ -165,13 +189,6 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, PostCardVi
         cardService.setCardsView(this)
         Log.d("Check tripIdx", tripIdx)
         cardService.getTripcourses(tripIdx)
-    }
-
-    private fun getTrip() {
-        val tripService = TripService()
-        tripService.setGetProcess(this)
-
-        tripService.getTrip()
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -231,45 +248,6 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, PostCardVi
         Toast.makeText(this, "$code : $message", Toast.LENGTH_LONG).show()
     }
 
-    override fun onGetTripLoading() {
-        //todo
-    }
-
-    override fun onGetTripSuccess(result: Trip) {
-        tripData = result
-
-        //출발일
-        val dDate = tripData.departureDate.split("-")
-        val dYear = dDate[0].substring(2,4)
-        val dMonth = dDate[1]
-        val dDay = dDate[2]
-        saveDepartureYear(this, dYear.toInt())
-        saveDepartureMonth(this, dMonth.toInt())
-        saveDepartureDay(this, dDay.toInt())
-
-        //도착일
-        val aDate = tripData.arrivalDate.split("-")
-        val aYear = aDate[0].substring(2,4)
-        val aMonth = aDate[1]
-        val aDay = aDate[2]
-        saveArrivalYear(this, aYear.toInt())
-        saveArrivalMonth(this, aMonth.toInt())
-        saveArrivalDay(this, aDay.toInt())
-
-        val period = dYear + "년 " + dMonth + "월 " + dDay + "일 ~ " + aYear + "년 " + aMonth + "월 " + aDay + "일"
-
-        binding.tripcourseTitlebarPeriodTv.text = period
-        binding.tripcourseTitlebarTitleTv.text = tripData.tripTitle
-    }
-
-    override fun onGetTripFailure(code: Int, message: String) {
-        when(code) {
-            400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
-            2105 -> Toast.makeText(this, "유저를 확인해주세요.", Toast.LENGTH_SHORT).show()
-            2107 -> Toast.makeText(this, "여행 기록이 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
-        }
-    }
-
     //서버에 카드 보내는 중 View
     override fun onPostCardLoading() {
         binding.tripcourseLoadingPb.visibility = View.VISIBLE
@@ -282,5 +260,17 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, PostCardVi
     override fun onPostCardFailure(code: Int, message: String) {
         binding.tripcourseLoadingPb.visibility = View.GONE
         Toast.makeText(this, "$code : $message", Toast.LENGTH_LONG).show()
+    }
+
+    private fun getTrip(): Trip {
+        if(intent.hasExtra("tripData")) {
+
+            val gson = Gson()
+            val json = intent.getStringExtra("tripData")
+            val tripData = gson.fromJson(json, Trip::class.java)
+
+            return tripData
+        }
+        return tripData
     }
 }
