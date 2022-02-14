@@ -39,6 +39,8 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, PostCardVi
     private var cardIdx = 1
     private var tripIdx : Int = 0
 
+    private var card = Card()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTripcourseBinding.inflate(layoutInflater)
@@ -193,7 +195,7 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, PostCardVi
     }
 
     private fun addCard() {
-        val card: Card = Card(0, tripIdx, cardIdx)
+        card = Card(0, tripIdx, cardIdx)
         cardIdx++
 
         card.courseIdx = postCard(card)
@@ -214,7 +216,7 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, PostCardVi
         Log.d("CheckCourseIdxAAAAA", asdf.toString())
         return asdf
         //return cardService.postCard(card)
-        }
+    }
 
     //서버에서 tripcourse의 카드들을 가져오는 View
     override fun onGetCardsLoading() {
@@ -277,6 +279,11 @@ class TripcourseActivity : BaseActivity(), CardsView, TripGetProcess, PostCardVi
 
     override fun onPostCardSuccess(courseIdx: Int) {
         binding.tripcourseLoadingPb.visibility = View.GONE
+
+        card.courseIdx = courseIdx
+        cardRVAdapter.addCard(card)
+        Log.d("CheckCourseIdxAAAAA", card.toString())
+        cardRVAdapter.notifyItemInserted(cardRVAdapter.itemCount - 1)
     }
 
     override fun onPostCardFailure(code: Int, message: String) {

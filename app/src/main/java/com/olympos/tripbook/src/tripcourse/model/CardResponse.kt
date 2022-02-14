@@ -6,7 +6,7 @@ data class PostCardResponse(
     @SerializedName("isSuccess") val isSuccess: Boolean,
     @SerializedName("code") val code: Int,
     @SerializedName("message") val message: String,
-    @SerializedName("courseIdx") val courseIdx : Int
+    @SerializedName("result") val courseIdx : Int
 )
 
 data class ServerDefaultResponse(
