@@ -26,7 +26,8 @@
         <activity android:name="com.olympos.tripbook.src.trip.TripActivity"/>
         <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseActivity"/>
         <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseRecordActivity"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true">
         </activity>
         <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseSelectCountryActivity"/>
         <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseSelectHashtagActivity"/>

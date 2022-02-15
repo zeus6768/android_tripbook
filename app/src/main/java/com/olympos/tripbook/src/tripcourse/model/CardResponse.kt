@@ -5,8 +5,14 @@ import com.google.gson.annotations.SerializedName
 data class PostCardResponse(
     @SerializedName("isSuccess") val isSuccess: Boolean,
     @SerializedName("code") val code: Int,
+    @SerializedName("message") val message: String,
+    @SerializedName("result") val courseIdx : Int
+)
+
+data class ServerDefaultResponse(
+    @SerializedName("isSuccess") val isSuccess: Boolean,
+    @SerializedName("code") val code: Int,
     @SerializedName("message") val message: String
-//    @SerializedName("result") val card : Card
 )
 
 data class GetCardResponse(
@@ -14,6 +20,13 @@ data class GetCardResponse(
     @SerializedName("code") val code: Int,
     @SerializedName("message") val message: String,
     @SerializedName("result") val cards : ArrayList<Card>?
+)
+
+data class GetTripcourseResponse(
+    @SerializedName("isSuccess") val isSuccess: Boolean,
+    @SerializedName("code") val code: Int,
+    @SerializedName("message") val message: String,
+    @SerializedName("result") val result : ArrayList<Card> //얘도 이름 바꿔야 함
 )
 
 //data class CardResponse(
@@ -29,10 +42,3 @@ data class GetCardResponse(
 //    @SerializedName("longitude") val longitude : String?
 //    @SerializedName("status") val status : String
 //)
-
-data class GetTripResponse(
-    @SerializedName("isSuccess") val isSuccess: Boolean,
-    @SerializedName("code") val code: Int,
-    @SerializedName("message") val message: String,
-    @SerializedName("result") val result : ArrayList<Card> //얘도 이름 바꿔야 함
-)

@@ -9,3 +9,6 @@ const val HASHTAG_ACTIVITY_CODE = 12
 const val FALSE = 0
 const val TRUE = 1
 
+//임시 데이터
+//var userIdx : String = "11"
+//var tripIdx : String = "22"

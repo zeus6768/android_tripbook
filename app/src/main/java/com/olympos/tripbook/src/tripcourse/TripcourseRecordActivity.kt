@@ -22,14 +22,14 @@ import com.olympos.tripbook.src.tripcourse.model.Card
 import com.olympos.tripbook.src.tripcourse.model.CardService
 import com.olympos.tripbook.src.tripcourse.model.ServerView
 import com.olympos.tripbook.utils.getTripIdx
+import com.olympos.tripbook.utils.getUserIdx
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TripcourseRecordActivity : BaseActivity(), ServerView {
+class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.DialogClickListener {
 
     lateinit var binding: ActivityTripcourseRecordBinding
     private var gson : Gson = Gson()
-
     private var card: Card = Card() //채울 카드
     //    private val dateSelectDialog = DateSelectDialog(this)
 
@@ -44,8 +44,6 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
         super.onCreate(savedInstanceState)
         binding = ActivityTripcourseRecordBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
 
         initView()
     }
@@ -72,11 +70,13 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
 
         if(intent.hasExtra("card")) {
             card = gson.fromJson(intent.getStringExtra("card"), card::class.java)
-            binding.tripcourseRecordBodyEt.hint = card.body
-            binding.tripcourseRecordTitleEt.hint = card.title
-            binding.tripcourseRecordSelectDateBtn.text = card.date
-            Glide.with(this.applicationContext).load(card.coverImg).into(binding.tripcourseRecordImgIv)
-//            binding.tripcourseRecordSelectCountryBtn.text = card.country
+            if(card.hasData == TRUE) {
+                binding.tripcourseRecordBodyEt.hint = card.body
+                binding.tripcourseRecordTitleEt.hint = card.title
+                binding.tripcourseRecordSelectDateBtn.text = card.date
+                Glide.with(this.applicationContext).load(card.coverImg).into(binding.tripcourseRecordImgIv)
+                //binding.tripcourseRecordSelectCountryBtn.text = card.country
+            }
         }
 
         //body : 내용 최대 200자 이벤트 처리
@@ -118,14 +118,15 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
             R.id.topbar_back_ib ->
                 showDialog("안내","발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 임시저장됩니다.", "확인")
             R.id.topbar_subbutton_ib -> {
-                //todo 저장완료, firebase storage에 이미지를 업로드
+                //firebase storage에 이미지를 업로드
                 uploadImage(uri)
+                //todo 저장완료
 
                 //입력받은 정보를 Card에 담기
-                getInputInfo(card)
+                getInputInfo()
 
-                //서버에 Card 전송
-                postCard(card)
+                //서버에 Card의 수정된 정보를 전송
+                patchInfo(card)
             }
             R.id.tripcourse_record_img_cl ->
                 photoSelect()
@@ -135,13 +136,28 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
                 startTripcourseSelectCountryActivity()
 
             R.id.tripcourse_record_select_date_btn -> {
-//                dateSelectDialog.show()
+                showDateDialog("여행 날짜 선택", "날짜 선택 완료")
             }
 
             //해시태그 선택 - TripcourseSelectHashtagActivity로 이동
             R.id.tripcourse_record_hashtag_add_btn ->
                 startTripcourseSelectHashtagActivity()
         }
+    }
+
+    private fun showDateDialog(title: String, okMessage: String) {
+        val dig = DateSelectDialog(this)
+        dig.listener = this
+        dig.show(title, okMessage)
+
+    }
+
+    override fun onDateOKClicked(selectedYear: Int, selectedMonth: Int, selectedDay: Int) {
+        binding.tripcourseRecordSelectDateBtn.text = String.format("%d년 %d월 %d일", selectedYear, selectedMonth, selectedDay)
+    }
+
+    override fun onDateCancelClicked() {
+
     }
 
     override fun onOKClicked() {
@@ -190,29 +206,25 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
         startActivity(intent)
     }
 
-    private fun getInputInfo(card : Card) {
-        //필수요소 : 제목
+    private fun getInputInfo() {
+        //필수요소 : 제목, 내용
         if(binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
             Toast.makeText(this.applicationContext, "제목을 입력해주세요", Toast.LENGTH_SHORT).show()
-        }
-        else {
+        } else if (binding.tripcourseRecordBodyEt.text.toString().isEmpty()) {
+            Toast.makeText(this.applicationContext, "내용을 입력해주세요", Toast.LENGTH_SHORT).show()
+        } else {
             card.hasData = TRUE
-            card.tripIdx = intent.getIntExtra("tripIdx", 0)
-            card.idx = intent.getIntExtra("cardIdx", 0)
 
             //사진 저장(Uri)
             card.coverImg = uri.toString()
             //제목 저장
             card.title = binding.tripcourseRecordTitleEt.text.toString()
             //body 저장
-            if(!binding.tripcourseRecordBodyEt.text.toString().isEmpty())
-                card.body = binding.tripcourseRecordBodyEt.text.toString()
-
+            card.body = binding.tripcourseRecordBodyEt.text.toString()
 
             //아직 구현이 안된 더미 데이터들
             card.date = "0000-00-00"
             card.time = 2
-//            card.country = "000.000-000.000"
 
             //아직까진 다시 TripcourseActivity로 보내진 않고 서버로 바로 카드를 보냄
 //            val intent = Intent(this@TripcourseRecordActivity, TripcourseRecordActivity::class.java)
@@ -224,24 +236,44 @@ class TripcourseRecordActivity : BaseActivity(), ServerView {
     }
 
     //Retrofit
-    private fun postCard(card : Card) {
+//    private fun postCard(card : Card) {
+//        val cardService = CardService()
+//        cardService.setServerView(this)
+//        cardService.postCard(card)
+//    }
+
+    private fun patchInfo(card : Card) {
         val cardService = CardService()
         cardService.setServerView(this)
-        cardService.postCard(card)
+
+        Log.d("Last check before patch", card.toString())
+
+        //사진 저장(Uri)
+        cardService.patchImg(getUserIdx().toString(), card.courseIdx.toString(), card.coverImg)
+
+        //제목 저장
+        cardService.patchTitle(getUserIdx().toString(), card.courseIdx.toString(), card.title)
+
+        //body 저장
+        cardService.patchBody(getUserIdx().toString(), card.courseIdx.toString(), card.body)
+
+        //아직 구현이 안된 더미 데이터들
+        //card.date = "0000-00-00"
+        //card.time = 2
     }
 
     override fun onServerLoading() {
-        //todo 로딩바 만들기
+        binding.tripcourseRecordLoadingPb.visibility = View.GONE
     }
 
     override fun onServerSuccess() {
-        //todo 로딩바 없애기
+        binding.tripcourseRecordLoadingPb.visibility = View.VISIBLE
         Toast.makeText(this, "서버에 카드 전송 완료", Toast.LENGTH_SHORT).show()
-        finish()
+        finish() //셋중 하나만 성공해도 종료됨 수정 필요
     }
 
     override fun onServerFailure(code: Int, message: String) {
-        //todo 로딩바 없애기
+        binding.tripcourseRecordLoadingPb.visibility = View.VISIBLE
         Toast.makeText(this, "서버 전송 실패. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
     }
 }

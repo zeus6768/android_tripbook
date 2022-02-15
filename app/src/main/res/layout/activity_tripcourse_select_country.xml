@@ -21,15 +21,14 @@
         app:layout_constraintEnd_toEndOf="parent">
         <LinearLayout
             android:layout_width="292dp"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
             android:background="@drawable/bg_base_main_4_empty"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            >
+            app:layout_constraintBottom_toBottomOf="parent">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -38,7 +37,6 @@
                 android:text="@string/tripcourse_select_country_explain1"
                 android:textSize="9sp"
                 android:textColor="@color/black"
-                android:textColorHint="@color/black"
                 android:fontFamily="@font/notosans_kr_regular"
                 android:includeFontPadding="false"
                 tools:ignore="SmallSp" />
@@ -50,7 +48,6 @@
                 android:text="@string/tripcourse_select_country_explain2"
                 android:textSize="9sp"
                 android:textColor="@color/black"
-                android:textColorHint="@color/black"
                 android:fontFamily="@font/notosans_kr_regular"
                 android:includeFontPadding="false"
                 tools:ignore="SmallSp" />

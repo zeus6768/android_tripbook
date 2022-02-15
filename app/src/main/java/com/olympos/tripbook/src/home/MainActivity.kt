@@ -10,15 +10,13 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
-import com.olympos.tripbook.config.BaseDialog
 import com.olympos.tripbook.databinding.ActivityMainBinding
 import com.olympos.tripbook.src.home.model.HomeGetProcess
 import com.olympos.tripbook.src.home.model.HomeService
 import com.olympos.tripbook.src.trip.TripActivity
-import com.olympos.tripbook.src.trip.model.Trip
-import com.olympos.tripbook.src.trip.model.TripService
-import com.olympos.tripbook.src.tripcourse.TripcourseActivity
-
+import com.olympos.tripbook.src.tripcourse_view.TripcourseViewFragment
+import com.olympos.tripbook.utils.getNickname
+import com.olympos.tripbook.utils.getTripIdx
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, HomeGetProcess {
     private lateinit var binding: ActivityMainBinding
@@ -27,20 +25,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         initView()
-
-        //기록이 0일 때
-        if(binding.mainUserTripCountTv.text == "0") {
-            initFragment()
-            showImgDialog("트립북을 시작해보세요!", "상단의 ‘여행 기록하러 가기’\n" +
-                    "버튼을 눌러\n" +
-                    "여행 발자국을 남겨보세요.", "확인", R.drawable.img_home_notice)
-        }
-        else {
-            //todo
-        }
-
 
 //        initViewpager()
 
@@ -55,11 +40,22 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun initView() {
         getTripCount()
+        binding.mainUserNameTv.text = getNickname(this) + "님의 추억"
     }
 
     //
     private fun initFragment() {
         supportFragmentManager.beginTransaction().replace(R.id.main_content_fl, HomeFragment())
+            .commitAllowingStateLoss()
+    }
+
+    private fun showRecentTripcourse(recentTripIdx : Int) {
+        val tripcourseViewFragment = TripcourseViewFragment()
+        val bundle = Bundle()
+        bundle.putInt("tripIdx", recentTripIdx)
+        tripcourseViewFragment.arguments = bundle
+
+        supportFragmentManager.beginTransaction().replace(R.id.main_content_fl, tripcourseViewFragment)
             .commitAllowingStateLoss()
     }
 
@@ -123,6 +119,18 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun onGetHomeSuccess(result: Int) {
         binding.mainUserTripCountTv.text = result.toString()
+
+        //기록이 0일 때
+        if(binding.mainUserTripCountTv.text == "0") {
+            initFragment()
+            showImgDialog("트립북을 시작해보세요!", "상단의 ‘여행 기록하러 가기’\n" +
+                    "버튼을 눌러\n" +
+                    "여행 발자국을 남겨보세요.", "확인", R.drawable.img_home_notice)
+        }
+        else {
+            val recentTripIdx = getTripIdx(this)
+            showRecentTripcourse(recentTripIdx)
+        }
     }
 
     override fun onGetHomeFailure(code: Int, message: String) {

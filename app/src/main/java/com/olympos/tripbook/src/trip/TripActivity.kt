@@ -15,10 +15,8 @@ import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.src.trip.model.TripPostProcess
 import com.olympos.tripbook.src.trip.model.TripService
 import com.olympos.tripbook.src.tripcourse.TripcourseActivity
-import com.olympos.tripbook.src.tripcourse.TripcourseRecordActivity
+import com.olympos.tripbook.utils.getUserIdx
 import com.olympos.tripbook.utils.saveTripIdx
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 class TripActivity : BaseActivity(), TripPostProcess {
     private lateinit var binding: ActivityTripBinding
@@ -71,7 +69,7 @@ class TripActivity : BaseActivity(), TripPostProcess {
 
 //        val jwt = getJwt(this)
 //        trip.userIdx = jwt.toString()
-        trip.userIdx = "1"
+        trip.userIdx = getUserIdx().toString()
 
         //날짜 선택
         calendar.topbarVisible = true
@@ -112,16 +110,10 @@ class TripActivity : BaseActivity(), TripPostProcess {
                 //제목 입력
                 trip.tripTitle = binding.tripTitleEt.text.toString()
 
-                val intent = Intent(this, TripcourseActivity::class.java)
-                val gson = Gson()
-                val tripData = gson.toJson(trip)
-                Log.d("__tripData__ trip", tripData.toString())
-                intent.putExtra("tripData", tripData)
-
                 postTrip(trip)
 
-//                Log.d("api test 확인용", " userIdx: " + trip.userIdx + " tripTitle: " + trip.tripTitle +
-//                        " departureDate: " + trip.departureDate + " arrivalDate: " + trip.arrivalDate + " themeIdx: " + trip.themeIdx)
+                Log.d("api test 확인용", " userIdx: " + trip.userIdx + " tripTitle: " + trip.tripTitle +
+                        " departureDate: " + trip.departureDate + " arrivalDate: " + trip.arrivalDate + " themeIdx: " + trip.themeIdx)
             }
         }
     }
@@ -170,6 +162,8 @@ class TripActivity : BaseActivity(), TripPostProcess {
         tripService.postTrip(trip)
     }
 
+
+
     override fun onPostTripLoading() {
         binding.tripLoadingPb.visibility = View.VISIBLE
     }
@@ -198,7 +192,13 @@ class TripActivity : BaseActivity(), TripPostProcess {
 
     private fun startTripcourseActivity() {
         val intent = Intent(this, TripcourseActivity::class.java)
+        val gson = Gson()
+        val tripData = gson.toJson(trip)
+
+        intent.putExtra("tripData", tripData)
         startActivity(intent)
-        finish()
+
+        Log.d("__tripData__ trip", tripData)
+        Log.d("userIdx Check", trip.userIdx)
     }
 }

@@ -6,21 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--로딩 바-->
-    <ProgressBar
-        android:id="@+id/tripcourse_record_loading_pb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateTint="@color/tripbook_main_2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:visibility="gone"/>
-
     <!-- 상단바 -->
     <include
-        android:id="@+id/tripcourse_record_topbar_layout"
+        android:id="@+id/tripcourse_record_view_topbar_layout"
         layout="@layout/layout_topbar_base" />
 
     <ScrollView
@@ -54,26 +42,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
-
-                <TextView
-                    android:id="@+id/tripcourse_record_img_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:drawableTop="@drawable/img_tripcourse_camera"
-                    android:drawablePadding="0dp"
-                    android:fontFamily="@font/notosans_kr_bold"
-                    android:gravity="center_horizontal"
-                    android:includeFontPadding="false"
-                    android:padding="5dp"
-                    android:text="@string/tripcourse_record_request_picture"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    tools:ignore="UseCompatTextViewDrawableXml" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!--여행 세부사항 선택 창-->
@@ -91,11 +59,9 @@
 
                     <!--여행 날짜 선택-->
                     <TextView
-                        android:id="@+id/tripcourse_record_select_date_btn"
+                        android:id="@+id/tripcourse_record_view_select_date_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/btn_tripcourse_arrow_down_green"
-                        android:drawablePadding="0dp"
                         android:fontFamily="@font/notosans_kr_bold"
                         android:gravity="center"
                         android:includeFontPadding="false"
@@ -109,11 +75,9 @@
 
                     <!--여행 지역/도시 선택-->
                     <TextView
-                        android:id="@+id/tripcourse_record_select_country_btn"
+                        android:id="@+id/tripcourse_record_view_select_country_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/btn_tripcourse_arrow_down_green"
-                        android:drawablePadding="0dp"
                         android:fontFamily="@font/notosans_kr_bold"
                         android:gravity="center"
                         android:includeFontPadding="false"
@@ -127,17 +91,17 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!--제목 입력-->
-                <EditText
-                    android:id="@+id/tripcourse_record_title_et"
+                <TextView
+                    android:id="@+id/tripcourse_record_view_title_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:background="@null"
                     android:fontFamily="@font/notosans_kr_bold"
-                    android:hint="@string/tripcourse_record_request_title"
+                    android:text="제목"
+                    android:textColor="@color/black"
                     android:includeFontPadding="false"
-                    android:inputType="text"
-                    android:textSize="20sp" />
+                    android:textSize="26sp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -153,7 +117,7 @@
                     android:layout_marginTop="15dp">
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/tripcourse_record_hashtag_add_btn"
+                        android:id="@+id/tripcourse_record_view_hashtag_add_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/bg_base_main_4_empty"
@@ -179,13 +143,12 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="30dp">
 
-                    <EditText
-                        android:id="@+id/tripcourse_record_body_et"
+                    <TextView
+                        android:id="@+id/tripcourse_record_view_body_tv"
                         android:layout_width="match_parent"
-                        android:layout_height="170dp"
+                        android:layout_height="133dp"
                         android:background="@drawable/bg_base_main_4_empty"
-                        android:inputType="textMultiLine"
-                        android:hint="@string/tripcourse_record_request_body"
+                        android:text="내용"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black"
                         android:textSize="12sp"
