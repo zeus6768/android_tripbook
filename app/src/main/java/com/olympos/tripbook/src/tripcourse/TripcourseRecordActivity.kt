@@ -31,9 +31,10 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
     lateinit var binding: ActivityTripcourseRecordBinding
     private var gson : Gson = Gson()
     private var card: Card = Card() //채울 카드
-    //    private val dateSelectDialog = DateSelectDialog(this)
 
     lateinit var uri : Uri //사진 uri 전역변수
+    private lateinit var tripDate: String
+
     private var launcher = registerForActivityResult(ActivityResultContracts.GetContent()) {
         binding.tripcourseRecordImgIv.setImageURI(it)
         binding.tripcourseRecordImgTv.visibility=View.GONE
@@ -154,6 +155,7 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
 
     override fun onDateOKClicked(selectedYear: Int, selectedMonth: Int, selectedDay: Int) {
         binding.tripcourseRecordSelectDateBtn.text = String.format("%d년 %d월 %d일", selectedYear, selectedMonth, selectedDay)
+        tripDate = String.format("%d-%d-%d", selectedYear, selectedMonth, selectedDay)
     }
 
     override fun onDateCancelClicked() {
@@ -221,9 +223,10 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
             card.title = binding.tripcourseRecordTitleEt.text.toString()
             //body 저장
             card.body = binding.tripcourseRecordBodyEt.text.toString()
+            //날짜 저장
+            card.date = tripDate
 
             //아직 구현이 안된 더미 데이터들
-            card.date = "0000-00-00"
             card.time = 2
 
             //아직까진 다시 TripcourseActivity로 보내진 않고 서버로 바로 카드를 보냄
@@ -248,8 +251,8 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
 
         Log.d("Last check before patch", card.toString())
 
-        //사진 저장(Uri)
-        cardService.patchImg(getUserIdx().toString(), card.courseIdx.toString(), card.coverImg)
+//        //사진 저장(Uri)
+//        cardService.patchImg(getUserIdx().toString(), card.courseIdx.toString(), card.coverImg)
 
         //제목 저장
         cardService.patchTitle(getUserIdx().toString(), card.courseIdx.toString(), card.title)
@@ -264,6 +267,7 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
 
     override fun onServerLoading() {
         binding.tripcourseRecordLoadingPb.visibility = View.GONE
+        Toast.makeText(this, "로딩은 되나요", Toast.LENGTH_SHORT).show()
     }
 
     override fun onServerSuccess() {
