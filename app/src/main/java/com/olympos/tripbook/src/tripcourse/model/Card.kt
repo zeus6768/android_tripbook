@@ -10,7 +10,7 @@ data class Card (
     @SerializedName("tripIdx") var tripIdx : Int = 0,
     @SerializedName("cardIdx") var idx: Int = 0,
 
-    var hasData : Int = FALSE,
+    var hasData : Int = FALSE, //서버에 안올라감
 
     @SerializedName("courseImg") var coverImg : String = "NONE",
     @SerializedName("courseDate") var date : String = "날짜를 선택해주세요",

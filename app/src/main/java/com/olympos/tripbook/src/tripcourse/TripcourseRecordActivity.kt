@@ -269,7 +269,7 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
     override fun onServerSuccess() {
         binding.tripcourseRecordLoadingPb.visibility = View.VISIBLE
         Toast.makeText(this, "서버에 카드 전송 완료", Toast.LENGTH_SHORT).show()
-        finish()
+        finish() //셋중 하나만 성공해도 종료됨 수정 필요
     }
 
     override fun onServerFailure(code: Int, message: String) {

@@ -18,17 +18,17 @@ interface CardRetrofitInterface {
     fun getTripcourses(@Path("tripIdx") tripIdx: String): Call<GetTripcourseResponse>
 
     @PATCH("/app/course/courseDate/{userIdx}/{courseIdx}")
-    fun patchDate(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx :String, @Body courseDate : String) : Call<ServerDefaultResponse>
+    fun patchDate(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx :String, @Body params : HashMap<String, Any>) : Call<ServerDefaultResponse>
 
     @PATCH("/app/course/courseTime/{userIdx}/{courseIdx}")
-    fun patchTime(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx : String, @Body courseTime : String) : Call<ServerDefaultResponse>
+    fun patchTime(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx : String, @Body params : HashMap<String, Any>) : Call<ServerDefaultResponse>
 
     @PATCH("/app/course/courseTitle/{userIdx}/{courseIdx}")
-    fun patchTitle(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx:String, @Body courseTitle : String) : Call<ServerDefaultResponse>
+    fun patchTitle(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx:String, @Body params : HashMap<String, Any> ) : Call<ServerDefaultResponse>
 
     @PATCH("/app/course/courseImg/{userIdx}/{courseIdx}")
-    fun patchImg(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx:String, @Body courseImg : String) : Call<ServerDefaultResponse>
+    fun patchImg(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx:String, @Body params : HashMap<String, Any>) : Call<ServerDefaultResponse>
 
     @PATCH("/app/course/courseComment/{userIdx}/{courseIdx}")
-    fun patchBody(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx:String, @Body courseComment : String) : Call<ServerDefaultResponse>
+    fun patchBody(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx:String, @Body params : HashMap<String, Any>) : Call<ServerDefaultResponse>
 }

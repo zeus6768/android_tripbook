@@ -120,9 +120,11 @@ class CardService{
     fun patchTitle(userIdx : String, courseIdx : String, title : String) {
         Log.d("CheckPoint : ", "CardService-patchTitle Activated")
         serverView.onServerLoading()
+        val params: HashMap<String, Any> = HashMap()
+        params["courseTitle"] = title
 
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
-        cardRetrofitService.patchTitle(userIdx, courseIdx, title).enqueue(object : Callback<ServerDefaultResponse> {
+        cardRetrofitService.patchTitle(userIdx, courseIdx, params).enqueue(object : Callback<ServerDefaultResponse> {
             override fun onResponse(call: Call<ServerDefaultResponse>, response: Response<ServerDefaultResponse>) {
                 if (response.isSuccessful) {
                     val res = response.body()!!
@@ -150,8 +152,11 @@ class CardService{
         Log.d("CheckPoint : ", "CardService-patchBody Activated")
         serverView.onServerLoading()
 
+        val params: HashMap<String, Any> = HashMap()
+        params["courseComment"] = body
+
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
-        cardRetrofitService.patchBody(userIdx, courseIdx, body).enqueue(object : Callback<ServerDefaultResponse> {
+        cardRetrofitService.patchBody(userIdx, courseIdx, params).enqueue(object : Callback<ServerDefaultResponse> {
             override fun onResponse(call: Call<ServerDefaultResponse>, response: Response<ServerDefaultResponse>) {
                 if (response.isSuccessful) {
                     val res = response.body()!!
@@ -179,8 +184,11 @@ class CardService{
         Log.d("CheckPoint : ", "CardService-patchImg Activated")
         serverView.onServerLoading()
 
+        val params: HashMap<String, Any> = HashMap()
+        params["courseImg"] = img
+
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
-        cardRetrofitService.patchImg(userIdx, courseIdx, img).enqueue(object : Callback<ServerDefaultResponse> {
+        cardRetrofitService.patchImg(userIdx, courseIdx, params).enqueue(object : Callback<ServerDefaultResponse> {
             override fun onResponse(call: Call<ServerDefaultResponse>, response: Response<ServerDefaultResponse>) {
                 if (response.isSuccessful) {
                     val res = response.body()!!
