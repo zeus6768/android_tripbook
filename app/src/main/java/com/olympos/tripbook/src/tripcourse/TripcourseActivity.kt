@@ -50,6 +50,7 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
 
         initView()
         initRecyclerView()
+        binding.lookerAlbumlistRecyclerview.addItemDecoration(RVCardAdapterDecoration())
         addDefaultCard()
     }
 
@@ -177,7 +178,6 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
         binding.lookerAlbumlistRecyclerview.adapter = cardRVAdapter
 
         binding.lookerAlbumlistRecyclerview.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
-        binding.lookerAlbumlistRecyclerview.addItemDecoration(RVCardAdapterDecoration())
 
         cardRVAdapter.setItemClickListener(object : RVCardAdapter.CardClickListener {
             override fun onItemClick(card: Card) {
@@ -239,6 +239,15 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
 
     override fun onGetCardsSuccess(cards: ArrayList<Card>) {
         binding.tripcourseLoadingPb.visibility = View.GONE
+
+        //임시로 돌아가게 하는 코드 -> 서버에서 hasData를 저장하지 않는 문제를 해결하고자 함
+        var i=0
+        for(i in 0..cards.size-1) {
+            if(cards[i].title != "제목을 입력해주세요") {
+                cards[i].hasData = TRUE
+            }
+        }
+
         cardRVAdapter.setCards(cards)
     }
 
