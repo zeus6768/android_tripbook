@@ -6,17 +6,29 @@ import retrofit2.http.*
 
 interface UserRetrofitInterface {
     @GET("/app/autosignin")
-    fun autoSignin(@Header(X_ACCESS_TOKEN) accessToken: String?): Call<UserResponse>
+    fun autoSignin(@Header(X_ACCESS_TOKEN) accessToken: String?): Call<SigninResponse>
 
     @POST("/app/kakao/signup")
-    fun signUp(@Body kakaoAccessToken: String): Call<SignupResponse>
+    fun signUpUser(@Body kakaoAccessToken: String): Call<SignupResponse>
 
     @POST("/app/kakao/signupprofile")
     fun signUpProfile(@Body kakaoAccessToken: String): Call<SignupResponse>
 
-    @POST("/app/test")
-    fun postRefreshToken(@Body refreshToken: String): Call<RefreshTokenResponse>
+    @POST("/app/kakao/signin")
+    fun kakaoSignin(@Body params: HashMap<String, String>): Call<KakaoSigninResponse>
 
-    @POST("/app/kakao/login")
-    fun postKakaoTokens(@Body params: HashMap<String, String>): Call<KakaoTokensResponse>
+    @POST("/app/user/kakao/updateTokens/{userIdx}")
+    fun updateKakaoAccessToken(
+        @Body params: HashMap<String, String>,
+        @Path("userIdx") userIdx: String
+    ): Call<updateKakaoAccessTokenResponse>
+
+    @POST("/app/user/kakao/updateUserProfile/{userIdx}")
+    fun updateProfile(
+        @Body kakaoAccessToken: String,
+        @Path("userIdx") userIdx: String
+    ): Call<UpdateProfileResponse>
+
+    @POST("/app/user/updateTokens")
+    fun updateAccessToken(@Body refreshToken: String): Call<UpdateAccessTokenResponse>
 }

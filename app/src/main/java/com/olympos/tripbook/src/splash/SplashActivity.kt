@@ -50,16 +50,9 @@ class SplashActivity : AppCompatActivity() {
     private fun selectActivity() {
         val accessToken = getAccessToken()
         if (accessToken != null) {
-            Log.d("SplashActivity", accessToken)
-            if (userService.autoSignin(accessToken)) {
-                startMainActivity()
-            } else {
-                Log.d("SplashActivity", "autoSignin 실패")
-                startSigninActivity()
-            }
+            TODO("Not yet implemented")
         } else {
-            Log.d("SplashActivity", "accessToken 없음")
-            startSigninActivity()
+            TODO("Not yet implemented")
         }
     }
 

@@ -21,6 +21,22 @@ fun saveRefreshToken(refreshToken: String) {
 
 fun getRefreshToken(): String? = mSharedPreferences.getString("refreshToken", null)
 
+fun saveKakaoAccessToken(kakaoAccessToken: String) {
+    val editor = mSharedPreferences.edit()
+    editor.putString("kakaoAccessToken", kakaoAccessToken)
+    editor.apply()
+}
+
+fun getKakaoAccessToken(): String? = mSharedPreferences.getString("kakaoAccessToken", null)
+
+fun saveKakaoRefreshToken(kakaoRefreshToken: String) {
+    val editor = mSharedPreferences.edit()
+    editor.putString("kakaoRefreshToken", kakaoRefreshToken)
+    editor.apply()
+}
+
+fun getKakaoRefreshToken(): String? = mSharedPreferences.getString("kakaoRefreshToken", null)
+
 fun saveUserIdx(userIdx: Int) {
     val editor = mSharedPreferences.edit()
     editor.putInt("userIdx", userIdx)
