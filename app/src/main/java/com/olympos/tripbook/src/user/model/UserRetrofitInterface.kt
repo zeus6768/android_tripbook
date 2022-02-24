@@ -19,14 +19,14 @@ interface UserRetrofitInterface {
 
     @POST("/app/user/kakao/updateTokens/{userIdx}")
     fun updateKakaoAccessToken(
-        @Body params: HashMap<String, String>,
-        @Path("userIdx") userIdx: String
-    ): Call<updateKakaoAccessTokenResponse>
+        @Body kakaoRefreshToken: String,
+        @Path("userIdx") userIdx: Int
+    ): Call<UpdateKakaoAccessTokenResponse>
 
     @POST("/app/user/kakao/updateUserProfile/{userIdx}")
     fun updateProfile(
         @Body kakaoAccessToken: String,
-        @Path("userIdx") userIdx: String
+        @Path("userIdx") userIdx: Int
     ): Call<UpdateProfileResponse>
 
     @POST("/app/user/updateTokens")

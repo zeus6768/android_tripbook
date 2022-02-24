@@ -14,16 +14,23 @@ import com.olympos.tripbook.databinding.ActivitySplashBinding
 import com.olympos.tripbook.src.home.MainActivity
 import com.olympos.tripbook.src.user.SigninActivity
 import com.olympos.tripbook.src.user.model.UserService
+import com.olympos.tripbook.src.user.model.UserView
 import com.olympos.tripbook.utils.getAccessToken
+import com.olympos.tripbook.utils.getKakaoAccessToken
+import com.olympos.tripbook.utils.getRefreshToken
+import com.olympos.tripbook.utils.saveUserIdx
+import java.util.function.ToDoubleBiFunction
 
-class SplashActivity : AppCompatActivity() {
-    private lateinit var binding: ActivitySplashBinding
+class SplashActivity : AppCompatActivity(), UserView {
     private val userService = UserService()
+    private lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        userService.setUserView(this)
 
         settingPermission()
     }
@@ -49,10 +56,11 @@ class SplashActivity : AppCompatActivity() {
 
     private fun selectActivity() {
         val accessToken = getAccessToken()
+
         if (accessToken != null) {
-            TODO("Not yet implemented")
+            userService.autoSignin(accessToken)
         } else {
-            TODO("Not yet implemented")
+            startMainActivity()
         }
     }
 
@@ -70,5 +78,89 @@ class SplashActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         },1500)
+    }
+
+
+    override fun autoSigninSuccess() {
+        startMainActivity()
+    }
+
+    override fun autoSigninFailure(code: Int) {
+        when (code) {
+            1504, 1507, 1509 -> {
+                val refreshToken = getRefreshToken()
+                if (refreshToken != null) {
+                    userService.updateAccessToken(refreshToken)
+                } else {
+                    startSigninActivity()
+                }
+            }
+            2052 -> {
+                val kakaoAccessToken = getKakaoAccessToken()
+                if (kakaoAccessToken != null) {
+                    userService.signUpUser(kakaoAccessToken)
+                } else {
+                    startSigninActivity()
+                }
+            }
+            3007 -> startSigninActivity()
+        }
+    }
+
+    override fun signUpUserSuccess() {
+        val kakaoAccessToken = getKakaoAccessToken()
+        if (kakaoAccessToken != null) {
+            userService.signUpProfile(kakaoAccessToken)
+        }
+    }
+
+    override fun signUpUserFailure(code: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun signUpProfileSuccess() {
+        val accessToken = getAccessToken()
+        if (accessToken != null) {
+            userService.autoSignin(accessToken)
+        }
+    }
+
+    override fun signUpProfileFailure(code: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun kakaoSigninSuccess() {
+        TODO("Not yet implemented")
+    }
+
+    override fun kakaoSigninFailure(code: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun updateKakaoAccessTokenSuccess() {
+        TODO("실행조건, 목적지 명세 필요")
+    }
+
+    override fun updateKakaoAccessTokenFailure(code: Int) {
+        TODO("실행조건, 목적지 명세 필요")
+    }
+
+    override fun updateProfileSuccess() {
+        TODO("실행조건, 목적지 명세 필요")
+    }
+
+    override fun updateProfileFailure(code: Int) {
+        TODO("실행조건, 목적지 명세 필요")
+    }
+
+    override fun updateAccessTokenSuccess() {
+        val accessToken = getAccessToken()
+        if (accessToken != null) {
+            userService.autoSignin(accessToken)
+        }
+    }
+
+    override fun updateAccessTokenFailure(code: Int) {
+        startSigninActivity()
     }
 }

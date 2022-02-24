@@ -29,7 +29,6 @@ class ApplicationClass : Application() {
             .addNetworkInterceptor(XAccessTokenInterceptor()) // JWT 자동 헤더 전송
             .build()
 
-
         retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)

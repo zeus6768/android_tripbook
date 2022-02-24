@@ -1,13 +1,13 @@
 package com.olympos.tripbook.src.user.model
 
-data class updateKakaoAccessTokenResponse (
+data class UpdateKakaoAccessTokenResponse (
     val isSuccess : Boolean,
     val code : Int,
     val message : String,
-    val result : updateKakaoAccessTokenResult?
+    val result : UpdateKakaoAccessTokenResult?
 )
 
-data class updateKakaoAccessTokenResult (
+data class UpdateKakaoAccessTokenResult (
     val accessToken: String,
     val tokenType: String,
     val expiresIn: Int
