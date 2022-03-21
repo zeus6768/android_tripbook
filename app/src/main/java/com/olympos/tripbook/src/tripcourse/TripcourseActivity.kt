@@ -47,6 +47,7 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
         setContentView(binding.root)
 
         tripIdx = getTripIdx(this)
+        Log.d("tripIdxVal", tripIdx.toString())
 
         initView()
         initRecyclerView()

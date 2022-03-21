@@ -5,7 +5,7 @@
     >
 
     <solid
-        android:color="@color/transparent"
+        android:color="@color/white"
         />
 
     <padding

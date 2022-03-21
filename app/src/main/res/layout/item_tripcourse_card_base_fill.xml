@@ -8,7 +8,7 @@
         android:layout_width="151dp"
         android:layout_height="235dp"
         android:padding="0dp"
-        android:background="@drawable/bg_tripcourse_card_shadow"
+        android:background="@drawable/bg_base_gray_empty"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
