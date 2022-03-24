@@ -6,7 +6,7 @@ import retrofit2.http.*
 
 interface UserRetrofitInterface {
     @GET("/app/autosignin")
-    fun autoSignin(@Header(X_ACCESS_TOKEN) accessToken: String?): Call<SigninResponse>
+    fun autoSignin(): Call<SigninResponse>
 
     @POST("/app/kakao/signup")
     fun signUpUser(@Body kakaoAccessToken: String): Call<SignupResponse>
@@ -29,6 +29,9 @@ interface UserRetrofitInterface {
         @Path("userIdx") userIdx: Int
     ): Call<UpdateProfileResponse>
 
-    @POST("/app/user/updateTokens")
-    fun updateAccessToken(@Body refreshToken: String): Call<UpdateAccessTokenResponse>
+    @POST("/app/user/updateTokens/{userIdx}")
+    fun updateAccessToken(
+        @Body refreshToken: String,
+        @Path("userIdx") userIdx: Int
+    ): Call<UpdateAccessTokenResponse>
 }

@@ -3,6 +3,7 @@ package com.olympos.tripbook.utils
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.kakao.sdk.common.KakaoSdk
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.XAccessTokenInterceptor
@@ -13,8 +14,8 @@ import java.util.concurrent.TimeUnit
 
 class ApplicationClass : Application() {
     companion object {
-        const val X_ACCESS_TOKEN: String = "X-ACCESS-TOKEN"         // JWT Token Key
-        const val TAG: String = "Tripbook-Android"
+        const val X_ACCESS_TOKEN: String = "x-access-token"         // JWT Token Key
+        const val TAG: String = "TRIPBOOK-APP"
         const val BASE_URL = "https://www.tripbook.shop"
 
         lateinit var mSharedPreferences: SharedPreferences

@@ -10,10 +10,10 @@ class XAccessTokenInterceptor: Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val builder: Request.Builder = chain.request().newBuilder()
 
-        val jwtToken: String? = getAccessToken()
+        val accessToken: String? = getAccessToken()
 
-        jwtToken?.let{
-            builder.addHeader(X_ACCESS_TOKEN, jwtToken)
+        accessToken?.let{
+            builder.addHeader(X_ACCESS_TOKEN, accessToken)
         }
 
         return chain.proceed(builder.build())

@@ -172,7 +172,7 @@ class TripActivity : BaseActivity(), TripPostProcess {
         binding.tripLoadingPb.visibility = View.GONE
 
         // response로 받은 tripIdx를 저장한 후 TripcourseActivity 실행
-        saveTripIdx(this, result)
+        saveTripIdx(result)
         startTripcourseActivity()
     }
 

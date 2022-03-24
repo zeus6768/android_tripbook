@@ -46,7 +46,7 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
         binding = ActivityTripcourseBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        tripIdx = getTripIdx(this)
+        tripIdx = getTripIdx()
 
         initView()
         initRecyclerView()
@@ -135,18 +135,18 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
         val dYear = dDate[0].substring(2,4)
         val dMonth = dDate[1]
         val dDay = dDate[2]
-        saveDepartureYear(this, dYear.toInt())
-        saveDepartureMonth(this, dMonth.toInt())
-        saveDepartureDay(this, dDay.toInt())
+        saveDepartureYear(dYear.toInt())
+        saveDepartureMonth(dMonth.toInt())
+        saveDepartureDay(dDay.toInt())
 
         //도착일
         val aDate = tripData.arrivalDate.split("-")
         val aYear = aDate[0].substring(2,4)
         val aMonth = aDate[1]
         val aDay = aDate[2]
-        saveArrivalYear(this, aYear.toInt())
-        saveArrivalMonth(this, aMonth.toInt())
-        saveArrivalDay(this, aDay.toInt())
+        saveArrivalYear(aYear.toInt())
+        saveArrivalMonth(aMonth.toInt())
+        saveArrivalDay(aDay.toInt())
 
         val period = dYear + "년 " + dMonth + "월 " + dDay + "일 ~ " + aYear + "년 " + aMonth + "월 " + aDay + "일"
 

@@ -1,6 +1,7 @@
 package com.olympos.tripbook.utils
 
 import android.content.Context
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.olympos.tripbook.utils.ApplicationClass.Companion.X_ACCESS_TOKEN
 import com.olympos.tripbook.utils.ApplicationClass.Companion.mSharedPreferences
@@ -25,6 +26,7 @@ fun saveKakaoAccessToken(kakaoAccessToken: String) {
     val editor = mSharedPreferences.edit()
     editor.putString("kakaoAccessToken", kakaoAccessToken)
     editor.apply()
+    Log.d("SPF", "Kakao Access Token Saved")
 }
 
 fun getKakaoAccessToken(): String? = mSharedPreferences.getString("kakaoAccessToken", null)
@@ -33,6 +35,7 @@ fun saveKakaoRefreshToken(kakaoRefreshToken: String) {
     val editor = mSharedPreferences.edit()
     editor.putString("kakaoRefreshToken", kakaoRefreshToken)
     editor.apply()
+    Log.d("SPF", "Kakao Refresh Token Saved")
 }
 
 fun getKakaoRefreshToken(): String? = mSharedPreferences.getString("kakaoRefreshToken", null)
@@ -45,14 +48,66 @@ fun saveUserIdx(userIdx: Int) {
 
 fun getUserIdx(): Int = mSharedPreferences.getInt("userIdx", 0)
 
-fun saveTripIdx(context: Context, idx: Int) {
-    val spf = context.getSharedPreferences("tripIdx", AppCompatActivity.MODE_PRIVATE)
-    val editor = spf.edit()
+fun saveNickname(name: String) {
+    val editor = mSharedPreferences.edit()
+    editor.putString("name", name)
+    editor.apply()
+}
+
+fun getNickname(): String? = mSharedPreferences.getString("name", null)
+
+fun saveTripIdx(idx: Int) {
+    val editor = mSharedPreferences.edit()
     editor.putInt("tripIdx", idx)
     editor.apply()
 }
 
-fun getTripIdx(context: Context): Int {
-    val spf = context.getSharedPreferences("tripIdx", AppCompatActivity.MODE_PRIVATE)
-    return spf.getInt("tripIdx", 0)
+fun getTripIdx(): Int = mSharedPreferences.getInt("tripIdx", 0)
+
+fun saveDepartureYear(year: Int) {
+    val editor = mSharedPreferences.edit()
+    editor.putInt("departureYear", year)
+    editor.apply()
 }
+
+fun getDepartureYear(): Int = mSharedPreferences.getInt("departureYear", 0)
+
+fun saveDepartureMonth(month: Int) {
+    val editor = mSharedPreferences.edit()
+    editor.putInt("departureMonth", month)
+    editor.apply()
+}
+
+fun getDepartureMonth(): Int = mSharedPreferences.getInt("departureMonth", 0)
+
+fun saveDepartureDay(day: Int) {
+    val editor = mSharedPreferences.edit()
+    editor.putInt("departureDay", day)
+    editor.apply()
+}
+
+fun getDepartureDay(): Int = mSharedPreferences.getInt("departureDay", 0)
+
+fun saveArrivalYear(year: Int) {
+    val editor = mSharedPreferences.edit()
+    editor.putInt("arrivalYear", year)
+    editor.apply()
+}
+
+fun getArrivalYear(): Int = mSharedPreferences.getInt("arrivalYear", 0)
+
+fun saveArrivalMonth(month: Int) {
+    val editor = mSharedPreferences.edit()
+    editor.putInt("arrivalMonth", month)
+    editor.apply()
+}
+
+fun getArrivalMonth(): Int = mSharedPreferences.getInt("arrivalMonth", 0)
+
+fun saveArrivalDay(day: Int) {
+    val editor = mSharedPreferences.edit()
+    editor.putInt("arrivalDay", day)
+    editor.apply()
+}
+
+fun getArrivalDay(): Int = mSharedPreferences.getInt("arrivalDay", 0)

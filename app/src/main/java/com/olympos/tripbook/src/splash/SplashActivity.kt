@@ -14,14 +14,10 @@ import com.olympos.tripbook.databinding.ActivitySplashBinding
 import com.olympos.tripbook.src.home.MainActivity
 import com.olympos.tripbook.src.user.SigninActivity
 import com.olympos.tripbook.src.user.model.UserService
-import com.olympos.tripbook.src.user.model.UserView
-import com.olympos.tripbook.utils.getAccessToken
-import com.olympos.tripbook.utils.getKakaoAccessToken
-import com.olympos.tripbook.utils.getRefreshToken
-import com.olympos.tripbook.utils.saveUserIdx
-import java.util.function.ToDoubleBiFunction
+import com.olympos.tripbook.src.user.model.SplashView
+import com.olympos.tripbook.utils.*
 
-class SplashActivity : AppCompatActivity(), UserView {
+class SplashActivity : AppCompatActivity(), SplashView {
     private val userService = UserService()
     private lateinit var binding: ActivitySplashBinding
 
@@ -56,11 +52,10 @@ class SplashActivity : AppCompatActivity(), UserView {
 
     private fun selectActivity() {
         val accessToken = getAccessToken()
-
         if (accessToken != null) {
-            userService.autoSignin(accessToken)
+            userService.autoSignin()
         } else {
-            startMainActivity()
+            startSigninActivity()
         }
     }
 
@@ -82,85 +77,40 @@ class SplashActivity : AppCompatActivity(), UserView {
 
 
     override fun autoSigninSuccess() {
+        Log.d("SplashActivity.kt", "autoSignin() Success")
         startMainActivity()
     }
 
     override fun autoSigninFailure(code: Int) {
         when (code) {
             1504, 1507, 1509 -> {
+                Log.e("SplashActivity.kt", "autoSigninFailure() status code $code")
                 val refreshToken = getRefreshToken()
-                if (refreshToken != null) {
-                    userService.updateAccessToken(refreshToken)
-                } else {
-                    startSigninActivity()
-                }
-            }
-            2052 -> {
-                val kakaoAccessToken = getKakaoAccessToken()
-                if (kakaoAccessToken != null) {
-                    userService.signUpUser(kakaoAccessToken)
+                val userIdx = getUserIdx()
+                if (refreshToken != null && userIdx != 0) {
+                    userService.updateAccessToken(refreshToken, userIdx)
                 } else {
                     startSigninActivity()
                 }
             }
             3007 -> startSigninActivity()
+            else -> {
+                Log.e("SplashActivity.kt", "autoSigninFailure() Unexpected status code $code")
+                ActivityCompat.finishAffinity(this@SplashActivity)
+            }
         }
-    }
-
-    override fun signUpUserSuccess() {
-        val kakaoAccessToken = getKakaoAccessToken()
-        if (kakaoAccessToken != null) {
-            userService.signUpProfile(kakaoAccessToken)
-        }
-    }
-
-    override fun signUpUserFailure(code: Int) {
-        TODO("Not yet implemented")
-    }
-
-    override fun signUpProfileSuccess() {
-        val accessToken = getAccessToken()
-        if (accessToken != null) {
-            userService.autoSignin(accessToken)
-        }
-    }
-
-    override fun signUpProfileFailure(code: Int) {
-        TODO("Not yet implemented")
-    }
-
-    override fun kakaoSigninSuccess() {
-        TODO("Not yet implemented")
-    }
-
-    override fun kakaoSigninFailure(code: Int) {
-        TODO("Not yet implemented")
-    }
-
-    override fun updateKakaoAccessTokenSuccess() {
-        TODO("실행조건, 목적지 명세 필요")
-    }
-
-    override fun updateKakaoAccessTokenFailure(code: Int) {
-        TODO("실행조건, 목적지 명세 필요")
-    }
-
-    override fun updateProfileSuccess() {
-        TODO("실행조건, 목적지 명세 필요")
-    }
-
-    override fun updateProfileFailure(code: Int) {
-        TODO("실행조건, 목적지 명세 필요")
     }
 
     override fun updateAccessTokenSuccess() {
+        Log.d("SplashActivity.kt", "updateAccessTokenSuccess()")
         val accessToken = getAccessToken()
         if (accessToken != null) {
-            userService.autoSignin(accessToken)
+            userService.autoSignin()
         }
     }
 
     override fun updateAccessTokenFailure(code: Int) {
+        Log.e("SplashActivity.kt", "updateAccessTokenFailure() status code $code")
         startSigninActivity()
     }
 }
