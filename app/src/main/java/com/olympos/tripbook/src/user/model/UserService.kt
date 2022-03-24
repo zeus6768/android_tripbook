@@ -3,6 +3,7 @@ package com.olympos.tripbook.src.user.model
 import android.util.Log
 import com.olympos.tripbook.utils.*
 import com.olympos.tripbook.utils.ApplicationClass.Companion.retrofit
+import com.olympos.tripbook.utils.ApplicationClass.Companion.retrofitWithoutAccessToken
 import retrofit2.*
 
 class UserService {
@@ -145,12 +146,13 @@ class UserService {
     }
 
     fun updateAccessToken(refreshToken: String, userIdx: Int) {
-        val updateAccessTokenRetrofit = retrofit.create(UserRetrofitInterface::class.java)
+        val updateAccessTokenRetrofit = retrofitWithoutAccessToken.create(UserRetrofitInterface::class.java)
         updateAccessTokenRetrofit
             .updateAccessToken(refreshToken, userIdx)
             .enqueue(object : Callback<UpdateAccessTokenResponse> {
                 override fun onResponse(call: Call<UpdateAccessTokenResponse>, response: Response<UpdateAccessTokenResponse>) {
                     Log.d("UserService.kt", "updateAccessToken()")
+                    Log.e("UserService.kt", response.toString())
                     val body = response.body()!!
                     when (body.code) {
                         1000 -> {

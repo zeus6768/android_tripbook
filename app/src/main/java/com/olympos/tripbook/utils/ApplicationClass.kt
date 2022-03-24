@@ -20,6 +20,7 @@ class ApplicationClass : Application() {
 
         lateinit var mSharedPreferences: SharedPreferences
         lateinit var retrofit: Retrofit
+        lateinit var retrofitWithoutAccessToken: Retrofit
     }
     override fun onCreate() {
         super.onCreate()
@@ -30,9 +31,20 @@ class ApplicationClass : Application() {
             .addNetworkInterceptor(XAccessTokenInterceptor()) // JWT 자동 헤더 전송
             .build()
 
+        val clientWithoutAccessToken: OkHttpClient = OkHttpClient.Builder()
+            .readTimeout(30000, TimeUnit.MILLISECONDS)
+            .connectTimeout(30000, TimeUnit.MILLISECONDS)
+            .build()
+
         retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        retrofitWithoutAccessToken = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(clientWithoutAccessToken)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

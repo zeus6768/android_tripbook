@@ -1,6 +1,5 @@
 package com.olympos.tripbook.src.user.model
 
-import com.olympos.tripbook.utils.ApplicationClass.Companion.X_ACCESS_TOKEN
 import retrofit2.Call
 import retrofit2.http.*
 
