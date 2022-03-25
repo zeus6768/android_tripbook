@@ -7,12 +7,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.SearchView
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripcourseSelectCountryBinding
+import com.olympos.tripbook.src.tripcourse.model.CountryRetrofitInterface
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
 
@@ -22,6 +27,8 @@ class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var geocoder : Geocoder
+
+    private lateinit var fusedLocationClient : FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +41,12 @@ class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         initView()
+
+        geocoder = Geocoder(this)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        val cor = geocoder.getFromLocationName(/*주소명*/"asdf", 10)
+
     }
 
     //뒤로가기 -> 다이어로그 -> 확인 -> 액티비티 종료
