@@ -1,6 +1,12 @@
 package com.olympos.tripbook.src.user.model
 
-interface SigninView {
+interface UserView {
+    fun autoSigninSuccess()
+    fun autoSigninFailure(code: Int)
+
+    fun updateAccessTokenSuccess()
+    fun updateAccessTokenFailure(code: Int)
+
     fun signUpUserSuccess()
     fun signUpUserFailure(code: Int)
 

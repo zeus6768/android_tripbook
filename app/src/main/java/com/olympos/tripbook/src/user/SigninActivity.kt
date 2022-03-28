@@ -11,14 +11,13 @@ import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityUserSigninBinding
 import com.olympos.tripbook.src.home.MainActivity
-import com.olympos.tripbook.src.user.model.SigninView
 import com.olympos.tripbook.src.user.model.UserService
-import com.olympos.tripbook.src.user.model.SplashView
+import com.olympos.tripbook.src.user.model.UserView
 import com.olympos.tripbook.utils.*
 import com.olympos.tripbook.utils.ApplicationClass.Companion.TAG
 
 
-class SigninActivity : BaseActivity(), SplashView, SigninView {
+class SigninActivity : BaseActivity(), UserView{
     private val userService = UserService()
 
     private lateinit var binding: ActivityUserSigninBinding
@@ -44,9 +43,9 @@ class SigninActivity : BaseActivity(), SplashView, SigninView {
     private fun signinByKakaotalk() {
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
-                Log.e("카카오 로그인 실패", error.toString())
+                Log.e("SigninActivity", error.toString())
             } else if (token != null) {
-                Log.d("카카오 로그인 성공", ".")
+                Log.d("SigninActivity", "signinByKakaoTalk()")
                 UserApiClient.instance.me { user, _ ->
                     if (user!!.kakaoAccount?.emailNeedsAgreement == true) {
                         requireEmailNeedsAgreement()
@@ -115,10 +114,12 @@ class SigninActivity : BaseActivity(), SplashView, SigninView {
         Log.e("SigninActivity.kt", "autoSigninFailure() status code: $code")
         when (code) {
             1504, 1507, 1509 -> {
+                val tokens = HashMap<String, String>()
                 val refreshToken = getRefreshToken()
                 val userIdx = getUserIdx()
-                if (refreshToken != null) {
-                    userService.updateAccessToken(refreshToken, userIdx)
+                if (refreshToken != null && userIdx != 0) {
+                    tokens["refreshToken"] = refreshToken
+                    userService.updateAccessToken(tokens, userIdx)
                 }
             }
             2052 -> {
@@ -206,7 +207,6 @@ class SigninActivity : BaseActivity(), SplashView, SigninView {
     }
 
     override fun updateAccessTokenFailure(code: Int) {
-        Toast.makeText(this, "토큰 갱신 실패", Toast.LENGTH_LONG).show()
         when (code) {
             1505 -> {
                 val kakaoAccessToken = getKakaoAccessToken()

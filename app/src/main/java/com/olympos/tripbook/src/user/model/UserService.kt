@@ -7,11 +7,10 @@ import com.olympos.tripbook.utils.ApplicationClass.Companion.retrofitWithoutAcce
 import retrofit2.*
 
 class UserService {
-    private lateinit var splashView: SplashView
-    private lateinit var signinView: SigninView
+    private lateinit var userView: UserView
 
-    fun setUserView(splashView: SplashView) {
-        this.splashView = splashView
+    fun setUserView(userView: UserView) {
+        this.userView = userView
     }
 
     fun autoSignin() {
@@ -25,14 +24,14 @@ class UserService {
                     when (body.code) {
                         1001 -> {
                             saveUserIdx(body.result!!.userIdx)
-                            splashView.autoSigninSuccess()
+                            userView.autoSigninSuccess()
                         }
-                        else -> splashView.autoSigninFailure(body.code)
+                        else -> userView.autoSigninFailure(body.code)
                     }
                 }
                 override fun onFailure(call: Call<SigninResponse>, t: Throwable) {
                     Log.e("UserService.kt", "autoSignin() $t")
-                    splashView.autoSigninFailure(400)
+                    userView.autoSigninFailure(400)
                 }
             })
     }
@@ -46,13 +45,13 @@ class UserService {
                     Log.d("UserService.kt", "signUpUser()")
                     val body = response.body()!!
                     when (body.code) {
-                        1004 -> signinView.signUpUserSuccess()
-                        else -> signinView.signUpUserFailure(body.code)
+                        1004 -> userView.signUpUserSuccess()
+                        else -> userView.signUpUserFailure(body.code)
                     }
                 }
                 override fun onFailure(call: Call<SignupResponse>, t: Throwable) {
                     Log.e("UserService.kt", "signUpUser() $t")
-                    signinView.signUpUserFailure(400)
+                    userView.signUpUserFailure(400)
                 }
             })
     }
@@ -66,13 +65,13 @@ class UserService {
                     Log.d("UserService.kt", "signUpProfile()")
                     val body = response.body()!!
                     when (body.code) {
-                        1005 -> signinView.signUpProfileSuccess()
-                        else -> signinView.signUpProfileFailure(body.code)
+                        1005 -> userView.signUpProfileSuccess()
+                        else -> userView.signUpProfileFailure(body.code)
                     }
                 }
                 override fun onFailure(call: Call<SignupResponse>, t: Throwable) {
                     Log.e("UserService.kt", "signUpProfile() $t")
-                    signinView.signUpProfileFailure(400)
+                    userView.signUpProfileFailure(400)
                 }
             })
     }
@@ -90,14 +89,14 @@ class UserService {
                             saveUserIdx(body.result!!.userIdx)
                             saveAccessToken(body.result!!.accessToken)
                             saveRefreshToken(body.result!!.refreshToken)
-                            signinView.kakaoSigninSuccess()
+                            userView.kakaoSigninSuccess()
                         }
-                        else -> signinView.kakaoSigninFailure(body.code)
+                        else -> userView.kakaoSigninFailure(body.code)
                     }
                 }
                 override fun onFailure(call: Call<KakaoSigninResponse>, t: Throwable) {
                     Log.e("UserService.kt", "kakaoSignin() $t")
-                    signinView.kakaoSigninFailure(400)
+                    userView.kakaoSigninFailure(400)
                 }
             })
     }
@@ -113,14 +112,14 @@ class UserService {
                     when (body.code) {
                         1000 -> {
                             saveKakaoAccessToken(body.result!!.accessToken)
-                            signinView.updateKakaoAccessTokenSuccess()
+                            userView.updateKakaoAccessTokenSuccess()
                         }
-                        else -> signinView.updateKakaoAccessTokenFailure(body.code)
+                        else -> userView.updateKakaoAccessTokenFailure(body.code)
                     }
                 }
                 override fun onFailure(call: Call<UpdateKakaoAccessTokenResponse>, t: Throwable) {
                     Log.e("UserService.kt", "updateKakaoAccessToken() $t")
-                    splashView.updateAccessTokenFailure(400)
+                    userView.updateAccessTokenFailure(400)
                 }
             })
     }
@@ -134,39 +133,39 @@ class UserService {
                     Log.e("UserService.kt", "updateProfile()")
                     val body = response.body()!!
                     when (body.code) {
-                        1000 -> signinView.updateProfileSuccess()
-                        else -> signinView.updateProfileFailure(body.code)
+                        1000 -> userView.updateProfileSuccess()
+                        else -> userView.updateProfileFailure(body.code)
                     }
                 }
                 override fun onFailure(call: Call<UpdateProfileResponse>, t: Throwable) {
                     Log.e("UserService.kt", "updateProfile() $t")
-                    signinView.updateProfileFailure(400)
+                    userView.updateProfileFailure(400)
                 }
             })
     }
 
-    fun updateAccessToken(refreshToken: String, userIdx: Int) {
+    fun updateAccessToken(refreshToken: HashMap<String, String>, userIdx: Int) {
         val updateAccessTokenRetrofit = retrofitWithoutAccessToken.create(UserRetrofitInterface::class.java)
         updateAccessTokenRetrofit
             .updateAccessToken(refreshToken, userIdx)
             .enqueue(object : Callback<UpdateAccessTokenResponse> {
                 override fun onResponse(call: Call<UpdateAccessTokenResponse>, response: Response<UpdateAccessTokenResponse>) {
                     Log.d("UserService.kt", "updateAccessToken()")
-                    Log.e("UserService.kt", response.toString())
+                    Log.e("UserService.kt", response.body().toString())
                     val body = response.body()!!
                     when (body.code) {
                         1000 -> {
                             saveUserIdx(body.result!!.userIdx)
                             saveAccessToken(body.result!!.accessToken)
                             saveRefreshToken(body.result!!.refreshToken)
-                            splashView.updateAccessTokenSuccess()
+                            userView.updateAccessTokenSuccess()
                         }
-                        else -> splashView.updateAccessTokenFailure(body.code)
+                        else -> userView.updateAccessTokenFailure(body.code)
                     }
                 }
                 override fun onFailure(call: Call<UpdateAccessTokenResponse>, t: Throwable) {
                     Log.e("UserService.kt", "updateAccessToken() $t")
-                    splashView.updateAccessTokenFailure(400)
+                    userView.updateAccessTokenFailure(400)
                 }
             })
     }

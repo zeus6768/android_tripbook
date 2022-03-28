@@ -48,6 +48,8 @@ class ApplicationClass : Application() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
+        Log.d("ApplicationClass.kt", ".")
+
         mSharedPreferences = applicationContext.getSharedPreferences(TAG, Context.MODE_PRIVATE)
         KakaoSdk.init(this,getString(R.string.kakao_app_key))
     }

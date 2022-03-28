@@ -30,7 +30,7 @@ interface UserRetrofitInterface {
 
     @POST("/app/user/updateTokens/{userIdx}")
     fun updateAccessToken(
-        @Body refreshToken: String,
+        @Body refreshToken: HashMap<String, String>,
         @Path("userIdx") userIdx: Int
     ): Call<UpdateAccessTokenResponse>
 }
