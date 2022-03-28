@@ -46,8 +46,6 @@ class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         initView()
-
-
     }
 
     //뒤로가기 -> 다이어로그 -> 확인 -> 액티비티 종료
@@ -74,6 +72,7 @@ class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
 
                 //결과 문자열로 변환 필요
                 val result = searchList?.get(0)
+                Log.d("SELECT_COUNTRY_RESULT", result.toString())
 
                 val intent = Intent(this@TripcourseSelectCountryActivity, TripcourseRecordActivity::class.java)
                 intent.putExtra("country_result", result)
@@ -85,13 +84,17 @@ class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
                         + "검색중인 정보는 저장되지 않습니다.", "취소하기")
             }
             R.id.tripcourse_select_country_search_btn -> {
+                Log.d("ButtonClicked", "tripcourse_select_country_search_btn")
                 val inputString : String = binding.tripcourseSelectCountrySearchEt.text.toString()
 
                 try { // search view에 입력한 텍스트(주소, 지역, 장소 등)을 지오 코딩을 이용해 변환
-                    searchList = geocoder.getFromLocationName(inputString, 10) //str = 주소, 10 = 최대 검색 결과 개수
+                    searchList = geocoder.getFromLocationName(inputString, 3) //str = 주소, 10 = 최대 검색 결과 개수
                 } catch (e: IOException) {
                     e.printStackTrace()
+                    Log.d("Geocoder Err", "onComplete : 주소 변환 실패")
                 }
+
+                Log.d("Geocoder Result", searchList.toString())
 
                 if(searchList?.size == 0) {
                     Toast.makeText(this, "입력한 지역이 없습니다.", Toast.LENGTH_SHORT).show()
@@ -99,10 +102,7 @@ class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
                 else {
                     Log.d("First Search Address", searchList!![0].toString())
 
-                    val latitude = searchList?.get(0)?.latitude
-                    val longitude = searchList?.get(0)?.longitude
-
-                    val point = LatLng(latitude!!.toDouble(), longitude!!.toDouble())
+                    val point = LatLng(searchList?.get(0)!!.latitude, searchList?.get(0)!!.longitude)
 
                     val resultMarker = MarkerOptions()
 
@@ -115,31 +115,6 @@ class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
                     // 해당 좌표로 화면 줌
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 15f))
                 }
-
-                // 콤마를 기준으로 split
-//            val splitStr: List<String> = addressList!![0].toString().split(",")
-//            val address = splitStr[0].substring(splitStr[0].indexOf("\"") + 1, splitStr[0].length - 2) // 주소
-//            Log.d("Search Address", address)
-//
-//            val latitude = splitStr[10].substring(splitStr[10].indexOf("=") + 1) // 위도
-//            val longitude = splitStr[12].substring(splitStr[12].indexOf("=") + 1) // 경도
-//            Log.d("Result of latitude", latitude)
-//            Log.d("Result of longitude", longitude)
-//
-//            // 좌표(위도, 경도) 생성
-//            val point = LatLng(latitude.toDouble(), longitude.toDouble())
-
-                // 마커 생성
-//                val mOptions2 = MarkerOptions()
-//                mOptions2.title("search result")
-//                mOptions2.snippet(address)
-//                mOptions2.position(point)
-
-//                // 마커 추가
-//                mMap.addMarker(mOptions2)
-//
-//                // 해당 좌표로 화면 줌
-//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 15f))
             }
         }
     }
@@ -147,12 +122,19 @@ class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
-        val seoul = LatLng(-37.33, 126.58)
+        try { // search view에 입력한 텍스트(주소, 지역, 장소 등)을 지오 코딩을 이용해 변환
+            searchList = geocoder.getFromLocationName("서울", 3) //str = 주소, 10 = 최대 검색 결과 개수
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Log.d("Geocoder Err", "onComplete : 주소 변환 실패")
+        }
+
+        val seoul = LatLng(searchList?.get(0)!!.latitude, searchList?.get(0)!!.longitude)
+
         mMap.addMarker(
             MarkerOptions()
                 .position(seoul)
-                .title("Seoul")
+                .title("서울")
         )
         mMap.moveCamera(
             CameraUpdateFactory.newLatLngZoom(
@@ -171,9 +153,5 @@ class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
 //            mOptions.position(LatLng(latitude, longitude))     // LatLng: 위도 경도 쌍을 나타냄
 //            googleMap.addMarker(mOptions)       // 마커(핀) 추가
 //        }
-
-        //Search View 사용? : https://machine-woong.tistory.com/135 참고
-
-
     }
 }
