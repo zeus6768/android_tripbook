@@ -174,7 +174,14 @@ class SplashActivity : AppCompatActivity(), UserView {
 
     override fun updateKakaoAccessTokenSuccess() {
         Log.d("SplashActivity.kt", "updateKakaoAccessTokenSuccess()")
-
+        val kakaoAccessToken = getKakaoAccessToken()
+        val kakaoRefreshToken = getKakaoRefreshToken()
+        if (kakaoAccessToken != null && kakaoRefreshToken != null) {
+            val tokens = HashMap<String, String>()
+            tokens["kakaoAccessToken"] = kakaoAccessToken
+            tokens["kakaoRefreshToken"] = kakaoRefreshToken
+            userService.kakaoSignin(tokens)
+        }
     }
 
     override fun updateKakaoAccessTokenFailure(code: Int) {
