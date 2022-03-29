@@ -18,7 +18,10 @@ class UserService {
         autoSiginRetrofit
             .autoSignin()
             .enqueue(object : Callback<SigninResponse> {
-                override fun onResponse(call: Call<SigninResponse>, response: Response<SigninResponse>) {
+                override fun onResponse(
+                    call: Call<SigninResponse>,
+                    response: Response<SigninResponse>
+                ) {
                     Log.d("UserService.kt", "autoSignin()")
                     val body = response.body()!!
                     when (body.code) {
@@ -41,7 +44,10 @@ class UserService {
         signUpUserRetrofit
             .signUpUser(kakaoAccessToken)
             .enqueue(object : Callback<SignupResponse> {
-                override fun onResponse(call: Call<SignupResponse>, response: Response<SignupResponse>) {
+                override fun onResponse(
+                    call: Call<SignupResponse>,
+                    response: Response<SignupResponse>
+                ) {
                     Log.d("UserService.kt", "signUpUser()")
                     val body = response.body()!!
                     when (body.code) {
@@ -61,7 +67,10 @@ class UserService {
         signUpProfileRetrofit
             .signUpProfile(kakaoAccessToken)
             .enqueue(object : Callback<SignupResponse> {
-                override fun onResponse(call: Call<SignupResponse>, response: Response<SignupResponse>) {
+                override fun onResponse(
+                    call: Call<SignupResponse>,
+                    response: Response<SignupResponse>
+                ) {
                     Log.d("UserService.kt", "signUpProfile()")
                     val body = response.body()!!
                     when (body.code) {
@@ -81,7 +90,10 @@ class UserService {
         kakaoSigninRetrofit
             .kakaoSignin(kakaoTokens)
             .enqueue(object : Callback<KakaoSigninResponse> {
-                override fun onResponse(call: Call<KakaoSigninResponse>, response: Response<KakaoSigninResponse>) {
+                override fun onResponse(
+                    call: Call<KakaoSigninResponse>,
+                    response: Response<KakaoSigninResponse>
+                ) {
                     Log.d("UserService.kt", "kakaoSignin()")
                     val body = response.body()!!
                     when (body.code) {
@@ -101,12 +113,15 @@ class UserService {
             })
     }
 
-    fun updateKakaoAccessToken(kakaoRefreshToken: String, userIdx: Int) {
+    fun updateKakaoAccessToken(kakaoRefreshToken: HashMap<String, String>, userIdx: Int) {
         val updateKakaoAccessTokenRetrofit = retrofit.create(UserRetrofitInterface::class.java)
         updateKakaoAccessTokenRetrofit
             .updateKakaoAccessToken(kakaoRefreshToken, userIdx)
             .enqueue(object : Callback<UpdateKakaoAccessTokenResponse> {
-                override fun onResponse(call: Call<UpdateKakaoAccessTokenResponse>, response: Response<UpdateKakaoAccessTokenResponse>) {
+                override fun onResponse(
+                    call: Call<UpdateKakaoAccessTokenResponse>,
+                    response: Response<UpdateKakaoAccessTokenResponse>
+                ) {
                     Log.d("UserService.kt", "updateKakaoAccessToken()")
                     val body = response.body()!!
                     when (body.code) {
@@ -124,13 +139,16 @@ class UserService {
             })
     }
 
-    fun updateProfile(kakaoAccessToken: String, userIdx: Int) {
+    fun updateProfile(kakaoAccessToken: HashMap<String, String>, userIdx: Int) {
         val updateProfileRetrofit = retrofit.create(UserRetrofitInterface::class.java)
         updateProfileRetrofit
             .updateProfile(kakaoAccessToken, userIdx)
             .enqueue(object : Callback<UpdateProfileResponse> {
-                override fun onResponse(call: Call<UpdateProfileResponse>, response: Response<UpdateProfileResponse>) {
-                    Log.e("UserService.kt", "updateProfile()")
+                override fun onResponse(
+                    call: Call<UpdateProfileResponse>,
+                    response: Response<UpdateProfileResponse>
+                ) {
+                    Log.d("UserService.kt", "updateProfile()")
                     val body = response.body()!!
                     when (body.code) {
                         1000 -> userView.updateProfileSuccess()
@@ -144,20 +162,49 @@ class UserService {
             })
     }
 
+    fun getProfile(userIdx: Int) {
+        val getProfileRetrofit = retrofit.create(UserRetrofitInterface::class.java)
+        getProfileRetrofit
+            .getProfile(userIdx)
+            .enqueue(object : Callback<GetProfileResponse> {
+                override fun onResponse(
+                    call: Call<GetProfileResponse>,
+                    response: Response<GetProfileResponse>
+                ) {
+                    Log.d("UserService.kt", "updateProfile()")
+                    val body = response.body()!!
+                    when (body.code) {
+                        1000 -> {
+                            saveNickname(body.result!!.nickName)
+                            saveUserImage(body.result!!.userImg)
+                            userView.getProfileSuccess()
+                        }
+                        else -> userView.getProfileFailure(body.code)
+                    }
+                }
+                override fun onFailure(call: Call<GetProfileResponse>, t: Throwable) {
+                    Log.e("UserService.kt", "getProfile() $t")
+                    userView.getProfileFailure(400)
+                }
+            })
+    }
+
     fun updateAccessToken(refreshToken: HashMap<String, String>, userIdx: Int) {
         val updateAccessTokenRetrofit = retrofitWithoutAccessToken.create(UserRetrofitInterface::class.java)
         updateAccessTokenRetrofit
             .updateAccessToken(refreshToken, userIdx)
             .enqueue(object : Callback<UpdateAccessTokenResponse> {
-                override fun onResponse(call: Call<UpdateAccessTokenResponse>, response: Response<UpdateAccessTokenResponse>) {
+                override fun onResponse(
+                    call: Call<UpdateAccessTokenResponse>,
+                    response: Response<UpdateAccessTokenResponse>
+                ) {
                     Log.d("UserService.kt", "updateAccessToken()")
-                    Log.e("UserService.kt", response.body().toString())
                     val body = response.body()!!
                     when (body.code) {
                         1000 -> {
                             saveUserIdx(body.result!!.userIdx)
-                            saveAccessToken(body.result!!.accessToken)
-                            saveRefreshToken(body.result!!.refreshToken)
+                            saveAccessToken(body.result.accessToken)
+                            saveRefreshToken(body.result.refreshToken)
                             userView.updateAccessTokenSuccess()
                         }
                         else -> userView.updateAccessTokenFailure(body.code)

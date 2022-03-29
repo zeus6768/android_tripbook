@@ -4,9 +4,6 @@ interface UserView {
     fun autoSigninSuccess()
     fun autoSigninFailure(code: Int)
 
-    fun updateAccessTokenSuccess()
-    fun updateAccessTokenFailure(code: Int)
-
     fun signUpUserSuccess()
     fun signUpUserFailure(code: Int)
 
@@ -21,4 +18,10 @@ interface UserView {
 
     fun updateProfileSuccess()
     fun updateProfileFailure(code: Int)
+
+    fun getProfileSuccess()
+    fun getProfileFailure(code: Int)
+
+    fun updateAccessTokenSuccess()
+    fun updateAccessTokenFailure(code: Int)
 }

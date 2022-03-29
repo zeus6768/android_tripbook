@@ -107,6 +107,8 @@ class SigninActivity : BaseActivity(), UserView{
 
     override fun autoSigninSuccess() {
         Log.d("SigninActivity.kt", "autoSigninSuccess()")
+        val accesstoken = getAccessToken()
+        Log.d("SigninActivity.kt", " \nAT: $accesstoken")
         startMainActivity()
     }
 
@@ -146,8 +148,12 @@ class SigninActivity : BaseActivity(), UserView{
     override fun signUpProfileSuccess() {
         Log.d("SigninActivity.kt", "signUpProfileSuccess()")
         val accessToken = getAccessToken()
-        if (accessToken != null) {
-            userService.autoSignin()
+        val refreshToken = getRefreshToken()
+        if (accessToken != null && refreshToken != null) {
+            val tokens = HashMap<String, String>()
+            tokens["accessToken"] = accessToken
+            tokens["refreshToken"] = refreshToken
+            userService.kakaoSignin(tokens)
         }
     }
 
@@ -156,7 +162,10 @@ class SigninActivity : BaseActivity(), UserView{
     }
 
     override fun kakaoSigninSuccess() {
+        val kat = getKakaoAccessToken()
+        val krt = getKakaoRefreshToken()
         Log.d("SigninActivity.kt", "kakaoSigninSuccess()")
+        Log.d("SigninActivity.kt", " \nKAT: $kat \nKRT: $krt")
         val accessToken = getAccessToken()
         if (accessToken != null) {
             userService.autoSignin()
@@ -172,19 +181,20 @@ class SigninActivity : BaseActivity(), UserView{
                     userService.signUpUser(kakaoAccessToken)
                 }
             }
+            2057 -> {
+                val userIdx = getUserIdx()
+                val kakaoRefreshToken = getKakaoRefreshToken()
+                if (kakaoRefreshToken != null) {
+                    val token = HashMap<String, String>()
+                    token["kakaoRefreshToken"] = kakaoRefreshToken
+                    userService.updateKakaoAccessToken(token, userIdx)
+                }
+            }
         }
     }
 
     override fun updateKakaoAccessTokenSuccess() {
         Log.d("SigninActivity.kt", "updateKakaoAccessTokenSuccess()")
-    }
-
-    override fun updateKakaoAccessTokenFailure(code: Int) {
-        Log.e("SigninActivity.kt", "updateKakaoAccessTokenFailure() status code $code")
-    }
-
-    override fun updateProfileSuccess() {
-        Log.d("SigninActivity.kt", "updateProfileSuccess()")
         val kakaoAccessToken = getKakaoAccessToken()
         val kakaoRefreshToken = getKakaoRefreshToken()
         if (kakaoAccessToken != null && kakaoRefreshToken != null) {
@@ -195,11 +205,33 @@ class SigninActivity : BaseActivity(), UserView{
         }
     }
 
+    override fun updateKakaoAccessTokenFailure(code: Int) {
+        Log.e("SigninActivity.kt", "updateKakaoAccessTokenFailure() status code $code")
+    }
+
+    override fun updateProfileSuccess() {
+        Log.d("SigninActivity.kt", "updateProfileSuccess()")
+        userService.getProfile(getUserIdx())
+    }
+
     override fun updateProfileFailure(code: Int) {
         Log.e("SigninActivity.kt", "updateProfileFailure() status code $code")
     }
 
+    override fun getProfileSuccess() {
+        val nickname = getNickname()
+        val userImg = getUserImage()
+        Log.d("SigninActivity.kt", "getProfileSuccess()")
+        Log.d("SigninActivity.kt", "nickname: $nickname, userImg: $userImg")
+    }
+
+    override fun getProfileFailure(code: Int) {
+        Log.e("SigninActivity.kt", "getProfileFailure() status code $code")
+        Toast.makeText(this, "프로필 업데이트 실패", Toast.LENGTH_SHORT)
+    }
+
     override fun updateAccessTokenSuccess() {
+        Log.d("SigninActivity.kt", "updateAccessTokenSuccess()")
         val accessToken = getAccessToken()
         if (accessToken != null) {
             userService.autoSignin()
@@ -207,6 +239,7 @@ class SigninActivity : BaseActivity(), UserView{
     }
 
     override fun updateAccessTokenFailure(code: Int) {
+        Log.e("SigninActivity.kt", "updateAccessTokenFailure() status code $code")
         when (code) {
             1505 -> {
                 val kakaoAccessToken = getKakaoAccessToken()

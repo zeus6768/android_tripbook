@@ -1,8 +1,5 @@
 package com.olympos.tripbook.utils
 
-import android.content.Context
-import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import com.olympos.tripbook.utils.ApplicationClass.Companion.X_ACCESS_TOKEN
 import com.olympos.tripbook.utils.ApplicationClass.Companion.mSharedPreferences
 
@@ -26,7 +23,6 @@ fun saveKakaoAccessToken(kakaoAccessToken: String) {
     val editor = mSharedPreferences.edit()
     editor.putString("kakaoAccessToken", kakaoAccessToken)
     editor.apply()
-    Log.d("SPF", "Kakao Access Token Saved")
 }
 
 fun getKakaoAccessToken(): String? = mSharedPreferences.getString("kakaoAccessToken", null)
@@ -35,7 +31,6 @@ fun saveKakaoRefreshToken(kakaoRefreshToken: String) {
     val editor = mSharedPreferences.edit()
     editor.putString("kakaoRefreshToken", kakaoRefreshToken)
     editor.apply()
-    Log.d("SPF", "Kakao Refresh Token Saved")
 }
 
 fun getKakaoRefreshToken(): String? = mSharedPreferences.getString("kakaoRefreshToken", null)
@@ -55,6 +50,14 @@ fun saveNickname(name: String) {
 }
 
 fun getNickname(): String? = mSharedPreferences.getString("name", null)
+
+fun saveUserImage(userImageURL: String) {
+    val editor = mSharedPreferences.edit()
+    editor.putString("userImageURL", userImageURL)
+    editor.apply()
+}
+
+fun getUserImage(): String? = mSharedPreferences.getString("userImageURL", null)
 
 fun saveTripIdx(idx: Int) {
     val editor = mSharedPreferences.edit()

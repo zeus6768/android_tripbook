@@ -3,7 +3,6 @@ package com.olympos.tripbook.utils
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import com.kakao.sdk.common.KakaoSdk
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.XAccessTokenInterceptor
@@ -14,7 +13,7 @@ import java.util.concurrent.TimeUnit
 
 class ApplicationClass : Application() {
     companion object {
-        const val X_ACCESS_TOKEN: String = "x-access-token"         // JWT Token Key
+        const val X_ACCESS_TOKEN: String = "x-access-token"
         const val TAG: String = "TRIPBOOK-APP"
         const val BASE_URL = "https://www.tripbook.shop"
 
@@ -28,7 +27,7 @@ class ApplicationClass : Application() {
         val client: OkHttpClient = OkHttpClient.Builder()
             .readTimeout(30000, TimeUnit.MILLISECONDS)
             .connectTimeout(30000, TimeUnit.MILLISECONDS)
-            .addNetworkInterceptor(XAccessTokenInterceptor()) // JWT 자동 헤더 전송
+            .addNetworkInterceptor(XAccessTokenInterceptor())
             .build()
 
         val clientWithoutAccessToken: OkHttpClient = OkHttpClient.Builder()
@@ -47,8 +46,6 @@ class ApplicationClass : Application() {
             .client(clientWithoutAccessToken)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
-        Log.d("ApplicationClass.kt", ".")
 
         mSharedPreferences = applicationContext.getSharedPreferences(TAG, Context.MODE_PRIVATE)
         KakaoSdk.init(this,getString(R.string.kakao_app_key))
