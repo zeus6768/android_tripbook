@@ -99,8 +99,8 @@ class UserService {
                     when (body.code) {
                         1000 -> {
                             saveUserIdx(body.result!!.userIdx)
-                            saveAccessToken(body.result!!.accessToken)
-                            saveRefreshToken(body.result!!.refreshToken)
+                            saveAccessToken(body.result.accessToken)
+                            saveRefreshToken(body.result.refreshToken)
                             userView.kakaoSigninSuccess()
                         }
                         else -> userView.kakaoSigninFailure(body.code)
@@ -176,7 +176,7 @@ class UserService {
                     when (body.code) {
                         1000 -> {
                             saveNickname(body.result!!.nickName)
-                            saveUserImage(body.result!!.userImg)
+                            saveUserImage(body.result.userImg)
                             userView.getProfileSuccess()
                         }
                         else -> userView.getProfileFailure(body.code)

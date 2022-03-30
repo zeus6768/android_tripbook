@@ -80,10 +80,15 @@ class SplashActivity : AppCompatActivity(), UserView {
         Log.d("SplashActivity.kt", "autoSigninSuccess()")
         Log.d("SplashActivity.kt", " \nAT: " + getAccessToken())
 
-        val kakaoAccessToken = HashMap<String, String>()
-        kakaoAccessToken["kakaoAccessToken"] = getKakaoAccessToken()!!
-        userService.updateProfile(kakaoAccessToken, getUserIdx())
-        startMainActivity()
+        val kakaoAccessToken = getKakaoAccessToken()
+        if (kakaoAccessToken != null) {
+            val token = HashMap<String, String>()
+            token["kakaoAccessToken"] = kakaoAccessToken
+            userService.updateProfile(token, getUserIdx())
+            startMainActivity()
+        } else {
+            startSigninActivity()
+        }
     }
 
     override fun autoSigninFailure(code: Int) {
@@ -114,6 +119,8 @@ class SplashActivity : AppCompatActivity(), UserView {
         val kakaoAccessToken = getKakaoAccessToken()
         if (kakaoAccessToken != null) {
             userService.signUpProfile(kakaoAccessToken)
+        } else {
+            startSigninActivity()
         }
     }
 
@@ -131,6 +138,8 @@ class SplashActivity : AppCompatActivity(), UserView {
             tokens["accessToken"] = accessToken
             tokens["refreshToken"] = refreshToken
             userService.kakaoSignin(tokens)
+        } else {
+            startSigninActivity()
         }
     }
 
@@ -140,13 +149,15 @@ class SplashActivity : AppCompatActivity(), UserView {
     }
 
     override fun kakaoSigninSuccess() {
+        val kat = getKakaoAccessToken()
+        val krt = getKakaoRefreshToken()
         Log.d("SplashActivity.kt", "kakaoSigninSuccess()")
-        val KAT = getKakaoAccessToken()
-        val KRT = getKakaoRefreshToken()
-        Log.d("SplashActivity.kt", " \nKAT: $KAT \nKRT: $KRT")
+        Log.d("SplashActivity.kt", " \nKAT: $kat \nKRT: $krt")
         val accessToken = getAccessToken()
         if (accessToken != null) {
             userService.autoSignin()
+        } else {
+            startSigninActivity()
         }
     }
 
@@ -157,15 +168,19 @@ class SplashActivity : AppCompatActivity(), UserView {
                 val kakaoAccessToken = getKakaoAccessToken()
                 if (kakaoAccessToken != null) {
                     userService.signUpUser(kakaoAccessToken)
+                } else {
+                    startSigninActivity()
                 }
             }
             2057 -> {
                 val userIdx = getUserIdx()
                 val kakaoRefreshToken = getKakaoRefreshToken()
-                if (kakaoRefreshToken != null) {
+                if (kakaoRefreshToken != null && userIdx != 0) {
                     val token = HashMap<String, String>()
                     token["kakaoRefreshToken"] = kakaoRefreshToken
                     userService.updateKakaoAccessToken(token, userIdx)
+                } else {
+                    startSigninActivity()
                 }
             }
             else -> startSigninActivity()
@@ -181,6 +196,8 @@ class SplashActivity : AppCompatActivity(), UserView {
             tokens["kakaoAccessToken"] = kakaoAccessToken
             tokens["kakaoRefreshToken"] = kakaoRefreshToken
             userService.kakaoSignin(tokens)
+        } else {
+            startSigninActivity()
         }
     }
 
@@ -207,7 +224,7 @@ class SplashActivity : AppCompatActivity(), UserView {
 
     override fun getProfileFailure(code: Int) {
         Log.e("SplashActivity.kt", "getProfileFailure() status code $code")
-        Toast.makeText(this, "프로필 업데이트 실패", Toast.LENGTH_SHORT)
+        Toast.makeText(this, "프로필 업데이트에 실패했습니다.", Toast.LENGTH_SHORT).show()
     }
 
     override fun updateAccessTokenSuccess() {
@@ -215,6 +232,8 @@ class SplashActivity : AppCompatActivity(), UserView {
         val accessToken = getAccessToken()
         if (accessToken != null) {
             userService.autoSignin()
+        } else {
+            startSigninActivity()
         }
     }
 
@@ -229,6 +248,8 @@ class SplashActivity : AppCompatActivity(), UserView {
                     tokens["kakaoAccessToken"] = kakaoAccessToken
                     tokens["kakaoRefreshToken"] = kakaoRefreshToken
                     userService.kakaoSignin(tokens)
+                } else {
+                    startSigninActivity()
                 }
             }
             else -> startSigninActivity()
