@@ -65,16 +65,16 @@ open class DateSelectDialog(val context: Context) {
     }
 
     private fun initView() {
-        Log.d("date", getArrivalYear(context).toString())
-        year.maxValue = getArrivalYear(context)
-        year.minValue = getDepartureYear(context)
-        year.value = getDepartureYear(context)
-        month.maxValue = maxOf(getDepartureMonth(context), getArrivalMonth(context))
-        month.minValue = minOf(getDepartureMonth(context), getArrivalMonth(context))
-        month.value = getDepartureMonth(context)
-        day.maxValue = maxOf((getDepartureDay(context)), getArrivalDay(context))
-        day.minValue = minOf((getDepartureDay(context)), getArrivalDay(context))
-        day.value = getDepartureDay(context)
+        Log.d("date", getArrivalYear().toString())
+        year.maxValue = getArrivalYear()
+        year.minValue = getDepartureYear()
+        year.value = getDepartureYear()
+        month.maxValue = maxOf(getDepartureMonth(), getArrivalMonth())
+        month.minValue = minOf(getDepartureMonth(), getArrivalMonth())
+        month.value = getDepartureMonth()
+        day.maxValue = maxOf((getDepartureDay()), getArrivalDay())
+        day.minValue = minOf((getDepartureDay()), getArrivalDay())
+        day.value = getDepartureDay()
 
     }
 }
