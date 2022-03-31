@@ -51,34 +51,11 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
 
         initView()
         initRecyclerView()
-        binding.lookerAlbumlistRecyclerview.addItemDecoration(RVCardAdapterDecoration())
+
         addDefaultCard()
     }
 
     private fun addDefaultCard() {
-//        val setTestCard1 : Card = Card(tripIdx, cardIdx, TRUE,"https://post-phinf.pstatic.net/MjAxOTEyMjRfODgg/MDAxNTc3MTY0NzE3ODI0.td40390rDg76HqexxOaLbmw4FMvAE5-taBjKL0QqGw4g.O1S4JTJnFfVcGPgHiCn09gNG2VtFZDO6umEH6e6fqygg.JPEG/%EC%A0%9C%EC%A3%BC%EB%8F%84_%EB%9A%9C%EB%B2%85%EC%9D%B4_%EC%97%AC%ED%96%89.jpg?type=w1200", "2000-00-00", 2, "이름있는제목 1","바뀐 내용 11111", "", "") //cardIdx =1
-//        cardRVAdapter.addCard(setTestCard1)
-//        cardIdx++
-//
-//        val setTestCard2 : Card = Card(tripIdx, cardIdx, TRUE, "https://korean.nlcsjeju.co.kr/userfiles/nlcsjejukrmvc/images/body/IMG_9153.jpg", "2000-11-11", 3, "어떻게든 지어본 이름 2", "바뀌어버린 내용", "", "") //cardIdx =2
-//        cardRVAdapter.addCard(setTestCard2)
-//        cardIdx++
-
-//        val defaultCard1: Card = Card(tripIdx, cardIdx) //cardIdx =1
-//        cardRVAdapter.addCard(defaultCard1)
-//        postCard(defaultCard1)
-//        cardIdx++
-//
-//        val defaultCard2: Card = Card(tripIdx, cardIdx) //cardIdx =2
-//        cardRVAdapter.addCard(defaultCard2)
-//        postCard(defaultCard2)
-//        cardIdx++
-//
-//        val defaultCard3: Card = Card(tripIdx, cardIdx) //cardIdx =3
-//        cardRVAdapter.addCard(defaultCard3)
-//        postCard(defaultCard3)
-//        cardIdx++
-
         addCard()
         addCard()
         addCard()
@@ -177,8 +154,8 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
     private fun initRecyclerView() {
         cardRVAdapter = RVCardAdapter(this)
         binding.lookerAlbumlistRecyclerview.adapter = cardRVAdapter
-
         binding.lookerAlbumlistRecyclerview.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
+        binding.lookerAlbumlistRecyclerview.addItemDecoration(RVCardAdapterDecoration())
 
         cardRVAdapter.setItemClickListener(object : RVCardAdapter.CardClickListener {
             override fun onItemClick(card: Card) {
