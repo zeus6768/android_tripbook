@@ -38,6 +38,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        getTripCount()
+    }
+
     private fun initView() {
         getTripCount()
         binding.mainUserNameTv.text = getNickname(this) + "님의 추억"

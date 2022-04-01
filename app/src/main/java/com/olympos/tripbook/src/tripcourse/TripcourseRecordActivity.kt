@@ -20,24 +20,24 @@ import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripcourseRecordBinding
 import com.olympos.tripbook.src.tripcourse.model.Card
 import com.olympos.tripbook.src.tripcourse.model.CardService
+import com.olympos.tripbook.src.tripcourse.model.PostCardView
 import com.olympos.tripbook.src.tripcourse.model.ServerView
 import com.olympos.tripbook.utils.getTripIdx
 import com.olympos.tripbook.utils.getUserIdx
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.DialogClickListener {
+class TripcourseRecordActivity : BaseActivity(), PostCardView, DateSelectDialog.DialogClickListener {
 
     lateinit var binding: ActivityTripcourseRecordBinding
-    private var gson : Gson = Gson()
+    private var gson: Gson = Gson()
     private var card: Card = Card() //채울 카드
 
-    lateinit var uri : Uri //사진 uri 전역변수
-    private lateinit var tripDate: String
+    private var uri: Uri = Uri.parse("") //사진 uri 전역변수
 
     private var launcher = registerForActivityResult(ActivityResultContracts.GetContent()) {
         binding.tripcourseRecordImgIv.setImageURI(it)
-        binding.tripcourseRecordImgTv.visibility=View.GONE
+        binding.tripcourseRecordImgTv.visibility = View.GONE
         uri = it
     }
 
@@ -49,33 +49,20 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
         initView()
     }
 
-    //종료된 액티비티에서 정보 받아오기
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when(resultCode) {
-            COUNTRY_ACTIVITY_CODE -> { //SelectCountryActivity에서 장소 정보 가져오기
-//                card.country = data?.getStringExtra("country_result")!!
-//                binding.tripcourseRecordSelectCountryBtn.text = card.country
-            }
-            HASHTAG_ACTIVITY_CODE -> { //SelectHashtagActivity에서 해시태그 정보 가져오기
-                //해시태그 저장
-            }
-        }
-    }
-
     private fun initView() {
         //상단바
         binding.tripcourseRecordTopbarLayout.topbarTitleTv.setText(R.string.tripcourse_record_title)
         binding.tripcourseRecordTopbarLayout.topbarSubbuttonIb.setImageResource(R.drawable.btn_base_check_black)
         binding.tripcourseRecordTopbarLayout.topbarSubtitleTv.visibility = View.GONE
 
-        if(intent.hasExtra("card")) {
+        if (intent.hasExtra("card")) {
             card = gson.fromJson(intent.getStringExtra("card"), card::class.java)
-            if(card.hasData == TRUE) {
+            if (card.hasData == TRUE) {
                 binding.tripcourseRecordBodyEt.hint = card.body
                 binding.tripcourseRecordTitleEt.hint = card.title
                 binding.tripcourseRecordSelectDateBtn.text = card.date
-                Glide.with(this.applicationContext).load(card.coverImg).into(binding.tripcourseRecordImgIv)
+                Glide.with(this.applicationContext).load(card.coverImg)
+                    .into(binding.tripcourseRecordImgIv)
                 //binding.tripcourseRecordSelectCountryBtn.text = card.country
             }
         }
@@ -97,7 +84,9 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
                 if (userInput.isFocused && userInput.length() > 200) {
                     userInput.setText(s.toString().substring(0, 200))
                     userInput.setSelection(s!!.length - 1)
-                    Toast.makeText(this@TripcourseRecordActivity, "200자까지 입력 가능합니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@TripcourseRecordActivity,
+                        "200자까지 입력 가능합니다.",
+                        Toast.LENGTH_SHORT).show()
                 }
             }
         })
@@ -117,20 +106,20 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
 
         when (v!!.id) {
             R.id.topbar_back_ib ->
-                showDialog("안내","발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 임시저장됩니다.", "확인")
+                showDialog("안내", "발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 임시저장됩니다.", "확인")
+
             R.id.topbar_subbutton_ib -> {
-                //firebase storage에 이미지를 업로드
-                uploadImage(uri)
-                //todo 저장완료
-
                 //입력받은 정보를 Card에 담기
-                getInputInfo()
-
+//                getInputInfo()
                 //서버에 Card의 수정된 정보를 전송
-                patchInfo(card)
+                postCard(card)
             }
-            R.id.tripcourse_record_img_cl ->
+
+            R.id.tripcourse_record_img_cl -> {
                 photoSelect()
+                //사진 저장(Uri)
+                card.coverImg = uri.toString()
+            }
 
             //여행 도시 선택 - TripcourseSelectContryActivity로 이동
             R.id.tripcourse_record_select_country_btn ->
@@ -154,8 +143,12 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
     }
 
     override fun onDateOKClicked(selectedYear: Int, selectedMonth: Int, selectedDay: Int) {
-        binding.tripcourseRecordSelectDateBtn.text = String.format("%d년 %d월 %d일", selectedYear, selectedMonth, selectedDay)
-        tripDate = String.format("%d-%d-%d", selectedYear, selectedMonth, selectedDay)
+        binding.tripcourseRecordSelectDateBtn.text =
+            String.format("%d년 %d월 %d일", selectedYear, selectedMonth, selectedDay)
+        val tripDate = String.format("%d-%d-%d", selectedYear, selectedMonth, selectedDay)
+
+        //날짜 저장
+        card.date = tripDate
     }
 
     override fun onDateCancelClicked() {
@@ -184,14 +177,15 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
         val fileName = "IMAGE_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}"
         //파일 업로드, 다운로드, 삭제, 메타데이터 가져오기 또는 업데이트를 하기 위해 참조를 생성.
         //참조는 클라우드 파일을 가리키는 포인터라고 할 수 있음.
-        val imagesRef = storage!!.reference.child("images/").child(fileName)    //기본 참조 위치/images/${fileName}
+        val imagesRef =
+            storage!!.reference.child("images/").child(fileName)    //기본 참조 위치/images/${fileName}
         //이미지 파일 업로드
         imagesRef.putFile(uri).addOnSuccessListener {
             Toast.makeText(this, "성공", Toast.LENGTH_SHORT).show()
             it.storage.downloadUrl.addOnSuccessListener {
                 it.toString()
                 //api호출 it을 사진 text값에 post
-            }.addOnFailureListener {  }
+            }.addOnFailureListener { }
         }.addOnFailureListener {
             println(it)
             Toast.makeText(this, "실패", Toast.LENGTH_SHORT).show()
@@ -209,33 +203,24 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
     }
 
     private fun getInputInfo() {
-        //필수요소 : 제목, 내용
-        if(binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
-            Toast.makeText(this.applicationContext, "제목을 입력해주세요", Toast.LENGTH_SHORT).show()
-        } else if (binding.tripcourseRecordBodyEt.text.toString().isEmpty()) {
-            Toast.makeText(this.applicationContext, "내용을 입력해주세요", Toast.LENGTH_SHORT).show()
-        } else {
-            card.hasData = TRUE
+        card.hasData = TRUE
 
-            //사진 저장(Uri)
-            card.coverImg = uri.toString()
-            //제목 저장
-            card.title = binding.tripcourseRecordTitleEt.text.toString()
-            //body 저장
-            card.body = binding.tripcourseRecordBodyEt.text.toString()
-            //날짜 저장
-            card.date = tripDate
+        //제목 저장
+        card.title = binding.tripcourseRecordTitleEt.text.toString()
+        //body 저장
+        card.body = binding.tripcourseRecordBodyEt.text.toString()
 
-            //아직 구현이 안된 더미 데이터들
-            card.time = 2
 
-            //아직까진 다시 TripcourseActivity로 보내진 않고 서버로 바로 카드를 보냄
+        //아직 구현이 안된 더미 데이터들
+        card.time = 2
+
+        //아직까진 다시 TripcourseActivity로 보내진 않고 서버로 바로 카드를 보냄
 //            val intent = Intent(this@TripcourseRecordActivity, TripcourseRecordActivity::class.java)
 //            val cardData = gson.toJson(card)
 //            intent.putExtra("cardInputResult", cardData)
 //
 //            setResult(COUNTRY_ACTIVITY_CODE, intent)
-        }
+
     }
 
     //Retrofit
@@ -245,9 +230,9 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
 //        cardService.postCard(card)
 //    }
 
-    private fun patchInfo(card : Card) {
+    private fun patchInfo(card: Card) {
         val cardService = CardService()
-        cardService.setServerView(this)
+        cardService.setPostCardView(this)
 
         Log.d("Last check before patch", card.toString())
 
@@ -265,19 +250,38 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
         //card.time = 2
     }
 
-    override fun onServerLoading() {
-        binding.tripcourseRecordLoadingPb.visibility = View.GONE
-        Toast.makeText(this, "로딩은 되나요", Toast.LENGTH_SHORT).show()
+    private fun postCard(card: Card) {
+        val cardService = CardService()
+        cardService.setPostCardView(this)
+
+        cardService.postCard(card)
     }
 
-    override fun onServerSuccess() {
+    override fun onPostCardLoading() {
         binding.tripcourseRecordLoadingPb.visibility = View.VISIBLE
+    }
+
+    override fun onPostCardSuccess(courseIdx: Int) {
+        binding.tripcourseRecordLoadingPb.visibility = View.GONE
+        //firebase storage에 이미지를 업로드
+        uploadImage(uri)
+
         Toast.makeText(this, "서버에 카드 전송 완료", Toast.LENGTH_SHORT).show()
         finish() //셋중 하나만 성공해도 종료됨 수정 필요
     }
 
-    override fun onServerFailure(code: Int, message: String) {
-        binding.tripcourseRecordLoadingPb.visibility = View.VISIBLE
-        Toast.makeText(this, "서버 전송 실패. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+    override fun onPostCardFailure(code: Int, message: String) {
+        binding.tripcourseRecordLoadingPb.visibility = View.GONE
+
+        when (code) {
+            400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
+            2201 -> Toast.makeText(this, "여행을 지정해주세요.", Toast.LENGTH_SHORT).show()
+            2202 -> Toast.makeText(this, "날짜를 지정해주세요.", Toast.LENGTH_SHORT).show()
+            2203 -> Toast.makeText(this, "시간을 지정해주세요.", Toast.LENGTH_SHORT).show()
+            2204 -> Toast.makeText(this, "제목를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            2205 -> Toast.makeText(this, "이미지를 선택해주세요.", Toast.LENGTH_SHORT).show()
+            2206 -> Toast.makeText(this, "코멘트를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            2211 -> Toast.makeText(this, "카드를 선택해주세요.", Toast.LENGTH_SHORT).show()
+        }
     }
 }
