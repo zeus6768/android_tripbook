@@ -118,7 +118,9 @@ class SplashActivity : AppCompatActivity(), UserView {
         Log.d("SplashActivity.kt", "signUpUserSuccess()")
         val kakaoAccessToken = getKakaoAccessToken()
         if (kakaoAccessToken != null) {
-            userService.signUpProfile(kakaoAccessToken)
+            val token = HashMap<String, String>()
+            token["kakaoAccessToken"] = kakaoAccessToken
+            userService.signUpProfile(token)
         } else {
             startSigninActivity()
         }
@@ -167,7 +169,9 @@ class SplashActivity : AppCompatActivity(), UserView {
             2052 -> {
                 val kakaoAccessToken = getKakaoAccessToken()
                 if (kakaoAccessToken != null) {
-                    userService.signUpUser(kakaoAccessToken)
+                    val token = HashMap<String, String>()
+                    token["kakaoAccessToken"] = kakaoAccessToken
+                    userService.signUpUser(token)
                 } else {
                     startSigninActivity()
                 }

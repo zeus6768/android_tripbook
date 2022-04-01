@@ -39,7 +39,7 @@ class UserService {
             })
     }
 
-    fun signUpUser(kakaoAccessToken: String) {
+    fun signUpUser(kakaoAccessToken: HashMap<String, String>) {
         val signUpUserRetrofit = retrofit.create(UserRetrofitInterface::class.java)
         signUpUserRetrofit
             .signUpUser(kakaoAccessToken)
@@ -62,7 +62,7 @@ class UserService {
             })
     }
 
-    fun signUpProfile(kakaoAccessToken: String) {
+    fun signUpProfile(kakaoAccessToken: HashMap<String, String>) {
         val signUpProfileRetrofit = retrofit.create(UserRetrofitInterface::class.java)
         signUpProfileRetrofit
             .signUpProfile(kakaoAccessToken)

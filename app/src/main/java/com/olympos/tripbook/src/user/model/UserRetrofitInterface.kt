@@ -8,10 +8,10 @@ interface UserRetrofitInterface {
     fun autoSignin(): Call<SigninResponse>
 
     @POST("/app/kakao/signup")
-    fun signUpUser(@Body kakaoAccessToken: String): Call<SignupResponse>
+    fun signUpUser(@Body kakaoAccessToken: HashMap<String, String>): Call<SignupResponse>
 
     @POST("/app/kakao/signupprofile")
-    fun signUpProfile(@Body kakaoAccessToken: String): Call<SignupResponse>
+    fun signUpProfile(@Body kakaoAccessToken: HashMap<String, String>): Call<SignupResponse>
 
     @POST("/app/kakao/signin")
     fun kakaoSignin(@Body params: HashMap<String, String>): Call<KakaoSigninResponse>

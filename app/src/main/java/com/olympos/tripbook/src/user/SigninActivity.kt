@@ -124,12 +124,6 @@ class SigninActivity : BaseActivity(), UserView{
                     userService.updateAccessToken(tokens, userIdx)
                 }
             }
-            2052 -> {
-                val kakaoAccessToken = getKakaoAccessToken()
-                if (kakaoAccessToken != null) {
-                    userService.signUpUser(kakaoAccessToken)
-                }
-            }
         }
     }
 
@@ -137,7 +131,9 @@ class SigninActivity : BaseActivity(), UserView{
         Log.d("SigninActivity.kt", "signUpUserSuccess()")
         val kakaoAccessToken = getKakaoAccessToken()
         if (kakaoAccessToken != null) {
-            userService.signUpProfile(kakaoAccessToken)
+            val token = HashMap<String, String>()
+            token["kakaoAccessToken"] = kakaoAccessToken
+            userService.signUpProfile(token)
         }
     }
 
@@ -178,7 +174,9 @@ class SigninActivity : BaseActivity(), UserView{
             2052 -> {
                 val kakaoAccessToken = getKakaoAccessToken()
                 if (kakaoAccessToken != null) {
-                    userService.signUpUser(kakaoAccessToken)
+                    val token = HashMap<String, String>()
+                    token["kakaoAccessToken"] = kakaoAccessToken
+                    userService.signUpUser(token)
                 }
             }
             2057 -> {
