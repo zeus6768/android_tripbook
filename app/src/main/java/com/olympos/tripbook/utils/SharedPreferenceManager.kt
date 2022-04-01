@@ -1,166 +1,116 @@
 package com.olympos.tripbook.utils
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
-import com.olympos.tripbook.src.trip.model.Trip
-import com.olympos.tripbook.src.tripcourse.DateSelectDialog
 import com.olympos.tripbook.utils.ApplicationClass.Companion.X_ACCESS_TOKEN
 import com.olympos.tripbook.utils.ApplicationClass.Companion.mSharedPreferences
 
-fun saveJwt(jwtToken: String) {
+fun saveAccessToken(accessToken: String) {
     val editor = mSharedPreferences.edit()
-    editor.putString(X_ACCESS_TOKEN, jwtToken)
-
+    editor.putString(X_ACCESS_TOKEN, accessToken)
     editor.apply()
 }
 
-fun getJwt(): String? = mSharedPreferences.getString(X_ACCESS_TOKEN, null)
+fun getAccessToken(): String? = mSharedPreferences.getString(X_ACCESS_TOKEN, null)
 
-fun saveUserIdx(idx: Int) {
+fun saveRefreshToken(refreshToken: String) {
     val editor = mSharedPreferences.edit()
-    editor.putInt("userIdx", idx)
-
+    editor.putString("refreshToken", refreshToken)
     editor.apply()
 }
 
-fun getUserIdx(): Int = mSharedPreferences.getInt("userIdx", 25)
+fun getRefreshToken(): String? = mSharedPreferences.getString("refreshToken", null)
 
-fun saveTokenValidity(context: Context, isValidToken: Boolean) {
-    val spf = context.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
-    val editor = spf.edit()
-
-    editor.putBoolean("accessToken", isValidToken)
+fun saveKakaoAccessToken(kakaoAccessToken: String) {
+    val editor = mSharedPreferences.edit()
+    editor.putString("kakaoAccessToken", kakaoAccessToken)
     editor.apply()
 }
 
-fun getTokenValidity(context: Context): Boolean {
-    val spf = context.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
+fun getKakaoAccessToken(): String? = mSharedPreferences.getString("kakaoAccessToken", null)
 
-    return spf.getBoolean("isValidToken", false)
+fun saveKakaoRefreshToken(kakaoRefreshToken: String) {
+    val editor = mSharedPreferences.edit()
+    editor.putString("kakaoRefreshToken", kakaoRefreshToken)
+    editor.apply()
 }
 
-fun saveNickname(context: Context, name: String) {
-    val spf = context.getSharedPreferences("user", AppCompatActivity.MODE_PRIVATE)
-    val editor = spf.edit()
+fun getKakaoRefreshToken(): String? = mSharedPreferences.getString("kakaoRefreshToken", null)
 
+fun saveUserIdx(userIdx: Int) {
+    val editor = mSharedPreferences.edit()
+    editor.putInt("userIdx", userIdx)
+    editor.apply()
+}
+
+fun getUserIdx(): Int = mSharedPreferences.getInt("userIdx", 0)
+
+fun saveNickname(name: String) {
+    val editor = mSharedPreferences.edit()
     editor.putString("name", name)
     editor.apply()
 }
 
-fun getNickname(context: Context): String? {
-    val spf = context.getSharedPreferences("user", AppCompatActivity.MODE_PRIVATE)
+fun getNickname(): String? = mSharedPreferences.getString("name", null)
 
-    return spf.getString("name", "클라우드")
-}
-
-fun saveProfileImageURL(context: Context, url: String) {
-    val spf = context.getSharedPreferences("user", AppCompatActivity.MODE_PRIVATE)
-    val editor = spf.edit()
-
-    editor.putString("profileImageUrl", url)
+fun saveUserImage(userImageURL: String) {
+    val editor = mSharedPreferences.edit()
+    editor.putString("userImageURL", userImageURL)
     editor.apply()
 }
 
-fun getProfileImageURL(context: Context): String? {
-    val spf = context.getSharedPreferences("user", AppCompatActivity.MODE_PRIVATE)
+fun getUserImage(): String? = mSharedPreferences.getString("userImageURL", null)
 
-    return spf.getString("profileImageUrl", "")
-}
-
-fun saveTripIdx(context: Context, idx: Int) {
-    val spf = context.getSharedPreferences("tripIdx", AppCompatActivity.MODE_PRIVATE)
-    val editor = spf.edit()
-
+fun saveTripIdx(idx: Int) {
+    val editor = mSharedPreferences.edit()
     editor.putInt("tripIdx", idx)
     editor.apply()
 }
 
-fun getTripIdx(context: Context): Int {
-    val spf = context.getSharedPreferences("tripIdx", AppCompatActivity.MODE_PRIVATE)
+fun getTripIdx(): Int = mSharedPreferences.getInt("tripIdx", 0)
 
-    return spf.getInt("tripIdx", 0)
-}
-
-fun saveDepartureYear(context: Context, year: Int) {
-    val spf = context.getSharedPreferences("trip", AppCompatActivity.MODE_PRIVATE)
-    val editor = spf.edit()
-
+fun saveDepartureYear(year: Int) {
+    val editor = mSharedPreferences.edit()
     editor.putInt("departureYear", year)
     editor.apply()
 }
 
-fun getDepartureYear(context: Context): Int {
-    val spf = context.getSharedPreferences("trip", AppCompatActivity.MODE_PRIVATE)
+fun getDepartureYear(): Int = mSharedPreferences.getInt("departureYear", 0)
 
-    return spf.getInt("departureYear", 0)
-}
-
-fun saveDepartureMonth(context: Context, month: Int) {
-    val spf = context.getSharedPreferences("trip", AppCompatActivity.MODE_PRIVATE)
-    val editor = spf.edit()
-
+fun saveDepartureMonth(month: Int) {
+    val editor = mSharedPreferences.edit()
     editor.putInt("departureMonth", month)
     editor.apply()
 }
 
-fun getDepartureMonth(context: Context): Int {
-    val spf = context.getSharedPreferences("trip", AppCompatActivity.MODE_PRIVATE)
+fun getDepartureMonth(): Int = mSharedPreferences.getInt("departureMonth", 0)
 
-    return spf.getInt("departureMonth", 0)
-}
-
-fun saveDepartureDay(context: Context, day: Int) {
-    val spf = context.getSharedPreferences("trip", AppCompatActivity.MODE_PRIVATE)
-    val editor = spf.edit()
-
+fun saveDepartureDay(day: Int) {
+    val editor = mSharedPreferences.edit()
     editor.putInt("departureDay", day)
     editor.apply()
 }
 
-fun getDepartureDay(context: Context): Int {
-    val spf = context.getSharedPreferences("trip", AppCompatActivity.MODE_PRIVATE)
+fun getDepartureDay(): Int = mSharedPreferences.getInt("departureDay", 0)
 
-    return spf.getInt("departureDay", 0)
-}
-
-fun saveArrivalYear(context: Context, year: Int) {
-    val spf = context.getSharedPreferences("trip", AppCompatActivity.MODE_PRIVATE)
-    val editor = spf.edit()
-
+fun saveArrivalYear(year: Int) {
+    val editor = mSharedPreferences.edit()
     editor.putInt("arrivalYear", year)
     editor.apply()
 }
 
-fun getArrivalYear(context: Context): Int {
-    val spf = context.getSharedPreferences("trip", AppCompatActivity.MODE_PRIVATE)
+fun getArrivalYear(): Int = mSharedPreferences.getInt("arrivalYear", 0)
 
-    return spf.getInt("arrivalYear", 0)
-}
-
-fun saveArrivalMonth(context: Context, month: Int) {
-    val spf = context.getSharedPreferences("trip", AppCompatActivity.MODE_PRIVATE)
-    val editor = spf.edit()
-
+fun saveArrivalMonth(month: Int) {
+    val editor = mSharedPreferences.edit()
     editor.putInt("arrivalMonth", month)
     editor.apply()
 }
 
-fun getArrivalMonth(context: Context): Int {
-    val spf = context.getSharedPreferences("trip", AppCompatActivity.MODE_PRIVATE)
+fun getArrivalMonth(): Int = mSharedPreferences.getInt("arrivalMonth", 0)
 
-    return spf.getInt("arrivalMonth", 0)
-}
-
-fun saveArrivalDay(context: Context, day: Int) {
-    val spf = context.getSharedPreferences("trip", AppCompatActivity.MODE_PRIVATE)
-    val editor = spf.edit()
-
+fun saveArrivalDay(day: Int) {
+    val editor = mSharedPreferences.edit()
     editor.putInt("arrivalDay", day)
     editor.apply()
 }
 
-fun getArrivalDay(context: Context): Int {
-    val spf = context.getSharedPreferences("trip", AppCompatActivity.MODE_PRIVATE)
-
-    return spf.getInt("arrivalDay", 0)
-}
+fun getArrivalDay(): Int = mSharedPreferences.getInt("arrivalDay", 0)

@@ -45,7 +45,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun initView() {
         getTripCount()
-        binding.mainUserNameTv.text = getNickname(this) + "님의 추억"
+        binding.mainUserNameTv.text = getNickname() + "님의 추억"
     }
 
     //
@@ -133,7 +133,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     "여행 발자국을 남겨보세요.", "확인", R.drawable.img_home_notice)
         }
         else {
-            val recentTripIdx = getTripIdx(this)
+            val recentTripIdx = getTripIdx()
             showRecentTripcourse(recentTripIdx)
         }
     }
