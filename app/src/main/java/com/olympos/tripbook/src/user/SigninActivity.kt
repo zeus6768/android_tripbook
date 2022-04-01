@@ -107,8 +107,8 @@ class SigninActivity : BaseActivity(), UserView{
 
     override fun autoSigninSuccess() {
         Log.d("SigninActivity.kt", "autoSigninSuccess()")
-        val accesstoken = getAccessToken()
-        Log.d("SigninActivity.kt", " \nAT: $accesstoken")
+        val accessToken = getAccessToken()
+        Log.d("SigninActivity.kt", " \nAT: $accessToken")
         startMainActivity()
     }
 
@@ -116,18 +116,12 @@ class SigninActivity : BaseActivity(), UserView{
         Log.e("SigninActivity.kt", "autoSigninFailure() status code: $code")
         when (code) {
             1504, 1507, 1509 -> {
-                val tokens = HashMap<String, String>()
                 val refreshToken = getRefreshToken()
                 val userIdx = getUserIdx()
                 if (refreshToken != null && userIdx != 0) {
+                    val tokens = HashMap<String, String>()
                     tokens["refreshToken"] = refreshToken
                     userService.updateAccessToken(tokens, userIdx)
-                }
-            }
-            2052 -> {
-                val kakaoAccessToken = getKakaoAccessToken()
-                if (kakaoAccessToken != null) {
-                    userService.signUpUser(kakaoAccessToken)
                 }
             }
         }
@@ -137,7 +131,9 @@ class SigninActivity : BaseActivity(), UserView{
         Log.d("SigninActivity.kt", "signUpUserSuccess()")
         val kakaoAccessToken = getKakaoAccessToken()
         if (kakaoAccessToken != null) {
-            userService.signUpProfile(kakaoAccessToken)
+            val token = HashMap<String, String>()
+            token["kakaoAccessToken"] = kakaoAccessToken
+            userService.signUpProfile(token)
         }
     }
 
@@ -178,7 +174,9 @@ class SigninActivity : BaseActivity(), UserView{
             2052 -> {
                 val kakaoAccessToken = getKakaoAccessToken()
                 if (kakaoAccessToken != null) {
-                    userService.signUpUser(kakaoAccessToken)
+                    val token = HashMap<String, String>()
+                    token["kakaoAccessToken"] = kakaoAccessToken
+                    userService.signUpUser(token)
                 }
             }
             2057 -> {
@@ -227,7 +225,7 @@ class SigninActivity : BaseActivity(), UserView{
 
     override fun getProfileFailure(code: Int) {
         Log.e("SigninActivity.kt", "getProfileFailure() status code $code")
-        Toast.makeText(this, "프로필 업데이트 실패", Toast.LENGTH_SHORT)
+        Toast.makeText(this, "프로필 업데이트 실패", Toast.LENGTH_SHORT).show()
     }
 
     override fun updateAccessTokenSuccess() {
