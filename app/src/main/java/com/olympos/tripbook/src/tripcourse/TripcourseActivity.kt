@@ -36,7 +36,7 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
 
     private lateinit var cardRVAdapter : RVCardAdapter
 
-    private var cardIdx = 1
+    private var cardIdx : Int = 1
     private var tripIdx : Int = 0
 
     private var card = Card()
@@ -46,13 +46,23 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
         binding = ActivityTripcourseBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        tripIdx = getTripIdx()
-        Log.d("tripIdxVal", tripIdx.toString())
-
         initView()
         initRecyclerView()
 
         addDefaultCard()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onResume() {
+        super.onResume()
+        initRecyclerView()
+        cardRVAdapter.notifyDataSetChanged()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        //initRecyclerView()
+        //getTripcourses(tripIdx.toString())
     }
 
     private fun addDefaultCard() {
@@ -73,12 +83,6 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
 //        intent.putExtra("tripIdx", card.tripIdx)
 
         startActivity(intent)
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        initRecyclerView()
-        getTripcourses(tripIdx.toString())
     }
 
     //여행 삭제하기 context menu
@@ -106,7 +110,9 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
         binding.tripcourseTopbarLayout.topbarSubbuttonIb.setImageResource(R.drawable.btn_base_check_black)
 
         //여행 정보 가져옴
+        tripIdx = getTripIdx()
         tripData = getTrip()
+        Log.d("Tripcourse_tripIdx/Data", "tripIdx : $tripIdx, tripData : $tripData")
 
         //출발일
         val dDate = tripData.departureDate.split("-")
@@ -151,6 +157,25 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
         startActivity(intent)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onClick(v: View?) {
+        super.onClick(v)
+        when(v!!.id) {
+            R.id.topbar_back_ib -> //상단바 - 뒤로가기 버튼 - 현재 액티비티 종료
+                showDialog("발자국 작성 취소", "발자국 작성을 취소하시겠습니까?\n"
+                        + "작성중인 정보는 저장되지 않습니다.", "확인")
+            R.id.topbar_subbutton_ib -> { //상단바 - 체크 버튼 - 저장
+                //todo 모든 카드 서버로 업로드
+                //cardRVAdapter.onRemoveEmptyCard()
+                tripCards.clear()
+                finish()
+            }
+            R.id.tripcourse_add_card_btn -> {
+                addCard()
+            }
+        }
+    }
+
     private fun initRecyclerView() {
         cardRVAdapter = RVCardAdapter(this)
         binding.lookerAlbumlistRecyclerview.adapter = cardRVAdapter
@@ -171,34 +196,22 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
         cardService.getTripcourses(tripIdx)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    override fun onClick(v: View?) {
-        super.onClick(v)
-        when(v!!.id) {
-            R.id.topbar_back_ib -> //상단바 - 뒤로가기 버튼 - 현재 액티비티 종료
-                showDialog("발자국 작성 취소", "발자국 작성을 취소하시겠습니까?\n"
-                        + "작성중인 정보는 저장되지 않습니다.", "확인")
-            R.id.topbar_subbutton_ib -> { //상단바 - 체크 버튼 - 저장
-                //빈 카드 모두삭제하고 끝
-                cardRVAdapter.onRemoveEmptyCard()
-                finish()
-            }
-            R.id.tripcourse_add_card_btn -> {
-                addCard()
-            }
-        }
-    }
-
     private fun addCard() {
+        if(tripCards.size >= 15) {
+            Toast.makeText(this, "최대 15개의 카드까지 생성 가능합니다", Toast.LENGTH_SHORT).show()
+            return
+        }
         card = Card(0, tripIdx, cardIdx)
         cardIdx++
 
-        postCard(card)
+        tripCards.add(card)
+        //postCard(card)
 
 //        cardRVAdapter.addCard(card)
 //        cardRVAdapter.notifyItemInserted(cardRVAdapter.itemCount - 1)
 
-        Log.d("Check num of cardDatas", cardRVAdapter.itemCount.toString())
+        Log.d("tripCards_numCards", tripCards.size.toString())
+        Log.d("RVCardAdapter_numCards", cardRVAdapter.itemCount.toString())
     }
 
     private fun postCard(card : Card) {
@@ -219,14 +232,13 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
         binding.tripcourseLoadingPb.visibility = View.GONE
 
         //임시로 돌아가게 하는 코드 -> 서버에서 hasData를 저장하지 않는 문제를 해결하고자 함
-        var i=0
         for(i in 0..cards.size-1) {
             if(cards[i].title != "제목을 입력해주세요") {
                 cards[i].hasData = TRUE
             }
         }
 
-        cardRVAdapter.setCards(cards)
+        tripCards.addAll(cards)
     }
 
     override fun onGetCardsFailure(code: Int, message: String) { //통신 실패 View

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.olympos.tripbook.R
@@ -31,7 +32,6 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
     //인터페이스 구현
     private lateinit var cardClickListener: CardClickListener
 
-    private var cards = ArrayList<Card>()
     private val mContext = context
 
 //    private var baseDialog = BaseDialog(context)
@@ -75,7 +75,6 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
             binding.itemCardFillBodyTv.text = card.body
 
             binding.root.setOnCreateContextMenuListener(this)
-            //this.itemView.setOnCreateContextMenuListener(this)
         }
 
         override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
@@ -83,21 +82,21 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
             //baseDialog.show("여행 카드 삭제", "여행 카드를 삭제하시겠습니까?\n 삭제한 카드는 복구되지 않습니다.", "삭제하기")
             //DialogClass(mContext).showDialog("여행 카드 삭제", "여행 카드를 삭제하시겠습니까?\n 삭제한 카드는 복구되지 않습니다.", "삭제하기")
 
-            val edit : MenuItem? = menu?.add(Menu.NONE, 1001, 1, "편집")
+            //val edit : MenuItem? = menu?.add(Menu.NONE, 1001, 1, "편집")
             val delete : MenuItem? = menu?.add(Menu.NONE, 1002, 2, "삭제")
 
-            edit?.setOnMenuItemClickListener(onEditMenu)
+            //edit?.setOnMenuItemClickListener(onEditMenu)
             delete?.setOnMenuItemClickListener(onEditMenu)
         }
 
         private val onEditMenu : MenuItem.OnMenuItemClickListener = object : MenuItem.OnMenuItemClickListener {
             override fun onMenuItemClick(item: MenuItem?): Boolean {
                 when(item?.itemId) {
-                    1001 -> { //편집
-
-                    }
-                    else -> { //삭제
+                    1002 -> { //삭제
                         DialogClass(mContext).showDialog("여행 카드 삭제", "여행 카드를 삭제하시겠습니까?\n 삭제한 카드는 복구되지 않습니다.", "삭제하기")
+                    }
+                    else -> { //에러
+                        Toast.makeText(mContext, "에러가 발생했습니다.", Toast.LENGTH_LONG).show()
                     }
                 }
                 return true
@@ -109,11 +108,10 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
     /*---------- 오버라이딩 함수 ----------*/
 
     override fun getItemViewType(position: Int): Int {
-        return cards[position].hasData
+        return tripCards[position].hasData
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-       val view : View?
         //to use at View Holder
         return when(viewType) {
             FALSE -> { //데이터가 없는 경우 -> 빈 레이아웃
@@ -137,10 +135,11 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         holder.itemView.setOnClickListener { //카드 클릭시 이동
-            cardClickListener.onItemClick(cards[position])
+            focusedCardPosition = position
+            cardClickListener.onItemClick(tripCards[position])
         }
 
-        when(cards[position].hasData) {
+        when(tripCards[position].hasData) {
             FALSE -> { //데이터가 없는 경우에 바인딩
                 (holder as EmptyCardViewHolder).bind()
 
@@ -149,12 +148,12 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
                 }
             }
             else -> { //데이터가 있는 경우에 바인딩
-                (holder as FillCardViewHolder).bind(cards[position])
+                (holder as FillCardViewHolder).bind(tripCards[position])
             }
         }
     }
 
-    override fun getItemCount() : Int = cards.size
+    override fun getItemCount() : Int = tripCards.size
 
     /*---------- 추가 함수 ----------*/
 
@@ -162,50 +161,51 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
         cardClickListener = itemClickListener
     }
 
-    fun deleteCard(courseIdx : Int) {
-        val cardservice = CardService()
-        cardservice.setServerView(this)
-        cardservice.deleteCard(getUserIdx().toString(), courseIdx.toString())
-    }
+//    fun deleteCard(courseIdx : Int) {
+//        val cardservice = CardService()
+//        cardservice.setServerView(this)
+//        cardservice.deleteCard(getUserIdx().toString(), courseIdx.toString())
+//    }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun setCards(cards : ArrayList<Card>) {
-        this.cards.clear()
-        this.cards.addAll(cards)
-
-        notifyDataSetChanged()
-    }
+//    @SuppressLint("NotifyDataSetChanged")
+//    fun setCards(cards : ArrayList<Card>) {
+//        this.cards.clear()
+//        this.cards.addAll(cards)
+//
+//        notifyDataSetChanged()
+//    }
 
     fun addCard(card : Card) {
-        this.cards.add(card)
+        tripCards.add(card)
 
         notifyItemInserted(itemCount-1)
     }
 
-    fun onRemoveEmptyCard() {
-        var i = 0
-        var deleteList = ArrayList<Int>()
-        for(i in 0..itemCount-1) {
-            if(cards[i].hasData == FALSE) {
-                deleteList.add(cards[i].courseIdx)
-            }
-        }
-        if(!deleteList.isEmpty()) {
-            //todo deleteList에 있는 카드들의 courseIdx를 가지고 서버에서 삭제
-            for(i in 0..deleteList.size-1) {
-                deleteCard(deleteList[i])
-            }
-        }
-    }
-
     @SuppressLint("NotifyDataSetChanged")
     private fun onRemoveCard(position: Int){
-        deleteCard(cards[position].courseIdx)
-        cards.removeAt(position)
+        //deleteCard(cards[position].courseIdx)
+        notifyItemRemoved(position) // 얘 작동하는지 확인
+        tripCards.removeAt(position)
         //notifyItemRemoved(position) // 얘 문제임 아마 이미 지워진 애를 지워졌다고 알려서 그런게 아닐까 추측함
         //ex) 3번 사라짐(124 남음) 근데 3번 사라졌다고 알림(4번 지목함) -> 자세히는 나도 모름
-        notifyDataSetChanged()
+        //notifyDataSetChanged()
     }
+
+//    fun onRemoveEmptyCard() {
+//        var i = 0
+//        var deleteList = ArrayList<Int>()
+//        for(i in 0..itemCount-1) {
+//            if(cards[i].hasData == FALSE) {
+//                deleteList.add(cards[i].courseIdx)
+//            }
+//        }
+//        if(!deleteList.isEmpty()) {
+//            //todo deleteList에 있는 카드들의 courseIdx를 가지고 서버에서 삭제
+//            for(i in 0..deleteList.size-1) {
+//                deleteCard(deleteList[i])
+//            }
+//        }
+//    }
 
     override fun onServerLoading() {
         Log.d("RVCardAdapter Response", "delete Card Loading")

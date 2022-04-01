@@ -48,20 +48,6 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
         initView()
     }
 
-    //종료된 액티비티에서 정보 받아오기
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when(resultCode) {
-            COUNTRY_ACTIVITY_CODE -> { //SelectCountryActivity에서 장소 정보 가져오기
-//                card.country = data?.getStringExtra("country_result")!!
-//                binding.tripcourseRecordSelectCountryBtn.text = card.country
-            }
-            HASHTAG_ACTIVITY_CODE -> { //SelectHashtagActivity에서 해시태그 정보 가져오기
-                //해시태그 저장
-            }
-        }
-    }
-
     private fun initView() {
         //상단바
         binding.tripcourseRecordTopbarLayout.topbarTitleTv.setText(R.string.tripcourse_record_title)
@@ -74,6 +60,7 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
                 binding.tripcourseRecordBodyEt.hint = card.body
                 binding.tripcourseRecordTitleEt.hint = card.title
                 binding.tripcourseRecordSelectDateBtn.text = card.date
+                binding.tripcourseRecordImgTv.visibility = View.GONE
                 Glide.with(this.applicationContext).load(card.coverImg).into(binding.tripcourseRecordImgIv)
                 //binding.tripcourseRecordSelectCountryBtn.text = card.country
             }
@@ -125,8 +112,11 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
                 //입력받은 정보를 Card에 담기
                 getInputInfo()
 
+                //tripCards 데이터 업데이트
+                updateCard(card)
+
                 //서버에 Card의 수정된 정보를 전송
-                patchInfo(card)
+                //patchInfo(card)
             }
             R.id.tripcourse_record_img_cl ->
                 photoSelect()
@@ -233,6 +223,10 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
 //
 //            setResult(COUNTRY_ACTIVITY_CODE, intent)
         }
+    }
+
+    private fun updateCard(card : Card) {
+        tripCards[focusedCardPosition] = card
     }
 
     //Retrofit
