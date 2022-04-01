@@ -1,52 +1,219 @@
 package com.olympos.tripbook.src.user.model
 
 import android.util.Log
+import com.olympos.tripbook.utils.*
 import com.olympos.tripbook.utils.ApplicationClass.Companion.retrofit
-import com.olympos.tripbook.utils.ApplicationClass.Companion.TAG
-import com.olympos.tripbook.utils.saveNickname
+import com.olympos.tripbook.utils.ApplicationClass.Companion.retrofitWithoutAccessToken
 import retrofit2.*
 
 class UserService {
-    fun getApiTest() {
-        val apiTestService = retrofit.create(ApiTestRetrofitInterface::class.java)
-        apiTestService.getApiTest().enqueue(object : Callback<ApiTestResponse> {
-            override fun onResponse(call: Call<ApiTestResponse>, response: Response<ApiTestResponse>) {
-                Log.d(TAG, response.toString())
-                if (response.isSuccessful) {
-                    val res = response.body()!!
-                    when (res.code) {
-                        1000 -> Log.d("REST API TEST 성공", res.toString())
+    private lateinit var userView: UserView
+
+    fun setUserView(userView: UserView) {
+        this.userView = userView
+    }
+
+    fun autoSignin() {
+        val autoSiginRetrofit = retrofit.create(UserRetrofitInterface::class.java)
+        autoSiginRetrofit
+            .autoSignin()
+            .enqueue(object : Callback<SigninResponse> {
+                override fun onResponse(
+                    call: Call<SigninResponse>,
+                    response: Response<SigninResponse>
+                ) {
+                    Log.d("UserService.kt", "autoSignin()")
+                    val body = response.body()!!
+                    when (body.code) {
+                        1001 -> {
+                            saveUserIdx(body.result!!.userIdx)
+                            userView.autoSigninSuccess()
+                        }
+                        else -> userView.autoSigninFailure(body.code)
                     }
                 }
-            }
-            override fun onFailure(call: Call<ApiTestResponse>, t: Throwable) {
-                Log.d("REST API 실패", t.message.toString())
-            }
-        })
-    }
-
-    fun postUser(userRequest: UserRequest) {
-        val userRetrofitService = retrofit.create(UserRetrofitInterface::class.java)
-        userRetrofitService.postUser(userRequest).enqueue(object : Callback<UserResponse> {
-            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
-                // Log.d(TAG, response.toString())
-                if (response.isSuccessful) {
-                    val body = response.body()!!
-                    if (body.isValidToken) acceptUser() else gotoSignin()
+                override fun onFailure(call: Call<SigninResponse>, t: Throwable) {
+                    Log.e("UserService.kt", "autoSignin() $t")
+                    userView.autoSigninFailure(400)
                 }
-            }
-            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                Log.d("POST USER API Failure", t.message.toString())
-                gotoSignin()
-            }
-        })
+            })
     }
 
-    private fun acceptUser() {
-        TODO("Not yet implemented")
+    fun signUpUser(kakaoAccessToken: HashMap<String, String>) {
+        val signUpUserRetrofit = retrofit.create(UserRetrofitInterface::class.java)
+        signUpUserRetrofit
+            .signUpUser(kakaoAccessToken)
+            .enqueue(object : Callback<SignupResponse> {
+                override fun onResponse(
+                    call: Call<SignupResponse>,
+                    response: Response<SignupResponse>
+                ) {
+                    Log.d("UserService.kt", "signUpUser()")
+                    val body = response.body()!!
+                    when (body.code) {
+                        1004 -> userView.signUpUserSuccess()
+                        else -> userView.signUpUserFailure(body.code)
+                    }
+                }
+                override fun onFailure(call: Call<SignupResponse>, t: Throwable) {
+                    Log.e("UserService.kt", "signUpUser() $t")
+                    userView.signUpUserFailure(400)
+                }
+            })
     }
 
-    private fun gotoSignin() {
-        TODO("Not yet implemented")
+    fun signUpProfile(kakaoAccessToken: HashMap<String, String>) {
+        val signUpProfileRetrofit = retrofit.create(UserRetrofitInterface::class.java)
+        signUpProfileRetrofit
+            .signUpProfile(kakaoAccessToken)
+            .enqueue(object : Callback<SignupResponse> {
+                override fun onResponse(
+                    call: Call<SignupResponse>,
+                    response: Response<SignupResponse>
+                ) {
+                    Log.d("UserService.kt", "signUpProfile()")
+                    val body = response.body()!!
+                    when (body.code) {
+                        1005 -> userView.signUpProfileSuccess()
+                        else -> userView.signUpProfileFailure(body.code)
+                    }
+                }
+                override fun onFailure(call: Call<SignupResponse>, t: Throwable) {
+                    Log.e("UserService.kt", "signUpProfile() $t")
+                    userView.signUpProfileFailure(400)
+                }
+            })
+    }
+
+    fun kakaoSignin(kakaoTokens: HashMap<String, String>) {
+        val kakaoSigninRetrofit = retrofit.create(UserRetrofitInterface::class.java)
+        kakaoSigninRetrofit
+            .kakaoSignin(kakaoTokens)
+            .enqueue(object : Callback<KakaoSigninResponse> {
+                override fun onResponse(
+                    call: Call<KakaoSigninResponse>,
+                    response: Response<KakaoSigninResponse>
+                ) {
+                    Log.d("UserService.kt", "kakaoSignin()")
+                    val body = response.body()!!
+                    when (body.code) {
+                        1000 -> {
+                            saveUserIdx(body.result!!.userIdx)
+                            saveAccessToken(body.result.accessToken)
+                            saveRefreshToken(body.result.refreshToken)
+                            userView.kakaoSigninSuccess()
+                        }
+                        else -> userView.kakaoSigninFailure(body.code)
+                    }
+                }
+                override fun onFailure(call: Call<KakaoSigninResponse>, t: Throwable) {
+                    Log.e("UserService.kt", "kakaoSignin() $t")
+                    userView.kakaoSigninFailure(400)
+                }
+            })
+    }
+
+    fun updateKakaoAccessToken(kakaoRefreshToken: HashMap<String, String>, userIdx: Int) {
+        val updateKakaoAccessTokenRetrofit = retrofit.create(UserRetrofitInterface::class.java)
+        updateKakaoAccessTokenRetrofit
+            .updateKakaoAccessToken(kakaoRefreshToken, userIdx)
+            .enqueue(object : Callback<UpdateKakaoAccessTokenResponse> {
+                override fun onResponse(
+                    call: Call<UpdateKakaoAccessTokenResponse>,
+                    response: Response<UpdateKakaoAccessTokenResponse>
+                ) {
+                    Log.d("UserService.kt", "updateKakaoAccessToken()")
+                    val body = response.body()!!
+                    when (body.code) {
+                        1000 -> {
+                            saveKakaoAccessToken(body.result!!.accessToken)
+                            userView.updateKakaoAccessTokenSuccess()
+                        }
+                        else -> userView.updateKakaoAccessTokenFailure(body.code)
+                    }
+                }
+                override fun onFailure(call: Call<UpdateKakaoAccessTokenResponse>, t: Throwable) {
+                    Log.e("UserService.kt", "updateKakaoAccessToken() $t")
+                    userView.updateAccessTokenFailure(400)
+                }
+            })
+    }
+
+    fun updateProfile(kakaoAccessToken: HashMap<String, String>, userIdx: Int) {
+        val updateProfileRetrofit = retrofit.create(UserRetrofitInterface::class.java)
+        updateProfileRetrofit
+            .updateProfile(kakaoAccessToken, userIdx)
+            .enqueue(object : Callback<UpdateProfileResponse> {
+                override fun onResponse(
+                    call: Call<UpdateProfileResponse>,
+                    response: Response<UpdateProfileResponse>
+                ) {
+                    Log.d("UserService.kt", "updateProfile()")
+                    val body = response.body()!!
+                    when (body.code) {
+                        1000 -> userView.updateProfileSuccess()
+                        else -> userView.updateProfileFailure(body.code)
+                    }
+                }
+                override fun onFailure(call: Call<UpdateProfileResponse>, t: Throwable) {
+                    Log.e("UserService.kt", "updateProfile() $t")
+                    userView.updateProfileFailure(400)
+                }
+            })
+    }
+
+    fun getProfile(userIdx: Int) {
+        val getProfileRetrofit = retrofit.create(UserRetrofitInterface::class.java)
+        getProfileRetrofit
+            .getProfile(userIdx)
+            .enqueue(object : Callback<GetProfileResponse> {
+                override fun onResponse(
+                    call: Call<GetProfileResponse>,
+                    response: Response<GetProfileResponse>
+                ) {
+                    Log.d("UserService.kt", "updateProfile()")
+                    val body = response.body()!!
+                    when (body.code) {
+                        1000 -> {
+                            saveNickname(body.result!!.nickName)
+                            saveUserImage(body.result.userImg)
+                            userView.getProfileSuccess()
+                        }
+                        else -> userView.getProfileFailure(body.code)
+                    }
+                }
+                override fun onFailure(call: Call<GetProfileResponse>, t: Throwable) {
+                    Log.e("UserService.kt", "getProfile() $t")
+                    userView.getProfileFailure(400)
+                }
+            })
+    }
+
+    fun updateAccessToken(refreshToken: HashMap<String, String>, userIdx: Int) {
+        val updateAccessTokenRetrofit = retrofitWithoutAccessToken.create(UserRetrofitInterface::class.java)
+        updateAccessTokenRetrofit
+            .updateAccessToken(refreshToken, userIdx)
+            .enqueue(object : Callback<UpdateAccessTokenResponse> {
+                override fun onResponse(
+                    call: Call<UpdateAccessTokenResponse>,
+                    response: Response<UpdateAccessTokenResponse>
+                ) {
+                    Log.d("UserService.kt", "updateAccessToken()")
+                    val body = response.body()!!
+                    when (body.code) {
+                        1000 -> {
+                            saveUserIdx(body.result!!.userIdx)
+                            saveAccessToken(body.result.accessToken)
+                            saveRefreshToken(body.result.refreshToken)
+                            userView.updateAccessTokenSuccess()
+                        }
+                        else -> userView.updateAccessTokenFailure(body.code)
+                    }
+                }
+                override fun onFailure(call: Call<UpdateAccessTokenResponse>, t: Throwable) {
+                    Log.e("UserService.kt", "updateAccessToken() $t")
+                    userView.updateAccessTokenFailure(400)
+                }
+            })
     }
 }

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -37,6 +36,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         binding.mainContentRecordBtnTv.setOnClickListener(this)
         binding.mainLeftNavigationView.setNavigationItemSelectedListener(this)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getTripCount()
     }
 
     private fun initView() {
@@ -130,7 +134,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     "여행 발자국을 남겨보세요.", "확인", R.drawable.img_home_notice)
         }
         else {
-            val recentTripIdx = getTripIdx(this)
+            val recentTripIdx = getTripIdx()
             showRecentTripcourse(recentTripIdx)
         }
     }

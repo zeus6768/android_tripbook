@@ -34,6 +34,7 @@ class TripcourseViewFragment : BaseFragment() , TripResponseView {
         val tripIdx : String? = bundle!!.getString("tripIdx")
         getTrip(tripIdx.toString())
 
+        initView()
         initRecyclerView()
 
         return binding.root
@@ -51,6 +52,10 @@ class TripcourseViewFragment : BaseFragment() , TripResponseView {
                 startTripcourseRecordViewActivity(card)
             }
         })
+    }
+
+    private fun initView() {
+        binding.tripcourseViewTitlebarPeriodTv
     }
 
     private fun getTrip(tripIdx : String){
