@@ -12,7 +12,7 @@ data class GetProfileResult (
     val userIdx: Int,
     val nickName: String,
     val userImg: String,
-    val comment: String,
+    val comment: String?,
     val createAt: String,
     val updateAt: String,
     val status: String,
