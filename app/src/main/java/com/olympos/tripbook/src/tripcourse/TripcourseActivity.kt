@@ -208,7 +208,7 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
         //postCard(card)
 
 //        cardRVAdapter.addCard(card)
-//        cardRVAdapter.notifyItemInserted(cardRVAdapter.itemCount - 1)
+        cardRVAdapter.notifyItemInserted(cardRVAdapter.itemCount - 1)
 
         Log.d("tripCards_numCards", tripCards.size.toString())
         Log.d("RVCardAdapter_numCards", cardRVAdapter.itemCount.toString())
