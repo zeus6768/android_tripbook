@@ -48,6 +48,7 @@
                     android:scheme="@string/kakao_native_key"/>
             </intent-filter>
         </activity>
+        <activity android:name="com.olympos.tripbook.src.tripcourse_view.TripcourseRecordViewActivity"/>
 
 <!--        구글 맵 임시 API Key -> 프로젝트 전체적인 키로 변경 필요-->
         <meta-data

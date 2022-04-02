@@ -6,7 +6,12 @@ import retrofit2.http.Path
 
 interface ViewRetrofitInterface {
 
-    @GET("/app/trip/{tripIdx}/courses")
-    fun getTrip(@Path("tripIdx") tripIdx : String) : Call<GetTripResponse>
+    @GET("/app/trip/{userIdx}/{tripIdx}/courses")
+    fun getTrip(@Path("userIdx") userIdx : Int, @Path("tripIdx") tripIdx: Int) : Call<GetTripResponse>
 
+    @GET("/app/trip/latest/{userIdx}")
+    fun getRecentTrip(@Path("userIdx") userIdx : Int) : Call<GetRecentTripResponse>
+
+    @GET("/app/trip/latest/{userIdx}/courses")
+    fun getRecentTripCards(@Path("userIdx") userIdx: Int) : Call<GetRecentTripCardsResponse>
 }
