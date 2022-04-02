@@ -82,10 +82,9 @@ class SplashActivity : AppCompatActivity(), UserView {
         },1500)
     }
 
-
     override fun autoSigninSuccess() {
         Log.d("SplashActivity.kt", "autoSigninSuccess()")
-        Log.d("SplashActivity.kt", " \nselectActivity()" +
+        Log.d("SplashActivity.kt", " \nautoSigninSuccess()" +
                 "\nAT: " + getAccessToken() +
                 "\nRT: " + getRefreshToken() +
                 "\nKAT: " + getKakaoAccessToken() +
