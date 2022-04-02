@@ -51,6 +51,7 @@ class SplashActivity : AppCompatActivity(), UserView {
     }
 
     private fun selectActivity() {
+        Log.d("SplashActivity.kt", "selectActivity()")
         val accessToken = getAccessToken()
         if (accessToken != null) {
             userService.autoSignin()

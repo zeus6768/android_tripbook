@@ -50,6 +50,9 @@ class SigninActivity : BaseActivity(), UserView{
                     if (user!!.kakaoAccount?.emailNeedsAgreement == true) {
                         requireEmailNeedsAgreement()
                     } else {
+                        Log.d("SigninActivity", " \nKAT: ${token.accessToken}" +
+                                "\nKRT: ${token.refreshToken}")
+
                         saveNickname(user.kakaoAccount!!.profile!!.nickname!!)
                         saveKakaoAccessToken(token.accessToken)
                         saveKakaoRefreshToken(token.refreshToken)
