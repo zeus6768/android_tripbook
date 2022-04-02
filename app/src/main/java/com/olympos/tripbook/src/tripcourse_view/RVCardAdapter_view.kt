@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseFillBinding
 import com.olympos.tripbook.src.tripcourse.model.Card
+import com.olympos.tripbook.src.tripcourse_view.model.filledCards
+import com.olympos.tripbook.src.tripcourse_view.model.focusedCardPosition
 
-class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RVCardAdapter_view(context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     /*---------- 인터페이스 ----------*/
 
@@ -19,10 +21,8 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
 
     /*---------- 전역 변수 ----------*/
 
-    //인터페이스 구현
     private lateinit var cardClickListener: CardClickListener
 
-    private var cards = ArrayList<Card>()
     private val mContext = context
 
     /*---------- 내부 클래스(뷰 홀더) ----------*/
@@ -41,7 +41,7 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
     /*---------- 오버라이딩 함수 ----------*/
 
     override fun getItemViewType(position: Int): Int {
-        return cards[position].hasData
+        return filledCards[focusedCardPosition].hasData
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -57,25 +57,18 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         holder.itemView.setOnClickListener { //카드 클릭시 이동
-            cardClickListener.onItemClick(cards[position])
+            focusedCardPosition = position
+            cardClickListener.onItemClick(filledCards[focusedCardPosition])
         }
 
-        (holder as FillCardViewHolder).bind(cards[position])
+        (holder as FillCardViewHolder).bind(filledCards[focusedCardPosition])
     }
 
-    override fun getItemCount() : Int = cards.size
+    override fun getItemCount() : Int = filledCards.size
 
     /*---------- 추가 함수 ----------*/
 
     fun setItemClickListener(itemClickListener : CardClickListener) {
         cardClickListener = itemClickListener
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun setCards(cards : ArrayList<Card>) {
-        this.cards.clear()
-        this.cards.addAll(cards)
-
-        notifyDataSetChanged()
     }
 }
