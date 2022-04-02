@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -45,8 +46,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun initView() {
         getTripCount()
-        binding.mainUserNameTv.text = getNickname(this) + "님의 추억"
-        binding.mainLeftNavigationView.findViewById<TextView>(R.id.main_drawer_header_name_tv).text = getNickname(this) + "님"
+        binding.mainUserNameTv.text = getNickname() + "님의 추억"
+        binding.mainLeftNavigationView.findViewById<TextView>(R.id.main_drawer_header_name_tv).text = getNickname() + "님"
     }
 
     //
