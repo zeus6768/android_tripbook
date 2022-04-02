@@ -2,6 +2,7 @@ package com.olympos.tripbook.src.tripcourse.model
 
 import android.util.Log
 import com.olympos.tripbook.utils.ApplicationClass.Companion.retrofit
+import com.olympos.tripbook.utils.getUserIdx
 import retrofit2.*
 
 class CardService{
@@ -24,12 +25,13 @@ class CardService{
 
     //카드 서버로 전송
     fun postCard(card : Card){
-
         Log.d("CheckPoint : ", "CardService-postCard Activated")
         postCardView.onPostCardLoading()
 
+        val userIdx = getUserIdx()
+
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
-        cardRetrofitService.postCard(card).enqueue(object : Callback<PostCardResponse> {
+        cardRetrofitService.postCard(userIdx, card).enqueue(object : Callback<PostCardResponse> {
             override fun onResponse(call: Call<PostCardResponse>, response: Response<PostCardResponse>){
                 if (response.isSuccessful) {
                     val res = response.body()!!
@@ -57,9 +59,10 @@ class CardService{
     fun getTripcourses(tripIdx : String){
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
 
+        val userIdx = getUserIdx()
         cardsView.onGetCardsLoading()
 
-        cardRetrofitService.getTripcourses(tripIdx).enqueue(object : Callback<GetTripcourseResponse> {
+        cardRetrofitService.getTripcourses(userIdx, tripIdx).enqueue(object : Callback<GetTripcourseResponse> {
             override fun onResponse(call: Call<GetTripcourseResponse>, response: Response<GetTripcourseResponse>) {
                 Log.d("들어오는지 확인", "CardService-getTrip-onResponse")
                 if (response.isSuccessful) {
@@ -85,8 +88,11 @@ class CardService{
         })
     }
 
-    fun deleteCard(userIdx : String, courseIdx : String) {
+    fun deleteCard(courseIdx : String) {
         Log.d("CheckPoint : ", "CardService-deleteCard Activated")
+
+        val userIdx = getUserIdx()
+
         serverView.onServerLoading()
 
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)

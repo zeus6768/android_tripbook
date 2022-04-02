@@ -158,11 +158,8 @@ class TripActivity : BaseActivity(), TripPostProcess {
     private fun postTrip(trip: Trip) {
         val tripService = TripService()
         tripService.setProcess(this)
-
         tripService.postTrip(trip)
     }
-
-
 
     override fun onPostTripLoading() {
         binding.tripLoadingPb.visibility = View.VISIBLE
@@ -200,5 +197,6 @@ class TripActivity : BaseActivity(), TripPostProcess {
 
         Log.d("__tripData__ trip", tripData)
         Log.d("userIdx Check", trip.userIdx)
+        finish()
     }
 }
