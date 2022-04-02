@@ -1,7 +1,9 @@
 package com.olympos.tripbook.src.tripcourse_view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,17 +11,16 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.gson.Gson
 import com.olympos.tripbook.config.BaseFragment
-import com.olympos.tripbook.databinding.FragmentHomeBinding
 import com.olympos.tripbook.databinding.FragmentTripcourseViewBinding
+import com.olympos.tripbook.src.tripcourse.TRUE
 import com.olympos.tripbook.src.tripcourse.model.Card
-import com.olympos.tripbook.src.tripcourse_view.model.TripResponseView
-import com.olympos.tripbook.src.tripcourse_view.model.ViewService
+import com.olympos.tripbook.src.tripcourse_view.model.*
 
 class TripcourseViewFragment : BaseFragment() , TripResponseView {
 
     lateinit var binding: FragmentTripcourseViewBinding
 
-    private lateinit var cardRVAdapter : RVCardAdapter
+    private lateinit var cardRVAdapterView : RVCardAdapter_view
     private val gson = Gson()
 
     override fun onCreateView(
@@ -41,13 +42,13 @@ class TripcourseViewFragment : BaseFragment() , TripResponseView {
     }
 
     private fun initRecyclerView() {
-        cardRVAdapter = RVCardAdapter(requireContext())
-        binding.tripcourseViewRecyclerview.adapter = cardRVAdapter
+        cardRVAdapterView = RVCardAdapter_view(requireContext())
+        binding.tripcourseViewRecyclerview.adapter = cardRVAdapterView
 
         binding.tripcourseViewRecyclerview.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
         binding.tripcourseViewRecyclerview.addItemDecoration(RVCardViewAdapterDecoration())
 
-        cardRVAdapter.setItemClickListener(object : RVCardAdapter.CardClickListener{
+        cardRVAdapterView.setItemClickListener(object : RVCardAdapter_view.CardClickListener{
             override fun onItemClick(card: Card) {
                 startTripcourseRecordViewActivity(card)
             }
@@ -66,8 +67,6 @@ class TripcourseViewFragment : BaseFragment() , TripResponseView {
 
     private fun startTripcourseRecordViewActivity(card : Card) {
         val intent = Intent(requireContext(), TripcourseRecordViewActivity::class.java)
-        val cardData = gson.toJson(card)
-        intent.putExtra("card", cardData)
         startActivity(intent)
     }
 
@@ -75,9 +74,19 @@ class TripcourseViewFragment : BaseFragment() , TripResponseView {
         //todo 로딩바 생성
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onGetCardsSuccess(cards: ArrayList<Card>) {
         //todo 로딩바 제거
-        cardRVAdapter.setCards(cards)
+        Log.d("ServerTripCards", cards.toString())
+        serverTripCards.clear()
+        serverTripCards.addAll(cards)
+        for(i in 0..serverTripCards.size) {
+            if(serverTripCards[i].hasData == TRUE) {
+                filledCards.add(serverTripCards[i])
+            }
+        }
+        Log.d("filledCards", filledCards.toString())
+        cardRVAdapterView.notifyDataSetChanged()
     }
 
     override fun onGetCardsFailure(code: Int, message: String) {
