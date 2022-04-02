@@ -105,6 +105,10 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
                 //firebase storage에 이미지를 업로드
                 uploadImage(uri)
 
+                if(binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
+                    Toast.makeText(this.applicationContext, "제목을 입력해주세요", Toast.LENGTH_SHORT).show()
+                    return
+                }
                 //입력받은 정보를 tripCards[focusedCardPosition]에 담기
                 getInputInfo()
                 finish()
@@ -128,26 +132,20 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
 
     private fun getInputInfo() {
         //필수요소 : 제목
-        if(binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
-            Toast.makeText(this.applicationContext, "제목을 입력해주세요", Toast.LENGTH_SHORT).show()
-//        } else if (binding.tripcourseRecordBodyEt.text.toString().isEmpty()) {
-//            Toast.makeText(this.applicationContext, "내용을 입력해주세요", Toast.LENGTH_SHORT).show()
-        } else {
-            tripCards[focusedCardPosition].hasData = TRUE
+        tripCards[focusedCardPosition].hasData = TRUE
 
-            //사진 저장(Uri)
-            tripCards[focusedCardPosition].coverImg = uri.toString()
-            //제목 저장
-            tripCards[focusedCardPosition].title = binding.tripcourseRecordTitleEt.text.toString()
-            //body 저장
-            tripCards[focusedCardPosition].body = binding.tripcourseRecordBodyEt.text.toString()
+        //사진 저장(Uri)
+        tripCards[focusedCardPosition].coverImg = uri.toString()
+        //제목 저장
+        tripCards[focusedCardPosition].title = binding.tripcourseRecordTitleEt.text.toString()
+        //body 저장
+        tripCards[focusedCardPosition].body = binding.tripcourseRecordBodyEt.text.toString()
 
-            //아직 구현이 안된 더미 데이터들
-            tripCards[focusedCardPosition].date = "0000-00-00"
-            tripCards[focusedCardPosition].time = 2
+        //아직 구현이 안된 더미 데이터들
+        tripCards[focusedCardPosition].date = "0000-00-00"
+        tripCards[focusedCardPosition].time = 2
 
-            //아직까진 다시 TripcourseActivity로 보내진 않고 서버로 바로 카드를 보냄
-        }
+        //아직까진 다시 TripcourseActivity로 보내진 않고 서버로 바로 카드를 보냄
     }
 
     private fun startTripcourseSelectCountryActivity() {

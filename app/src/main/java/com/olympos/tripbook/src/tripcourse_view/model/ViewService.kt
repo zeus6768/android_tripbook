@@ -29,9 +29,9 @@ class ViewService {
     }
 
     //여행 가져오기
-    fun getTrip(tripIdx : String){
+    fun getTrip(tripIdx : Int){
 
-        val userIdx = getUserIdx().toString()
+        val userIdx = getUserIdx()
         val cardRetrofitService = ApplicationClass.retrofit.create(ViewRetrofitInterface::class.java)
 
         tripResponseView.onGetCardsLoading()
@@ -63,14 +63,15 @@ class ViewService {
     }
 
     fun getRecentTrip(){
-        val userIdx = getUserIdx().toString()
+        Log.d("WhereIsProblem", "getRecentTrip")
+        val userIdx = getUserIdx()
         val cardRetrofitService = ApplicationClass.retrofit.create(ViewRetrofitInterface::class.java)
 
         recentTripResponseView.onGetRecentTripLoading()
 
         cardRetrofitService.getRecentTrip(userIdx).enqueue(object : Callback<GetRecentTripResponse> {
             override fun onResponse(call: Call<GetRecentTripResponse>, response: Response<GetRecentTripResponse>) {
-                Log.d("들어오는지 확인", "CardService-getTrip-onResponse")
+                Log.d("들어오는지 확인", "ViewService-getRecentTrip-onResponse")
                 if (response.isSuccessful) {
                     val res = response.body()!!
                     Log.d("__res", response.body()!!.toString())
@@ -88,22 +89,23 @@ class ViewService {
                 }
             }
             override fun onFailure(call: Call<GetRecentTripResponse>, t: Throwable) {
-                Log.d("들어오는지 확인", "CardService-getTrip-onFailure")
+                Log.d("들어오는지 확인", "ViewService-getRecentTrip-onFailure")
                 recentTripResponseView.onGetRecentTripFailure(400, t.message.toString())
             }
         })
     }
 
-    fun getRecentTripCards(tripIdx : String){
+    fun getRecentTripCards(){
+        Log.d("WhereIsProblem", "getRecentTripCards")
 
-        val userIdx = getUserIdx().toString()
+        val userIdx = getUserIdx()
         val cardRetrofitService = ApplicationClass.retrofit.create(ViewRetrofitInterface::class.java)
 
         recentTripCardsResponseView.onGetRecentTripCardsLoading()
 
         cardRetrofitService.getRecentTripCards(userIdx).enqueue(object : Callback<GetRecentTripCardsResponse> {
             override fun onResponse(call: Call<GetRecentTripCardsResponse>, response: Response<GetRecentTripCardsResponse>) {
-                Log.d("들어오는지 확인", "CardService-getTrip-onResponse")
+                Log.d("들어오는지 확인", "ViewService-getRecentTripCards-onResponse")
                 if (response.isSuccessful) {
                     val res = response.body()!!
                     Log.d("__res", response.body()!!.toString())
@@ -121,7 +123,7 @@ class ViewService {
                 }
             }
             override fun onFailure(call: Call<GetRecentTripCardsResponse>, t: Throwable) {
-                Log.d("들어오는지 확인", "CardService-getTrip-onFailure")
+                Log.d("들어오는지 확인", "ViewService-getRecentTripCards-onFailure")
                 recentTripCardsResponseView.onGetRecentTripCardsFailure(400, t.message.toString())
             }
         })
