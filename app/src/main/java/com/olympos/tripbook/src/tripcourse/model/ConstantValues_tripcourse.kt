@@ -12,4 +12,4 @@ const val TRUE = 1
 
 val tripCards = ArrayList<Card>()
 
-var focusedCardPosition : Int = -1
+var focusedCardPosition : Int = 0

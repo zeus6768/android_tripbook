@@ -31,7 +31,6 @@ import com.olympos.tripbook.utils.*
 class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
 
     lateinit var binding : ActivityTripcourseBinding
-    private var gson : Gson = Gson()
     private var tripData = Trip()
 
     private lateinit var cardRVAdapter : RVCardAdapter
@@ -48,7 +47,6 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
 
         initView()
         initRecyclerView()
-
         addDefaultCard()
     }
 
@@ -57,45 +55,6 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
         super.onResume()
         initRecyclerView()
         cardRVAdapter.notifyDataSetChanged()
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        //initRecyclerView()
-        //getTripcourses(tripIdx.toString())
-    }
-
-    private fun addDefaultCard() {
-        addCard()
-        addCard()
-        addCard()
-    }
-
-    private fun startTripcourseRecordActivity(card: Card) {
-        val intent = Intent(this@TripcourseActivity, TripcourseRecordActivity::class.java)
-
-        //if (card.hasData == TRUE) { //데이터가 있는 경우
-        val cardData = gson.toJson(card)
-        intent.putExtra("card", cardData)
-        //}
-
-//        intent.putExtra("cardIdx", card.idx)
-//        intent.putExtra("tripIdx", card.tripIdx)
-
-        startActivity(intent)
-    }
-
-    //여행 삭제하기 context menu
-    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo? ) {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.context_menu_tripcourse_delete_trip, menu)
-//        super.onCreateContextMenu(menu, v, menuInfo)
-        showDialog("", "", "")
-    }
-    //여행 삭제하기 context menu
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-        //다이어로그 뜨기
-        return super.onContextItemSelected(item)
     }
 
     override fun onOKClicked() {
@@ -147,25 +106,20 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
         registerForContextMenu(binding.tripcourseTitlebarLayout)
     }
 
-    //종료된 액티비티에서 정보 받아오기 : TripcourseRecord -> card Data
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//    }
-
-    private fun startMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-    }
-
     @SuppressLint("NotifyDataSetChanged")
     override fun onClick(v: View?) {
         super.onClick(v)
         when(v!!.id) {
-            R.id.topbar_back_ib -> //상단바 - 뒤로가기 버튼 - 현재 액티비티 종료
-                showDialog("발자국 작성 취소", "발자국 작성을 취소하시겠습니까?\n"
-                        + "작성중인 정보는 저장되지 않습니다.", "확인")
+            R.id.topbar_back_ib -> { //상단바 - 뒤로가기 버튼 - 현재 액티비티 종료
+                showDialog(
+                    "발자국 작성 취소", "발자국 작성을 취소하시겠습니까?\n"
+                            + "작성중인 정보는 저장되지 않습니다.", "확인"
+                )
+                //todo trip삭제
+            }
             R.id.topbar_subbutton_ib -> { //상단바 - 체크 버튼 - 저장
                 //todo 모든 카드 서버로 업로드
+                uploadCards()
                 //cardRVAdapter.onRemoveEmptyCard()
                 tripCards.clear()
                 finish()
@@ -174,6 +128,20 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
                 addCard()
             }
         }
+    }
+
+    //여행 삭제하기 context menu
+    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo? ) {
+        val inflater = menuInflater
+        //inflater.inflate(R.menu.context_menu_tripcourse_delete_trip, menu)
+//        super.onCreateContextMenu(menu, v, menuInfo)
+        showDialog("여행 삭제", "지금까지 작성한 여행기록과 여행을 삭제합니다.\n기록은 저장되지 않습니다. 삭제하시겠습니까?", "확인")
+    }
+
+    //여행 삭제하기 context menu
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        //다이어로그 뜨기
+        return super.onContextItemSelected(item)
     }
 
     private fun initRecyclerView() {
@@ -189,11 +157,21 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
         })
     }
 
-    private fun getTripcourses(tripIdx : String) {
-        val cardService = CardService()
-        cardService.setCardsView(this)
-        Log.d("Check tripIdx", tripIdx)
-        cardService.getTripcourses(tripIdx)
+    private fun startMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun startTripcourseRecordActivity(card: Card) {
+        val intent = Intent(this@TripcourseActivity, TripcourseRecordActivity::class.java)
+
+        startActivity(intent)
+    }
+
+    private fun addDefaultCard() {
+        addCard()
+        addCard()
+        addCard()
     }
 
     private fun addCard() {
@@ -205,14 +183,31 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
         cardIdx++
 
         tripCards.add(card)
-        //postCard(card)
 
-//        cardRVAdapter.addCard(card)
-//        cardRVAdapter.notifyItemInserted(cardRVAdapter.itemCount - 1)
+        cardRVAdapter.notifyItemInserted(cardRVAdapter.itemCount - 1)
 
-        Log.d("tripCards_numCards", tripCards.size.toString())
-        Log.d("RVCardAdapter_numCards", cardRVAdapter.itemCount.toString())
+        Log.d("Tripcourse_numCards", "tripCards : ${tripCards.size}, RVCardAdapter : ${cardRVAdapter.itemCount}")
     }
+
+    private fun getTrip(): Trip {
+        if(intent.hasExtra("tripData")) {
+
+            val gson = Gson()
+            val json = intent.getStringExtra("tripData")
+            val tripData = gson.fromJson(json, Trip::class.java)
+
+            return tripData
+        }
+        return tripData
+    }
+
+    private fun uploadCards() {
+        for(i in 0..tripCards.size) {
+            postCard(tripCards[i])
+        }
+    }
+
+    /*---------------------서버 통신 부분------------------*/
 
     private fun postCard(card : Card) {
         val cardService = CardService()
@@ -221,29 +216,6 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
 
         cardService.postCard(card)
         //return cardService.postCard(card)
-    }
-
-    //서버에서 tripcourse의 카드들을 가져오는 View
-    override fun onGetCardsLoading() {
-        binding.tripcourseLoadingPb.visibility = View.VISIBLE
-    }
-
-    override fun onGetCardsSuccess(cards: ArrayList<Card>) {
-        binding.tripcourseLoadingPb.visibility = View.GONE
-
-        //임시로 돌아가게 하는 코드 -> 서버에서 hasData를 저장하지 않는 문제를 해결하고자 함
-        for(i in 0..cards.size-1) {
-            if(cards[i].title != "제목을 입력해주세요") {
-                cards[i].hasData = TRUE
-            }
-        }
-
-        tripCards.addAll(cards)
-    }
-
-    override fun onGetCardsFailure(code: Int, message: String) { //통신 실패 View
-        binding.tripcourseLoadingPb.visibility = View.GONE
-        Toast.makeText(this, "$code : $message", Toast.LENGTH_LONG).show()
     }
 
     //서버에 카드 보내는 중 View
@@ -265,15 +237,33 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
         Toast.makeText(this, "$code : $message", Toast.LENGTH_LONG).show()
     }
 
-    private fun getTrip(): Trip {
-        if(intent.hasExtra("tripData")) {
 
-            val gson = Gson()
-            val json = intent.getStringExtra("tripData")
-            val tripData = gson.fromJson(json, Trip::class.java)
+    private fun getTripcourses(tripIdx : String) {
+        val cardService = CardService()
+        cardService.setCardsView(this)
+        Log.d("Check tripIdx", tripIdx)
+        cardService.getTripcourses(tripIdx)
+    }
 
-            return tripData
+    //서버에서 tripcourse의 카드들을 가져오는 View
+    override fun onGetCardsLoading() {
+        binding.tripcourseLoadingPb.visibility = View.VISIBLE
+    }
+
+    override fun onGetCardsSuccess(cards: ArrayList<Card>) {
+        binding.tripcourseLoadingPb.visibility = View.GONE
+
+        //임시로 돌아가게 하는 코드 -> 서버에서 가져온 카드 중 내용이 있는 애들만 보임
+        for(i in 0..cards.size-1) {
+            if(cards[i].title != "제목을 입력해주세요") {
+                cards[i].hasData = TRUE
+            }
         }
-        return tripData
+        tripCards.addAll(cards)
+    }
+
+    override fun onGetCardsFailure(code: Int, message: String) { //통신 실패 View
+        binding.tripcourseLoadingPb.visibility = View.GONE
+        Toast.makeText(this, "$code : $message", Toast.LENGTH_LONG).show()
     }
 }
