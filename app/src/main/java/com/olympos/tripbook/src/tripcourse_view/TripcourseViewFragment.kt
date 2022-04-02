@@ -21,7 +21,6 @@ class TripcourseViewFragment : BaseFragment() , TripResponseView {
     lateinit var binding: FragmentTripcourseViewBinding
 
     private lateinit var cardRVAdapterView : RVCardAdapter_view
-    private val gson = Gson()
 
     override fun onCreateView(
         inflater: LayoutInflater,

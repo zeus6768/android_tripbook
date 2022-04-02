@@ -202,7 +202,7 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
     }
 
     private fun uploadCards() {
-        for(i in 0..tripCards.size) {
+        for(i in 0 until tripCards.size) {
             postCard(tripCards[i])
         }
     }
