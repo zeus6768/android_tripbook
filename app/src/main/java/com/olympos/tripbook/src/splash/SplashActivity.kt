@@ -51,7 +51,13 @@ class SplashActivity : AppCompatActivity(), UserView {
     }
 
     private fun selectActivity() {
-        Log.d("SplashActivity.kt", "selectActivity()")
+        Log.d("SplashActivity.kt", " \nselectActivity()" +
+                "\nuserIdx: " + getUserIdx() +
+                "\nAT: " + getAccessToken() +
+                "\nRT: " + getRefreshToken() +
+                "\nKAT: " + getKakaoAccessToken() +
+                "\nKRT: " + getKakaoRefreshToken()
+        )
         val accessToken = getAccessToken()
         if (accessToken != null) {
             userService.autoSignin()
@@ -79,8 +85,12 @@ class SplashActivity : AppCompatActivity(), UserView {
 
     override fun autoSigninSuccess() {
         Log.d("SplashActivity.kt", "autoSigninSuccess()")
-        Log.d("SplashActivity.kt", " \nAT: " + getAccessToken())
-
+        Log.d("SplashActivity.kt", " \nselectActivity()" +
+                "\nAT: " + getAccessToken() +
+                "\nRT: " + getRefreshToken() +
+                "\nKAT: " + getKakaoAccessToken() +
+                "\nKRT: " + getKakaoRefreshToken()
+        )
         val kakaoAccessToken = getKakaoAccessToken()
         if (kakaoAccessToken != null) {
             val token = HashMap<String, String>()

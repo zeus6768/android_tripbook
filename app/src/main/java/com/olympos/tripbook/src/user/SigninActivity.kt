@@ -50,9 +50,6 @@ class SigninActivity : BaseActivity(), UserView{
                     if (user!!.kakaoAccount?.emailNeedsAgreement == true) {
                         requireEmailNeedsAgreement()
                     } else {
-                        Log.d("SigninActivity", " \nKAT: ${token.accessToken}" +
-                                "\nKRT: ${token.refreshToken}")
-
                         saveNickname(user.kakaoAccount!!.profile!!.nickname!!)
                         saveKakaoAccessToken(token.accessToken)
                         saveKakaoRefreshToken(token.refreshToken)
@@ -109,9 +106,12 @@ class SigninActivity : BaseActivity(), UserView{
     }
 
     override fun autoSigninSuccess() {
-        Log.d("SigninActivity.kt", "autoSigninSuccess()")
-        val accessToken = getAccessToken()
-        Log.d("SigninActivity.kt", " \nAT: $accessToken")
+        Log.d("SigninActivity.kt", " \nautoSigninSuccess()" +
+                "\nAT: " + getAccessToken() +
+                "\nRT: " + getRefreshToken() +
+                "\nKAT: " + getKakaoAccessToken() +
+                "\nKRT: " + getKakaoRefreshToken()
+        )
         startMainActivity()
     }
 
