@@ -26,11 +26,11 @@ import com.olympos.tripbook.utils.getUserIdx
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.DialogClickListener {
+class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickListener {
 
     lateinit var binding: ActivityTripcourseRecordBinding
     private var gson : Gson = Gson()
-    private var card: Card = Card() //채울 카드
+    //private var card: Card = Card() //채울 카드
     //    private val dateSelectDialog = DateSelectDialog(this)
 
     lateinit var uri : Uri //사진 uri 전역변수
@@ -48,35 +48,19 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
         initView()
     }
 
-    //종료된 액티비티에서 정보 받아오기
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when(resultCode) {
-            COUNTRY_ACTIVITY_CODE -> { //SelectCountryActivity에서 장소 정보 가져오기
-//                card.country = data?.getStringExtra("country_result")!!
-//                binding.tripcourseRecordSelectCountryBtn.text = card.country
-            }
-            HASHTAG_ACTIVITY_CODE -> { //SelectHashtagActivity에서 해시태그 정보 가져오기
-                //해시태그 저장
-            }
-        }
-    }
-
     private fun initView() {
         //상단바
         binding.tripcourseRecordTopbarLayout.topbarTitleTv.setText(R.string.tripcourse_record_title)
         binding.tripcourseRecordTopbarLayout.topbarSubbuttonIb.setImageResource(R.drawable.btn_base_check_black)
         binding.tripcourseRecordTopbarLayout.topbarSubtitleTv.visibility = View.GONE
 
-        if(intent.hasExtra("card")) {
-            card = gson.fromJson(intent.getStringExtra("card"), card::class.java)
-            if(card.hasData == TRUE) {
-                binding.tripcourseRecordBodyEt.hint = card.body
-                binding.tripcourseRecordTitleEt.hint = card.title
-                binding.tripcourseRecordSelectDateBtn.text = card.date
-                Glide.with(this.applicationContext).load(card.coverImg).into(binding.tripcourseRecordImgIv)
-                //binding.tripcourseRecordSelectCountryBtn.text = card.country
-            }
+        if(tripCards[focusedCardPosition].hasData == TRUE) {
+            binding.tripcourseRecordBodyEt.hint = tripCards[focusedCardPosition].body
+            binding.tripcourseRecordTitleEt.hint = tripCards[focusedCardPosition].title
+            binding.tripcourseRecordSelectDateBtn.text = tripCards[focusedCardPosition].date
+            binding.tripcourseRecordImgTv.visibility = View.GONE
+            Glide.with(this.applicationContext).load(tripCards[focusedCardPosition].coverImg).into(binding.tripcourseRecordImgIv)
+            //binding.tripcourseRecordSelectCountryBtn.text = card.country
         }
 
         //body : 내용 최대 200자 이벤트 처리
@@ -116,17 +100,14 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
 
         when (v!!.id) {
             R.id.topbar_back_ib ->
-                showDialog("안내","발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 임시저장됩니다.", "확인")
+                showDialog("발자국 작성 취소","발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 사라집니다.", "확인")
             R.id.topbar_subbutton_ib -> {
                 //firebase storage에 이미지를 업로드
                 uploadImage(uri)
-                //todo 저장완료
 
-                //입력받은 정보를 Card에 담기
+                //입력받은 정보를 tripCards[focusedCardPosition]에 담기
                 getInputInfo()
-
-                //서버에 Card의 수정된 정보를 전송
-                patchInfo(card)
+                finish()
             }
             R.id.tripcourse_record_img_cl ->
                 photoSelect()
@@ -145,21 +126,41 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
         }
     }
 
-    private fun showDateDialog(title: String, okMessage: String) {
-        val dig = DateSelectDialog(this)
-        dig.listener = this
-        dig.show(title, okMessage)
+    private fun getInputInfo() {
+        //필수요소 : 제목
+        if(binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
+            Toast.makeText(this.applicationContext, "제목을 입력해주세요", Toast.LENGTH_SHORT).show()
+//        } else if (binding.tripcourseRecordBodyEt.text.toString().isEmpty()) {
+//            Toast.makeText(this.applicationContext, "내용을 입력해주세요", Toast.LENGTH_SHORT).show()
+        } else {
+            tripCards[focusedCardPosition].hasData = TRUE
 
+            //사진 저장(Uri)
+            tripCards[focusedCardPosition].coverImg = uri.toString()
+            //제목 저장
+            tripCards[focusedCardPosition].title = binding.tripcourseRecordTitleEt.text.toString()
+            //body 저장
+            tripCards[focusedCardPosition].body = binding.tripcourseRecordBodyEt.text.toString()
+
+            //아직 구현이 안된 더미 데이터들
+            tripCards[focusedCardPosition].date = "0000-00-00"
+            tripCards[focusedCardPosition].time = 2
+
+            //아직까진 다시 TripcourseActivity로 보내진 않고 서버로 바로 카드를 보냄
+        }
     }
 
-    override fun onDateOKClicked(selectedYear: Int, selectedMonth: Int, selectedDay: Int) {
-        binding.tripcourseRecordSelectDateBtn.text = String.format("%d년 %d월 %d일", selectedYear, selectedMonth, selectedDay)
+    private fun startTripcourseSelectCountryActivity() {
+        val intent = Intent(this, TripcourseSelectCountryActivity::class.java)
+        startActivity(intent)
     }
 
-    override fun onDateCancelClicked() {
-
+    private fun startTripcourseSelectHashtagActivity() {
+        val intent = Intent(this, TripcourseSelectHashtagActivity::class.java)
+        startActivity(intent)
     }
 
+    //상단바 - 뒤로가기 버튼 -> 종료(저장 x)
     override fun onOKClicked() {
         super.onOKClicked()
         finish()
@@ -173,6 +174,21 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
         } else {
             Toast.makeText(this, "접근 권한 거부", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun showDateDialog(title: String, okMessage: String) {
+        val dig = DateSelectDialog(this)
+        dig.listener = this
+        dig.show(title, okMessage)
+
+    }
+
+    override fun onDateOKClicked(selectedYear: Int, selectedMonth: Int, selectedDay: Int) {
+        binding.tripcourseRecordSelectDateBtn.text = String.format("%d년 %d월 %d일", selectedYear, selectedMonth, selectedDay)
+    }
+
+    override fun onDateCancelClicked() {
+
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -194,86 +210,5 @@ class TripcourseRecordActivity : BaseActivity(), ServerView, DateSelectDialog.Di
             println(it)
             Toast.makeText(this, "실패", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun startTripcourseSelectCountryActivity() {
-        val intent = Intent(this, TripcourseSelectCountryActivity::class.java)
-        startActivity(intent)
-    }
-
-    private fun startTripcourseSelectHashtagActivity() {
-        val intent = Intent(this, TripcourseSelectHashtagActivity::class.java)
-        startActivity(intent)
-    }
-
-    private fun getInputInfo() {
-        //필수요소 : 제목, 내용
-        if(binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
-            Toast.makeText(this.applicationContext, "제목을 입력해주세요", Toast.LENGTH_SHORT).show()
-        } else if (binding.tripcourseRecordBodyEt.text.toString().isEmpty()) {
-            Toast.makeText(this.applicationContext, "내용을 입력해주세요", Toast.LENGTH_SHORT).show()
-        } else {
-            card.hasData = TRUE
-
-            //사진 저장(Uri)
-            card.coverImg = uri.toString()
-            //제목 저장
-            card.title = binding.tripcourseRecordTitleEt.text.toString()
-            //body 저장
-            card.body = binding.tripcourseRecordBodyEt.text.toString()
-
-            //아직 구현이 안된 더미 데이터들
-            card.date = "0000-00-00"
-            card.time = 2
-
-            //아직까진 다시 TripcourseActivity로 보내진 않고 서버로 바로 카드를 보냄
-//            val intent = Intent(this@TripcourseRecordActivity, TripcourseRecordActivity::class.java)
-//            val cardData = gson.toJson(card)
-//            intent.putExtra("cardInputResult", cardData)
-//
-//            setResult(COUNTRY_ACTIVITY_CODE, intent)
-        }
-    }
-
-    //Retrofit
-//    private fun postCard(card : Card) {
-//        val cardService = CardService()
-//        cardService.setServerView(this)
-//        cardService.postCard(card)
-//    }
-
-    private fun patchInfo(card : Card) {
-        val cardService = CardService()
-        cardService.setServerView(this)
-
-        Log.d("Last check before patch", card.toString())
-
-        //사진 저장(Uri)
-        cardService.patchImg(getUserIdx().toString(), card.courseIdx.toString(), card.coverImg)
-
-        //제목 저장
-        cardService.patchTitle(getUserIdx().toString(), card.courseIdx.toString(), card.title)
-
-        //body 저장
-        cardService.patchBody(getUserIdx().toString(), card.courseIdx.toString(), card.body)
-
-        //아직 구현이 안된 더미 데이터들
-        //card.date = "0000-00-00"
-        //card.time = 2
-    }
-
-    override fun onServerLoading() {
-        binding.tripcourseRecordLoadingPb.visibility = View.GONE
-    }
-
-    override fun onServerSuccess() {
-        binding.tripcourseRecordLoadingPb.visibility = View.VISIBLE
-        Toast.makeText(this, "서버에 카드 전송 완료", Toast.LENGTH_SHORT).show()
-        finish() //셋중 하나만 성공해도 종료됨 수정 필요
-    }
-
-    override fun onServerFailure(code: Int, message: String) {
-        binding.tripcourseRecordLoadingPb.visibility = View.VISIBLE
-        Toast.makeText(this, "서버 전송 실패. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
     }
 }

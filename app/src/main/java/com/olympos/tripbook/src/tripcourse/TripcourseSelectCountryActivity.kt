@@ -136,16 +136,5 @@ class TripcourseSelectCountryActivity : BaseActivity(), OnMapReadyCallback {
                 16F
             )
         ) //넓게 보고 싶으면 숫자를 내리고, 올리고 싶다면 숫자를 높이면 됨
-
-        // 맵 터치 이벤트 구현 //
-//        mMap.setOnMapClickListener { point ->
-//            val mOptions = MarkerOptions()
-//            mOptions.title("마커 좌표")      // 마커 타이틀
-//            val latitude = point.latitude       // 위도
-//            val longitude = point.longitude     // 경도
-//            mOptions.snippet("$latitude, $longitude")   // 마커의 스니펫(간단한 텍스트) 설정
-//            mOptions.position(LatLng(latitude, longitude))     // LatLng: 위도 경도 쌍을 나타냄
-//            googleMap.addMarker(mOptions)       // 마커(핀) 추가
-//        }
     }
 }
