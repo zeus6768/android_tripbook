@@ -1,5 +1,6 @@
 package com.olympos.tripbook.src.tripcourse_view
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
@@ -29,14 +30,17 @@ class TripcourseRecordViewActivity : BaseActivity() {
         binding.tripcourseRecordViewTopbarLayout.topbarSubbuttonIb.setImageResource(R.drawable.btn_base_check_black)
         binding.tripcourseRecordViewTopbarLayout.topbarSubtitleTv.visibility = View.GONE
 
-        binding.tripcourseRecordViewBodyTv.hint = filledCards[focusedCardPosition].body
-        binding.tripcourseRecordViewTitleTv.hint = filledCards[focusedCardPosition].title
-        binding.tripcourseRecordViewSelectDateBtn.text = filledCards[focusedCardPosition].date
-        Glide.with(this.applicationContext).load(filledCards[focusedCardPosition].coverImg).into(binding.tripcourseRecordImgIv)
+        val gson = Gson()
+        val card = gson.fromJson(intent.getStringExtra("card"), Card::class.java)
 
-        binding.tripcourseRecordViewBodyTv.text = filledCards[focusedCardPosition].body
-        binding.tripcourseRecordViewTitleTv.text = filledCards[focusedCardPosition].title
-        binding.tripcourseRecordViewSelectDateBtn.text = filledCards[focusedCardPosition].date
+        binding.tripcourseRecordViewBodyTv.hint = card.body
+        binding.tripcourseRecordViewTitleTv.hint = card.title
+        binding.tripcourseRecordViewSelectDateBtn.text = card.date
+        Glide.with(this.applicationContext).load(card.coverImg).into(binding.tripcourseRecordImgIv)
+
+        binding.tripcourseRecordViewBodyTv.text = card.body
+        binding.tripcourseRecordViewTitleTv.text = card.title
+        binding.tripcourseRecordViewSelectDateBtn.text = card.date
 
         binding.tripcourseRecordViewTopbarLayout.topbarBackIb.setOnClickListener(this)
     }

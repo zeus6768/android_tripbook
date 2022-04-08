@@ -10,7 +10,7 @@ import com.olympos.tripbook.src.tripcourse.model.Card
 import com.olympos.tripbook.src.tripcourse_view.model.filledCards
 import com.olympos.tripbook.src.tripcourse_view.model.focusedCardPosition
 
-class RVCardAdapter_view(context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RVCardAdapter_view(context : Context) : RecyclerView.Adapter<RVCardAdapter_view.FillCardViewHolder>() {
 
     /*---------- 인터페이스 ----------*/
 
@@ -40,11 +40,9 @@ class RVCardAdapter_view(context : Context) : RecyclerView.Adapter<RecyclerView.
 
     /*---------- 오버라이딩 함수 ----------*/
 
-    override fun getItemViewType(position: Int): Int {
-        return filledCards[focusedCardPosition].hasData
-    }
+    override fun getItemViewType(position: Int): Int = filledCards.size
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RVCardAdapter_view.FillCardViewHolder {
         //to use at View Holder
         val binding : ItemTripcourseCardBaseFillBinding //Create ItemView Object
                 = ItemTripcourseCardBaseFillBinding
@@ -54,14 +52,13 @@ class RVCardAdapter_view(context : Context) : RecyclerView.Adapter<RecyclerView.
     }
 
     //binding data and ViewHolder
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
+    override fun onBindViewHolder(holder: FillCardViewHolder, position: Int) {
         holder.itemView.setOnClickListener { //카드 클릭시 이동
             focusedCardPosition = position
-            cardClickListener.onItemClick(filledCards[focusedCardPosition])
+            cardClickListener.onItemClick(filledCards[position])
         }
 
-        (holder as FillCardViewHolder).bind(filledCards[focusedCardPosition])
+        (holder as FillCardViewHolder).bind(filledCards[position])
     }
 
     override fun getItemCount() : Int = filledCards.size
