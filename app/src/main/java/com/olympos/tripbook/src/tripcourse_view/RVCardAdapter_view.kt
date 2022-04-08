@@ -2,13 +2,14 @@ package com.olympos.tripbook.src.tripcourse_view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseFillBinding
 import com.olympos.tripbook.src.tripcourse.model.Card
 import com.olympos.tripbook.src.tripcourse_view.model.filledCards
-import com.olympos.tripbook.src.tripcourse_view.model.focusedCardPosition
+import com.olympos.tripbook.src.tripcourse_view.model.focusedViewCardPosition
 
 class RVCardAdapter_view(context : Context) : RecyclerView.Adapter<RVCardAdapter_view.FillCardViewHolder>() {
 
@@ -16,7 +17,7 @@ class RVCardAdapter_view(context : Context) : RecyclerView.Adapter<RVCardAdapter
 
     //인터페이스 선언 -> 사용하려면 다시 객채 생성해야 함
     interface CardClickListener{
-        fun onItemClick(card : Card)            //아이템 클릭 이벤트 인터페이스
+        fun onItemClick()            //아이템 클릭 이벤트 인터페이스
     }
 
     /*---------- 전역 변수 ----------*/
@@ -54,8 +55,9 @@ class RVCardAdapter_view(context : Context) : RecyclerView.Adapter<RVCardAdapter
     //binding data and ViewHolder
     override fun onBindViewHolder(holder: FillCardViewHolder, position: Int) {
         holder.itemView.setOnClickListener { //카드 클릭시 이동
-            focusedCardPosition = position
-            cardClickListener.onItemClick(filledCards[position])
+            focusedViewCardPosition = position
+            Log.d("show position", "position : $position,, focusedCardPosition : $focusedViewCardPosition")
+            cardClickListener.onItemClick()
         }
 
         (holder as FillCardViewHolder).bind(filledCards[position])

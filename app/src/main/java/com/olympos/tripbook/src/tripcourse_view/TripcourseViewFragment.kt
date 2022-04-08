@@ -56,8 +56,8 @@ class TripcourseViewFragment : BaseFragment() , RecentTripResponseView, RecentTr
         binding.tripcourseViewRecyclerview.addItemDecoration(RVCardViewAdapterDecoration())
 
         cardRVAdapterView.setItemClickListener(object : RVCardAdapter_view.CardClickListener{
-            override fun onItemClick(card: Card) {
-                startTripcourseRecordViewActivity(card)
+            override fun onItemClick() {
+                startTripcourseRecordViewActivity()
             }
         })
     }
@@ -84,11 +84,8 @@ class TripcourseViewFragment : BaseFragment() , RecentTripResponseView, RecentTr
         viewService.getRecentTripCards()
     }
 
-    private fun startTripcourseRecordViewActivity(card : Card) {
-        val intent = Intent(requireContext(), TripcourseRecordViewActivity::class.java)
-        val gson = Gson()
-        val cardData = gson.toJson(card)
-        intent.putExtra("card", cardData)
+    private fun startTripcourseRecordViewActivity() {
+        val intent = Intent(activity, TripcourseRecordViewActivity::class.java)
         startActivity(intent)
     }
 
