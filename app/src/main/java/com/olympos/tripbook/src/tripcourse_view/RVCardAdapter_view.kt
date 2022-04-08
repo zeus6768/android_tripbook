@@ -2,21 +2,22 @@ package com.olympos.tripbook.src.tripcourse_view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseFillBinding
 import com.olympos.tripbook.src.tripcourse.model.Card
 import com.olympos.tripbook.src.tripcourse_view.model.filledCards
-import com.olympos.tripbook.src.tripcourse_view.model.focusedCardPosition
+import com.olympos.tripbook.src.tripcourse_view.model.focusedViewCardPosition
 
-class RVCardAdapter_view(context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RVCardAdapter_view(context : Context) : RecyclerView.Adapter<RVCardAdapter_view.FillCardViewHolder>() {
 
     /*---------- 인터페이스 ----------*/
 
     //인터페이스 선언 -> 사용하려면 다시 객채 생성해야 함
     interface CardClickListener{
-        fun onItemClick(card : Card)            //아이템 클릭 이벤트 인터페이스
+        fun onItemClick()            //아이템 클릭 이벤트 인터페이스
     }
 
     /*---------- 전역 변수 ----------*/
@@ -40,11 +41,9 @@ class RVCardAdapter_view(context : Context) : RecyclerView.Adapter<RecyclerView.
 
     /*---------- 오버라이딩 함수 ----------*/
 
-    override fun getItemViewType(position: Int): Int {
-        return filledCards[focusedCardPosition].hasData
-    }
+    override fun getItemViewType(position: Int): Int = filledCards.size
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RVCardAdapter_view.FillCardViewHolder {
         //to use at View Holder
         val binding : ItemTripcourseCardBaseFillBinding //Create ItemView Object
                 = ItemTripcourseCardBaseFillBinding
@@ -54,14 +53,14 @@ class RVCardAdapter_view(context : Context) : RecyclerView.Adapter<RecyclerView.
     }
 
     //binding data and ViewHolder
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
+    override fun onBindViewHolder(holder: FillCardViewHolder, position: Int) {
         holder.itemView.setOnClickListener { //카드 클릭시 이동
-            focusedCardPosition = position
-            cardClickListener.onItemClick(filledCards[focusedCardPosition])
+            focusedViewCardPosition = position
+            Log.d("show position", "position : $position,, focusedCardPosition : $focusedViewCardPosition")
+            cardClickListener.onItemClick()
         }
 
-        (holder as FillCardViewHolder).bind(filledCards[focusedCardPosition])
+        (holder as FillCardViewHolder).bind(filledCards[position])
     }
 
     override fun getItemCount() : Int = filledCards.size
