@@ -8,8 +8,13 @@ interface CardRetrofitInterface {
     fun postCard(@Path("userIdx")userIdx : Int, @Body card : Card): Call<PostCardResponse>
     //Gson 객체로 바꿔서 서버로 보내는 어노테이션 : @Body
 
-//    @GET("/app/course/:courseIdx")
-//    fun getCard() : Call<GetCardResponse>
+    @PATCH("/app/course/tripImg/{userIdx}/{tripIdx}")
+    fun patchTripImg(@Path("userIdx") userIdx : Int, @Path("tripIdx") tripIdx: Int, @Body params : HashMap<String, Any>) : Call<ServerDefaultResponse>
+
+    @PATCH("/app/trip/deleteTrip/{userIdx}/{tripIdx}")
+    fun deleteTrip(@Path("userIdx") userIdx : Int, @Path("tripIdx") tripIdx: Int) : Call<ServerDefaultResponse>
+
+
 
     @PATCH("/app/course/deleteCourse/{userIdx}/{courseIdx}")
     fun deleteCard(@Path("userIdx") userIdx : Int, @Path("courseIdx") courseIdx :String) : Call<ServerDefaultResponse>

@@ -6,7 +6,7 @@ import com.olympos.tripbook.src.tripcourse.model.Card
 var recentTrip = Trip()
 var recentTripCards = ArrayList<Card>()
 
-var focusedCardPosition : Int = 0
+var focusedViewCardPosition : Int = 0
 
 val filledCards = ArrayList<Card>()
 

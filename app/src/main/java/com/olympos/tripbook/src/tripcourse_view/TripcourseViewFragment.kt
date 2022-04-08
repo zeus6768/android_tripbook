@@ -56,8 +56,8 @@ class TripcourseViewFragment : BaseFragment() , RecentTripResponseView, RecentTr
         binding.tripcourseViewRecyclerview.addItemDecoration(RVCardViewAdapterDecoration())
 
         cardRVAdapterView.setItemClickListener(object : RVCardAdapter_view.CardClickListener{
-            override fun onItemClick(card: Card) {
-                startTripcourseRecordViewActivity(card)
+            override fun onItemClick() {
+                startTripcourseRecordViewActivity()
             }
         })
     }
@@ -84,8 +84,8 @@ class TripcourseViewFragment : BaseFragment() , RecentTripResponseView, RecentTr
         viewService.getRecentTripCards()
     }
 
-    private fun startTripcourseRecordViewActivity(card : Card) {
-        val intent = Intent(requireContext(), TripcourseRecordViewActivity::class.java)
+    private fun startTripcourseRecordViewActivity() {
+        val intent = Intent(activity, TripcourseRecordViewActivity::class.java)
         startActivity(intent)
     }
 
@@ -132,7 +132,7 @@ class TripcourseViewFragment : BaseFragment() , RecentTripResponseView, RecentTr
         serverTripCards.clear()
         serverTripCards.addAll(cards)
         for(i in 0 until serverTripCards.size) {
-            if(!serverTripCards[i].title.equals("NONE")) {
+            if(serverTripCards[i].title != "NONE") {
                 Log.d("What's Happen in Here?", "i : $i, serverTripCards[i] = "+ serverTripCards[i].toString())
                 filledCards.add(serverTripCards[i])
             }
