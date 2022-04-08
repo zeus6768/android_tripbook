@@ -115,7 +115,10 @@ class SplashActivity : AppCompatActivity(), UserView {
                     startSigninActivity()
                 }
             }
-            3007 -> startSigninActivity()
+            3007 -> {
+                startSigninActivity()
+                Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
+            }
             else -> {
                 Log.e("SplashActivity.kt", "autoSigninFailure() Unexpected status code $code")
                 Toast.makeText(this@SplashActivity, "로그인 에러", Toast.LENGTH_SHORT).show()
@@ -234,11 +237,13 @@ class SplashActivity : AppCompatActivity(), UserView {
         val userImg = getUserImage()
         Log.d("SplashActivity.kt", "getProfileSuccess()")
         Log.d("SplashActivity.kt", "nickname: $nickname, userImg: $userImg")
+        userService.autoSignin()
     }
 
     override fun getProfileFailure(code: Int) {
         Log.e("SplashActivity.kt", "getProfileFailure() status code $code")
         Toast.makeText(this, "프로필 업데이트에 실패했습니다.", Toast.LENGTH_SHORT).show()
+        startSigninActivity()
     }
 
     override fun updateAccessTokenSuccess() {
@@ -254,7 +259,7 @@ class SplashActivity : AppCompatActivity(), UserView {
     override fun updateAccessTokenFailure(code: Int) {
         Log.e("SplashActivity.kt", "updateAccessTokenFailure() status code $code")
         when (code) {
-            1505 -> {
+            1505, 1509 -> {
                 val kakaoAccessToken = getKakaoAccessToken()
                 val kakaoRefreshToken = getKakaoRefreshToken()
                 if (kakaoAccessToken != null && kakaoRefreshToken != null) {
