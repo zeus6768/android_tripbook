@@ -40,6 +40,8 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
         val thisContext = context
         override fun onOKClicked() {
             // todo 카드의 courseIdx 받아와서 deleteCard(courseIdx)
+            notifyItemRemoved(focusedCardPosition)
+            tripCards.removeAt(focusedCardPosition)
         }
         override fun onCancelClicked() {
 
