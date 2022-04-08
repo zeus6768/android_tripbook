@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.olympos.tripbook.R
@@ -41,6 +42,7 @@ class TripcourseRecordViewActivity : BaseActivity() {
         binding.tripcourseRecordViewTitleTv.text = filledCards[focusedViewCardPosition].title
         binding.tripcourseRecordViewSelectDateBtn.text = filledCards[focusedViewCardPosition].date
 
+        binding.tripcourseRecordViewTopbarLayout.topbarSubbuttonIb.setOnClickListener(this)
         binding.tripcourseRecordViewTopbarLayout.topbarBackIb.setOnClickListener(this)
     }
 
@@ -48,6 +50,10 @@ class TripcourseRecordViewActivity : BaseActivity() {
         super.onClick(v)
         when(v!!.id) {
             R.id.topbar_back_ib -> finish()
+            R.id.topbar_subbutton_ib -> {
+                //todo 카드 수정페이지
+                Toast.makeText(this, "카드 수정페이지로 이동하도록 연결", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
