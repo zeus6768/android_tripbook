@@ -11,6 +11,11 @@ interface CardRetrofitInterface {
     @PATCH("/app/course/tripImg/{userIdx}/{tripIdx}")
     fun patchTripImg(@Path("userIdx") userIdx : Int, @Path("tripIdx") tripIdx: Int, @Body params : HashMap<String, Any>) : Call<ServerDefaultResponse>
 
+    @PATCH("/app/trip/deleteTrip/{userIdx}/{tripIdx}")
+    fun deleteTrip(@Path("userIdx") userIdx : Int, @Path("tripIdx") tripIdx: Int) : Call<ServerDefaultResponse>
+
+
+
     @PATCH("/app/course/deleteCourse/{userIdx}/{courseIdx}")
     fun deleteCard(@Path("userIdx") userIdx : Int, @Path("courseIdx") courseIdx :String) : Call<ServerDefaultResponse>
 

@@ -59,7 +59,7 @@ class TripcourseActivity : BaseActivity(), PostCardView, ServerView {
 
     override fun onOKClicked() {
         super.onOKClicked()
-        //todo 현재 여행 삭제
+        deleteTrip(tripIdx)
         startMainActivity()
     }
 
@@ -117,13 +117,10 @@ class TripcourseActivity : BaseActivity(), PostCardView, ServerView {
                     "발자국 작성 취소", "발자국 작성을 취소하시겠습니까?\n"
                             + "작성중인 정보는 저장되지 않습니다.", "확인"
                 )
-                //todo trip삭제
             }
             R.id.topbar_subbutton_ib -> { //상단바 - 체크 버튼 - 저장
-
                 uploadCards()
                 uploadTripImg()
-                //cardRVAdapter.onRemoveEmptyCard()
                 tripCards.clear()
                 finish()
             }
@@ -146,7 +143,7 @@ class TripcourseActivity : BaseActivity(), PostCardView, ServerView {
 
         cardRVAdapter.setItemClickListener(object : RVCardAdapter.CardClickListener {
             override fun onItemClick(card: Card) {
-                startTripcourseRecordActivity(card)
+                startTripcourseRecordActivity()
             }
         })
     }
@@ -156,9 +153,8 @@ class TripcourseActivity : BaseActivity(), PostCardView, ServerView {
         startActivity(intent)
     }
 
-    private fun startTripcourseRecordActivity(card: Card) {
+    private fun startTripcourseRecordActivity() {
         val intent = Intent(this@TripcourseActivity, TripcourseRecordActivity::class.java)
-
         startActivity(intent)
     }
 
@@ -215,11 +211,20 @@ class TripcourseActivity : BaseActivity(), PostCardView, ServerView {
 
     private fun uploadTripImg() {
         val tripImg = tripCards[0].coverImg
+        //대표 tripImg 변경 추가
         val cardService = CardService()
         cardService.setServerView(this)
-        Log.d("Check card Data", card.toString())
+        Log.d("Check Trip Img", tripImg)
 
         cardService.patchTripImg(tripIdx, tripImg)
+    }
+
+    private fun deleteTrip(tripIdx: Int) {
+        val cardService = CardService()
+        cardService.setServerView(this)
+        Log.d("deleteTrip", "Check tripIdx : ${tripIdx.toString()}")
+
+        cardService.deleteTrip(tripIdx)
     }
 
     override fun onServerLoading() {
