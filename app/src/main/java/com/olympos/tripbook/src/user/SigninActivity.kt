@@ -107,6 +107,7 @@ class SigninActivity : BaseActivity(), UserView{
 
     override fun autoSigninSuccess() {
         Log.d("SigninActivity.kt", " \nautoSigninSuccess()" +
+                "\nuserIdx: " + getUserIdx() +
                 "\nAT: " + getAccessToken() +
                 "\nRT: " + getRefreshToken() +
                 "\nKAT: " + getKakaoAccessToken() +
@@ -235,7 +236,6 @@ class SigninActivity : BaseActivity(), UserView{
         val userImg = getUserImage()
         Log.d("SigninActivity.kt", "getProfileSuccess()")
         Log.d("SigninActivity.kt", "nickname: $nickname, userImg: $userImg")
-        userService.autoSignin()
     }
 
     override fun getProfileFailure(code: Int) {

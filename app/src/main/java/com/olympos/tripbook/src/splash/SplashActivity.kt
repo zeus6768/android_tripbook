@@ -85,6 +85,7 @@ class SplashActivity : AppCompatActivity(), UserView {
     override fun autoSigninSuccess() {
         Log.d("SplashActivity.kt", "autoSigninSuccess()")
         Log.d("SplashActivity.kt", " \nautoSigninSuccess()" +
+                "\nuserIdx: " + getUserIdx() +
                 "\nAT: " + getAccessToken() +
                 "\nRT: " + getRefreshToken() +
                 "\nKAT: " + getKakaoAccessToken() +
@@ -237,7 +238,6 @@ class SplashActivity : AppCompatActivity(), UserView {
         val userImg = getUserImage()
         Log.d("SplashActivity.kt", "getProfileSuccess()")
         Log.d("SplashActivity.kt", "nickname: $nickname, userImg: $userImg")
-        userService.autoSignin()
     }
 
     override fun getProfileFailure(code: Int) {
