@@ -86,6 +86,9 @@ class TripcourseViewFragment : BaseFragment() , RecentTripResponseView, RecentTr
 
     private fun startTripcourseRecordViewActivity(card : Card) {
         val intent = Intent(requireContext(), TripcourseRecordViewActivity::class.java)
+        val gson = Gson()
+        val cardData = gson.toJson(card)
+        intent.putExtra("card", cardData)
         startActivity(intent)
     }
 
@@ -132,7 +135,7 @@ class TripcourseViewFragment : BaseFragment() , RecentTripResponseView, RecentTr
         serverTripCards.clear()
         serverTripCards.addAll(cards)
         for(i in 0 until serverTripCards.size) {
-            if(!serverTripCards[i].title.equals("NONE")) {
+            if(serverTripCards[i].title != "NONE") {
                 Log.d("What's Happen in Here?", "i : $i, serverTripCards[i] = "+ serverTripCards[i].toString())
                 filledCards.add(serverTripCards[i])
             }

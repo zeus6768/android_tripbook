@@ -82,11 +82,15 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
             //baseDialog.show("여행 카드 삭제", "여행 카드를 삭제하시겠습니까?\n 삭제한 카드는 복구되지 않습니다.", "삭제하기")
             //DialogClass(mContext).showDialog("여행 카드 삭제", "여행 카드를 삭제하시겠습니까?\n 삭제한 카드는 복구되지 않습니다.", "삭제하기")
 
+            focusedCardPosition = adapterPosition
+
+            val dialog = DialogClass(mContext)
+            dialog.showDialog("카드 삭제", "카드를 삭제하시겠습니까?\n삭제된 카드는 저장되지 않습니다.", "확인")
             //val edit : MenuItem? = menu?.add(Menu.NONE, 1001, 1, "편집")
-            val delete : MenuItem? = menu?.add(Menu.NONE, 1002, 2, "삭제")
+            //val delete : MenuItem? = menu?.add(Menu.NONE, 1002, 2, "삭제")
 
             //edit?.setOnMenuItemClickListener(onEditMenu)
-            delete?.setOnMenuItemClickListener(onEditMenu)
+            //delete?.setOnMenuItemClickListener(onEditMenu)
         }
 
         private val onEditMenu : MenuItem.OnMenuItemClickListener = object : MenuItem.OnMenuItemClickListener {
