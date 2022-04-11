@@ -1,6 +1,8 @@
 package com.olympos.tripbook.src.tripcourse
 
+import android.net.Uri
 import com.olympos.tripbook.src.tripcourse.model.Card
+import java.net.URI
 
 //Activity - start at 1
 const val COUNTRY_ACTIVITY_CODE = 11
@@ -13,3 +15,4 @@ const val TRUE = 1
 val tripCards = ArrayList<Card>()
 
 var focusedCardPosition : Int = 0
+

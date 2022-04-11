@@ -4,20 +4,24 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityMainBinding
 import com.olympos.tripbook.src.home.model.HomeGetProcess
 import com.olympos.tripbook.src.home.model.HomeService
+import com.olympos.tripbook.src.splash.SplashActivity
 import com.olympos.tripbook.src.trip.TripActivity
 import com.olympos.tripbook.src.tripcourse_view.TripcourseViewFragment
-import com.olympos.tripbook.utils.getNickname
-import com.olympos.tripbook.utils.getTripIdx
+import com.olympos.tripbook.utils.*
+
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, HomeGetProcess {
     private lateinit var binding: ActivityMainBinding
@@ -26,16 +30,16 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         initView()
-
 //        initViewpager()
-
-        binding.mainDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED) //스와이프 비활성화
 
         //click 리스너
         binding.homeLeftDrawerBtn.setOnClickListener(this)
         binding.mainContentRecordBtnTv.setOnClickListener(this)
         binding.mainLeftNavigationView.setNavigationItemSelectedListener(this)
+
+        binding.mainDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED) //스와이프 비활성화
 
     }
 
@@ -47,7 +51,17 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private fun initView() {
         getTripCount()
         binding.mainUserNameTv.text = getNickname() + "님의 추억"
-        binding.mainLeftNavigationView.findViewById<TextView>(R.id.main_drawer_header_name_tv).text = getNickname() + "님"
+
+        //navigation view
+        val navigationView = findViewById<View>(R.id.main_left_navigation_view) as NavigationView
+        val headerView = navigationView.getHeaderView(0)
+        val navUserName = headerView.findViewById<View>(R.id.main_drawer_header_name_tv) as TextView
+        val navUserImg = headerView.findViewById<View>(R.id.main_drawer_header_profile_iv) as ImageView
+        val navUserLogout = headerView.findViewById<View>(R.id.main_drawer_header_logout_tv) as TextView
+        navUserName.text = getNickname() + "님"
+        Glide.with(this).load(getUserImage()).circleCrop().into(navUserImg)
+
+        navUserLogout.setOnClickListener(this)
     }
 
     //
@@ -77,15 +91,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             //여행 기록하기
             R.id.main_content_record_btn_tv ->
                 startTripActivity()
+            
+            //로그아웃
+            R.id.main_drawer_header_logout_tv ->
+                userLogout()
         }
     }
-
-//    //toolbar 메뉴 생성(add items to the action bar if it is present)
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        menuInflater.inflate(R.menu.activity_main_left_drawer, menu)
-////        menuInflater.inflate(R.menu.activity_main_right_drawer, menu)
-//        return true
-//    }
 
     //navigation item 별 actions
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -107,6 +118,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         startActivity(intent)
     }
 
+    private fun startSplashActivity() {
+        val intent = Intent(this, SplashActivity::class.java)
+        startActivity(intent)
+    }
+
     override fun onOKClicked() {
         super.onOKClicked()
         //반짝이는 효과
@@ -118,6 +134,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         homeService.setProcess(this)
 
         homeService.getTripCount()
+    }
+
+    private fun userLogout() {
+        logout()
+        startSplashActivity()
     }
 
     override fun onGetHomeLoading() {

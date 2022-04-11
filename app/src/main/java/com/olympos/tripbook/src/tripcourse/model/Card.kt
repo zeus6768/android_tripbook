@@ -12,7 +12,7 @@ data class Card (
 
     var hasData : Int = FALSE, //서버에 안올라감
 
-    @SerializedName("courseImg") var coverImg : String = "NONE",
+    @SerializedName("courseImg") var imgUrl : String = "NONE",
     @SerializedName("courseDate") var date : String = "날짜를 선택해주세요",
     @SerializedName("courseTime") var time : Int = 2,
     @SerializedName("courseTitle") var title : String = "제목을 입력해주세요",

@@ -2,15 +2,18 @@ package com.olympos.tripbook.src.tripcourse
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.coordinatorlayout.widget.CoordinatorLayout.Behavior.getTag
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.Gson
 import com.kakao.sdk.common.util.Utility
 import com.olympos.tripbook.R
@@ -27,6 +30,9 @@ import com.olympos.tripbook.src.tripcourse.model.CardService
 import com.olympos.tripbook.src.tripcourse.model.CardsView
 import com.olympos.tripbook.src.tripcourse.model.ServerView
 import com.olympos.tripbook.utils.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
 
@@ -118,7 +124,6 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
                 //todo trip삭제
             }
             R.id.topbar_subbutton_ib -> { //상단바 - 체크 버튼 - 저장
-                //todo 모든 카드 서버로 업로드
                 uploadCards()
                 //cardRVAdapter.onRemoveEmptyCard()
                 tripCards.clear()
@@ -202,7 +207,7 @@ class TripcourseActivity : BaseActivity(), CardsView, PostCardView {
     }
 
     private fun uploadCards() {
-        for(i in 0..tripCards.size) {
+        for(i in 0 until tripCards.size-1) {
             postCard(tripCards[i])
         }
     }
