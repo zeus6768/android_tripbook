@@ -22,7 +22,6 @@ import com.olympos.tripbook.databinding.ActivityTripcourseRecordBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickListener {
 
     lateinit var binding: ActivityTripcourseRecordBinding
@@ -49,7 +48,7 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
         binding.tripcourseRecordTopbarLayout.topbarSubbuttonIb.setImageResource(R.drawable.btn_base_check_black)
         binding.tripcourseRecordTopbarLayout.topbarSubtitleTv.visibility = View.GONE
 
-        if (tripCards[focusedCardPosition].hasData == TRUE) {
+        if(tripCards[focusedCardPosition].hasData == TRUE) {
             binding.tripcourseRecordBodyEt.hint = tripCards[focusedCardPosition].body
             binding.tripcourseRecordTitleEt.hint = tripCards[focusedCardPosition].title
             binding.tripcourseRecordSelectDateBtn.text = tripCards[focusedCardPosition].date
@@ -127,27 +126,21 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
 
     private fun getInputInfo() {
         //필수요소 : 제목
-        if (binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
-            Toast.makeText(this.applicationContext, "제목을 입력해주세요", Toast.LENGTH_SHORT).show()
-//        } else if (binding.tripcourseRecordBodyEt.text.toString().isEmpty()) {
-//            Toast.makeText(this.applicationContext, "내용을 입력해주세요", Toast.LENGTH_SHORT).show()
-        } else {
-            tripCards[focusedCardPosition].hasData = TRUE
+        tripCards[focusedCardPosition].hasData = TRUE
 
-            //사진 저장(Uri)
-            tripCards[focusedCardPosition].imgUrl = uri.toString()
-            //제목 저장
-            tripCards[focusedCardPosition].title = binding.tripcourseRecordTitleEt.text.toString()
-            //body 저장
-            tripCards[focusedCardPosition].body = binding.tripcourseRecordBodyEt.text.toString()
-            //날짜 저장
-            tripCards[focusedCardPosition].date = tripDate
+        //사진 저장(Uri)
+        tripCards[focusedCardPosition].imgUrl = uri.toString()
+        //제목 저장
+        tripCards[focusedCardPosition].title = binding.tripcourseRecordTitleEt.text.toString()
+        //body 저장
+        tripCards[focusedCardPosition].body = binding.tripcourseRecordBodyEt.text.toString()
+        //날짜 저장
+        tripCards[focusedCardPosition].date = tripDate
 
-            //아직 구현이 안된 더미 데이터들
-            tripCards[focusedCardPosition].time = 2
+        //아직 구현이 안된 더미 데이터들
+        tripCards[focusedCardPosition].time = 2
 
-            //아직까진 다시 TripcourseActivity로 보내진 않고 서버로 바로 카드를 보냄
-        }
+        //아직까진 다시 TripcourseActivity로 보내진 않고 서버로 바로 카드를 보냄
     }
 
     private fun startTripcourseSelectCountryActivity() {

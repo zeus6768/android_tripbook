@@ -21,15 +21,6 @@ import java.util.*
 
 class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ServerView {
 
-    /*---------- 인터페이스 ----------*/
-
-    //인터페이스 선언 -> 사용하려면 다시 객채 생성해야 함
-    interface CardClickListener{
-        fun onItemClick(card : Card)            //아이템 클릭 이벤트 인터페이스
-//        fun addCard(card : Card)                       //카드 추가를 위한 인터페이스
-//        fun onRemoveCard(position : Int)      //카드 제거를 위한 인터페이스
-    }
-
     /*---------- 전역 변수 ----------*/
 
     //인터페이스 구현
@@ -37,12 +28,18 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
 
     private val mContext = context
 
-//    private var baseDialog = BaseDialog(context)
+    /*---------- 인터페이스 ----------*/
+
+    interface CardClickListener{
+        fun onItemClick(card : Card)            //아이템 클릭 이벤트 인터페이스
+    }
 
     inner class DialogClass(context: Context) : BaseDialog.BaseDialogClickListener {
         val thisContext = context
         override fun onOKClicked() {
             // todo 카드의 courseIdx 받아와서 deleteCard(courseIdx)
+            notifyItemRemoved(focusedCardPosition)
+            tripCards.removeAt(focusedCardPosition)
         }
         override fun onCancelClicked() {
 
@@ -81,15 +78,10 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
-            //Log.d("asdf", "ASDFASDF")
-            //baseDialog.show("여행 카드 삭제", "여행 카드를 삭제하시겠습니까?\n 삭제한 카드는 복구되지 않습니다.", "삭제하기")
-            //DialogClass(mContext).showDialog("여행 카드 삭제", "여행 카드를 삭제하시겠습니까?\n 삭제한 카드는 복구되지 않습니다.", "삭제하기")
+            focusedCardPosition = adapterPosition
 
-            //val edit : MenuItem? = menu?.add(Menu.NONE, 1001, 1, "편집")
-            val delete : MenuItem? = menu?.add(Menu.NONE, 1002, 2, "삭제")
-
-            //edit?.setOnMenuItemClickListener(onEditMenu)
-            delete?.setOnMenuItemClickListener(onEditMenu)
+            val dialog = DialogClass(mContext)
+            dialog.showDialog("카드 삭제", "카드를 삭제하시겠습니까?\n삭제된 카드는 저장되지 않습니다.", "확인")
         }
 
         private val onEditMenu : MenuItem.OnMenuItemClickListener = object : MenuItem.OnMenuItemClickListener {
@@ -106,7 +98,6 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
             }
         }
     }
-
 
     /*---------- 오버라이딩 함수 ----------*/
 
@@ -164,37 +155,14 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
         cardClickListener = itemClickListener
     }
 
-//    fun deleteCard(courseIdx : Int) {
-//        val cardservice = CardService()
-//        cardservice.setServerView(this)
-//        cardservice.deleteCard(getUserIdx().toString(), courseIdx.toString())
-//    }
-
-//    @SuppressLint("NotifyDataSetChanged")
-//    fun setCards(cards : ArrayList<Card>) {
-//        this.cards.clear()
-//        this.cards.addAll(cards)
-//
-//        notifyDataSetChanged()
-//    }
-
-    fun addCard(card : Card) {
-        tripCards.add(card)
-
-        notifyItemInserted(itemCount-1)
-    }
-
     @SuppressLint("NotifyDataSetChanged")
     private fun onRemoveCard(position: Int){
 //        deleteImage(Uri.parse(tripCards[focusedCardPosition].imgUrl)) //firebase 이미지 삭제
-        //deleteCard(cards[position].courseIdx)
         notifyItemRemoved(position) // 얘 작동하는지 확인
         tripCards.removeAt(position)
-        //notifyItemRemoved(position) // 얘 문제임 아마 이미 지워진 애를 지워졌다고 알려서 그런게 아닐까 추측함
-        //ex) 3번 사라짐(124 남음) 근데 3번 사라졌다고 알림(4번 지목함) -> 자세히는 나도 모름
-        //notifyDataSetChanged()
     }
 
+//    빈 카드를 삭제하는 함수
 //    fun onRemoveEmptyCard() {
 //        var i = 0
 //        var deleteList = ArrayList<Int>()
@@ -204,7 +172,6 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
 //            }
 //        }
 //        if(!deleteList.isEmpty()) {
-//            //todo deleteList에 있는 카드들의 courseIdx를 가지고 서버에서 삭제
 //            for(i in 0..deleteList.size-1) {
 //                deleteCard(deleteList[i])
 //            }

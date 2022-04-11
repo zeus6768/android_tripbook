@@ -15,7 +15,7 @@ data class Card (
     @SerializedName("courseImg") var imgUrl : String = "NONE",
     @SerializedName("courseDate") var date : String = "날짜를 선택해주세요",
     @SerializedName("courseTime") var time : Int = 2,
-    @SerializedName("courseTitle") var title : String = "제목을 입력해주세요",
+    @SerializedName("courseTitle") var title : String = "NONE",
     @SerializedName("courseComment")var body : String = "내용이 없습니다.",
 
     @SerializedName("latitude") var latitude : String? = null,
