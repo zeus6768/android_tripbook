@@ -106,9 +106,13 @@ class SigninActivity : BaseActivity(), UserView{
     }
 
     override fun autoSigninSuccess() {
-        Log.d("SigninActivity.kt", "autoSigninSuccess()")
-        val accessToken = getAccessToken()
-        Log.d("SigninActivity.kt", " \nAT: $accessToken")
+        Log.d("SigninActivity.kt", " \nautoSigninSuccess()" +
+                "\nuserIdx: " + getUserIdx() +
+                "\nAT: " + getAccessToken() +
+                "\nRT: " + getRefreshToken() +
+                "\nKAT: " + getKakaoAccessToken() +
+                "\nKRT: " + getKakaoRefreshToken()
+        )
         startMainActivity()
     }
 
@@ -143,12 +147,13 @@ class SigninActivity : BaseActivity(), UserView{
 
     override fun signUpProfileSuccess() {
         Log.d("SigninActivity.kt", "signUpProfileSuccess()")
-        val accessToken = getAccessToken()
-        val refreshToken = getRefreshToken()
-        if (accessToken != null && refreshToken != null) {
+        val kakaoAccessToken = getKakaoAccessToken()
+        val kakaoRefreshToken = getKakaoRefreshToken()
+        Log.e("SigninActivity.kt", " \nKAT: $kakaoAccessToken \nKRT: $kakaoRefreshToken")
+        if (kakaoAccessToken != null && kakaoRefreshToken != null) {
             val tokens = HashMap<String, String>()
-            tokens["accessToken"] = accessToken
-            tokens["refreshToken"] = refreshToken
+            tokens["accessToken"] = kakaoAccessToken
+            tokens["refreshToken"] = kakaoRefreshToken
             userService.kakaoSignin(tokens)
         }
     }
@@ -171,6 +176,16 @@ class SigninActivity : BaseActivity(), UserView{
     override fun kakaoSigninFailure(code: Int) {
         Log.e("SigninActivity.kt", "kakaoSigninFailure() status code $code")
         when (code) {
+            2050 -> {
+                val kakaoAccessToken = getKakaoAccessToken()
+                val kakaoRefreshToken = getKakaoRefreshToken()
+                if (kakaoAccessToken != null && kakaoRefreshToken != null) {
+                    val token = HashMap<String, String>()
+                    token["kakaoAccessToken"] = kakaoAccessToken
+                    token["kakaoRefreshToken"] = kakaoRefreshToken
+                    userService.kakaoSignin(token)
+                }
+            }
             2052 -> {
                 val kakaoAccessToken = getKakaoAccessToken()
                 if (kakaoAccessToken != null) {
@@ -239,7 +254,7 @@ class SigninActivity : BaseActivity(), UserView{
     override fun updateAccessTokenFailure(code: Int) {
         Log.e("SigninActivity.kt", "updateAccessTokenFailure() status code $code")
         when (code) {
-            1505 -> {
+            1505, 1509 -> {
                 val kakaoAccessToken = getKakaoAccessToken()
                 val kakaoRefreshToken = getKakaoRefreshToken()
                 if (kakaoAccessToken != null && kakaoRefreshToken != null) {

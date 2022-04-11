@@ -51,6 +51,13 @@ class SplashActivity : AppCompatActivity(), UserView {
     }
 
     private fun selectActivity() {
+        Log.d("SplashActivity.kt", " \nselectActivity()" +
+                "\nuserIdx: " + getUserIdx() +
+                "\nAT: " + getAccessToken() +
+                "\nRT: " + getRefreshToken() +
+                "\nKAT: " + getKakaoAccessToken() +
+                "\nKRT: " + getKakaoRefreshToken()
+        )
         val accessToken = getAccessToken()
         if (accessToken != null) {
             userService.autoSignin()
@@ -75,11 +82,15 @@ class SplashActivity : AppCompatActivity(), UserView {
         },1500)
     }
 
-
     override fun autoSigninSuccess() {
         Log.d("SplashActivity.kt", "autoSigninSuccess()")
-        Log.d("SplashActivity.kt", " \nAT: " + getAccessToken())
-
+        Log.d("SplashActivity.kt", " \nautoSigninSuccess()" +
+                "\nuserIdx: " + getUserIdx() +
+                "\nAT: " + getAccessToken() +
+                "\nRT: " + getRefreshToken() +
+                "\nKAT: " + getKakaoAccessToken() +
+                "\nKRT: " + getKakaoRefreshToken()
+        )
         val kakaoAccessToken = getKakaoAccessToken()
         if (kakaoAccessToken != null) {
             val token = HashMap<String, String>()
@@ -105,7 +116,10 @@ class SplashActivity : AppCompatActivity(), UserView {
                     startSigninActivity()
                 }
             }
-            3007 -> startSigninActivity()
+            3007 -> {
+                startSigninActivity()
+                Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
+            }
             else -> {
                 Log.e("SplashActivity.kt", "autoSigninFailure() Unexpected status code $code")
                 Toast.makeText(this@SplashActivity, "로그인 에러", Toast.LENGTH_SHORT).show()
@@ -229,6 +243,7 @@ class SplashActivity : AppCompatActivity(), UserView {
     override fun getProfileFailure(code: Int) {
         Log.e("SplashActivity.kt", "getProfileFailure() status code $code")
         Toast.makeText(this, "프로필 업데이트에 실패했습니다.", Toast.LENGTH_SHORT).show()
+        startSigninActivity()
     }
 
     override fun updateAccessTokenSuccess() {
@@ -244,7 +259,7 @@ class SplashActivity : AppCompatActivity(), UserView {
     override fun updateAccessTokenFailure(code: Int) {
         Log.e("SplashActivity.kt", "updateAccessTokenFailure() status code $code")
         when (code) {
-            1505 -> {
+            1505, 1509 -> {
                 val kakaoAccessToken = getKakaoAccessToken()
                 val kakaoRefreshToken = getKakaoRefreshToken()
                 if (kakaoAccessToken != null && kakaoRefreshToken != null) {
