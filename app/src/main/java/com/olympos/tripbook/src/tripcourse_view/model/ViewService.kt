@@ -8,7 +8,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ViewService {
+open class ViewService {
 
     private lateinit var tripResponseView : TripResponseView
     private lateinit var recentTripResponseView : RecentTripResponseView

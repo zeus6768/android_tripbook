@@ -216,7 +216,7 @@ class TripcourseActivity : BaseActivity(), PostCardView, ServerView {
     }
 
     private fun uploadTripImg() {
-        val tripImg = tripCards[0].coverImg
+        val tripImg = tripCards[0].imgUrl
         //대표 tripImg 변경 추가
         val cardService = CardService()
         cardService.setServerView(this)
