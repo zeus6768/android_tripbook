@@ -2,15 +2,18 @@ package com.olympos.tripbook.src.tripcourse
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.coordinatorlayout.widget.CoordinatorLayout.Behavior.getTag
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.Gson
 import com.kakao.sdk.common.util.Utility
 import com.olympos.tripbook.R
@@ -27,6 +30,9 @@ import com.olympos.tripbook.src.tripcourse.model.CardService
 import com.olympos.tripbook.src.tripcourse.model.CardsView
 import com.olympos.tripbook.src.tripcourse.model.ServerView
 import com.olympos.tripbook.utils.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class TripcourseActivity : BaseActivity(), PostCardView, ServerView {
 
@@ -210,7 +216,7 @@ class TripcourseActivity : BaseActivity(), PostCardView, ServerView {
     }
 
     private fun uploadTripImg() {
-        val tripImg = tripCards[0].coverImg
+        val tripImg = tripCards[0].imgUrl
         //대표 tripImg 변경 추가
         val cardService = CardService()
         cardService.setServerView(this)

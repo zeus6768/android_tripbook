@@ -114,3 +114,9 @@ fun saveArrivalDay(day: Int) {
 }
 
 fun getArrivalDay(): Int = mSharedPreferences.getInt("arrivalDay", 0)
+
+fun logout() {
+    val editor = mSharedPreferences.edit()
+    editor.clear()
+    editor.apply()
+}

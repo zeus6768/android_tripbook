@@ -5,40 +5,34 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import com.google.gson.Gson
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
-import com.google.firebase.storage.FirebaseStorage
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripcourseRecordBinding
-import com.olympos.tripbook.src.tripcourse.model.Card
-import com.olympos.tripbook.src.tripcourse.model.CardService
-import com.olympos.tripbook.src.tripcourse.model.ServerView
-import com.olympos.tripbook.utils.getTripIdx
-import com.olympos.tripbook.utils.getUserIdx
 import java.text.SimpleDateFormat
 import java.util.*
 
 class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickListener {
 
     lateinit var binding: ActivityTripcourseRecordBinding
-    private var gson : Gson = Gson()
-    //private var card: Card = Card() //채울 카드
-    //    private val dateSelectDialog = DateSelectDialog(this)
+    lateinit var tripDate: String
 
-    lateinit var uri : Uri //사진 uri 전역변수
-    private var launcher = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        binding.tripcourseRecordImgIv.setImageURI(it)
-        binding.tripcourseRecordImgTv.visibility=View.GONE
-        uri = it
-    }
+    private var firebaseUrl: Uri? = null //firebase uri 전역변수
+    private var localUrl: Uri? = null //local uri 전역변수
+    private var resultLauncher: ActivityResultLauncher<Intent>? = null
+//    private var launcher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+//        binding.tripcourseRecordImgIv.setImageURI(uri)
+//        binding.tripcourseRecordImgTv.visibility = View.GONE
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +40,7 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
         setContentView(binding.root)
 
         initView()
+        galleryCallback()
     }
 
     private fun initView() {
@@ -59,7 +54,8 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
             binding.tripcourseRecordTitleEt.hint = tripCards[focusedCardPosition].title
             binding.tripcourseRecordSelectDateBtn.text = tripCards[focusedCardPosition].date
             binding.tripcourseRecordImgTv.visibility = View.GONE
-            Glide.with(this.applicationContext).load(tripCards[focusedCardPosition].coverImg).into(binding.tripcourseRecordImgIv)
+            Glide.with(this.applicationContext).load(tripCards[focusedCardPosition].imgUrl)
+                .into(binding.tripcourseRecordImgIv)
             //binding.tripcourseRecordSelectCountryBtn.text = card.country
         }
 
@@ -80,7 +76,9 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
                 if (userInput.isFocused && userInput.length() > 200) {
                     userInput.setText(s.toString().substring(0, 200))
                     userInput.setSelection(s!!.length - 1)
-                    Toast.makeText(this@TripcourseRecordActivity, "200자까지 입력 가능합니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@TripcourseRecordActivity,
+                        "200자까지 입력 가능합니다.",
+                        Toast.LENGTH_SHORT).show()
                 }
             }
         })
@@ -100,21 +98,18 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
 
         when (v!!.id) {
             R.id.topbar_back_ib ->
-                showDialog("발자국 작성 취소","발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 사라집니다.", "확인")
+                showDialog("발자국 작성 취소", "발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 사라집니다.", "확인")
             R.id.topbar_subbutton_ib -> {
-                //firebase storage에 이미지를 업로드
-                uploadImage(uri)
-
-                if(binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
-                    Toast.makeText(this.applicationContext, "제목을 입력해주세요", Toast.LENGTH_SHORT).show()
-                    return
-                }
-                //입력받은 정보를 tripCards[focusedCardPosition]에 담기
-                getInputInfo()
+                localUrl?.let { uploadImage(it) } //firebase에 이미지 업로드
+                getInputInfo() //입력받은 정보를 tripCards[focusedCardPosition]에 담기
                 finish()
             }
-            R.id.tripcourse_record_img_cl ->
-                photoSelect()
+
+            R.id.tripcourse_record_img_cl -> {
+                openGallery()
+//                galleryCallback()
+            }
+
 
             //여행 도시 선택 - TripcourseSelectContryActivity로 이동
             R.id.tripcourse_record_select_country_btn ->
@@ -133,16 +128,16 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
     private fun getInputInfo() {
         //필수요소 : 제목
         tripCards[focusedCardPosition].hasData = TRUE
-
         //사진 저장(Uri)
-        tripCards[focusedCardPosition].coverImg = uri.toString()
+        tripCards[focusedCardPosition].imgUrl = firebaseUrl.toString()
         //제목 저장
         tripCards[focusedCardPosition].title = binding.tripcourseRecordTitleEt.text.toString()
         //body 저장
         tripCards[focusedCardPosition].body = binding.tripcourseRecordBodyEt.text.toString()
+        //날짜 저장
+        tripCards[focusedCardPosition].date = tripDate
 
-        //아직 구현이 안된 더미 데이터들
-        tripCards[focusedCardPosition].date = "0000-00-00"
+        //아직 구현이 안된 더미 데이터들ㅎ
         tripCards[focusedCardPosition].time = 2
 
         //아직까진 다시 TripcourseActivity로 보내진 않고 서버로 바로 카드를 보냄
@@ -164,13 +159,58 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
         finish()
     }
 
-    private fun photoSelect() {
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-        ) {
-            launcher.launch("image/*")
-        } else {
-            Toast.makeText(this, "접근 권한 거부", Toast.LENGTH_SHORT).show()
+    private fun openGallery() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        resultLauncher?.launch(intent)
+//        if (ContextCompat.checkSelfPermission(this,
+//                android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+//        ) {
+//            launcher.launch("image/*")
+//            URLhash[index++] = uri.toString()
+//        } else {
+//            Toast.makeText(this, "접근 권한 거부", Toast.LENGTH_SHORT).show()
+//        }
+    }
+
+    private fun galleryCallback() {
+        resultLauncher = registerForActivityResult(
+            StartActivityForResult()
+        ) { result: ActivityResult ->
+            if ((ContextCompat.checkSelfPermission(this,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+                && result.resultCode == RESULT_OK
+            ) {
+                if (result.data == null) {
+                    return@registerForActivityResult
+                }
+                localUrl = result.data!!.data
+                binding.tripcourseRecordImgTv.visibility = View.GONE
+                Glide.with(this).load(localUrl).into(binding.tripcourseRecordImgIv)
+
+            }
+        }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun uploadImage(selectedImgUri: Uri) {
+        //파일 이름 생성
+        val fileName = "IMAGE_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}"
+        //파일 업로드, 다운로드, 삭제, 메타데이터 가져오기 또는 업데이트를 하기 위해 참조를 생성.
+        //참조는 클라우드 파일을 가리키는 포인터라고 할 수 있음.(사진 저장 경로)
+        val imagesRef = storageRef.child("images/").child(fileName)    //기본 참조 위치/images/${fileName}
+        //이미지 파일 업로드
+        imagesRef.putFile(selectedImgUri).addOnSuccessListener {
+            Toast.makeText(this, "파이어베이스 업로드 성공", Toast.LENGTH_SHORT).show()
+            //firebase url 저장
+            it.storage.downloadUrl.addOnSuccessListener { uri->
+                Log.d("firebase Url", firebaseUrl.toString())
+                firebaseUrl = uri
+            }.addOnFailureListener { }
+        }.addOnFailureListener {
+            Log.d("firebase failure", it.toString())
+            Toast.makeText(this, "파이어베이스 업로드 실패", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -182,31 +222,12 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
     }
 
     override fun onDateOKClicked(selectedYear: Int, selectedMonth: Int, selectedDay: Int) {
-        binding.tripcourseRecordSelectDateBtn.text = String.format("%d년 %d월 %d일", selectedYear, selectedMonth, selectedDay)
+        binding.tripcourseRecordSelectDateBtn.text =
+            String.format("%d년 %d월 %d일", selectedYear, selectedMonth, selectedDay)
+        tripDate = String.format("%d-%d-%d", selectedYear, selectedMonth, selectedDay)
     }
 
     override fun onDateCancelClicked() {
 
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private fun uploadImage(uri: Uri) {
-        val storage: FirebaseStorage? = FirebaseStorage.getInstance() //FirebaseStorage 인스턴스 생성
-        //파일 이름 생성
-        val fileName = "IMAGE_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}"
-        //파일 업로드, 다운로드, 삭제, 메타데이터 가져오기 또는 업데이트를 하기 위해 참조를 생성.
-        //참조는 클라우드 파일을 가리키는 포인터라고 할 수 있음.
-        val imagesRef = storage!!.reference.child("images/").child(fileName)    //기본 참조 위치/images/${fileName}
-        //이미지 파일 업로드
-        imagesRef.putFile(uri).addOnSuccessListener {
-            Toast.makeText(this, "성공", Toast.LENGTH_SHORT).show()
-            it.storage.downloadUrl.addOnSuccessListener {
-                it.toString()
-                //api호출 it을 사진 text값에 post
-            }.addOnFailureListener {  }
-        }.addOnFailureListener {
-            println(it)
-            Toast.makeText(this, "실패", Toast.LENGTH_SHORT).show()
-        }
     }
 }
