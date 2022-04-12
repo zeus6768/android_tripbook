@@ -1,8 +1,7 @@
 package com.olympos.tripbook.src.tripcourse
 
-import android.net.Uri
+import com.google.firebase.storage.FirebaseStorage
 import com.olympos.tripbook.src.tripcourse.model.Card
-import java.net.URI
 
 //Activity - start at 1
 const val COUNTRY_ACTIVITY_CODE = 11
@@ -16,3 +15,6 @@ val tripCards = ArrayList<Card>()
 
 var focusedCardPosition : Int = 0
 
+//firebase
+val storage: FirebaseStorage = FirebaseStorage.getInstance() //FirebaseStorage 인스턴스 생성
+val storageRef = storage.reference //스토리지 참조

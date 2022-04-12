@@ -15,7 +15,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
-import com.google.firebase.storage.FirebaseStorage
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripcourseRecordBinding
@@ -196,9 +195,6 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
 
     @SuppressLint("SimpleDateFormat")
     private fun uploadImage(selectedImgUri: Uri) {
-        val storage: FirebaseStorage? = FirebaseStorage.getInstance() //FirebaseStorage 인스턴스 생성
-        val storageRef = storage!!.reference //스토리지 참조
-        println(storageRef.javaClass.toString())
         //파일 이름 생성
         val fileName = "IMAGE_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}"
         //파일 업로드, 다운로드, 삭제, 메타데이터 가져오기 또는 업데이트를 하기 위해 참조를 생성.

@@ -157,7 +157,7 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
 
     @SuppressLint("NotifyDataSetChanged")
     private fun onRemoveCard(position: Int){
-//        deleteImage(Uri.parse(tripCards[focusedCardPosition].imgUrl)) //firebase 이미지 삭제
+        deleteImage(tripCards[focusedCardPosition].imgUrl) //firebase 이미지 삭제
         notifyItemRemoved(position) // 얘 작동하는지 확인
         tripCards.removeAt(position)
     }
@@ -178,17 +178,17 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
 //        }
 //    }
 
-//    private fun deleteImage(imgUrl: Uri) {
-//        //todo firebase 삭제-focusedCardPosition을 이용해서
-//        //todo storageRef 타입확인 후 참조해서 delete
-//        val imageRef = storageRef.getReferenceFromUrl(imgUrl)
-//        imageRef.delete()
-//            .addOnSuccessListener(OnSuccessListener<Void?> {
-//                Log.d("firebase", "onSuccess: deleted file")
-//            }).addOnFailureListener(OnFailureListener {
-//                Log.d("firebase", "onFailure: $it")
-//            })
-//    }
+    private fun deleteImage(imgUrl: String) {
+        val imageRef = storage.getReferenceFromUrl(imgUrl)
+        imageRef.delete()
+            .addOnSuccessListener {
+                Toast.makeText(mContext, "파이어베이스 삭제 완료", Toast.LENGTH_SHORT).show()
+                Log.d("firebase", "onSuccess: deleted file")
+            }.addOnFailureListener {
+                Toast.makeText(mContext, "파이어베이스 삭제 실패", Toast.LENGTH_SHORT).show()
+                Log.d("firebase", "onFailure: $it")
+            }
+    }
 
 //    private fun uploadImage(selectedImgUri: Uri) {
 //        val storage: FirebaseStorage? = FirebaseStorage.getInstance() //FirebaseStorage 인스턴스 생성
