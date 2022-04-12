@@ -27,7 +27,8 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
     lateinit var binding: ActivityTripcourseRecordBinding
     lateinit var tripDate: String
 
-    private var uri: Uri? = null //사진 uri 전역변수
+    private var firebaseUrl: Uri? = null //firebase uri 전역변수
+    private var localUrl: Uri? = null //local uri 전역변수
     private var resultLauncher: ActivityResultLauncher<Intent>? = null
 //    private var launcher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
 //        binding.tripcourseRecordImgIv.setImageURI(uri)
@@ -40,6 +41,7 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
         setContentView(binding.root)
 
         initView()
+        galleryCallback()
     }
 
     private fun initView() {
@@ -99,8 +101,8 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
             R.id.topbar_back_ib ->
                 showDialog("발자국 작성 취소", "발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 사라집니다.", "확인")
             R.id.topbar_subbutton_ib -> {
-                //입력받은 정보를 tripCards[focusedCardPosition]에 담기
-                getInputInfo()
+                localUrl?.let { uploadImage(it) } //firebase에 이미지 업로드
+                getInputInfo() //입력받은 정보를 tripCards[focusedCardPosition]에 담기
                 finish()
             }
 
@@ -127,9 +129,8 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
     private fun getInputInfo() {
         //필수요소 : 제목
         tripCards[focusedCardPosition].hasData = TRUE
-
         //사진 저장(Uri)
-        tripCards[focusedCardPosition].imgUrl = uri.toString()
+        tripCards[focusedCardPosition].imgUrl = firebaseUrl.toString()
         //제목 저장
         tripCards[focusedCardPosition].title = binding.tripcourseRecordTitleEt.text.toString()
         //body 저장
@@ -137,7 +138,7 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
         //날짜 저장
         tripCards[focusedCardPosition].date = tripDate
 
-        //아직 구현이 안된 더미 데이터들
+        //아직 구현이 안된 더미 데이터들ㅎ
         tripCards[focusedCardPosition].time = 2
 
         //아직까진 다시 TripcourseActivity로 보내진 않고 서버로 바로 카드를 보냄
@@ -185,12 +186,10 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
                 if (result.data == null) {
                     return@registerForActivityResult
                 }
-                val uri = result.data!!.data
-                Glide.with(this).load(uri).into(binding.tripcourseRecordImgIv)
+                localUrl = result.data!!.data
                 binding.tripcourseRecordImgTv.visibility = View.GONE
-                if (uri != null) {
-                    uploadImage(uri) //파이어베이스에 업로드
-                }
+                Glide.with(this).load(localUrl).into(binding.tripcourseRecordImgIv)
+
             }
         }
     }
@@ -199,7 +198,7 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
     private fun uploadImage(selectedImgUri: Uri) {
         val storage: FirebaseStorage? = FirebaseStorage.getInstance() //FirebaseStorage 인스턴스 생성
         val storageRef = storage!!.reference //스토리지 참조
-        Log.d("타입확인", storageRef.javaClass.toString())
+        println(storageRef.javaClass.toString())
         //파일 이름 생성
         val fileName = "IMAGE_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}"
         //파일 업로드, 다운로드, 삭제, 메타데이터 가져오기 또는 업데이트를 하기 위해 참조를 생성.
@@ -209,9 +208,9 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
         imagesRef.putFile(selectedImgUri).addOnSuccessListener {
             Toast.makeText(this, "파이어베이스 업로드 성공", Toast.LENGTH_SHORT).show()
             //firebase url 저장
-            it.storage.downloadUrl.addOnSuccessListener { firebaseUrl->
+            it.storage.downloadUrl.addOnSuccessListener { uri->
                 Log.d("firebase Url", firebaseUrl.toString())
-                tripCards[focusedCardPosition].imgUrl = firebaseUrl.toString()
+                firebaseUrl = uri
             }.addOnFailureListener { }
         }.addOnFailureListener {
             Log.d("firebase failure", it.toString())
