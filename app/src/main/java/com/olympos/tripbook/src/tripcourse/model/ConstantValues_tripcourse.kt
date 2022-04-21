@@ -13,3 +13,10 @@ const val TRUE = 1
 val tripCards = ArrayList<Card>()
 
 var focusedCardPosition : Int = 0
+
+const val TITLE_CHANGED = 101
+const val BODY_CHANGED = 102
+const val IMG_CHANGED = 103
+const val DATE_CHANGED = 104
+
+

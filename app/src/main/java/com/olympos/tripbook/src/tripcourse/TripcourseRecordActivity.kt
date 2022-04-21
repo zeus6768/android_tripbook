@@ -29,9 +29,6 @@ import java.util.*
 class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickListener {
 
     lateinit var binding: ActivityTripcourseRecordBinding
-    private var gson : Gson = Gson()
-    //private var card: Card = Card() //채울 카드
-    //    private val dateSelectDialog = DateSelectDialog(this)
 
     lateinit var uri : Uri //사진 uri 전역변수
     private var launcher = registerForActivityResult(ActivityResultContracts.GetContent()) {
@@ -54,7 +51,7 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
         binding.tripcourseRecordTopbarLayout.topbarSubbuttonIb.setImageResource(R.drawable.btn_base_check_black)
         binding.tripcourseRecordTopbarLayout.topbarSubtitleTv.visibility = View.GONE
 
-        if(tripCards[focusedCardPosition].hasData == TRUE) {
+        if(tripCards[focusedCardPosition].title != "NONE") {
             binding.tripcourseRecordBodyEt.hint = tripCards[focusedCardPosition].body
             binding.tripcourseRecordTitleEt.hint = tripCards[focusedCardPosition].title
             binding.tripcourseRecordSelectDateBtn.text = tripCards[focusedCardPosition].date
@@ -102,15 +99,19 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
             R.id.topbar_back_ib ->
                 showDialog("발자국 작성 취소","발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 사라집니다.", "확인")
             R.id.topbar_subbutton_ib -> {
+                if(tripCards[focusedCardPosition].courseIdx != 0) { // 이미 서버에 올라간 카드들(수정중)
+                    getModifyInfo()
+                } else { //서버에 아직 올라가지 않은 카드들(생성중)
+                    if(binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
+                        Toast.makeText(this.applicationContext, "제목을 입력해주세요", Toast.LENGTH_SHORT).show()
+                        return
+                    }
+                    //입력받은 정보를 tripCards[focusedCardPosition]에 담기
+                    getInputInfo()
+                }
                 //firebase storage에 이미지를 업로드
                 uploadImage(uri)
 
-                if(binding.tripcourseRecordTitleEt.text.toString().isEmpty()) {
-                    Toast.makeText(this.applicationContext, "제목을 입력해주세요", Toast.LENGTH_SHORT).show()
-                    return
-                }
-                //입력받은 정보를 tripCards[focusedCardPosition]에 담기
-                getInputInfo()
                 finish()
             }
             R.id.tripcourse_record_img_cl ->
@@ -128,6 +129,18 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
             R.id.tripcourse_record_hashtag_add_btn ->
                 startTripcourseSelectHashtagActivity()
         }
+    }
+
+    private fun getModifyInfo() {
+        if(binding.tripcourseRecordTitleEt.toString().isNotEmpty()) {
+            tripCards[focusedCardPosition].whatsChange.add(TITLE_CHANGED)
+        }
+        if(binding.tripcourseRecordBodyEt.toString().isNotEmpty()){
+            tripCards[focusedCardPosition].whatsChange.add(BODY_CHANGED)
+        }
+        //if(){ //todo 사진 변경되었는지 확인 : 기존 card.coverImg와 새로운 card.coverImg의 차이가 있다면 변경 됐음 -> 수정
+        //tripCards[focusedCardPosition].whatsChange.add(IMG_CHANGED)
+        // }
     }
 
     private fun getInputInfo() {
@@ -178,7 +191,6 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
         val dig = DateSelectDialog(this)
         dig.listener = this
         dig.show(title, okMessage)
-
     }
 
     override fun onDateOKClicked(selectedYear: Int, selectedMonth: Int, selectedDay: Int) {
