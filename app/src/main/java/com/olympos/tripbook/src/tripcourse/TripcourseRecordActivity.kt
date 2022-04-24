@@ -186,20 +186,6 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
 //        }
     }
 
-    private fun showDateDialog(title: String, okMessage: String) {
-        val dig = DateSelectDialog(this)
-        dig.listener = this
-        dig.show(title, okMessage)
-    }
-
-    override fun onDateOKClicked(selectedYear: Int, selectedMonth: Int, selectedDay: Int) {
-        binding.tripcourseRecordSelectDateBtn.text = String.format("%d년 %d월 %d일", selectedYear, selectedMonth, selectedDay)
-    }
-
-    override fun onDateCancelClicked() {
-
-    }
-
     private fun galleryCallback() {
         resultLauncher = registerForActivityResult(
             StartActivityForResult()
@@ -244,7 +230,6 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
         val dig = DateSelectDialog(this)
         dig.listener = this
         dig.show(title, okMessage)
-
     }
 
     override fun onDateOKClicked(selectedYear: Int, selectedMonth: Int, selectedDay: Int) {
