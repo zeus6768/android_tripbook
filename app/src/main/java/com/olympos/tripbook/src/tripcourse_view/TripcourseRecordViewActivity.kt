@@ -36,7 +36,7 @@ class TripcourseRecordViewActivity : BaseActivity() {
         binding.tripcourseRecordViewBodyTv.text = filledCards[focusedViewCardPosition].body
         binding.tripcourseRecordViewTitleTv.text = filledCards[focusedViewCardPosition].title
         binding.tripcourseRecordViewSelectDateBtn.text = filledCards[focusedViewCardPosition].date
-        Glide.with(this.applicationContext).load(filledCards[focusedViewCardPosition].coverImg).into(binding.tripcourseRecordImgIv)
+        Glide.with(this.applicationContext).load(filledCards[focusedViewCardPosition].imgUrl).into(binding.tripcourseRecordImgIv)
 
         binding.tripcourseRecordViewBodyTv.text = filledCards[focusedViewCardPosition].body
         binding.tripcourseRecordViewTitleTv.text = filledCards[focusedViewCardPosition].title

@@ -1,5 +1,6 @@
 package com.olympos.tripbook.src.tripcourse
 
+import com.google.firebase.storage.FirebaseStorage
 import com.olympos.tripbook.src.tripcourse.model.Card
 
 //Activity - start at 1
@@ -13,6 +14,10 @@ const val TRUE = 1
 val tripCards = ArrayList<Card>()
 
 var focusedCardPosition : Int = 0
+
+//firebase
+val storage: FirebaseStorage = FirebaseStorage.getInstance() //FirebaseStorage 인스턴스 생성
+val storageRef = storage.reference //스토리지 참조
 
 const val TITLE_CHANGED = 101
 const val BODY_CHANGED = 102

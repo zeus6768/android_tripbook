@@ -31,7 +31,7 @@ class RVCardAdapter_view(context : Context) : RecyclerView.Adapter<RVCardAdapter
     //View Holder
     inner class FillCardViewHolder(val binding : ItemTripcourseCardBaseFillBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(card : Card) {
-            Glide.with(mContext).load(card.coverImg).into(binding.itemCardFillCoverImg) //context 인자로 받아와야 함
+            Glide.with(mContext).load(card.imgUrl).into(binding.itemCardFillCoverImg) //context 인자로 받아와야 함
 
             binding.itemCardFillTitleTv.text = card.title
             binding.itemCardFillDateTv.text = card.date

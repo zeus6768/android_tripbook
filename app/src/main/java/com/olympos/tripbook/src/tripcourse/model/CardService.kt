@@ -8,17 +8,17 @@ import retrofit2.*
 class CardService{
 
     private lateinit var cardsView : CardsView
+    private lateinit var serverView: ServerView
+    private lateinit var postCardView : PostCardView
 
     fun setCardsView(cardsView : CardsView) {
         this.cardsView = cardsView
     }
 
-    private lateinit var serverView: ServerView
     fun setServerView(serverView: ServerView) {
         this.serverView = serverView
     }
 
-    private lateinit var postCardView : PostCardView
     fun setPostCardView(postCardView : PostCardView) {
         this.postCardView = postCardView
     }

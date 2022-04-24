@@ -2,19 +2,22 @@ package com.olympos.tripbook.src.tripcourse
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseDialog
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseEmptyBinding
 import com.olympos.tripbook.databinding.ItemTripcourseCardBaseFillBinding
 import com.olympos.tripbook.src.tripcourse.model.Card
-import com.olympos.tripbook.src.tripcourse.model.CardService
 import com.olympos.tripbook.src.tripcourse.model.ServerView
-import com.olympos.tripbook.utils.getUserIdx
+import java.util.*
+
 
 class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ServerView {
 
@@ -61,10 +64,10 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
     inner class FillCardViewHolder(val binding : ItemTripcourseCardBaseFillBinding) : RecyclerView.ViewHolder(binding.root),
         View.OnCreateContextMenuListener {
         fun bind(card : Card) {
-            if(card.coverImg == "NONE"){
+            if(card.imgUrl == "NONE"){
                 binding.itemCardFillCoverImg.setImageResource(R.drawable.img_tripcourse_card_ex)
             } else {
-                Glide.with(mContext).load(card.coverImg).into(binding.itemCardFillCoverImg) //context 인자로 받아와야 함
+                Glide.with(mContext).load(card.imgUrl).into(binding.itemCardFillCoverImg) //context 인자로 받아와야 함
             }
 
             binding.itemCardFillTitleTv.text = card.title
@@ -154,6 +157,7 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
 
     @SuppressLint("NotifyDataSetChanged")
     private fun onRemoveCard(position: Int){
+        deleteImage(tripCards[focusedCardPosition].imgUrl) //firebase 이미지 삭제
         notifyItemRemoved(position) // 얘 작동하는지 확인
         tripCards.removeAt(position)
     }
@@ -171,6 +175,39 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
 //            for(i in 0..deleteList.size-1) {
 //                deleteCard(deleteList[i])
 //            }
+//        }
+//    }
+
+    private fun deleteImage(imgUrl: String) {
+        val imageRef = storage.getReferenceFromUrl(imgUrl)
+        imageRef.delete()
+            .addOnSuccessListener {
+                Toast.makeText(mContext, "파이어베이스 삭제 완료", Toast.LENGTH_SHORT).show()
+                Log.d("firebase", "onSuccess: deleted file")
+            }.addOnFailureListener {
+                Toast.makeText(mContext, "파이어베이스 삭제 실패", Toast.LENGTH_SHORT).show()
+                Log.d("firebase", "onFailure: $it")
+            }
+    }
+
+//    private fun uploadImage(selectedImgUri: Uri) {
+//        val storage: FirebaseStorage? = FirebaseStorage.getInstance() //FirebaseStorage 인스턴스 생성
+//        //파일 이름 생성
+//        val fileName = "IMAGE_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}"
+//        //파일 업로드, 다운로드, 삭제, 메타데이터 가져오기 또는 업데이트를 하기 위해 참조를 생성.
+//        //참조는 클라우드 파일을 가리키는 포인터라고 할 수 있음.(사진 저장 경로)
+//        val imagesRef = storage!!.reference.child("images/").child(fileName)    //기본 참조 위치/images/${fileName}
+//        //이미지 파일 업로드
+//        imagesRef.putFile(selectedImgUri).addOnSuccessListener {
+//            Toast.makeText(this, "파이어베이스 업로드 성공", Toast.LENGTH_SHORT).show()
+//            //firebase url 저장
+//            it.storage.downloadUrl.addOnSuccessListener { firebaseUrl->
+//                Log.d("firebase Url", firebaseUrl.toString())
+//                tripCards[focusedCardPosition].imgUrl = firebaseUrl.toString()
+//            }.addOnFailureListener { }
+//        }.addOnFailureListener {
+//            Log.d("firebase failure", it.toString())
+//            Toast.makeText(this, "파이어베이스 업로드 실패", Toast.LENGTH_SHORT).show()
 //        }
 //    }
 
