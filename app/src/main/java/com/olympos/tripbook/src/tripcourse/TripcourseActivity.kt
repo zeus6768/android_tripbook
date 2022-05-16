@@ -2,37 +2,22 @@ package com.olympos.tripbook.src.tripcourse
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.ContextMenu
-import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.coordinatorlayout.widget.CoordinatorLayout.Behavior.getTag
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.Gson
-import com.kakao.sdk.common.util.Utility
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
-import com.olympos.tripbook.config.BaseDialog
 import com.olympos.tripbook.databinding.ActivityTripcourseBinding
 import com.olympos.tripbook.src.home.MainActivity
 import com.olympos.tripbook.src.trip.model.Trip
-import com.olympos.tripbook.src.trip.model.TripGetProcess
-import com.olympos.tripbook.src.trip.model.TripService
 import com.olympos.tripbook.src.tripcourse.model.*
-import com.olympos.tripbook.src.tripcourse.model.Card
-import com.olympos.tripbook.src.tripcourse.model.CardService
-import com.olympos.tripbook.src.tripcourse.model.CardsView
-import com.olympos.tripbook.src.tripcourse.model.ServerView
 import com.olympos.tripbook.utils.*
-import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class TripcourseActivity : BaseActivity(), PostCardView, ServerView {
 
@@ -123,10 +108,15 @@ class TripcourseActivity : BaseActivity(), PostCardView, ServerView {
                     "발자국 작성 취소", "발자국 작성을 취소하시겠습니까?\n"
                             + "작성중인 정보는 저장되지 않습니다.", "확인"
                 )
+                //todo Trip 삭제
             }
             R.id.topbar_subbutton_ib -> { //상단바 - 체크 버튼 - 저장
-                uploadCards()
-                uploadTripImg()
+                if( changedCards.isEmpty() ) {
+                    uploadCards()
+                    uploadTripImg()
+                } else {
+                    patchCards()
+                }
                 tripCards.clear()
                 finish()
             }
@@ -189,6 +179,47 @@ class TripcourseActivity : BaseActivity(), PostCardView, ServerView {
         for(i in 0 until tripCards.size) {
             postCard(tripCards[i])
         }
+    }
+
+    private fun patchCards() {
+        val cardService = CardService()
+        cardService.setServerView(this)
+
+        while( changedCards.isNotEmpty() ) {
+            val nowCard = changedCards.get(0)
+            var nowCardPosition = 0
+            val nowCardCourseIdx = nowCard.changedCourseIdx
+
+            var i: Int = 0
+            for( i in 0 until tripCards.size) {
+                if( tripCards[i].courseIdx == nowCardCourseIdx ) {
+                    nowCardPosition = i
+                }
+            }
+
+            while( nowCard.changedInfo.isNotEmpty()) {
+                when( nowCard.changedInfo.get(0) ) {
+                    TITLE_CHANGED -> {
+                        cardService.patchTitle(nowCardCourseIdx, tripCards[nowCardPosition].title)
+                    }
+                    BODY_CHANGED -> {
+                        cardService.patchBody(nowCardCourseIdx, tripCards[nowCardPosition].body)
+                    }
+                    IMG_CHANGED -> {
+                        cardService.patchImg(nowCardCourseIdx, tripCards[nowCardPosition].imgUrl)
+                    }
+                    DATE_CHANGED -> {
+                        cardService.patchDate(nowCardCourseIdx, tripCards[nowCardPosition].date)
+                    }
+                }
+                nowCard.changedInfo.removeAt(0)
+            }
+            changedCards.removeAt(0)
+        }
+
+
+
+        cardService.deleteTrip(tripIdx)
     }
 
     /*---------------------서버 통신 부분------------------*/

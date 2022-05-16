@@ -67,6 +67,7 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
             if(card.imgUrl == "NONE"){
                 binding.itemCardFillCoverImg.setImageResource(R.drawable.img_tripcourse_card_ex)
             } else {
+                //todo download Firebase Img
                 Glide.with(mContext).load(card.imgUrl).into(binding.itemCardFillCoverImg) //context 인자로 받아와야 함
             }
 

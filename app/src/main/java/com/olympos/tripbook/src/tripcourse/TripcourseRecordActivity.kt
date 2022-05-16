@@ -34,6 +34,12 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
 //        binding.tripcourseRecordImgTv.visibility = View.GONE
 //    }
 
+    private var hasDataFlag: Boolean = false
+    private var beforeImgUrl: String? = null
+    private var beforeDate: String? = null
+
+    private val changedCardInfo= ChangedCardInfo()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTripcourseRecordBinding.inflate(layoutInflater)
@@ -49,7 +55,11 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
         binding.tripcourseRecordTopbarLayout.topbarSubbuttonIb.setImageResource(R.drawable.btn_base_check_black)
         binding.tripcourseRecordTopbarLayout.topbarSubtitleTv.visibility = View.GONE
 
-        if(tripCards[focusedCardPosition].title != "NONE") {
+        //이미 데이터가 있는 경우(로컬 O, 서버 X)
+        if( tripCards[focusedCardPosition].title != CARD_TITLE_NONE_DEFAULT ) {
+            hasDataFlag = true
+            beforeImgUrl = tripCards[focusedCardPosition].imgUrl
+            beforeDate = tripCards[focusedCardPosition].date
             binding.tripcourseRecordBodyEt.hint = tripCards[focusedCardPosition].body
             binding.tripcourseRecordTitleEt.hint = tripCards[focusedCardPosition].title
             binding.tripcourseRecordSelectDateBtn.text = tripCards[focusedCardPosition].date
@@ -100,8 +110,19 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
             R.id.topbar_back_ib ->
                 showDialog("발자국 작성 취소", "발자국 작성을 취소하시겠습니까?\n" + "작성하셨던 내용은 사라집니다.", "확인")
             R.id.topbar_subbutton_ib -> {
-                localUrl?.let { uploadImage(it) } //firebase에 이미지 업로드
-                getInputInfo() //입력받은 정보를 tripCards[focusedCardPosition]에 담기
+                if( tripCards[focusedCardPosition].courseIdx != 0 ) {
+                    //서버에 카드가 있음 -> patch 필요
+                    if( isChange() ) {
+                        changedCards.add( changedCardInfo )
+                    }
+                } else if( hasDataFlag ) {
+                    //서버에 카드가 없고, 카드가 채워져 있음(업로드 전, 로컬에서만 수정하면 됨)
+                    applyModifyInfo()
+                } else {
+                    //서버에 카드가 없고, 카드가 비어있음
+                    localUrl?.let { uploadImage(it) } //firebase에 이미지 업로드
+                    getInputInfo() //입력받은 정보를 tripCards[focusedCardPosition]에 담기
+                }
                 finish()
             }
 
@@ -109,7 +130,6 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
                 openGallery()
 //                galleryCallback()
             }
-
 
             //여행 도시 선택 - TripcourseSelectContryActivity로 이동
             R.id.tripcourse_record_select_country_btn ->
@@ -125,16 +145,39 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
         }
     }
 
-    private fun getModifyInfo() {
-        if(binding.tripcourseRecordTitleEt.toString().isNotEmpty()) {
-            tripCards[focusedCardPosition].whatsChange.add(TITLE_CHANGED)
+    private fun isChange(): Boolean {
+        if( binding.tripcourseRecordTitleEt.text.isNotEmpty() ) {
+            changedCardInfo.changedInfo.add(TITLE_CHANGED)
         }
-        if(binding.tripcourseRecordBodyEt.toString().isNotEmpty()){
-            tripCards[focusedCardPosition].whatsChange.add(BODY_CHANGED)
+        if( binding.tripcourseRecordBodyEt.text.isNotEmpty() ) {
+            changedCardInfo.changedInfo.add(BODY_CHANGED)
         }
-        //if(){ //todo 사진 변경되었는지 확인 : 기존 card.coverImg와 새로운 card.coverImg의 차이가 있다면 변경 됐음 -> 수정
-        //tripCards[focusedCardPosition].whatsChange.add(IMG_CHANGED)
-        // }
+        if( beforeImgUrl != tripCards[focusedCardPosition].imgUrl ) {
+            changedCardInfo.changedInfo.add(IMG_CHANGED)
+        }
+        if( beforeDate != tripCards[focusedCardPosition].date ){
+            changedCardInfo.changedInfo.add(DATE_CHANGED)
+        }
+        if( changedCardInfo.changedInfo.isNotEmpty() ) {
+            changedCardInfo.changedCourseIdx = tripCards[focusedCardPosition].courseIdx
+            return true
+        }
+        return false
+    }
+
+    private fun applyModifyInfo() {
+        if( binding.tripcourseRecordTitleEt.text.isNotEmpty() ) {
+            tripCards[focusedCardPosition].title = binding.tripcourseRecordTitleEt.text.toString()
+        }
+        if( binding.tripcourseRecordBodyEt.text.isNotEmpty() ) {
+            tripCards[focusedCardPosition].body = binding.tripcourseRecordBodyEt.text.toString()
+        }
+//        if( beforeImgUrl != tripCards[focusedCardPosition].imgUrl ) {
+//            tripCards[focusedCardPosition]
+//        }
+        if( beforeDate != tripCards[focusedCardPosition].date ){
+            tripCards[focusedCardPosition].date = tripDate
+        }
     }
 
     private fun getInputInfo() {
@@ -149,10 +192,8 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
         //날짜 저장
         tripCards[focusedCardPosition].date = tripDate
 
-        //아직 구현이 안된 더미 데이터들ㅎ
+        //아직 구현이 안된 더미 데이터들
         tripCards[focusedCardPosition].time = 2
-
-        //아직까진 다시 TripcourseActivity로 보내진 않고 서버로 바로 카드를 보냄
     }
 
     private fun startTripcourseSelectCountryActivity() {

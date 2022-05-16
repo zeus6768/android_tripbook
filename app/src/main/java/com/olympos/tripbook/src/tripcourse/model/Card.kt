@@ -2,6 +2,7 @@ package com.olympos.tripbook.src.tripcourse.model
 
 
 import com.google.gson.annotations.SerializedName
+import com.olympos.tripbook.src.tripcourse.CARD_TITLE_NONE_DEFAULT
 import com.olympos.tripbook.src.tripcourse.FALSE
 
 data class Card (
@@ -15,7 +16,7 @@ data class Card (
     @SerializedName("courseImg") var imgUrl : String = "NONE",
     @SerializedName("courseDate") var date : String = "날짜를 선택해주세요",
     @SerializedName("courseTime") var time : Int = 2,
-    @SerializedName("courseTitle") var title : String = "NONE",
+    @SerializedName("courseTitle") var title : String = CARD_TITLE_NONE_DEFAULT,
     @SerializedName("courseComment")var body : String = "내용이 없습니다.",
 
     @SerializedName("latitude") var latitude : String? = null,
@@ -23,6 +24,4 @@ data class Card (
 //    @SerializedName("courseCountry")
 //    var country : String = "나도 모르는 곳",
 //    var hashtag : ArrayList<Boolean> = ArrayList(),
-
-    var whatsChange: ArrayList<Int> = ArrayList<Int>()
 )
