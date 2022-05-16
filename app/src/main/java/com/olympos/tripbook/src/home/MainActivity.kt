@@ -2,12 +2,15 @@ package com.olympos.tripbook.src.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.bumptech.glide.Glide
@@ -20,11 +23,14 @@ import com.olympos.tripbook.src.home.model.HomeService
 import com.olympos.tripbook.src.splash.SplashActivity
 import com.olympos.tripbook.src.trip.TripActivity
 import com.olympos.tripbook.src.tripcourse_view.TripcourseViewFragment
+import com.olympos.tripbook.src.user.SigninActivity
+import com.olympos.tripbook.src.user.model.UserService
 import com.olympos.tripbook.src.user.model.UserView
 import com.olympos.tripbook.utils.*
 
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, HomeGetProcess, UserView {
+    private val userService = UserService()
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -165,16 +171,61 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun getTripCountFailure(code: Int, message: String) {
         when(code) {
             400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
+            1500, 1509 -> userService.autoSignin()
             2105 -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }
 
+    private fun startSigninActivity() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            val intent = Intent(this, SigninActivity::class.java)
+            startActivity(intent)
+            finish()
+        },1500)
+    }
+
     override fun autoSigninSuccess() {
-        TODO("Not yet implemented")
+        Log.d("MainActivity.kt", " \nautoSigninSuccess()" +
+                "\nuserIdx: " + getUserIdx() +
+                "\nAT: " + getAccessToken() +
+                "\nRT: " + getRefreshToken() +
+                "\nKAT: " + getKakaoAccessToken() +
+                "\nKRT: " + getKakaoRefreshToken()
+        )
+        val kakaoAccessToken = getKakaoAccessToken()
+        if (kakaoAccessToken != null) {
+            val token = HashMap<String, String>()
+            token["kakaoAccessToken"] = kakaoAccessToken
+            userService.updateProfile(token, getUserIdx())
+        } else {
+            startSigninActivity()
+        }
     }
 
     override fun autoSigninFailure(code: Int) {
-        TODO("Not yet implemented")
+        Log.e("SplashActivity.kt", "autoSigninFailure() status code $code")
+        when (code) {
+            1504, 1507, 1509 -> {
+                val refreshToken = getRefreshToken()
+                val userIdx = getUserIdx()
+                if (refreshToken != null && userIdx != 0) {
+                    val tokens = HashMap<String, String>()
+                    tokens["refreshToken"] = refreshToken
+                    userService.updateAccessToken(tokens, userIdx)
+                } else {
+                    startSigninActivity()
+                }
+            }
+            3007 -> {
+                startSigninActivity()
+                Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
+            }
+            else -> { // 예상하지 못한 에러, destroy
+                Log.e("SplashActivity.kt", "autoSigninFailure() Unexpected status code $code")
+                Toast.makeText(this@MainActivity, "로그인 에러", Toast.LENGTH_SHORT).show()
+                ActivityCompat.finishAffinity(this@MainActivity)
+            }
+        }
     }
 
     override fun signUpUserSuccess() {

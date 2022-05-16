@@ -83,7 +83,6 @@ class SplashActivity : AppCompatActivity(), UserView {
     }
 
     override fun autoSigninSuccess() {
-        Log.d("SplashActivity.kt", "autoSigninSuccess()")
         Log.d("SplashActivity.kt", " \nautoSigninSuccess()" +
                 "\nuserIdx: " + getUserIdx() +
                 "\nAT: " + getAccessToken() +
@@ -120,7 +119,7 @@ class SplashActivity : AppCompatActivity(), UserView {
                 startSigninActivity()
                 Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
             }
-            else -> {
+            else -> { // 예상하지 못한 에러, destroy
                 Log.e("SplashActivity.kt", "autoSigninFailure() Unexpected status code $code")
                 Toast.makeText(this@SplashActivity, "로그인 에러", Toast.LENGTH_SHORT).show()
                 ActivityCompat.finishAffinity(this@SplashActivity)
