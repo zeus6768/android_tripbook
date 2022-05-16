@@ -157,7 +157,8 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
 
     @SuppressLint("NotifyDataSetChanged")
     private fun onRemoveCard(position: Int){
-        deleteImage(tripCards[focusedCardPosition].imgUrl) //firebase 이미지 삭제
+        if(tripCards[focusedCardPosition].imgUrl != "NONE")
+            deleteImage(tripCards[focusedCardPosition].imgUrl) //firebase 이미지 삭제
         notifyItemRemoved(position) // 얘 작동하는지 확인
         tripCards.removeAt(position)
     }
