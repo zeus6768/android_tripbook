@@ -20,10 +20,11 @@ import com.olympos.tripbook.src.home.model.HomeService
 import com.olympos.tripbook.src.splash.SplashActivity
 import com.olympos.tripbook.src.trip.TripActivity
 import com.olympos.tripbook.src.tripcourse_view.TripcourseViewFragment
+import com.olympos.tripbook.src.user.model.UserView
 import com.olympos.tripbook.utils.*
 
 
-class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, HomeGetProcess {
+class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, HomeGetProcess, UserView {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -141,11 +142,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         startSplashActivity()
     }
 
-    override fun onGetHomeLoading() {
+    override fun getTripCountLoading() {
         //todo
     }
 
-    override fun onGetHomeSuccess(result: Int) {
+    override fun getTripCountSuccess(result: Int) {
         binding.mainUserTripCountTv.text = result.toString()
 
         //기록이 0일 때
@@ -161,21 +162,74 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
-    override fun onGetHomeFailure(code: Int, message: String) {
+    override fun getTripCountFailure(code: Int, message: String) {
         when(code) {
             400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
             2105 -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }
 
+    override fun autoSigninSuccess() {
+        TODO("Not yet implemented")
+    }
 
-//    private fun initViewpager() {
-//        val tripVP = TripViewpagerAdapter(this)
-////        tripVP.addFragment(BannerFragment(R.drawable.img_home_viewpager_exp))
-//
-//        binding.mainContentVp.adapter = tripVP
-//        binding.mainContentVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-//        binding.mainContentCi.setViewPager(binding.mainContentVp)
-//    }
+    override fun autoSigninFailure(code: Int) {
+        TODO("Not yet implemented")
+    }
 
+    override fun signUpUserSuccess() {
+        TODO("Not yet implemented")
+    }
+
+    override fun signUpUserFailure(code: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun signUpProfileSuccess() {
+        TODO("Not yet implemented")
+    }
+
+    override fun signUpProfileFailure(code: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun kakaoSigninSuccess() {
+        TODO("Not yet implemented")
+    }
+
+    override fun kakaoSigninFailure(code: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun updateKakaoAccessTokenSuccess() {
+        TODO("Not yet implemented")
+    }
+
+    override fun updateKakaoAccessTokenFailure(code: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun updateProfileSuccess() {
+        TODO("Not yet implemented")
+    }
+
+    override fun updateProfileFailure(code: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getProfileSuccess() {
+        TODO("Not yet implemented")
+    }
+
+    override fun getProfileFailure(code: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun updateAccessTokenSuccess() {
+        TODO("Not yet implemented")
+    }
+
+    override fun updateAccessTokenFailure(code: Int) {
+        TODO("Not yet implemented")
+    }
 }
