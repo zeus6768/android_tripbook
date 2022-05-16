@@ -175,7 +175,7 @@ class TripcourseActivity : BaseActivity(), PostCardView, ServerView {
             Toast.makeText(this, "최대 15개의 카드까지 생성 가능합니다", Toast.LENGTH_SHORT).show()
             return
         }
-        card = Card(0, tripIdx, cardIdx)
+        card = Card(tripIdx = tripIdx, cardIdx= cardIdx)
         cardIdx++
 
         tripCards.add(card)

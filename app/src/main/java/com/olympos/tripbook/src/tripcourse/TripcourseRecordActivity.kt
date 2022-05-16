@@ -49,7 +49,7 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
         binding.tripcourseRecordTopbarLayout.topbarSubbuttonIb.setImageResource(R.drawable.btn_base_check_black)
         binding.tripcourseRecordTopbarLayout.topbarSubtitleTv.visibility = View.GONE
 
-        if(tripCards[focusedCardPosition].hasData == TRUE) {
+        if(tripCards[focusedCardPosition].title != "NONE") {
             binding.tripcourseRecordBodyEt.hint = tripCards[focusedCardPosition].body
             binding.tripcourseRecordTitleEt.hint = tripCards[focusedCardPosition].title
             binding.tripcourseRecordSelectDateBtn.text = tripCards[focusedCardPosition].date
@@ -123,6 +123,18 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
             R.id.tripcourse_record_hashtag_add_btn ->
                 startTripcourseSelectHashtagActivity()
         }
+    }
+
+    private fun getModifyInfo() {
+        if(binding.tripcourseRecordTitleEt.toString().isNotEmpty()) {
+            tripCards[focusedCardPosition].whatsChange.add(TITLE_CHANGED)
+        }
+        if(binding.tripcourseRecordBodyEt.toString().isNotEmpty()){
+            tripCards[focusedCardPosition].whatsChange.add(BODY_CHANGED)
+        }
+        //if(){ //todo 사진 변경되었는지 확인 : 기존 card.coverImg와 새로운 card.coverImg의 차이가 있다면 변경 됐음 -> 수정
+        //tripCards[focusedCardPosition].whatsChange.add(IMG_CHANGED)
+        // }
     }
 
     private fun getInputInfo() {
@@ -218,7 +230,6 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
         val dig = DateSelectDialog(this)
         dig.listener = this
         dig.show(title, okMessage)
-
     }
 
     override fun onDateOKClicked(selectedYear: Int, selectedMonth: Int, selectedDay: Int) {

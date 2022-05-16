@@ -18,3 +18,10 @@ var focusedCardPosition : Int = 0
 //firebase
 val storage: FirebaseStorage = FirebaseStorage.getInstance() //FirebaseStorage 인스턴스 생성
 val storageRef = storage.reference //스토리지 참조
+
+const val TITLE_CHANGED = 101
+const val BODY_CHANGED = 102
+const val IMG_CHANGED = 103
+const val DATE_CHANGED = 104
+
+
