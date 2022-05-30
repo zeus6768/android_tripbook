@@ -14,8 +14,6 @@ interface CardRetrofitInterface {
     @PATCH("/app/trip/deleteTrip/{userIdx}/{tripIdx}")
     fun deleteTrip(@Path("userIdx") userIdx : Int, @Path("tripIdx") tripIdx: Int) : Call<ServerDefaultResponse>
 
-
-
     @PATCH("/app/course/deleteCourse/{userIdx}/{courseIdx}")
     fun deleteCard(@Path("userIdx") userIdx : Int, @Path("courseIdx") courseIdx :String) : Call<ServerDefaultResponse>
 
@@ -23,17 +21,17 @@ interface CardRetrofitInterface {
     fun getTripcourses(@Path("userIdx") userIdx: Int, @Path("tripIdx") tripIdx: String): Call<GetTripcourseResponse>
 
     @PATCH("/app/course/courseDate/{userIdx}/{courseIdx}")
-    fun patchDate(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx :String, @Body params : HashMap<String, Any>) : Call<ServerDefaultResponse>
+    fun patchDate(@Path("userIdx") userIdx : Int, @Path("courseIdx") courseIdx :Int, @Body params : HashMap<String, Any>) : Call<ServerDefaultResponse>
 
     @PATCH("/app/course/courseTime/{userIdx}/{courseIdx}")
-    fun patchTime(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx : String, @Body params : HashMap<String, Any>) : Call<ServerDefaultResponse>
+    fun patchTime(@Path("userIdx") userIdx : Int, @Path("courseIdx") courseIdx : Int, @Body params : HashMap<String, Any>) : Call<ServerDefaultResponse>
 
     @PATCH("/app/course/courseTitle/{userIdx}/{courseIdx}")
-    fun patchTitle(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx:String, @Body params : HashMap<String, Any> ) : Call<ServerDefaultResponse>
+    fun patchTitle(@Path("userIdx") userIdx : Int, @Path("courseIdx") courseIdx:Int, @Body params : HashMap<String, Any> ) : Call<ServerDefaultResponse>
 
     @PATCH("/app/course/courseImg/{userIdx}/{courseIdx}")
-    fun patchImg(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx:String, @Body params : HashMap<String, Any>) : Call<ServerDefaultResponse>
+    fun patchImg(@Path("userIdx") userIdx : Int, @Path("courseIdx") courseIdx:Int, @Body params : HashMap<String, Any>) : Call<ServerDefaultResponse>
 
     @PATCH("/app/course/courseComment/{userIdx}/{courseIdx}")
-    fun patchBody(@Path("userIdx") userIdx : String, @Path("courseIdx") courseIdx:String, @Body params : HashMap<String, Any>) : Call<ServerDefaultResponse>
+    fun patchBody(@Path("userIdx") userIdx : Int, @Path("courseIdx") courseIdx:Int, @Body params : HashMap<String, Any>) : Call<ServerDefaultResponse>
 }

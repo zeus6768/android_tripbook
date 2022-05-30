@@ -24,4 +24,11 @@ const val BODY_CHANGED = 102
 const val IMG_CHANGED = 103
 const val DATE_CHANGED = 104
 
+const val CARD_TITLE_NONE_DEFAULT = "CARD_TITLE_NONE_DEFAULT"
 
+val changedCards = ArrayList<ChangedCardInfo>()
+
+data class ChangedCardInfo(
+    var changedCourseIdx: Int = 0,
+    val changedInfo: ArrayList<Int> = ArrayList<Int>()
+)

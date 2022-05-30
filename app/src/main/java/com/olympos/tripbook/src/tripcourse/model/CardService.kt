@@ -190,11 +190,13 @@ class CardService{
 
     //카드 세부내용 올리기
     //작성 완료한 카드 서버로 전송
-    fun patchTitle(userIdx : String, courseIdx : String, title : String) {
+    fun patchTitle(courseIdx : Int, title : String) {
         Log.d("CheckPoint : ", "CardService-patchTitle Activated")
         serverView.onServerLoading()
         val params: HashMap<String, Any> = HashMap()
         params["courseTitle"] = title
+
+        val userIdx = getUserIdx()
 
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
         cardRetrofitService.patchTitle(userIdx, courseIdx, params).enqueue(object : Callback<ServerDefaultResponse> {
@@ -221,12 +223,14 @@ class CardService{
         })
     }
 
-    fun patchBody(userIdx : String, courseIdx : String, body : String) {
+    fun patchBody(courseIdx : Int, body : String) {
         Log.d("CheckPoint : ", "CardService-patchBody Activated")
         serverView.onServerLoading()
 
         val params: HashMap<String, Any> = HashMap()
         params["courseComment"] = body
+
+        val userIdx = getUserIdx()
 
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
         cardRetrofitService.patchBody(userIdx, courseIdx, params).enqueue(object : Callback<ServerDefaultResponse> {
@@ -253,12 +257,14 @@ class CardService{
         })
     }
 
-    fun patchImg(userIdx : String, courseIdx : String, img : String) {
+    fun patchImg(courseIdx : Int, img : String) {
         Log.d("CheckPoint : ", "CardService-patchImg Activated")
         serverView.onServerLoading()
 
         val params: HashMap<String, Any> = HashMap()
         params["courseImg"] = img
+
+        val userIdx = getUserIdx()
 
         val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
         cardRetrofitService.patchImg(userIdx, courseIdx, params).enqueue(object : Callback<ServerDefaultResponse> {
@@ -273,6 +279,40 @@ class CardService{
                         }
                         else -> { //의도된 실패
                             Log.d("CardService-patchImg", res.code.toString() + " : " + res.message)
+                            serverView.onServerFailure(res.code, res.message)
+                        }
+                    }
+                }
+            }
+            override fun onFailure(call: Call<ServerDefaultResponse>, t: Throwable) {
+                serverView.onServerFailure(400, t.message.toString())
+                Log.d("CardService-patchImg", t.toString()) //네트워크 실패
+            }
+        })
+    }
+
+    fun patchDate(courseIdx : Int, date : String) {
+        Log.d("CheckPoint : ", "CardService-patchImg Activated")
+        serverView.onServerLoading()
+
+        val params: HashMap<String, Any> = HashMap()
+        params["courseDate"] = date
+
+        val userIdx = getUserIdx()
+
+        val cardRetrofitService = retrofit.create(CardRetrofitInterface::class.java)
+        cardRetrofitService.patchDate(userIdx, courseIdx, params).enqueue(object : Callback<ServerDefaultResponse> {
+            override fun onResponse(call: Call<ServerDefaultResponse>, response: Response<ServerDefaultResponse>) {
+                if (response.isSuccessful) {
+                    val res = response.body()!!
+                    Log.d("__res", response.body()!!.toString())
+                    when (res.code) {
+                        1000 -> { //성공
+                            Log.d("CardService-patchDate", res.code.toString() + " : " + res.message)
+                            serverView.onServerSuccess()
+                        }
+                        else -> { //의도된 실패
+                            Log.d("CardService-patchDate", res.code.toString() + " : " + res.message)
                             serverView.onServerFailure(res.code, res.message)
                         }
                     }

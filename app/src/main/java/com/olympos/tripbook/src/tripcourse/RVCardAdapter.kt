@@ -67,6 +67,7 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
             if(card.imgUrl == "NONE"){
                 binding.itemCardFillCoverImg.setImageResource(R.drawable.img_tripcourse_card_ex)
             } else {
+                //todo download Firebase Img
                 Glide.with(mContext).load(card.imgUrl).into(binding.itemCardFillCoverImg) //context 인자로 받아와야 함
             }
 
@@ -157,7 +158,8 @@ class RVCardAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewH
 
     @SuppressLint("NotifyDataSetChanged")
     private fun onRemoveCard(position: Int){
-        deleteImage(tripCards[focusedCardPosition].imgUrl) //firebase 이미지 삭제
+        if(tripCards[focusedCardPosition].imgUrl != "NONE")
+            deleteImage(tripCards[focusedCardPosition].imgUrl) //firebase 이미지 삭제
         notifyItemRemoved(position) // 얘 작동하는지 확인
         tripCards.removeAt(position)
     }
