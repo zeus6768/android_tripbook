@@ -8,7 +8,7 @@ import retrofit2.*
 class HomeService {
     private lateinit var process: HomeGetProcess
 
-    fun setProcess(process: HomeGetProcess) {
+    fun setHomeProcess(process: HomeGetProcess) {
         this.process = process
     }
 

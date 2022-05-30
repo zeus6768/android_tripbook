@@ -119,7 +119,7 @@ class SplashActivity : AppCompatActivity(), UserView {
                 startSigninActivity()
                 Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
             }
-            else -> { // 예상하지 못한 에러, destroy
+            else -> { // Destroy app on unexpected error
                 Log.e("SplashActivity.kt", "autoSigninFailure() Unexpected status code $code")
                 Toast.makeText(this@SplashActivity, "로그인 에러", Toast.LENGTH_SHORT).show()
                 ActivityCompat.finishAffinity(this@SplashActivity)

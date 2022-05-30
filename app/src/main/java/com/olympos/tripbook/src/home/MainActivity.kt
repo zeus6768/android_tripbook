@@ -30,6 +30,7 @@ import com.olympos.tripbook.utils.*
 
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, HomeGetProcess, UserView {
+    private val homeService = HomeService()
     private val userService = UserService()
     private lateinit var binding: ActivityMainBinding
 
@@ -38,25 +39,24 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initView()
-//        initViewpager()
+        homeService.setHomeProcess(this)
+        userService.setUserView(this)
 
-        //click 리스너
+        initView()
+
         binding.homeLeftDrawerBtn.setOnClickListener(this)
         binding.mainContentRecordBtnTv.setOnClickListener(this)
         binding.mainLeftNavigationView.setNavigationItemSelectedListener(this)
-
         binding.mainDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED) //스와이프 비활성화
-
     }
 
     override fun onResume() {
         super.onResume()
-        getTripCount()
+        homeService.getTripCount()
     }
 
     private fun initView() {
-        getTripCount()
+        homeService.getTripCount()
         binding.mainUserNameTv.text = getNickname() + "님의 추억"
 
         //navigation view
@@ -121,7 +121,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun startTripActivity() {
         val intent = Intent(this, TripActivity::class.java)
-//        val intent = Intent(this, TripcourseActivity::class.java)
         startActivity(intent)
     }
 
@@ -132,48 +131,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun onOKClicked() {
         super.onOKClicked()
-        //반짝이는 효과
-//        binding.mainContentRecordBtnLl.setBackgroundResource(R.drawable.bg_home_gradation)
-    }
-
-    private fun getTripCount() {
-        val homeService = HomeService()
-        homeService.setProcess(this)
-
-        homeService.getTripCount()
+        // 반짝이는 효과
+        // binding.mainContentRecordBtnLl.setBackgroundResource(R.drawable.bg_home_gradation)
     }
 
     private fun userLogout() {
         logout()
         startSplashActivity()
-    }
-
-    override fun getTripCountLoading() {
-        //todo
-    }
-
-    override fun getTripCountSuccess(result: Int) {
-        binding.mainUserTripCountTv.text = result.toString()
-
-        //기록이 0일 때
-        if(binding.mainUserTripCountTv.text == "0") {
-            initFragment()
-            showImgDialog("트립북을 시작해보세요!", "상단의 ‘여행 기록하러 가기’\n" +
-                    "버튼을 눌러\n" +
-                    "여행 발자국을 남겨보세요.", "확인", R.drawable.img_home_notice)
-        }
-        else {
-            val recentTripIdx = getTripIdx()
-            showRecentTripcourse(recentTripIdx)
-        }
-    }
-
-    override fun getTripCountFailure(code: Int, message: String) {
-        when(code) {
-            400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
-            1500, 1509 -> userService.autoSignin()
-            2105 -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-        }
     }
 
     private fun startSigninActivity() {
@@ -184,8 +148,43 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         },1500)
     }
 
+    override fun getTripCountLoading() {
+        //todo
+    }
+
+    override fun getTripCountSuccess(result: Int) {
+        Log.d("MainActivity.kt", "getTripCountSuccess()")
+        binding.mainUserTripCountTv.text = result.toString()
+
+        //기록이 0일 때
+        if(binding.mainUserTripCountTv.text == "0") {
+            initFragment()
+            showImgDialog(
+                "트립북을 시작해보세요!",
+                "상단의 ‘여행 기록하러 가기’\n" +
+                    "버튼을 눌러\n" +
+                    "여행 발자국을 남겨보세요.", "확인", R.drawable.img_home_notice
+            )
+        }
+        else {
+            val recentTripIdx = getTripIdx()
+            showRecentTripcourse(recentTripIdx)
+        }
+    }
+
+    override fun getTripCountFailure(code: Int, message: String) {
+        Log.e("MainActivity.kt", "autoSigninFailure() status code $code")
+        when(code) {
+            400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
+            1500, 1504, 1507, 1509 -> userService.autoSignin()
+            2105 -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun autoSigninSuccess() {
-        Log.d("MainActivity.kt", " \nautoSigninSuccess()" +
+        Log.d(
+            "MainActivity.kt",
+            " \nautoSigninSuccess()" +
                 "\nuserIdx: " + getUserIdx() +
                 "\nAT: " + getAccessToken() +
                 "\nRT: " + getRefreshToken() +
@@ -198,14 +197,17 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             token["kakaoAccessToken"] = kakaoAccessToken
             userService.updateProfile(token, getUserIdx())
         } else {
-            startSigninActivity()
+            Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
+            userLogout()
         }
     }
 
     override fun autoSigninFailure(code: Int) {
-        Log.e("SplashActivity.kt", "autoSigninFailure() status code $code")
+        Log.e(
+            "MainActivity.kt",
+            "autoSigninFailure() status code $code")
         when (code) {
-            1504, 1507, 1509 -> {
+            1500, 1504, 1507, 1509 -> {
                 val refreshToken = getRefreshToken()
                 val userIdx = getUserIdx()
                 if (refreshToken != null && userIdx != 0) {
@@ -213,74 +215,177 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     tokens["refreshToken"] = refreshToken
                     userService.updateAccessToken(tokens, userIdx)
                 } else {
-                    startSigninActivity()
+                    Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
+                    userLogout()
                 }
             }
-            3007 -> {
-                startSigninActivity()
+            else -> {
                 Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
-            }
-            else -> { // 예상하지 못한 에러, destroy
-                Log.e("SplashActivity.kt", "autoSigninFailure() Unexpected status code $code")
-                Toast.makeText(this@MainActivity, "로그인 에러", Toast.LENGTH_SHORT).show()
-                ActivityCompat.finishAffinity(this@MainActivity)
+                userLogout()
             }
         }
     }
 
     override fun signUpUserSuccess() {
-        TODO("Not yet implemented")
+        Log.d("MainActivity.kt", "signUpUserSuccess()")
+        val kakaoAccessToken = getKakaoAccessToken()
+        if (kakaoAccessToken != null) {
+            val token = HashMap<String, String>()
+            token["kakaoAccessToken"] = kakaoAccessToken
+            userService.signUpProfile(token)
+        } else {
+            Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
+            userLogout()
+        }
     }
 
     override fun signUpUserFailure(code: Int) {
-        TODO("Not yet implemented")
+        Log.e("MainActivity.kt", "signUpUserFailure() status code $code")
+        Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
+        userLogout()
     }
 
     override fun signUpProfileSuccess() {
-        TODO("Not yet implemented")
+        Log.d("MainActivity.kt", "signUpProfileSuccess()")
+        val accessToken = getAccessToken()
+        val refreshToken = getRefreshToken()
+        if (accessToken != null && refreshToken != null) {
+            val tokens = HashMap<String, String>()
+            tokens["accessToken"] = accessToken
+            tokens["refreshToken"] = refreshToken
+            userService.kakaoSignin(tokens)
+        } else {
+            Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
+            userLogout()
+        }
     }
 
     override fun signUpProfileFailure(code: Int) {
-        TODO("Not yet implemented")
+        Log.e("MainActivity.kt", "signUpProfileFailure() status code $code")
+        Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
+        userLogout()
     }
 
     override fun kakaoSigninSuccess() {
-        TODO("Not yet implemented")
+        val kat = getKakaoAccessToken()
+        val krt = getKakaoRefreshToken()
+        Log.d("MainActivity.kt", "kakaoSigninSuccess()")
+        Log.d("MainActivity.kt", " \nKAT: $kat \nKRT: $krt")
+        val accessToken = getAccessToken()
+        if (accessToken != null) {
+            userService.autoSignin()
+        } else {
+            Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
+            userLogout()
+        }
     }
 
     override fun kakaoSigninFailure(code: Int) {
-        TODO("Not yet implemented")
+        Log.e("MainActivity.kt", "kakaoSigninFailure() status code $code")
+        when (code) {
+            2052 -> {
+                val kakaoAccessToken = getKakaoAccessToken()
+                if (kakaoAccessToken != null) {
+                    val token = HashMap<String, String>()
+                    token["kakaoAccessToken"] = kakaoAccessToken
+                    userService.signUpUser(token)
+                } else {
+                    Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
+                    userLogout()
+                }
+            }
+            2057 -> {
+                val userIdx = getUserIdx()
+                val kakaoRefreshToken = getKakaoRefreshToken()
+                if (kakaoRefreshToken != null && userIdx != 0) {
+                    val token = HashMap<String, String>()
+                    token["kakaoRefreshToken"] = kakaoRefreshToken
+                    userService.updateKakaoAccessToken(token, userIdx)
+                } else {
+                    Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
+                    userLogout()
+                }
+            }
+            else -> {
+                Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
+                userLogout()
+            }
+        }
     }
 
     override fun updateKakaoAccessTokenSuccess() {
-        TODO("Not yet implemented")
+        Log.d("MainActivity.kt", "updateKakaoAccessTokenSuccess()")
+        val kakaoAccessToken = getKakaoAccessToken()
+        val kakaoRefreshToken = getKakaoRefreshToken()
+        if (kakaoAccessToken != null && kakaoRefreshToken != null) {
+            val tokens = HashMap<String, String>()
+            tokens["kakaoAccessToken"] = kakaoAccessToken
+            tokens["kakaoRefreshToken"] = kakaoRefreshToken
+            userService.kakaoSignin(tokens)
+        } else {
+            Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
+            userLogout()
+        }
     }
 
     override fun updateKakaoAccessTokenFailure(code: Int) {
-        TODO("Not yet implemented")
+        Log.e("MainActivity.kt", "updateKakaoAccessTokenFailure() status code $code")
+        Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
+        userLogout()
     }
 
     override fun updateProfileSuccess() {
-        TODO("Not yet implemented")
+        Log.d("MainActivity.kt", "updateProfileSuccess()")
+        userService.getProfile(getUserIdx())
     }
 
     override fun updateProfileFailure(code: Int) {
-        TODO("Not yet implemented")
+        Log.e("MainActivity.kt", "updateProfileFailure() status code $code")
     }
 
     override fun getProfileSuccess() {
-        TODO("Not yet implemented")
+        val nickname = getNickname()
+        val userImg = getUserImage()
+        Log.d("MainActivity.kt", "getProfileSuccess()")
+        Log.d("MainActivity.kt", "nickname: $nickname, userImg: $userImg")
     }
 
     override fun getProfileFailure(code: Int) {
-        TODO("Not yet implemented")
+        Log.e("MainActivity.kt", "getProfileFailure() status code $code")
+        Toast.makeText(this, "프로필 업데이트에 실패했습니다.", Toast.LENGTH_SHORT).show()
     }
 
     override fun updateAccessTokenSuccess() {
-        TODO("Not yet implemented")
+        Log.d("MainActivity.kt", "updateAccessTokenSuccess()")
+        val accessToken = getAccessToken()
+        if (accessToken != null) {
+            userService.autoSignin()
+        } else {
+            Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
+            userLogout()
+        }
     }
 
     override fun updateAccessTokenFailure(code: Int) {
-        TODO("Not yet implemented")
+        Log.e("MainActivity.kt", "updateAccessTokenFailure() status code $code")
+        when (code) {
+            1505, 1509 -> {
+                val kakaoAccessToken = getKakaoAccessToken()
+                val kakaoRefreshToken = getKakaoRefreshToken()
+                if (kakaoAccessToken != null && kakaoRefreshToken != null) {
+                    val tokens = HashMap<String, String>()
+                    tokens["kakaoAccessToken"] = kakaoAccessToken
+                    tokens["kakaoRefreshToken"] = kakaoRefreshToken
+                    userService.kakaoSignin(tokens)
+                } else {
+                    Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
+                    userLogout()
+                }
+            }
+            else -> {
+                Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
+                userLogout()
+            }
+        }
     }
 }
