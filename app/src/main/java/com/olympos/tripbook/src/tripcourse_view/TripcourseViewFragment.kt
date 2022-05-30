@@ -130,14 +130,13 @@ class TripcourseViewFragment : BaseFragment() , RecentTripResponseView, RecentTr
     override fun onGetRecentTripCardsSuccess(cards: ArrayList<Card>) {
         Log.d("ServerRecentTripCards", cards.toString())
         serverTripCards.clear()
+        filledCards.clear()
         serverTripCards.addAll(cards)
         for(i in 0 until serverTripCards.size) {
             if(serverTripCards[i].title != "NONE") {
-                Log.d("What's Happen in Here?", "i : $i, serverTripCards[i] = "+ serverTripCards[i].toString())
                 filledCards.add(serverTripCards[i])
             }
         }
-        Log.d("filledCards", filledCards.toString())
         cardRVAdapterView.notifyDataSetChanged()
     }
 

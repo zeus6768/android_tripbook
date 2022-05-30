@@ -24,7 +24,7 @@ import java.util.*
 class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickListener {
 
     lateinit var binding: ActivityTripcourseRecordBinding
-    lateinit var tripDate: String
+    private var tripDate: String? = null
 
     private var firebaseUrl: Uri? = null //firebase uri 전역변수
     private var localUrl: Uri? = null //local uri 전역변수
@@ -190,7 +190,9 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
         //body 저장
         tripCards[focusedCardPosition].body = binding.tripcourseRecordBodyEt.text.toString()
         //날짜 저장
-        tripCards[focusedCardPosition].date = tripDate
+        if( tripDate != null ) {
+            tripCards[focusedCardPosition].date = tripDate!!
+        }
 
         //아직 구현이 안된 더미 데이터들
         tripCards[focusedCardPosition].time = 2
