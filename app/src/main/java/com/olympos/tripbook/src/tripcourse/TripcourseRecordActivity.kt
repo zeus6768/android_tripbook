@@ -176,7 +176,7 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
 //            tripCards[focusedCardPosition]
 //        }
         if( beforeDate != tripCards[focusedCardPosition].date ){
-            tripCards[focusedCardPosition].date = tripDate
+            tripCards[focusedCardPosition].date = tripDate!!
         }
     }
 

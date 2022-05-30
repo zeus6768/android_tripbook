@@ -75,6 +75,7 @@
 
                     <!--여행 지역/도시 선택-->
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/tripcourse_record_view_select_country_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -111,9 +112,10 @@
 
                 <!--해시태그 선택(임시), 이후에 리사이클러뷰로 수정할 예정-->
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_marginTop="15dp">
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -128,13 +130,15 @@
                         android:includeFontPadding="false"
                         android:layout_gravity="start|top"
                         android:paddingHorizontal="8dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/gray" />
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/gray" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
