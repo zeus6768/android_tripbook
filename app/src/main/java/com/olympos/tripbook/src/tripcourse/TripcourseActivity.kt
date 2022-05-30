@@ -36,9 +36,10 @@ class TripcourseActivity : BaseActivity(), PostCardView, ServerView {
         binding = ActivityTripcourseBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initView()
         initRecyclerView()
-        addDefaultCard()
+        initView()
+
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -63,8 +64,23 @@ class TripcourseActivity : BaseActivity(), PostCardView, ServerView {
         tripData = gson.fromJson(intent.getStringExtra("tripData"), Trip::class.java)
         //여행 정보 가져옴
         tripIdx = getTripIdx()
-
         Log.d("Tripcourse_tripIdx/Data", "tripIdx : $tripIdx, tripData : $tripData")
+
+        //tripcouse 정보
+        val cards : Array<Card>? = gson.fromJson(intent.getStringExtra("tripcourseData"), Array<Card>::class.java)
+
+        if( cards == null ) {
+            setDefaultCard()
+        } else {
+            tripCards.clear()
+            var i = 0
+            while( i < cards.size ) {
+                if(cards[i].title != "NONE")
+                    cards[i].hasData = TRUE
+                tripCards.add(cards[i])
+                i++
+            }
+        }
 
         //출발일
         val dDate = tripData.departureDate.split("-")
@@ -99,6 +115,13 @@ class TripcourseActivity : BaseActivity(), PostCardView, ServerView {
         registerForContextMenu(binding.tripcourseTitlebarLayout)
     }
 
+    override fun onBackPressed() {
+        showDialog(
+            "발자국 작성 취소", "발자국 작성을 취소하시겠습니까?\n"
+                    + "작성중인 정보는 저장되지 않습니다.", "확인"
+        )
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     override fun onClick(v: View?) {
         super.onClick(v)
@@ -108,7 +131,6 @@ class TripcourseActivity : BaseActivity(), PostCardView, ServerView {
                     "발자국 작성 취소", "발자국 작성을 취소하시겠습니까?\n"
                             + "작성중인 정보는 저장되지 않습니다.", "확인"
                 )
-                //todo Trip 삭제
             }
             R.id.topbar_subbutton_ib -> { //상단바 - 체크 버튼 - 저장
                 if( changedCards.isEmpty() ) {
@@ -154,7 +176,8 @@ class TripcourseActivity : BaseActivity(), PostCardView, ServerView {
         startActivity(intent)
     }
 
-    private fun addDefaultCard() {
+    private fun setDefaultCard() {
+        tripCards.clear()
         addCard()
         addCard()
         addCard()
@@ -216,8 +239,6 @@ class TripcourseActivity : BaseActivity(), PostCardView, ServerView {
             }
             changedCards.removeAt(0)
         }
-
-
 
         cardService.deleteTrip(tripIdx)
     }

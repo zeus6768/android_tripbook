@@ -10,4 +10,4 @@ var focusedViewCardPosition : Int = 0
 
 val filledCards = ArrayList<Card>()
 
-val serverTripCards = ArrayList<Card>()
+var serverTripCards = ArrayList<Card>()

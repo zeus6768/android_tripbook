@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnLongClickListener
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -13,9 +14,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.gson.Gson
 import com.olympos.tripbook.config.BaseFragment
 import com.olympos.tripbook.databinding.FragmentTripcourseViewBinding
-import com.olympos.tripbook.src.home.model.RecentTripResponse
 import com.olympos.tripbook.src.trip.model.Trip
-import com.olympos.tripbook.src.tripcourse.TRUE
+import com.olympos.tripbook.src.tripcourse.TripcourseActivity
 import com.olympos.tripbook.src.tripcourse.model.Card
 import com.olympos.tripbook.src.tripcourse_view.model.*
 import com.olympos.tripbook.utils.*
@@ -26,6 +26,8 @@ class TripcourseViewFragment : BaseFragment() , RecentTripResponseView, RecentTr
 
     private lateinit var cardRVAdapterView : RVCardAdapter_view
 
+    private var thisTrip: Trip? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,15 +35,7 @@ class TripcourseViewFragment : BaseFragment() , RecentTripResponseView, RecentTr
     ): View? {
         binding = FragmentTripcourseViewBinding.inflate(inflater, container, false)
 
-        //val bundle = arguments
-
-//        val tripIdx : Int = bundle!!.getInt("tripIdx")
-//        getTrip(tripIdx)
-
         initRecyclerView()
-
-        getRecentTrip()
-        getRecentTripCards()
 
         initView()
 
@@ -64,13 +58,25 @@ class TripcourseViewFragment : BaseFragment() , RecentTripResponseView, RecentTr
 
     private fun initView() {
 
-    }
+        binding.tripcourseViewTitlebarLayout.setOnLongClickListener(OnLongClickListener {
 
-//    private fun getTrip(tripIdx : Int){
-//        val viewService = ViewService()
-//        viewService.setTripResponseView(this)
-//        viewService.getTrip(tripIdx)
-//    }
+            if( thisTrip == null ) {
+                Toast.makeText(context, "비어있는 여행", Toast.LENGTH_LONG).show()
+            }
+            val intent = Intent(activity, TripcourseActivity::class.java)
+            val gson = Gson()
+            //trip 정보
+            intent.putExtra("tripData", gson.toJson(thisTrip))
+            //tripcourse 정보
+            intent.putExtra("tripcourseData", gson.toJson(serverTripCards))
+            startActivity(intent)
+
+            true //true 설정
+        })
+
+        getRecentTrip()
+        getRecentTripCards()
+    }
 
     private fun getRecentTrip() {
         val viewService = ViewService()
@@ -94,6 +100,8 @@ class TripcourseViewFragment : BaseFragment() , RecentTripResponseView, RecentTr
     }
 
     override fun onGetRecentTripSuccess(trip: Trip) {
+        thisTrip = trip
+
         //출발일
         val dDate = trip.departureDate.split("-")
         val dYear = dDate[0].substring(2,4)
@@ -129,9 +137,10 @@ class TripcourseViewFragment : BaseFragment() , RecentTripResponseView, RecentTr
     @SuppressLint("NotifyDataSetChanged")
     override fun onGetRecentTripCardsSuccess(cards: ArrayList<Card>) {
         Log.d("ServerRecentTripCards", cards.toString())
-        serverTripCards.clear()
+        serverTripCards = cards
+
         filledCards.clear()
-        serverTripCards.addAll(cards)
+
         for(i in 0 until serverTripCards.size) {
             if(serverTripCards[i].title != "NONE") {
                 filledCards.add(serverTripCards[i])

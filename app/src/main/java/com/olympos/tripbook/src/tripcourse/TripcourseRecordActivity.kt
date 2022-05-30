@@ -182,11 +182,12 @@ class TripcourseRecordActivity : BaseActivity(), DateSelectDialog.DialogClickLis
 
     private fun getInputInfo() {
         //필수요소 : 제목
+        tripCards[focusedCardPosition].title = binding.tripcourseRecordTitleEt.text.toString()
+
         tripCards[focusedCardPosition].hasData = TRUE
         //사진 저장(Uri)
         tripCards[focusedCardPosition].imgUrl = firebaseUrl.toString()
-        //제목 저장
-        tripCards[focusedCardPosition].title = binding.tripcourseRecordTitleEt.text.toString()
+
         //body 저장
         tripCards[focusedCardPosition].body = binding.tripcourseRecordBodyEt.text.toString()
         //날짜 저장
