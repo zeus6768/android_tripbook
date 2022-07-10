@@ -19,7 +19,6 @@ import com.olympos.tripbook.src.home.model.HomeGetProcess
 import com.olympos.tripbook.src.home.model.HomeService
 import com.olympos.tripbook.src.splash.SplashActivity
 import com.olympos.tripbook.src.trip.TripActivity
-import com.olympos.tripbook.src.tripcourse_view.TripcourseViewFragment
 import com.olympos.tripbook.utils.*
 
 
@@ -67,16 +66,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     //
     private fun initFragment() {
         supportFragmentManager.beginTransaction().replace(R.id.main_content_fl, HomeFragment())
-            .commitAllowingStateLoss()
-    }
-
-    private fun showRecentTripcourse(recentTripIdx : Int) {
-        val tripcourseViewFragment = TripcourseViewFragment()
-        val bundle = Bundle()
-        bundle.putInt("tripIdx", recentTripIdx)
-        tripcourseViewFragment.arguments = bundle
-
-        supportFragmentManager.beginTransaction().replace(R.id.main_content_fl, tripcourseViewFragment)
             .commitAllowingStateLoss()
     }
 
@@ -157,7 +146,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
         else {
             val recentTripIdx = getTripIdx()
-            showRecentTripcourse(recentTripIdx)
+//            showRecentTripcourse(recentTripIdx)
         }
     }
 
@@ -167,15 +156,4 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             2105 -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }
-
-
-//    private fun initViewpager() {
-//        val tripVP = TripViewpagerAdapter(this)
-////        tripVP.addFragment(BannerFragment(R.drawable.img_home_viewpager_exp))
-//
-//        binding.mainContentVp.adapter = tripVP
-//        binding.mainContentVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-//        binding.mainContentCi.setViewPager(binding.mainContentVp)
-//    }
-
 }
