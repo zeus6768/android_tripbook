@@ -14,7 +14,6 @@ import com.olympos.tripbook.databinding.ActivityTripBinding
 import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.src.trip.model.TripPostProcess
 import com.olympos.tripbook.src.trip.model.TripService
-import com.olympos.tripbook.src.tripcourse.TripcourseActivity
 import com.olympos.tripbook.utils.getUserIdx
 import com.olympos.tripbook.utils.saveTripIdx
 
@@ -188,7 +187,7 @@ class TripActivity : BaseActivity(), TripPostProcess {
     }
 
     private fun startTripcourseActivity() {
-        val intent = Intent(this, TripcourseActivity::class.java)
+//        val intent = Intent(this, TripcourseActivity::class.java)
         val gson = Gson()
         val tripData = gson.toJson(trip)
 
