@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.bumptech.glide.Glide
@@ -22,7 +21,6 @@ import com.olympos.tripbook.src.home.model.HomeGetProcess
 import com.olympos.tripbook.src.home.model.HomeService
 import com.olympos.tripbook.src.splash.SplashActivity
 import com.olympos.tripbook.src.trip.TripActivity
-import com.olympos.tripbook.src.tripcourse_view.TripcourseViewFragment
 import com.olympos.tripbook.src.user.SigninActivity
 import com.olympos.tripbook.src.user.model.UserService
 import com.olympos.tripbook.src.user.model.UserView
@@ -74,16 +72,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     //
     private fun initFragment() {
         supportFragmentManager.beginTransaction().replace(R.id.main_content_fl, HomeFragment())
-            .commitAllowingStateLoss()
-    }
-
-    private fun showRecentTripcourse(recentTripIdx : Int) {
-        val tripcourseViewFragment = TripcourseViewFragment()
-        val bundle = Bundle()
-        bundle.putInt("tripIdx", recentTripIdx)
-        tripcourseViewFragment.arguments = bundle
-
-        supportFragmentManager.beginTransaction().replace(R.id.main_content_fl, tripcourseViewFragment)
             .commitAllowingStateLoss()
     }
 
@@ -168,7 +156,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
         else {
             val recentTripIdx = getTripIdx()
-            showRecentTripcourse(recentTripIdx)
+//            showRecentTripcourse(recentTripIdx)
         }
     }
 
