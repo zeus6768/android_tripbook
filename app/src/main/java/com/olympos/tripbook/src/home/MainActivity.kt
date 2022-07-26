@@ -21,6 +21,7 @@ import com.olympos.tripbook.src.home.model.HomeGetProcess
 import com.olympos.tripbook.src.home.model.HomeService
 import com.olympos.tripbook.src.splash.SplashActivity
 import com.olympos.tripbook.src.trip.TripActivity
+import com.olympos.tripbook.src.user.MypageActivity
 import com.olympos.tripbook.src.user.SigninActivity
 import com.olympos.tripbook.src.user.model.UserService
 import com.olympos.tripbook.src.user.model.UserView
@@ -69,7 +70,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         navUserLogout.setOnClickListener(this)
     }
 
-    //
     private fun initFragment() {
         supportFragmentManager.beginTransaction().replace(R.id.main_content_fl, HomeFragment())
             .commitAllowingStateLoss()
@@ -96,7 +96,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     //navigation item 별 actions
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu1 -> Toast.makeText(this, "나의 지난 여행", Toast.LENGTH_SHORT).show()
+            R.id.menu1 -> startMypageActivity()
             R.id.menu2 -> Toast.makeText(this, "다이어리 테마", Toast.LENGTH_SHORT).show()
             R.id.menu3 -> Toast.makeText(this, "모두의 여행기", Toast.LENGTH_SHORT).show()
             R.id.menu4 -> Toast.makeText(this, "새로운 소식", Toast.LENGTH_SHORT).show()
@@ -107,25 +107,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         return false
     }
 
-    private fun startTripActivity() {
-        val intent = Intent(this, TripActivity::class.java)
-        startActivity(intent)
-    }
-
     private fun startSplashActivity() {
         val intent = Intent(this, SplashActivity::class.java)
         startActivity(intent)
-    }
-
-    override fun onOKClicked() {
-        super.onOKClicked()
-        // 반짝이는 효과
-        // binding.mainContentRecordBtnLl.setBackgroundResource(R.drawable.bg_home_gradation)
-    }
-
-    private fun userLogout() {
-        logout()
-        startSplashActivity()
     }
 
     private fun startSigninActivity() {
@@ -136,6 +120,21 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         },1500)
     }
 
+    private fun startMypageActivity() {
+        val intent = Intent(this, MypageActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun startTripActivity() {
+        val intent = Intent(this, TripActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun userLogout() {
+        logout()
+        startSplashActivity()
+    }
+
     override fun getTripCountLoading() {
         //todo
     }
@@ -144,7 +143,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         Log.d("MainActivity.kt", "getTripCountSuccess()")
         binding.mainUserTripCountTv.text = result.toString()
 
-        //기록이 0일 때
         if(binding.mainUserTripCountTv.text == "0") {
             initFragment()
             showImgDialog(
@@ -153,10 +151,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     "버튼을 눌러\n" +
                     "여행 발자국을 남겨보세요.", "확인", R.drawable.img_home_notice
             )
-        }
-        else {
-            val recentTripIdx = getTripIdx()
-//            showRecentTripcourse(recentTripIdx)
         }
     }
 

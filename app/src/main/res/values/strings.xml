@@ -62,6 +62,9 @@
     <string name="user_signin_guide_message_3">카카오계정사이트(accounts.kakao.com)에서\n계정을 생성한 후 트립북을 이용하실 수 있어요.</string>
     <string name="user_profile_greeting">안녕하세요!</string>
 
+    //activity_mypage
+    <string name="mypage_history">지난 여행 보러가기</string>
+
     //activity_trip
     <string name="trip_title">여행 기록하기</string>
     <string name="trip_title_tv">제목을 입력해주세요.</string>
