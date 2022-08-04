@@ -129,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
                 android:layout_marginStart="18dp"
-                android:text="11"
+                android:text="0"
                 android:textSize="24sp"
                 android:textColor="@color/tripbook_main_1"
                 android:fontFamily="@font/notosans_kr_bold"
@@ -203,64 +203,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <ScrollView
-        android:id="@+id/mypage_history_scrollview"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mypage_history_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:overScrollMode="never"
         app:layout_constraintTop_toBottomOf="@id/mypage_history_activity_title_view"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <View
-                android:id="@+id/mypage_history_vertical_line_view"
-                android:layout_width="2dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="28dp"
-                android:orientation="vertical"
-                android:background="@color/tripbook_main_4"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
-
-            <View
-                android:id="@+id/mypage_history_circle_each_view"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:background="@drawable/img_mypage_circle"
-                android:layout_marginStart="9dp"
-                app:layout_constraintTop_toTopOf="@id/mypage_history_guide_tv"
-                app:layout_constraintBottom_toBottomOf="@id/mypage_history_guide_tv"
-                app:layout_constraintStart_toStartOf="@id/mypage_history_vertical_line_view"
-                />
-
-            <TextView
-                android:id="@+id/mypage_history_guide_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="17dp"
-                android:text="최근 30일 이내의 나의 활동 내역을 확인할 수 있어요."
-                android:textSize="10sp"
-                android:textColor="@color/dark_gray"
-                android:fontFamily="@font/notosans_kr_bold"
-                android:includeFontPadding="false"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="@id/mypage_history_circle_each_view"/>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </ScrollView>
-
-
-
+        tools:listitem="@layout/item_mypage_trip_history"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

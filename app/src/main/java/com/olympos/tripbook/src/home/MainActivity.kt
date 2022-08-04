@@ -2,8 +2,6 @@ package com.olympos.tripbook.src.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -17,20 +15,19 @@ import com.google.android.material.navigation.NavigationView
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityMainBinding
-import com.olympos.tripbook.src.home.model.HomeGetProcess
+import com.olympos.tripbook.src.trip.TripCountView
 import com.olympos.tripbook.src.home.model.HomeService
+import com.olympos.tripbook.src.mypage.MyPageActivity
 import com.olympos.tripbook.src.splash.SplashActivity
 import com.olympos.tripbook.src.trip.TripActivity
-import com.olympos.tripbook.src.user.MypageActivity
-import com.olympos.tripbook.src.user.SigninActivity
-import com.olympos.tripbook.src.user.model.UserService
-import com.olympos.tripbook.src.user.model.UserView
+import com.olympos.tripbook.src.user.UserAuthApiController
+import com.olympos.tripbook.src.user.UserAuthApiView
 import com.olympos.tripbook.utils.*
 
 
-class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, HomeGetProcess, UserView {
+class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, TripCountView, UserAuthApiView {
     private val homeService = HomeService()
-    private val userService = UserService()
+    private val userAuthApiController = UserAuthApiController()
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +36,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setContentView(binding.root)
 
         homeService.setHomeProcess(this)
-        userService.setUserView(this)
+        userAuthApiController.setUserView(this)
 
         initView()
 
@@ -112,16 +109,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         startActivity(intent)
     }
 
-    private fun startSigninActivity() {
-        Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, SigninActivity::class.java)
-            startActivity(intent)
-            finish()
-        },1500)
-    }
-
     private fun startMypageActivity() {
-        val intent = Intent(this, MypageActivity::class.java)
+        val intent = Intent(this, MyPageActivity::class.java)
         startActivity(intent)
     }
 
@@ -133,10 +122,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private fun userLogout() {
         logout()
         startSplashActivity()
-    }
-
-    override fun getTripCountLoading() {
-        //todo
     }
 
     override fun getTripCountSuccess(result: Int) {
@@ -155,10 +140,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun getTripCountFailure(code: Int, message: String) {
-        Log.e("MainActivity.kt", "autoSigninFailure() status code $code")
+        Log.e("MainActivity.kt", "getTripCountFailure() status code $code")
         when(code) {
             400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
-            1500, 1504, 1507, 1509 -> userService.autoSignin()
+            1500, 1504, 1507, 1509 -> userAuthApiController.autoSignin()
             2105 -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }
@@ -177,7 +162,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         if (kakaoAccessToken != null) {
             val token = HashMap<String, String>()
             token["kakaoAccessToken"] = kakaoAccessToken
-            userService.updateProfile(token, getUserIdx())
+            userAuthApiController.updateProfile(token, getUserIdx())
         } else {
             Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
             userLogout()
@@ -195,7 +180,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 if (refreshToken != null && userIdx != 0) {
                     val tokens = HashMap<String, String>()
                     tokens["refreshToken"] = refreshToken
-                    userService.updateAccessToken(tokens, userIdx)
+                    userAuthApiController.updateAccessToken(tokens, userIdx)
                 } else {
                     Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
                     userLogout()
@@ -214,7 +199,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         if (kakaoAccessToken != null) {
             val token = HashMap<String, String>()
             token["kakaoAccessToken"] = kakaoAccessToken
-            userService.signUpProfile(token)
+            userAuthApiController.signUpProfile(token)
         } else {
             Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
             userLogout()
@@ -235,7 +220,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             val tokens = HashMap<String, String>()
             tokens["accessToken"] = accessToken
             tokens["refreshToken"] = refreshToken
-            userService.kakaoSignin(tokens)
+            userAuthApiController.kakaoSignin(tokens)
         } else {
             Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
             userLogout()
@@ -255,7 +240,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         Log.d("MainActivity.kt", " \nKAT: $kat \nKRT: $krt")
         val accessToken = getAccessToken()
         if (accessToken != null) {
-            userService.autoSignin()
+            userAuthApiController.autoSignin()
         } else {
             Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
             userLogout()
@@ -270,7 +255,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 if (kakaoAccessToken != null) {
                     val token = HashMap<String, String>()
                     token["kakaoAccessToken"] = kakaoAccessToken
-                    userService.signUpUser(token)
+                    userAuthApiController.signUpUser(token)
                 } else {
                     Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
                     userLogout()
@@ -282,7 +267,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 if (kakaoRefreshToken != null && userIdx != 0) {
                     val token = HashMap<String, String>()
                     token["kakaoRefreshToken"] = kakaoRefreshToken
-                    userService.updateKakaoAccessToken(token, userIdx)
+                    userAuthApiController.updateKakaoAccessToken(token, userIdx)
                 } else {
                     Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
                     userLogout()
@@ -303,7 +288,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             val tokens = HashMap<String, String>()
             tokens["kakaoAccessToken"] = kakaoAccessToken
             tokens["kakaoRefreshToken"] = kakaoRefreshToken
-            userService.kakaoSignin(tokens)
+            userAuthApiController.kakaoSignin(tokens)
         } else {
             Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
             userLogout()
@@ -318,7 +303,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun updateProfileSuccess() {
         Log.d("MainActivity.kt", "updateProfileSuccess()")
-        userService.getProfile(getUserIdx())
+        userAuthApiController.getProfile(getUserIdx())
     }
 
     override fun updateProfileFailure(code: Int) {
@@ -341,7 +326,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         Log.d("MainActivity.kt", "updateAccessTokenSuccess()")
         val accessToken = getAccessToken()
         if (accessToken != null) {
-            userService.autoSignin()
+            userAuthApiController.autoSignin()
         } else {
             Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
             userLogout()
@@ -358,7 +343,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     val tokens = HashMap<String, String>()
                     tokens["kakaoAccessToken"] = kakaoAccessToken
                     tokens["kakaoRefreshToken"] = kakaoRefreshToken
-                    userService.kakaoSignin(tokens)
+                    userAuthApiController.kakaoSignin(tokens)
                 } else {
                     Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
                     userLogout()
