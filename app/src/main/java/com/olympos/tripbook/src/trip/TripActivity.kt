@@ -187,7 +187,7 @@ class TripActivity : BaseActivity(), TripPostProcess {
     }
 
     private fun startTripcourseActivity() {
-//        val intent = Intent(this, TripcourseActivity::class.java)
+        val intent = Intent(this, TripcourseActivity::class.java)
         val gson = Gson()
         val tripData = gson.toJson(trip)
 
