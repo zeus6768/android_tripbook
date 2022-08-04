@@ -11,14 +11,17 @@ import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityUserMypageBinding
 import com.olympos.tripbook.src.home.MainActivity
-import com.olympos.tripbook.src.trip.TripCountView
-import com.olympos.tripbook.src.home.model.HomeService
+import com.olympos.tripbook.src.trip.GetTripCountView
+import com.olympos.tripbook.src.trip.GetAllTripsView
+import com.olympos.tripbook.src.trip.TripApiController
 import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.utils.getNickname
+import java.util.*
+import kotlin.collections.ArrayList
 
-class MyPageActivity : BaseActivity(), TripCountView {
+class MyPageActivity : BaseActivity(), GetTripCountView, GetAllTripsView {
 
-    private val homeService = HomeService()
+    private val tripApiController = TripApiController()
 
     private lateinit var binding: ActivityUserMypageBinding
 
@@ -28,13 +31,12 @@ class MyPageActivity : BaseActivity(), TripCountView {
 
         binding = ActivityUserMypageBinding.inflate(layoutInflater)
 
-        homeService.setHomeProcess(this)
+        setContentView(binding.root)
+
+        tripApiController.setGetTripCountView(this)
+        tripApiController.setGetAllTripsView(this)
 
         initView()
-
-        initTripHistoryView()
-
-        setContentView(binding.root)
 
     }
 
@@ -42,12 +44,14 @@ class MyPageActivity : BaseActivity(), TripCountView {
 
         super.onResume()
 
-        homeService.getTripCount()
+        tripApiController.getTripCount()
+        tripApiController.getAllTrips()
 
     }
 
     @SuppressLint("SetTextI18n")
     private fun initView() {
+
         binding.mypageTopbarLayout.topbarTitleTv.text = "나의 지난 여행"
         binding.mypageTopbarLayout.topbarSubtitleTv.text = ""
 
@@ -59,26 +63,11 @@ class MyPageActivity : BaseActivity(), TripCountView {
         binding.mypageTopbarLayout.topbarSubbuttonIb.setOnClickListener(this)
         binding.mypageHistoryButtonTv.setOnClickListener(this)
         binding.mypageHistoryButtonView.setOnClickListener(this)
-    }
-
-    private fun initTripHistoryView() {
-
-        val tripList = ArrayList<Trip>()
-
-        // 더미 데이터
-        tripList.add(Trip(0, "0", 1, "테스트여행제목1", "2022-08-04", "2022-08-06", "ACTIVE"))
-        tripList.add(Trip(1, "1", 1, "테스트여행제목2", "2022-08-04", "2022-08-06", "ACTIVE"))
-        tripList.add(Trip(2, "2", 1, "테스트여행제목3", "2022-08-04", "2022-08-06", "ACTIVE"))
-        tripList.add(Trip(3, "3", 1, "테스트여행제목4", "2022-08-04", "2022-08-06", "ACTIVE"))
-
-        val tripHistoryRVAdapter = TripHistoryRVAdapter(tripList)
-
-        binding.mypageHistoryRecyclerview.adapter = tripHistoryRVAdapter
-        binding.mypageHistoryRecyclerview.layoutManager = LinearLayoutManager(this)
 
     }
 
     override fun onClick(v: View?) {
+
         when(v!!.id) {
             R.id.topbar_back_ib ->
                 finish()
@@ -87,6 +76,7 @@ class MyPageActivity : BaseActivity(), TripCountView {
             R.id.mypage_history_button_tv, R.id.mypage_history_button_view ->
                 startMainActivity()
         }
+
     }
 
     private fun startMainActivity() {
@@ -94,17 +84,38 @@ class MyPageActivity : BaseActivity(), TripCountView {
         startActivity(intent)
     }
 
-    override fun getTripCountSuccess(result: Int) {
+    override fun onGetTripCountSuccess(result: Int) {
         binding.mypageHistoryCount01Tv.text = result.toString()
     }
 
-    override fun getTripCountFailure(code: Int, message: String) {
-        Log.e("MainActivity.kt", "getTripCountFailure() status code $code")
+    override fun onGetTripCountFailure(code: Int, message: String) {
+
+        Log.e("MyPageActivity.kt", "onGetTripCountFailure() status code $code")
         when(code) {
             400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
             // Todo(1500, 1504, 1507, 1509 -> userService.autoSignin())
             2105 -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
+
+    }
+
+    override fun onGetAllTripsLoading() {
+        // TODO("Not yet implemented")
+    }
+
+    override fun onGetAllTripsSuccess(result: ArrayList<Trip>) {
+
+        result.reverse()
+
+        val tripHistoryRVAdapter = TripHistoryRVAdapter(result)
+
+        binding.mypageHistoryRecyclerview.adapter = tripHistoryRVAdapter
+        binding.mypageHistoryRecyclerview.layoutManager = LinearLayoutManager(this)
+
+    }
+
+    override fun onGetAllTripsFailure(code: Int, message: String) {
+        Log.e("MyPageActivity.kt", "onGetTripCountFailure() status code $code")
     }
 
 }

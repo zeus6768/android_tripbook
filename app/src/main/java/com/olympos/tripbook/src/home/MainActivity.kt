@@ -1,5 +1,6 @@
 package com.olympos.tripbook.src.home
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,18 +16,18 @@ import com.google.android.material.navigation.NavigationView
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityMainBinding
-import com.olympos.tripbook.src.trip.TripCountView
-import com.olympos.tripbook.src.home.model.HomeService
+import com.olympos.tripbook.src.trip.GetTripCountView
 import com.olympos.tripbook.src.mypage.MyPageActivity
 import com.olympos.tripbook.src.splash.SplashActivity
 import com.olympos.tripbook.src.trip.TripActivity
+import com.olympos.tripbook.src.trip.TripApiController
 import com.olympos.tripbook.src.user.UserAuthApiController
 import com.olympos.tripbook.src.user.UserAuthApiView
 import com.olympos.tripbook.utils.*
 
 
-class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, TripCountView, UserAuthApiView {
-    private val homeService = HomeService()
+class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, GetTripCountView, UserAuthApiView {
+    private val homeService = TripApiController()
     private val userAuthApiController = UserAuthApiController()
     private lateinit var binding: ActivityMainBinding
 
@@ -35,7 +36,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        homeService.setHomeProcess(this)
+        homeService.setGetTripCountView(this)
         userAuthApiController.setUserView(this)
 
         initView()
@@ -51,6 +52,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         homeService.getTripCount()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initView() {
         homeService.getTripCount()
         binding.mainUserNameTv.text = getNickname() + "님의 추억"
@@ -124,7 +126,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         startSplashActivity()
     }
 
-    override fun getTripCountSuccess(result: Int) {
+    override fun onGetTripCountSuccess(result: Int) {
         Log.d("MainActivity.kt", "getTripCountSuccess()")
         binding.mainUserTripCountTv.text = result.toString()
 
@@ -139,7 +141,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
-    override fun getTripCountFailure(code: Int, message: String) {
+    override fun onGetTripCountFailure(code: Int, message: String) {
         Log.e("MainActivity.kt", "getTripCountFailure() status code $code")
         when(code) {
             400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()

@@ -1,6 +1,9 @@
 package com.olympos.tripbook.src.user
 
 import android.util.Log
+import android.widget.Toast
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.user.UserApiClient
 import com.olympos.tripbook.src.user.model.*
 import com.olympos.tripbook.utils.*
 import com.olympos.tripbook.utils.ApplicationClass.Companion.retrofit
@@ -8,6 +11,7 @@ import com.olympos.tripbook.utils.ApplicationClass.Companion.retrofitWithoutAcce
 import retrofit2.*
 
 class UserAuthApiController {
+
     private lateinit var userAuthApiView: UserAuthApiView
 
     fun setUserView(userAuthApiView: UserAuthApiView) {

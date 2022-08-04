@@ -1,5 +1,6 @@
 package com.olympos.tripbook.src.trip
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
@@ -69,7 +70,7 @@ class TripActivity : BaseActivity(), PostTripView {
 
         //날짜 선택
         calendar.topbarVisible = true
-        calendar.setOnRangeSelectedListener { widget, dates ->
+        calendar.setOnRangeSelectedListener { _, dates ->
 
             // yyyy-MM-dd 패턴 찾아 문자열 추출
             val dMatch = Regex("(\\d+).(\\d+).(\\d+)").find(dates.first().toString())!!
@@ -153,7 +154,7 @@ class TripActivity : BaseActivity(), PostTripView {
 
     private fun postTrip(trip: Trip) {
         val tripApiController = TripApiController()
-        tripApiController.setProcess(this)
+        tripApiController.setPostTripView(this)
         tripApiController.postTrip(trip)
     }
 

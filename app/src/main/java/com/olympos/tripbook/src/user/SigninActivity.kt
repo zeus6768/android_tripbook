@@ -26,6 +26,7 @@ class SigninActivity : BaseActivity(), UserAuthApiView {
         super.onCreate(savedInstanceState)
 
         binding = ActivityUserSigninBinding.inflate(layoutInflater)
+
         binding.signinSigninBtnIv.setOnClickListener(this)
 
         setContentView(binding.root)
@@ -69,6 +70,7 @@ class SigninActivity : BaseActivity(), UserAuthApiView {
         }
     }
 
+    @Suppress("NAME_SHADOWING")
     private fun requireEmailNeedsAgreement() {
 
         val scopes = mutableListOf<String>()
@@ -101,12 +103,15 @@ class SigninActivity : BaseActivity(), UserAuthApiView {
     }
 
     private fun startMainActivity() {
+
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
+
     }
 
     override fun autoSigninSuccess() {
+
         Log.d("SigninActivity.kt", " \nautoSigninSuccess()" +
                 "\nuserIdx: " + getUserIdx() +
                 "\nAT: " + getAccessToken() +
@@ -115,9 +120,11 @@ class SigninActivity : BaseActivity(), UserAuthApiView {
                 "\nKRT: " + getKakaoRefreshToken()
         )
         startMainActivity()
+
     }
 
     override fun autoSigninFailure(code: Int) {
+
         Log.e("SigninActivity.kt", "autoSigninFailure() status code: $code")
         when (code) {
             1504, 1507, 1509 -> {
@@ -130,9 +137,11 @@ class SigninActivity : BaseActivity(), UserAuthApiView {
                 }
             }
         }
+
     }
 
     override fun signUpUserSuccess() {
+
         Log.d("SigninActivity.kt", "signUpUserSuccess()")
         val kakaoAccessToken = getKakaoAccessToken()
         if (kakaoAccessToken != null) {
@@ -140,6 +149,7 @@ class SigninActivity : BaseActivity(), UserAuthApiView {
             token["kakaoAccessToken"] = kakaoAccessToken
             userAuthApiController.signUpProfile(token)
         }
+
     }
 
     override fun signUpUserFailure(code: Int) {
@@ -147,6 +157,7 @@ class SigninActivity : BaseActivity(), UserAuthApiView {
     }
 
     override fun signUpProfileSuccess() {
+
         Log.d("SigninActivity.kt", "signUpProfileSuccess()")
         val kakaoAccessToken = getKakaoAccessToken()
         val kakaoRefreshToken = getKakaoRefreshToken()
@@ -157,6 +168,7 @@ class SigninActivity : BaseActivity(), UserAuthApiView {
             tokens["refreshToken"] = kakaoRefreshToken
             userAuthApiController.kakaoSignin(tokens)
         }
+
     }
 
     override fun signUpProfileFailure(code: Int) {
@@ -164,19 +176,25 @@ class SigninActivity : BaseActivity(), UserAuthApiView {
     }
 
     override fun kakaoSigninSuccess() {
+
         val kat = getKakaoAccessToken()
         val krt = getKakaoRefreshToken()
         Log.d("SigninActivity.kt", "kakaoSigninSuccess()")
         Log.d("SigninActivity.kt", " \nKAT: $kat \nKRT: $krt")
+
         val accessToken = getAccessToken()
+
         if (accessToken != null) {
             userAuthApiController.autoSignin()
         }
+
     }
 
     override fun kakaoSigninFailure(code: Int) {
+
         Log.e("SigninActivity.kt", "kakaoSigninFailure() status code $code")
         when (code) {
+
             2050 -> {
                 val kakaoAccessToken = getKakaoAccessToken()
                 val kakaoRefreshToken = getKakaoRefreshToken()
@@ -187,6 +205,7 @@ class SigninActivity : BaseActivity(), UserAuthApiView {
                     userAuthApiController.kakaoSignin(token)
                 }
             }
+
             2052 -> {
                 val kakaoAccessToken = getKakaoAccessToken()
                 if (kakaoAccessToken != null) {
@@ -195,6 +214,7 @@ class SigninActivity : BaseActivity(), UserAuthApiView {
                     userAuthApiController.signUpUser(token)
                 }
             }
+
             2057 -> {
                 val userIdx = getUserIdx()
                 val kakaoRefreshToken = getKakaoRefreshToken()
@@ -205,9 +225,11 @@ class SigninActivity : BaseActivity(), UserAuthApiView {
                 }
             }
         }
+
     }
 
     override fun updateKakaoAccessTokenSuccess() {
+
         Log.d("SigninActivity.kt", "updateKakaoAccessTokenSuccess()")
         val kakaoAccessToken = getKakaoAccessToken()
         val kakaoRefreshToken = getKakaoRefreshToken()
@@ -217,6 +239,7 @@ class SigninActivity : BaseActivity(), UserAuthApiView {
             tokens["kakaoRefreshToken"] = kakaoRefreshToken
             userAuthApiController.kakaoSignin(tokens)
         }
+
     }
 
     override fun updateKakaoAccessTokenFailure(code: Int) {
@@ -233,10 +256,12 @@ class SigninActivity : BaseActivity(), UserAuthApiView {
     }
 
     override fun getProfileSuccess() {
+
         val nickname = getNickname()
         val userImg = getUserImage()
         Log.d("SigninActivity.kt", "getProfileSuccess()")
         Log.d("SigninActivity.kt", "nickname: $nickname, userImg: $userImg")
+
     }
 
     override fun getProfileFailure(code: Int) {
@@ -245,14 +270,17 @@ class SigninActivity : BaseActivity(), UserAuthApiView {
     }
 
     override fun updateAccessTokenSuccess() {
+
         Log.d("SigninActivity.kt", "updateAccessTokenSuccess()")
         val accessToken = getAccessToken()
         if (accessToken != null) {
             userAuthApiController.autoSignin()
         }
+
     }
 
     override fun updateAccessTokenFailure(code: Int) {
+
         Log.e("SigninActivity.kt", "updateAccessTokenFailure() status code $code")
         when (code) {
             1505, 1509 -> {
@@ -267,4 +295,5 @@ class SigninActivity : BaseActivity(), UserAuthApiView {
             }
         }
     }
+
 }
