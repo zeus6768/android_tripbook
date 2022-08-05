@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <View
+        android:id="@+id/mypage_history_vertical_line_view"
+        android:layout_width="2dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="28dp"
+        android:orientation="vertical"
+        android:background="@color/tripbook_main_4"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <View
+        android:id="@+id/mypage_history_horizontal_line_view"
+        android:layout_width="10dp"
+        android:layout_height="2dp"
+        android:background="@color/light_gray"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toTopOf="@id/mypage_history_vertical_line_view"
+        app:layout_constraintStart_toEndOf="@id/mypage_history_vertical_line_view"/>
+
+    <View
+        android:id="@+id/mypage_history_circle_view"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:background="@drawable/img_mypage_circle"
+        app:layout_constraintTop_toTopOf="@id/mypage_history_horizontal_line_view"
+        app:layout_constraintBottom_toBottomOf="@id/mypage_history_horizontal_line_view"
+        app:layout_constraintStart_toEndOf="@id/mypage_history_horizontal_line_view"
+        />
+
+    <TextView
+        android:id="@+id/mypage_history_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:textSize="10sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/notosans_kr_bold"
+        android:includeFontPadding="false"
+        android:text="2022년 1월 10일"
+        app:layout_constraintTop_toTopOf="@id/mypage_history_circle_view"
+        app:layout_constraintBottom_toBottomOf="@id/mypage_history_circle_view"
+        app:layout_constraintStart_toEndOf="@id/mypage_history_circle_view"/>
+
+    <TextView
+        android:id="@+id/mypage_history_content_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="10sp"
+        android:textColor="@color/black_99"
+        android:fontFamily="@font/notosans_kr_medium"
+        android:includeFontPadding="false"
+        android:text="2022년 1월에 다녀온 경기도 파주 여행을 등록했어요."
+        app:layout_constraintTop_toBottomOf="@id/mypage_history_title_tv"
+        app:layout_constraintStart_toStartOf="@id/mypage_history_title_tv"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

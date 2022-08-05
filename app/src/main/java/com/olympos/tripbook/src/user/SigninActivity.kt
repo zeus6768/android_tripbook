@@ -11,30 +11,31 @@ import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityUserSigninBinding
 import com.olympos.tripbook.src.home.MainActivity
-import com.olympos.tripbook.src.user.model.UserService
-import com.olympos.tripbook.src.user.model.UserView
 import com.olympos.tripbook.utils.*
 import com.olympos.tripbook.utils.ApplicationClass.Companion.TAG
 
 
-class SigninActivity : BaseActivity(), UserView{
-    private val userService = UserService()
+class SigninActivity : BaseActivity(), UserAuthView {
+
+    private val userAuthApiController = UserAuthApiController()
 
     private lateinit var binding: ActivityUserSigninBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityUserSigninBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        userService.setUserView(this)
+        super.onCreate(savedInstanceState)
+
+        binding = ActivityUserSigninBinding.inflate(layoutInflater)
 
         binding.signinSigninBtnIv.setOnClickListener(this)
+
+        setContentView(binding.root)
+
+        userAuthApiController.setUserView(this)
+
     }
 
     override fun onClick(v: View?) {
-        super.onClick(v)
-
         when (v!!.id) {
             R.id.signin_signin_btn_iv -> signinByKakaotalk()
         }
@@ -57,7 +58,7 @@ class SigninActivity : BaseActivity(), UserView{
                         val tokens = HashMap<String, String>()
                         tokens["kakaoAccessToken"] = token.accessToken
                         tokens["kakaoRefreshToken"] = token.refreshToken
-                        userService.kakaoSignin(tokens)
+                        userAuthApiController.kakaoSignin(tokens)
                     }
                 }
             }
@@ -69,8 +70,10 @@ class SigninActivity : BaseActivity(), UserView{
         }
     }
 
+    @Suppress("NAME_SHADOWING")
     private fun requireEmailNeedsAgreement() {
-        var scopes = mutableListOf<String>()
+
+        val scopes = mutableListOf<String>()
 
         scopes.add("account_email")
         Log.d(TAG, "사용자에게 추가 동의를 받아야 합니다.")
@@ -78,7 +81,7 @@ class SigninActivity : BaseActivity(), UserView{
         UserApiClient.instance.loginWithNewScopes(this@SigninActivity, scopes) { token, error ->
             if (error != null) {
                 Log.e(TAG, "사용자 추가 동의 실패", error)
-                Toast.makeText(this, "이메일 사용에 동의해주세요.", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "이메일 사용에 동의해주세요.", Toast.LENGTH_SHORT).show()
             } else {
                 Log.d(TAG, "allowed scopes: ${token!!.scopes}")
                 UserApiClient.instance.me { user, error ->
@@ -92,7 +95,7 @@ class SigninActivity : BaseActivity(), UserView{
                         val tokens = HashMap<String, String>()
                         tokens["kakaoAccessToken"] = token.accessToken
                         tokens["kakaoRefreshToken"] = token.refreshToken
-                        userService.kakaoSignin(tokens)
+                        userAuthApiController.kakaoSignin(tokens)
                     }
                 }
             }
@@ -100,12 +103,15 @@ class SigninActivity : BaseActivity(), UserView{
     }
 
     private fun startMainActivity() {
+
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
+
     }
 
     override fun autoSigninSuccess() {
+
         Log.d("SigninActivity.kt", " \nautoSigninSuccess()" +
                 "\nuserIdx: " + getUserIdx() +
                 "\nAT: " + getAccessToken() +
@@ -114,9 +120,11 @@ class SigninActivity : BaseActivity(), UserView{
                 "\nKRT: " + getKakaoRefreshToken()
         )
         startMainActivity()
+
     }
 
     override fun autoSigninFailure(code: Int) {
+
         Log.e("SigninActivity.kt", "autoSigninFailure() status code: $code")
         when (code) {
             1504, 1507, 1509 -> {
@@ -125,20 +133,23 @@ class SigninActivity : BaseActivity(), UserView{
                 if (refreshToken != null && userIdx != 0) {
                     val tokens = HashMap<String, String>()
                     tokens["refreshToken"] = refreshToken
-                    userService.updateAccessToken(tokens, userIdx)
+                    userAuthApiController.updateAccessToken(tokens, userIdx)
                 }
             }
         }
+
     }
 
     override fun signUpUserSuccess() {
+
         Log.d("SigninActivity.kt", "signUpUserSuccess()")
         val kakaoAccessToken = getKakaoAccessToken()
         if (kakaoAccessToken != null) {
             val token = HashMap<String, String>()
             token["kakaoAccessToken"] = kakaoAccessToken
-            userService.signUpProfile(token)
+            userAuthApiController.signUpProfile(token)
         }
+
     }
 
     override fun signUpUserFailure(code: Int) {
@@ -146,6 +157,7 @@ class SigninActivity : BaseActivity(), UserView{
     }
 
     override fun signUpProfileSuccess() {
+
         Log.d("SigninActivity.kt", "signUpProfileSuccess()")
         val kakaoAccessToken = getKakaoAccessToken()
         val kakaoRefreshToken = getKakaoRefreshToken()
@@ -154,8 +166,9 @@ class SigninActivity : BaseActivity(), UserView{
             val tokens = HashMap<String, String>()
             tokens["accessToken"] = kakaoAccessToken
             tokens["refreshToken"] = kakaoRefreshToken
-            userService.kakaoSignin(tokens)
+            userAuthApiController.kakaoSignin(tokens)
         }
+
     }
 
     override fun signUpProfileFailure(code: Int) {
@@ -163,19 +176,25 @@ class SigninActivity : BaseActivity(), UserView{
     }
 
     override fun kakaoSigninSuccess() {
+
         val kat = getKakaoAccessToken()
         val krt = getKakaoRefreshToken()
         Log.d("SigninActivity.kt", "kakaoSigninSuccess()")
         Log.d("SigninActivity.kt", " \nKAT: $kat \nKRT: $krt")
+
         val accessToken = getAccessToken()
+
         if (accessToken != null) {
-            userService.autoSignin()
+            userAuthApiController.autoSignin()
         }
+
     }
 
     override fun kakaoSigninFailure(code: Int) {
+
         Log.e("SigninActivity.kt", "kakaoSigninFailure() status code $code")
         when (code) {
+
             2050 -> {
                 val kakaoAccessToken = getKakaoAccessToken()
                 val kakaoRefreshToken = getKakaoRefreshToken()
@@ -183,30 +202,34 @@ class SigninActivity : BaseActivity(), UserView{
                     val token = HashMap<String, String>()
                     token["kakaoAccessToken"] = kakaoAccessToken
                     token["kakaoRefreshToken"] = kakaoRefreshToken
-                    userService.kakaoSignin(token)
+                    userAuthApiController.kakaoSignin(token)
                 }
             }
+
             2052 -> {
                 val kakaoAccessToken = getKakaoAccessToken()
                 if (kakaoAccessToken != null) {
                     val token = HashMap<String, String>()
                     token["kakaoAccessToken"] = kakaoAccessToken
-                    userService.signUpUser(token)
+                    userAuthApiController.signUpUser(token)
                 }
             }
+
             2057 -> {
                 val userIdx = getUserIdx()
                 val kakaoRefreshToken = getKakaoRefreshToken()
                 if (kakaoRefreshToken != null) {
                     val token = HashMap<String, String>()
                     token["kakaoRefreshToken"] = kakaoRefreshToken
-                    userService.updateKakaoAccessToken(token, userIdx)
+                    userAuthApiController.updateKakaoAccessToken(token, userIdx)
                 }
             }
         }
+
     }
 
     override fun updateKakaoAccessTokenSuccess() {
+
         Log.d("SigninActivity.kt", "updateKakaoAccessTokenSuccess()")
         val kakaoAccessToken = getKakaoAccessToken()
         val kakaoRefreshToken = getKakaoRefreshToken()
@@ -214,8 +237,9 @@ class SigninActivity : BaseActivity(), UserView{
             val tokens = HashMap<String, String>()
             tokens["kakaoAccessToken"] = kakaoAccessToken
             tokens["kakaoRefreshToken"] = kakaoRefreshToken
-            userService.kakaoSignin(tokens)
+            userAuthApiController.kakaoSignin(tokens)
         }
+
     }
 
     override fun updateKakaoAccessTokenFailure(code: Int) {
@@ -224,7 +248,7 @@ class SigninActivity : BaseActivity(), UserView{
 
     override fun updateProfileSuccess() {
         Log.d("SigninActivity.kt", "updateProfileSuccess()")
-        userService.getProfile(getUserIdx())
+        userAuthApiController.getProfile(getUserIdx())
     }
 
     override fun updateProfileFailure(code: Int) {
@@ -232,10 +256,12 @@ class SigninActivity : BaseActivity(), UserView{
     }
 
     override fun getProfileSuccess() {
+
         val nickname = getNickname()
         val userImg = getUserImage()
         Log.d("SigninActivity.kt", "getProfileSuccess()")
         Log.d("SigninActivity.kt", "nickname: $nickname, userImg: $userImg")
+
     }
 
     override fun getProfileFailure(code: Int) {
@@ -244,14 +270,17 @@ class SigninActivity : BaseActivity(), UserView{
     }
 
     override fun updateAccessTokenSuccess() {
+
         Log.d("SigninActivity.kt", "updateAccessTokenSuccess()")
         val accessToken = getAccessToken()
         if (accessToken != null) {
-            userService.autoSignin()
+            userAuthApiController.autoSignin()
         }
+
     }
 
     override fun updateAccessTokenFailure(code: Int) {
+
         Log.e("SigninActivity.kt", "updateAccessTokenFailure() status code $code")
         when (code) {
             1505, 1509 -> {
@@ -261,9 +290,10 @@ class SigninActivity : BaseActivity(), UserView{
                     val tokens = HashMap<String, String>()
                     tokens["kakaoAccessToken"] = kakaoAccessToken
                     tokens["kakaoRefreshToken"] = kakaoRefreshToken
-                    userService.kakaoSignin(tokens)
+                    userAuthApiController.kakaoSignin(tokens)
                 }
             }
         }
     }
+
 }

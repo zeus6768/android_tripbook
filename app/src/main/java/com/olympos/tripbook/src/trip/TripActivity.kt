@@ -12,12 +12,10 @@ import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripBinding
 import com.olympos.tripbook.src.trip.model.Trip
-import com.olympos.tripbook.src.trip.model.TripPostProcess
-import com.olympos.tripbook.src.trip.model.TripService
 import com.olympos.tripbook.utils.getUserIdx
 import com.olympos.tripbook.utils.saveTripIdx
 
-class TripActivity : BaseActivity(), TripPostProcess {
+class TripActivity : BaseActivity(), PostTripView {
     private lateinit var binding: ActivityTripBinding
     private var gson : Gson = Gson()
 
@@ -72,7 +70,7 @@ class TripActivity : BaseActivity(), TripPostProcess {
 
         //날짜 선택
         calendar.topbarVisible = true
-        calendar.setOnRangeSelectedListener { widget, dates ->
+        calendar.setOnRangeSelectedListener { _, dates ->
 
             // yyyy-MM-dd 패턴 찾아 문자열 추출
             val dMatch = Regex("(\\d+).(\\d+).(\\d+)").find(dates.first().toString())!!
@@ -87,8 +85,8 @@ class TripActivity : BaseActivity(), TripPostProcess {
             binding.tripDateArrivalMonthTv.text = arrivalDate.split("-")[1]
             binding.tripDateArrivalDayTv.text = arrivalDate.split("-")[2]
 
-        trip.departureDate = departureDate
-        trip.arrivalDate = arrivalDate
+            trip.departureDate = departureDate
+            trip.arrivalDate = arrivalDate
 
         }
 //        calendar.setOnDateChangedListener(this)
@@ -155,9 +153,9 @@ class TripActivity : BaseActivity(), TripPostProcess {
     }
 
     private fun postTrip(trip: Trip) {
-        val tripService = TripService()
-        tripService.setProcess(this)
-        tripService.postTrip(trip)
+        val tripApiController = TripApiController()
+        tripApiController.setPostTripView(this)
+        tripApiController.postTrip(trip)
     }
 
     override fun onPostTripLoading() {

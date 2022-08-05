@@ -13,26 +13,31 @@ import com.gun0912.tedpermission.TedPermission
 import com.olympos.tripbook.databinding.ActivitySplashBinding
 import com.olympos.tripbook.src.home.MainActivity
 import com.olympos.tripbook.src.user.SigninActivity
-import com.olympos.tripbook.src.user.model.UserService
-import com.olympos.tripbook.src.user.model.UserView
+import com.olympos.tripbook.src.user.UserAuthApiController
+import com.olympos.tripbook.src.user.UserAuthView
 import com.olympos.tripbook.utils.*
 
-class SplashActivity : AppCompatActivity(), UserView {
-    private val userService = UserService()
+class SplashActivity : AppCompatActivity(), UserAuthView {
+
+    private val userAuthApiController = UserAuthApiController()
+
     private lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
+
         binding = ActivitySplashBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
 
-        userService.setUserView(this)
+        userAuthApiController.setUserView(this)
 
-        settingPermission()
+        setPermission()
     }
 
-    private fun settingPermission() {
-        var permissionListener = object : PermissionListener {
+    private fun setPermission() {
+        val permissionListener = object : PermissionListener {
             override fun onPermissionGranted() {
                 selectActivity()
             }
@@ -60,7 +65,7 @@ class SplashActivity : AppCompatActivity(), UserView {
         )
         val accessToken = getAccessToken()
         if (accessToken != null) {
-            userService.autoSignin()
+            userAuthApiController.autoSignin()
         } else {
             startSigninActivity()
         }
@@ -83,7 +88,6 @@ class SplashActivity : AppCompatActivity(), UserView {
     }
 
     override fun autoSigninSuccess() {
-        Log.d("SplashActivity.kt", "autoSigninSuccess()")
         Log.d("SplashActivity.kt", " \nautoSigninSuccess()" +
                 "\nuserIdx: " + getUserIdx() +
                 "\nAT: " + getAccessToken() +
@@ -95,7 +99,7 @@ class SplashActivity : AppCompatActivity(), UserView {
         if (kakaoAccessToken != null) {
             val token = HashMap<String, String>()
             token["kakaoAccessToken"] = kakaoAccessToken
-            userService.updateProfile(token, getUserIdx())
+            userAuthApiController.updateProfile(token, getUserIdx())
             startMainActivity()
         } else {
             startSigninActivity()
@@ -111,7 +115,7 @@ class SplashActivity : AppCompatActivity(), UserView {
                 if (refreshToken != null && userIdx != 0) {
                     val tokens = HashMap<String, String>()
                     tokens["refreshToken"] = refreshToken
-                    userService.updateAccessToken(tokens, userIdx)
+                    userAuthApiController.updateAccessToken(tokens, userIdx)
                 } else {
                     startSigninActivity()
                 }
@@ -120,7 +124,7 @@ class SplashActivity : AppCompatActivity(), UserView {
                 startSigninActivity()
                 Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
             }
-            else -> {
+            else -> { // Destroy app on unexpected error
                 Log.e("SplashActivity.kt", "autoSigninFailure() Unexpected status code $code")
                 Toast.makeText(this@SplashActivity, "로그인 에러", Toast.LENGTH_SHORT).show()
                 ActivityCompat.finishAffinity(this@SplashActivity)
@@ -134,7 +138,7 @@ class SplashActivity : AppCompatActivity(), UserView {
         if (kakaoAccessToken != null) {
             val token = HashMap<String, String>()
             token["kakaoAccessToken"] = kakaoAccessToken
-            userService.signUpProfile(token)
+            userAuthApiController.signUpProfile(token)
         } else {
             startSigninActivity()
         }
@@ -153,7 +157,7 @@ class SplashActivity : AppCompatActivity(), UserView {
             val tokens = HashMap<String, String>()
             tokens["accessToken"] = accessToken
             tokens["refreshToken"] = refreshToken
-            userService.kakaoSignin(tokens)
+            userAuthApiController.kakaoSignin(tokens)
         } else {
             startSigninActivity()
         }
@@ -171,7 +175,7 @@ class SplashActivity : AppCompatActivity(), UserView {
         Log.d("SplashActivity.kt", " \nKAT: $kat \nKRT: $krt")
         val accessToken = getAccessToken()
         if (accessToken != null) {
-            userService.autoSignin()
+            userAuthApiController.autoSignin()
         } else {
             startSigninActivity()
         }
@@ -185,7 +189,7 @@ class SplashActivity : AppCompatActivity(), UserView {
                 if (kakaoAccessToken != null) {
                     val token = HashMap<String, String>()
                     token["kakaoAccessToken"] = kakaoAccessToken
-                    userService.signUpUser(token)
+                    userAuthApiController.signUpUser(token)
                 } else {
                     startSigninActivity()
                 }
@@ -196,7 +200,7 @@ class SplashActivity : AppCompatActivity(), UserView {
                 if (kakaoRefreshToken != null && userIdx != 0) {
                     val token = HashMap<String, String>()
                     token["kakaoRefreshToken"] = kakaoRefreshToken
-                    userService.updateKakaoAccessToken(token, userIdx)
+                    userAuthApiController.updateKakaoAccessToken(token, userIdx)
                 } else {
                     startSigninActivity()
                 }
@@ -213,7 +217,7 @@ class SplashActivity : AppCompatActivity(), UserView {
             val tokens = HashMap<String, String>()
             tokens["kakaoAccessToken"] = kakaoAccessToken
             tokens["kakaoRefreshToken"] = kakaoRefreshToken
-            userService.kakaoSignin(tokens)
+            userAuthApiController.kakaoSignin(tokens)
         } else {
             startSigninActivity()
         }
@@ -226,7 +230,7 @@ class SplashActivity : AppCompatActivity(), UserView {
 
     override fun updateProfileSuccess() {
         Log.d("SplashActivity.kt", "updateProfileSuccess()")
-        userService.getProfile(getUserIdx())
+        userAuthApiController.getProfile(getUserIdx())
     }
 
     override fun updateProfileFailure(code: Int) {
@@ -250,7 +254,7 @@ class SplashActivity : AppCompatActivity(), UserView {
         Log.d("SplashActivity.kt", "updateAccessTokenSuccess()")
         val accessToken = getAccessToken()
         if (accessToken != null) {
-            userService.autoSignin()
+            userAuthApiController.autoSignin()
         } else {
             startSigninActivity()
         }
@@ -266,7 +270,7 @@ class SplashActivity : AppCompatActivity(), UserView {
                     val tokens = HashMap<String, String>()
                     tokens["kakaoAccessToken"] = kakaoAccessToken
                     tokens["kakaoRefreshToken"] = kakaoRefreshToken
-                    userService.kakaoSignin(tokens)
+                    userAuthApiController.kakaoSignin(tokens)
                 } else {
                     startSigninActivity()
                 }
