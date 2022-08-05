@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityUserMypageBinding
@@ -16,6 +17,7 @@ import com.olympos.tripbook.src.trip.GetAllTripsView
 import com.olympos.tripbook.src.trip.TripApiController
 import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.utils.getNickname
+import com.olympos.tripbook.utils.getUserImage
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -51,6 +53,12 @@ class MyPageActivity : BaseActivity(), GetTripCountView, GetAllTripsView {
 
     @SuppressLint("SetTextI18n")
     private fun initView() {
+
+        Glide.with(this)
+            .load(getUserImage())
+            .placeholder(R.drawable.img_home_profile)
+            .error(R.drawable.img_home_profile)
+            .into(binding.mypageProfileIv)
 
         binding.mypageTopbarLayout.topbarTitleTv.text = "나의 지난 여행"
         binding.mypageTopbarLayout.topbarSubtitleTv.text = ""

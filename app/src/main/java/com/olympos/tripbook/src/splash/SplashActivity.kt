@@ -14,25 +14,30 @@ import com.olympos.tripbook.databinding.ActivitySplashBinding
 import com.olympos.tripbook.src.home.MainActivity
 import com.olympos.tripbook.src.user.SigninActivity
 import com.olympos.tripbook.src.user.UserAuthApiController
-import com.olympos.tripbook.src.user.UserAuthApiView
+import com.olympos.tripbook.src.user.UserAuthView
 import com.olympos.tripbook.utils.*
 
-class SplashActivity : AppCompatActivity(), UserAuthApiView {
+class SplashActivity : AppCompatActivity(), UserAuthView {
+
     private val userAuthApiController = UserAuthApiController()
+
     private lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
+
         binding = ActivitySplashBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
 
         userAuthApiController.setUserView(this)
 
-        settingPermission()
+        setPermission()
     }
 
-    private fun settingPermission() {
-        var permissionListener = object : PermissionListener {
+    private fun setPermission() {
+        val permissionListener = object : PermissionListener {
             override fun onPermissionGranted() {
                 selectActivity()
             }

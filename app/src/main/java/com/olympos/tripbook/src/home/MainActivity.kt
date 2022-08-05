@@ -22,11 +22,11 @@ import com.olympos.tripbook.src.splash.SplashActivity
 import com.olympos.tripbook.src.trip.TripActivity
 import com.olympos.tripbook.src.trip.TripApiController
 import com.olympos.tripbook.src.user.UserAuthApiController
-import com.olympos.tripbook.src.user.UserAuthApiView
+import com.olympos.tripbook.src.user.UserAuthView
 import com.olympos.tripbook.utils.*
 
 
-class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, GetTripCountView, UserAuthApiView {
+class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, GetTripCountView, UserAuthView {
     private val homeService = TripApiController()
     private val userAuthApiController = UserAuthApiController()
     private lateinit var binding: ActivityMainBinding

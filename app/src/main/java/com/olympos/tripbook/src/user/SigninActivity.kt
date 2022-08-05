@@ -15,7 +15,7 @@ import com.olympos.tripbook.utils.*
 import com.olympos.tripbook.utils.ApplicationClass.Companion.TAG
 
 
-class SigninActivity : BaseActivity(), UserAuthApiView {
+class SigninActivity : BaseActivity(), UserAuthView {
 
     private val userAuthApiController = UserAuthApiController()
 
