@@ -56,6 +56,7 @@ class MyPageActivity : BaseActivity(), GetTripCountView, GetAllTripsView {
 
         Glide.with(this)
             .load(getUserImage())
+            .circleCrop()
             .placeholder(R.drawable.img_home_profile)
             .error(R.drawable.img_home_profile)
             .into(binding.mypageProfileIv)
