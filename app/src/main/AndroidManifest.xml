@@ -29,7 +29,7 @@
         </activity>
 
         <activity android:name="com.olympos.tripbook.src.trip.TripActivity"/>
-        <activity android:name="com.olympos.tripbook.src.trip.TripcourseActivity"/>
+        <activity android:name="com.olympos.tripbook.src.tripcourse.TripcourseActivity"/>
         <activity android:name="com.olympos.tripbook.src.user.SigninActivity"/>
         <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
