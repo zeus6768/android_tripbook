@@ -1,5 +1,6 @@
-package com.olympos.tripbook.src.trip
+package com.olympos.tripbook.src.tripcourse
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -8,9 +9,10 @@ import com.google.gson.Gson
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripcourseBinding
+import com.olympos.tripbook.src.record.RecordActivity
 import com.olympos.tripbook.src.trip.model.Trip
-import com.olympos.tripbook.src.trip.model.Tripcourse
-import com.olympos.tripbook.src.trip.model.TripcourseRVAdapter
+import com.olympos.tripbook.src.tripcourse.model.Tripcourse
+import com.olympos.tripbook.src.tripcourse.model.TripcourseRVAdapter
 import com.olympos.tripbook.utils.*
 
 
@@ -27,9 +29,6 @@ class TripcourseActivity : BaseActivity() {
         initView() // Trip init
         sampleData() // 더미데이터
         initRecyclerView() // 현재는 더미데이터 기반
-
-        //click 리스너
-        binding.tripcourseAddBtn.setOnClickListener(this)
     }
 
     private fun initView() {
@@ -65,10 +64,10 @@ class TripcourseActivity : BaseActivity() {
         binding.tripcoursePeriodTv.text = period
         binding.tripcourseTitleTv.text = tripData.tripTitle
 
-        //click listener
+        //click 리스너
+        binding.tripcourseAddBtn.setOnClickListener(this)
         binding.tripcourseTopbarLayout.topbarBackIb.setOnClickListener(this)
         binding.tripcourseTopbarLayout.topbarSubbuttonIb.setOnClickListener(this)
-        binding.tripcourseAddBtn.setOnClickListener(this)
 
         //타이틀바 길게 클릭 - 여행 삭제하기
 //        registerForContextMenu(binding.tripcourseTitleFl)
@@ -78,15 +77,20 @@ class TripcourseActivity : BaseActivity() {
         tripcourseRVAdapter = TripcourseRVAdapter(mCourses) // 어댑터 객체 생성 및 데이터 삽입
         binding.tripcourseCourseRv.adapter = tripcourseRVAdapter // 리사이클러뷰에 어댑터 연결
         binding.tripcourseCourseRv.layoutManager = StaggeredGridLayoutManager(2,1) // 레이아웃 매니저 연결
+
+        tripcourseRVAdapter.setMyItemClickListener(object: TripcourseRVAdapter.MyItemClickListener {
+            override fun onItemClick(course: Tripcourse) {
+                startRecordActivity(course)
+            }
+        })
     }
 
     fun sampleData() {
         Log.d("__DATA__", "sample data")
         mCourses.apply {
             add(Tripcourse(0, "비행기에서 만난 파란 하늘", "2021년 03월 10일", "무계획으로 전 날 예매를 하고 캐리어도 없이 비행기에 탔다! 조금 걱정..."))
-            add(Tripcourse(4, "비행기에서 만난 파란 하늘", "2021년 03월 10일", "무계획으로 전 날 예매를 하고 캐리어도 없이 비행기에 탔다! 조금 걱정..."))
-            add(Tripcourse(4, "비행기에서 만난 파란 하늘", "2021년 03월 10일", "무계획으로 전 날 예매를 하고 캐리어도 없이 비행기에 탔다! 조금 걱정..."))
-
+            add(Tripcourse(1, "유채꽃 예뻤다", "2021년 03월 10일", "서울은 엄청 추운데 여긴 벌써 노랗게 꽃이 피고 따땃했다~ 너무 예쁘다 제주도는 어딜가나 노란 빛으로 물들어있다 내용내용내용"))
+            add(Tripcourse(2, "유채꽃 예뻤다", "2021년 03월 10일", "서울은 엄청 추운데 여긴 벌써 노랗게 꽃이 피고 따땃했다~ 너무 예쁘다 제주도는 어딜가나 노란 빛으로 물들어있다 내용내용내용"))
         }
     }
     override fun onClick(v: View?) {
@@ -96,7 +100,22 @@ class TripcourseActivity : BaseActivity() {
             R.id.tripcourse_add_btn -> {
                 tripcourseRVAdapter.addItem(Tripcourse(0, "비행기에서 만난 파란 하늘", "2021년 03월 10일", "무계획으로 전 날 예매를 하고 캐리어도 없이 비행기에 탔다! 조금 걱정..."))
             }
-        }
+            R.id.topbar_back_ib -> {
+                showDialog("뒤로가기","아직 저장된 발자국 기록이 없습니다.\n뒤로 가시겠습니까?","확인")
+            }
+        }    }
+
+    override fun onOKClicked() {
+        super.onOKClicked()
+        finish()
+    }
+
+    private fun startRecordActivity(course: Tripcourse) {
+        val intent = Intent(this, RecordActivity::class.java)
+        val gson = Gson()
+        val itemSelected = gson.toJson(course)
+        intent.putExtra("courseData", itemSelected)
+        startActivity(intent)
     }
 
 //    private fun startTripcourseActivity() {

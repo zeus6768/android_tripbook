@@ -18,15 +18,14 @@
     <string name="tripcourse_delete_trip">여행 삭제하기</string>
     <string name="tripcourse_add_card">카드 추가하기</string>
 
-
-<!--    activity_tripcourse_record-->
-    <string name="tripcourse_record_title">여행 발자국 기록하기</string>
-    <string name="tripcourse_record_request_picture">이곳을 눌러\n사진을 첨부해주세요</string>
-    <string name="tripcourse_record_date">여행 날짜</string>
-    <string name="tripcourse_record_country">여행한 지역과 도시</string>
-    <string name="tripcourse_record_request_title">제목을 입력해주세요.</string>
-    <string name="tripcourse_record_request_hashtag">#해시태그를 선택해 추가해주세요.</string>
-    <string name="tripcourse_record_request_body">내용을 입력해주세요. (최대 200자)</string>
+<!--    activity_record-->
+    <string name="record_title">여행 발자국 기록하기</string>
+    <string name="record_request_picture">이곳을 눌러\n사진을 첨부해주세요</string>
+    <string name="record_date">여행 날짜</string>
+    <string name="record_country">여행한 지역과 도시</string>
+    <string name="record_request_title">제목을 입력해주세요.</string>
+    <string name="record_request_hashtag">#해시태그를 선택해 추가해주세요.</string>
+    <string name="record_request_body">내용을 입력해주세요. (최대 200자)</string>
 
 <!--    activity_tripcourse_delete-->
     <string name="tripcourse_delete_title">여행 삭제 완료</string>
