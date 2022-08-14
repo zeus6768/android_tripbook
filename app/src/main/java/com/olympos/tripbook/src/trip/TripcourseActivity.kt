@@ -1,12 +1,8 @@
 package com.olympos.tripbook.src.trip
 
-import android.content.Intent
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.gson.Gson
 import com.olympos.tripbook.R

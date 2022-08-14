@@ -66,7 +66,7 @@ class MyPastTripActivity : BaseActivity(), GetAllTripsView {
 
     override fun onGetAllTripsSuccess(result: ArrayList<Trip>) {
 
-        val myPastTripRVAdapter = MyPastTripRVAdapter(result)
+        val myPastTripRVAdapter = MyPastTripRVAdapter(this, result)
 
         binding.mypasttripRecyclerview.adapter = myPastTripRVAdapter
         binding.mypasttripRecyclerview.layoutManager = StaggeredGridLayoutManager(2, 1)
