@@ -1,5 +1,6 @@
 package com.olympos.tripbook.src.home
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -16,6 +17,7 @@ import com.olympos.tripbook.src.user.controller.UserAuthApiController
 import com.olympos.tripbook.src.user.view.UserAuthView
 import com.olympos.tripbook.utils.*
 
+@SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity(), UserAuthView {
 
     private val userAuthApiController = UserAuthApiController()
@@ -66,11 +68,11 @@ class SplashActivity : AppCompatActivity(), UserAuthView {
         if (accessToken != null) {
             userAuthApiController.autoSignIn()
         } else {
-            startSigninActivity()
+            startSignInActivity()
         }
     }
 
-    private fun startSigninActivity() {
+    private fun startSignInActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent(this, SignInActivity::class.java)
             startActivity(intent)
@@ -87,7 +89,7 @@ class SplashActivity : AppCompatActivity(), UserAuthView {
     }
 
     override fun autoSignInSuccess() {
-        Log.d("SplashActivity", " \nautoSigninSuccess()" +
+        Log.d("SplashActivity", " \nautoSignInSuccess()" +
                 "\nuserIdx: " + getUserIdx() +
                 "\nAT: " + getAccessToken() +
                 "\nRT: " + getRefreshToken() +
@@ -101,12 +103,12 @@ class SplashActivity : AppCompatActivity(), UserAuthView {
             userAuthApiController.updateProfile(token, getUserIdx())
             startMainActivity()
         } else {
-            startSigninActivity()
+            startSignInActivity()
         }
     }
 
     override fun autoSignInFailure(code: Int) {
-        Log.e("SplashActivity", "autoSigninFailure() status code $code")
+        Log.e("SplashActivity", "autoSignInFailure() status code $code")
         when (code) {
             1504, 1507, 1509 -> {
                 val refreshToken = getRefreshToken()
@@ -116,15 +118,15 @@ class SplashActivity : AppCompatActivity(), UserAuthView {
                     tokens["refreshToken"] = refreshToken
                     userAuthApiController.updateAccessToken(tokens, userIdx)
                 } else {
-                    startSigninActivity()
+                    startSignInActivity()
                 }
             }
             3007 -> {
-                startSigninActivity()
+                startSignInActivity()
                 Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
             }
             else -> { // Destroy app on unexpected error
-                Log.e("SplashActivity", "autoSigninFailure() Unexpected status code $code")
+                Log.e("SplashActivity", "autoSignInFailure() Unexpected status code $code")
                 Toast.makeText(this@SplashActivity, "로그인 에러", Toast.LENGTH_SHORT).show()
                 ActivityCompat.finishAffinity(this@SplashActivity)
             }
@@ -139,13 +141,13 @@ class SplashActivity : AppCompatActivity(), UserAuthView {
             token["kakaoAccessToken"] = kakaoAccessToken
             userAuthApiController.signUpProfile(token)
         } else {
-            startSigninActivity()
+            startSignInActivity()
         }
     }
 
     override fun signUpUserFailure(code: Int) {
         Log.e("SplashActivity", "signUpUserFailure() status code $code")
-        startSigninActivity()
+        startSignInActivity()
     }
 
     override fun signUpProfileSuccess() {
@@ -156,32 +158,32 @@ class SplashActivity : AppCompatActivity(), UserAuthView {
             val tokens = HashMap<String, String>()
             tokens["accessToken"] = accessToken
             tokens["refreshToken"] = refreshToken
-            userAuthApiController.kakaoSignin(tokens)
+            userAuthApiController.kakaoSignIn(tokens)
         } else {
-            startSigninActivity()
+            startSignInActivity()
         }
     }
 
     override fun signUpProfileFailure(code: Int) {
         Log.e("SplashActivity", "signUpProfileFailure() status code $code")
-        startSigninActivity()
+        startSignInActivity()
     }
 
     override fun kakaoSignInSuccess() {
         val kat = getKakaoAccessToken()
         val krt = getKakaoRefreshToken()
-        Log.d("SplashActivity", "kakaoSigninSuccess()")
+        Log.d("SplashActivity", "kakaoSignInSuccess()")
         Log.d("SplashActivity", " \nKAT: $kat \nKRT: $krt")
         val accessToken = getAccessToken()
         if (accessToken != null) {
             userAuthApiController.autoSignIn()
         } else {
-            startSigninActivity()
+            startSignInActivity()
         }
     }
 
     override fun kakaoSignInFailure(code: Int) {
-        Log.e("SplashActivity", "kakaoSigninFailure() status code $code")
+        Log.e("SplashActivity", "kakaoSignInFailure() status code $code")
         when (code) {
             2052 -> {
                 val kakaoAccessToken = getKakaoAccessToken()
@@ -190,7 +192,7 @@ class SplashActivity : AppCompatActivity(), UserAuthView {
                     token["kakaoAccessToken"] = kakaoAccessToken
                     userAuthApiController.signUpUser(token)
                 } else {
-                    startSigninActivity()
+                    startSignInActivity()
                 }
             }
             2057 -> {
@@ -201,10 +203,10 @@ class SplashActivity : AppCompatActivity(), UserAuthView {
                     token["kakaoRefreshToken"] = kakaoRefreshToken
                     userAuthApiController.updateKakaoAccessToken(token, userIdx)
                 } else {
-                    startSigninActivity()
+                    startSignInActivity()
                 }
             }
-            else -> startSigninActivity()
+            else -> startSignInActivity()
         }
     }
 
@@ -216,15 +218,15 @@ class SplashActivity : AppCompatActivity(), UserAuthView {
             val tokens = HashMap<String, String>()
             tokens["kakaoAccessToken"] = kakaoAccessToken
             tokens["kakaoRefreshToken"] = kakaoRefreshToken
-            userAuthApiController.kakaoSignin(tokens)
+            userAuthApiController.kakaoSignIn(tokens)
         } else {
-            startSigninActivity()
+            startSignInActivity()
         }
     }
 
     override fun updateKakaoAccessTokenFailure(code: Int) {
         Log.e("SplashActivity", "updateKakaoAccessTokenFailure() status code $code")
-        startSigninActivity()
+        startSignInActivity()
     }
 
     override fun updateProfileSuccess() {
@@ -246,7 +248,7 @@ class SplashActivity : AppCompatActivity(), UserAuthView {
     override fun getProfileFailure(code: Int) {
         Log.e("SplashActivity", "getProfileFailure() status code $code")
         Toast.makeText(this, "프로필 업데이트에 실패했습니다.", Toast.LENGTH_SHORT).show()
-        startSigninActivity()
+        startSignInActivity()
     }
 
     override fun updateAccessTokenSuccess() {
@@ -255,7 +257,7 @@ class SplashActivity : AppCompatActivity(), UserAuthView {
         if (accessToken != null) {
             userAuthApiController.autoSignIn()
         } else {
-            startSigninActivity()
+            startSignInActivity()
         }
     }
 
@@ -269,12 +271,12 @@ class SplashActivity : AppCompatActivity(), UserAuthView {
                     val tokens = HashMap<String, String>()
                     tokens["kakaoAccessToken"] = kakaoAccessToken
                     tokens["kakaoRefreshToken"] = kakaoRefreshToken
-                    userAuthApiController.kakaoSignin(tokens)
+                    userAuthApiController.kakaoSignIn(tokens)
                 } else {
-                    startSigninActivity()
+                    startSignInActivity()
                 }
             }
-            else -> startSigninActivity()
+            else -> startSignInActivity()
         }
     }
 }

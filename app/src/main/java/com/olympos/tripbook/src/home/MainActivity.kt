@@ -167,7 +167,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun autoSignInSuccess() {
         Log.d(
             "MainActivity",
-            " \nautoSigninSuccess()" +
+            " \nautoSignInSuccess()" +
                 "\nuserIdx: " + getUserIdx() +
                 "\nAT: " + getAccessToken() +
                 "\nRT: " + getRefreshToken() +
@@ -188,7 +188,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun autoSignInFailure(code: Int) {
         Log.e(
             "MainActivity",
-            "autoSigninFailure() status code $code")
+            "autoSignInFailure() status code $code")
         when (code) {
             1500, 1504, 1507, 1509 -> {
                 val refreshToken = getRefreshToken()
@@ -236,7 +236,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             val tokens = HashMap<String, String>()
             tokens["accessToken"] = accessToken
             tokens["refreshToken"] = refreshToken
-            userAuthApiController.kakaoSignin(tokens)
+            userAuthApiController.kakaoSignIn(tokens)
         } else {
             Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
             userLogout()
@@ -252,7 +252,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun kakaoSignInSuccess() {
         val kat = getKakaoAccessToken()
         val krt = getKakaoRefreshToken()
-        Log.d("MainActivity", "kakaoSigninSuccess()")
+        Log.d("MainActivity", "kakaoSignInSuccess()")
         Log.d("MainActivity", " \nKAT: $kat \nKRT: $krt")
         val accessToken = getAccessToken()
         if (accessToken != null) {
@@ -264,7 +264,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun kakaoSignInFailure(code: Int) {
-        Log.e("MainActivity", "kakaoSigninFailure() status code $code")
+        Log.e("MainActivity", "kakaoSignInFailure() status code $code")
         when (code) {
             2052 -> {
                 val kakaoAccessToken = getKakaoAccessToken()
@@ -304,7 +304,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             val tokens = HashMap<String, String>()
             tokens["kakaoAccessToken"] = kakaoAccessToken
             tokens["kakaoRefreshToken"] = kakaoRefreshToken
-            userAuthApiController.kakaoSignin(tokens)
+            userAuthApiController.kakaoSignIn(tokens)
         } else {
             Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
             userLogout()
@@ -359,7 +359,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     val tokens = HashMap<String, String>()
                     tokens["kakaoAccessToken"] = kakaoAccessToken
                     tokens["kakaoRefreshToken"] = kakaoRefreshToken
-                    userAuthApiController.kakaoSignin(tokens)
+                    userAuthApiController.kakaoSignIn(tokens)
                 } else {
                     Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
                     userLogout()

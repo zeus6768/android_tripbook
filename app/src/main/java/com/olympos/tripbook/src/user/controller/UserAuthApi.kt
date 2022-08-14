@@ -6,7 +6,7 @@ import retrofit2.http.*
 
 interface UserAuthApi {
     @GET("/app/autosignin")
-    fun autoSignin(): Call<SigninResponse>
+    fun autoSignIn(): Call<SignInResponse>
 
     @POST("/app/kakao/signup")
     fun signUpUser(@Body kakaoAccessToken: HashMap<String, String>): Call<SignUpResponse>
@@ -15,7 +15,7 @@ interface UserAuthApi {
     fun signUpProfile(@Body kakaoAccessToken: HashMap<String, String>): Call<SignUpResponse>
 
     @POST("/app/kakao/signin")
-    fun kakaoSignin(@Body params: HashMap<String, String>): Call<KakaoSigninResponse>
+    fun kakaoSignIn(@Body params: HashMap<String, String>): Call<KakaoSignInResponse>
 
     @POST("/app/user/kakao/updateTokens/{userIdx}")
     fun updateKakaoAccessToken(

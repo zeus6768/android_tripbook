@@ -19,11 +19,11 @@ class UserAuthApiController {
     fun autoSignIn() {
         val autoSignInRetrofit = retrofit.create(UserAuthApi::class.java)
         autoSignInRetrofit
-            .autoSignin()
-            .enqueue(object : Callback<SigninResponse> {
+            .autoSignIn()
+            .enqueue(object : Callback<SignInResponse> {
                 override fun onResponse(
-                    call: Call<SigninResponse>,
-                    response: Response<SigninResponse>
+                    call: Call<SignInResponse>,
+                    response: Response<SignInResponse>
                 ) {
                     Log.d("UserAuthApiController", "autoSignin()")
                     val body = response.body()!!
@@ -35,7 +35,7 @@ class UserAuthApiController {
                         else -> userAuthApiView.autoSignInFailure(body.code)
                     }
                 }
-                override fun onFailure(call: Call<SigninResponse>, t: Throwable) {
+                override fun onFailure(call: Call<SignInResponse>, t: Throwable) {
                     Log.e("UserAuthApiController", "autoSignin() $t")
                     userAuthApiView.autoSignInFailure(400)
                 }
@@ -88,14 +88,14 @@ class UserAuthApiController {
             })
     }
 
-    fun kakaoSignin(kakaoTokens: HashMap<String, String>) {
+    fun kakaoSignIn(kakaoTokens: HashMap<String, String>) {
         val kakaoSigninRetrofit = retrofit.create(UserAuthApi::class.java)
         kakaoSigninRetrofit
-            .kakaoSignin(kakaoTokens)
-            .enqueue(object : Callback<KakaoSigninResponse> {
+            .kakaoSignIn(kakaoTokens)
+            .enqueue(object : Callback<KakaoSignInResponse> {
                 override fun onResponse(
-                    call: Call<KakaoSigninResponse>,
-                    response: Response<KakaoSigninResponse>
+                    call: Call<KakaoSignInResponse>,
+                    response: Response<KakaoSignInResponse>
                 ) {
                     Log.d("UserAuthApiController", "kakaoSignin()")
                     val body = response.body()!!
@@ -109,7 +109,7 @@ class UserAuthApiController {
                         else -> userAuthApiView.kakaoSignInFailure(body.code)
                     }
                 }
-                override fun onFailure(call: Call<KakaoSigninResponse>, t: Throwable) {
+                override fun onFailure(call: Call<KakaoSignInResponse>, t: Throwable) {
                     Log.e("UserAuthApiController", "kakaoSignin() $t")
                     userAuthApiView.kakaoSignInFailure(400)
                 }
