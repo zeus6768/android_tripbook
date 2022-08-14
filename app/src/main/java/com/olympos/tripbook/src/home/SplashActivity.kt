@@ -64,7 +64,7 @@ class SplashActivity : AppCompatActivity(), UserAuthView {
         )
         val accessToken = getAccessToken()
         if (accessToken != null) {
-            userAuthApiController.autoSignin()
+            userAuthApiController.autoSignIn()
         } else {
             startSigninActivity()
         }
@@ -174,7 +174,7 @@ class SplashActivity : AppCompatActivity(), UserAuthView {
         Log.d("SplashActivity", " \nKAT: $kat \nKRT: $krt")
         val accessToken = getAccessToken()
         if (accessToken != null) {
-            userAuthApiController.autoSignin()
+            userAuthApiController.autoSignIn()
         } else {
             startSigninActivity()
         }
@@ -253,7 +253,7 @@ class SplashActivity : AppCompatActivity(), UserAuthView {
         Log.d("SplashActivity", "updateAccessTokenSuccess()")
         val accessToken = getAccessToken()
         if (accessToken != null) {
-            userAuthApiController.autoSignin()
+            userAuthApiController.autoSignIn()
         } else {
             startSigninActivity()
         }

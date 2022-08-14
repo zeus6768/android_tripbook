@@ -16,9 +16,9 @@ class UserAuthApiController {
         this.userAuthApiView = userAuthApiView
     }
 
-    fun autoSignin() {
-        val autoSiginRetrofit = retrofit.create(UserAuthApi::class.java)
-        autoSiginRetrofit
+    fun autoSignIn() {
+        val autoSignInRetrofit = retrofit.create(UserAuthApi::class.java)
+        autoSignInRetrofit
             .autoSignin()
             .enqueue(object : Callback<SigninResponse> {
                 override fun onResponse(
@@ -46,10 +46,10 @@ class UserAuthApiController {
         val signUpUserRetrofit = retrofit.create(UserAuthApi::class.java)
         signUpUserRetrofit
             .signUpUser(kakaoAccessToken)
-            .enqueue(object : Callback<SignupResponse> {
+            .enqueue(object : Callback<SignUpResponse> {
                 override fun onResponse(
-                    call: Call<SignupResponse>,
-                    response: Response<SignupResponse>
+                    call: Call<SignUpResponse>,
+                    response: Response<SignUpResponse>
                 ) {
                     Log.d("UserAuthApiController", "signUpUser()")
                     val body = response.body()!!
@@ -58,7 +58,7 @@ class UserAuthApiController {
                         else -> userAuthApiView.signUpUserFailure(body.code)
                     }
                 }
-                override fun onFailure(call: Call<SignupResponse>, t: Throwable) {
+                override fun onFailure(call: Call<SignUpResponse>, t: Throwable) {
                     Log.e("UserAuthApiController", "signUpUser() $t")
                     userAuthApiView.signUpUserFailure(400)
                 }
@@ -69,10 +69,10 @@ class UserAuthApiController {
         val signUpProfileRetrofit = retrofit.create(UserAuthApi::class.java)
         signUpProfileRetrofit
             .signUpProfile(kakaoAccessToken)
-            .enqueue(object : Callback<SignupResponse> {
+            .enqueue(object : Callback<SignUpResponse> {
                 override fun onResponse(
-                    call: Call<SignupResponse>,
-                    response: Response<SignupResponse>
+                    call: Call<SignUpResponse>,
+                    response: Response<SignUpResponse>
                 ) {
                     Log.d("UserAuthApiController", "signUpProfile()")
                     val body = response.body()!!
@@ -81,7 +81,7 @@ class UserAuthApiController {
                         else -> userAuthApiView.signUpProfileFailure(body.code)
                     }
                 }
-                override fun onFailure(call: Call<SignupResponse>, t: Throwable) {
+                override fun onFailure(call: Call<SignUpResponse>, t: Throwable) {
                     Log.e("UserAuthApiController", "signUpProfile() $t")
                     userAuthApiView.signUpProfileFailure(400)
                 }

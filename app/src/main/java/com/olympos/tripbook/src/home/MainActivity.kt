@@ -158,7 +158,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         Log.e("MainActivity", "getTripCountFailure() status code $code")
         when(code) {
             400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
-            1500, 1504, 1507, 1509 -> userAuthApiController.autoSignin()
+            1500, 1504, 1507, 1509 -> userAuthApiController.autoSignIn()
             2105 -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }
@@ -255,7 +255,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         Log.d("MainActivity", " \nKAT: $kat \nKRT: $krt")
         val accessToken = getAccessToken()
         if (accessToken != null) {
-            userAuthApiController.autoSignin()
+            userAuthApiController.autoSignIn()
         } else {
             Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
             userLogout()
@@ -341,7 +341,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         Log.d("MainActivity", "updateAccessTokenSuccess()")
         val accessToken = getAccessToken()
         if (accessToken != null) {
-            userAuthApiController.autoSignin()
+            userAuthApiController.autoSignIn()
         } else {
             Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
             userLogout()

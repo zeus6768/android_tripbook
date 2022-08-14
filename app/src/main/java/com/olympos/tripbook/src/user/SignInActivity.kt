@@ -187,7 +187,7 @@ class SignInActivity : BaseActivity(), UserAuthView {
         val accessToken = getAccessToken()
 
         if (accessToken != null) {
-            userAuthApiController.autoSignin()
+            userAuthApiController.autoSignIn()
         }
 
     }
@@ -276,7 +276,7 @@ class SignInActivity : BaseActivity(), UserAuthView {
         Log.d("SignInActivity", "updateAccessTokenSuccess()")
         val accessToken = getAccessToken()
         if (accessToken != null) {
-            userAuthApiController.autoSignin()
+            userAuthApiController.autoSignIn()
         }
 
     }

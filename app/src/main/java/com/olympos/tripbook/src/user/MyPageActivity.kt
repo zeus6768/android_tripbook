@@ -99,7 +99,7 @@ class MyPageActivity : BaseActivity(), GetTripCountView, GetAllTripsView {
         Log.e("MyPageActivity", "onGetTripCountFailure() status code $code")
         when(code) {
             400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
-            // Todo(1500, 1504, 1507, 1509 -> userService.autoSignin())
+            // Todo(1500, 1504, 1507, 1509 -> userApiController.autoSignIn())
             2105 -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
 
