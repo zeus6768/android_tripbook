@@ -1,4 +1,4 @@
-package com.olympos.tripbook.src.record
+package com.olympos.tripbook.src.trip
 
 import android.os.Bundle
 import android.text.Editable
@@ -9,7 +9,7 @@ import com.google.gson.Gson
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityRecordBinding
-import com.olympos.tripbook.src.tripcourse.model.Tripcourse
+import com.olympos.tripbook.src.tripcourse.model.TripCourse
 
 class RecordActivity : BaseActivity() {
     private lateinit var binding: ActivityRecordBinding
@@ -33,7 +33,7 @@ class RecordActivity : BaseActivity() {
         if(intent.hasExtra("courseData")) {
             val gson = Gson()
             val json = intent.getStringExtra("courseData")
-            val courseData = gson.fromJson(json, Tripcourse::class.java)
+            val courseData = gson.fromJson(json, TripCourse::class.java)
             setCourse(courseData)
         }
 
@@ -65,7 +65,7 @@ class RecordActivity : BaseActivity() {
         binding.recordTopbarLayout.topbarBackIb.setOnClickListener(this)
     }
 
-    private fun setCourse(course: Tripcourse) {
+    private fun setCourse(course: TripCourse) {
         binding.recordTitleEt.hint = course.courseTitle
         binding.recordBodyEt.hint = course.courseContent
         binding.recordSelectDateBtn.text = course.courseDate

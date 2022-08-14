@@ -1,4 +1,4 @@
-package com.olympos.tripbook.src.trip
+package com.olympos.tripbook.src.trip.view
 
 interface PostTripView {
     fun onPostTripLoading()

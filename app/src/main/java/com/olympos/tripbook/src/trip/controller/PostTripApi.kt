@@ -1,4 +1,4 @@
-package com.olympos.tripbook.src.trip
+package com.olympos.tripbook.src.trip.controller
 
 import com.olympos.tripbook.src.trip.model.PostTripResponse
 import com.olympos.tripbook.src.trip.model.Trip

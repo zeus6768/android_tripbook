@@ -1,4 +1,4 @@
-package com.olympos.tripbook.src.trip
+package com.olympos.tripbook.src.trip.controller
 
 import com.olympos.tripbook.src.trip.model.GetAllTripsResponse
 import retrofit2.Call

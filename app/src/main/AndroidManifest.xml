@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".src.trip.TripActivity"/>
-        <activity android:name=".src.trip.TripcourseActivity"/>
+        <activity android:name=".src.tripcourse.TripCourseActivity"/>
         <activity android:name=".src.user.SignInActivity"/>
         <activity android:name=".src.user.MyPageActivity"/>
         <activity android:name=".src.user.MyPastTripActivity"/>

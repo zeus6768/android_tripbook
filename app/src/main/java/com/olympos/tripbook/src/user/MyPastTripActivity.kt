@@ -9,8 +9,8 @@ import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityUserMyPastTripBinding
 import com.olympos.tripbook.src.home.MainActivity
-import com.olympos.tripbook.src.trip.GetAllTripsView
-import com.olympos.tripbook.src.trip.TripApiController
+import com.olympos.tripbook.src.trip.view.GetAllTripsView
+import com.olympos.tripbook.src.trip.controller.TripApiController
 import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.src.user.view.MyPastTripRVAdapter
 

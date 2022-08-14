@@ -1,4 +1,4 @@
-package com.olympos.tripbook.src.trip
+package com.olympos.tripbook.src.trip.controller
 
 import com.olympos.tripbook.src.home.model.HomeResponse
 import retrofit2.Call

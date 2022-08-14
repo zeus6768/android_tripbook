@@ -1,7 +1,11 @@
-package com.olympos.tripbook.src.trip
+package com.olympos.tripbook.src.trip.controller
 
 import android.util.Log
 import com.olympos.tripbook.src.home.model.HomeResponse
+import com.olympos.tripbook.src.trip.view.GetAllTripsView
+import com.olympos.tripbook.src.trip.view.GetTripCountView
+import com.olympos.tripbook.src.trip.view.GetTripView
+import com.olympos.tripbook.src.trip.view.PostTripView
 import com.olympos.tripbook.src.trip.model.*
 import com.olympos.tripbook.utils.ApplicationClass.Companion.retrofit
 import com.olympos.tripbook.utils.getUserIdx
@@ -44,7 +48,7 @@ class TripApiController {
             ) {
                if (response.isSuccessful) {
                    val res = response.body()!!
-                   Log.d("TripApiController", "getAllTrips() $res")
+                   Log.d("TripApiController", "getAllTrips()")
                    when (res.code) {
                        1000 -> getAllTripsView.onGetAllTripsSuccess(res.result)
                        else -> getAllTripsView.onGetAllTripsFailure(res.code, res.message)
@@ -75,7 +79,7 @@ class TripApiController {
             ) {
                 if (response.isSuccessful) {
                     val res = response.body()!!
-                    Log.d("TripApiController", "getTrip() $res")
+                    Log.d("TripApiController", "getTrip()")
                     when (res.code) {
                         1000 -> getTripView.onGetTripSuccess(res.result)
                         else -> getTripView.onGetTripFailure(res.code, res.message)
@@ -128,7 +132,7 @@ class TripApiController {
             ) {
                 if (response.isSuccessful) {
                     val res = response.body()!!
-                    Log.d("TripApiController", "postTrip() $res")
+                    Log.d("TripApiController", "postTrip()")
                     when (res.code) {
                         1000 -> postTripView.onPostTripSuccess(res.result)
                         else -> postTripView.onPostTripFailure(res.code, res.message)

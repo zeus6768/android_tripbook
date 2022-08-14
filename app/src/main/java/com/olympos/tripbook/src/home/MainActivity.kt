@@ -16,17 +16,18 @@ import com.google.android.material.navigation.NavigationView
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityMainBinding
-import com.olympos.tripbook.src.trip.GetTripCountView
+import com.olympos.tripbook.src.trip.view.GetTripCountView
 import com.olympos.tripbook.src.user.MyPageActivity
 import com.olympos.tripbook.src.trip.TripActivity
-import com.olympos.tripbook.src.trip.TripApiController
+import com.olympos.tripbook.src.trip.controller.TripApiController
 import com.olympos.tripbook.src.user.MyPastTripActivity
 import com.olympos.tripbook.src.user.controller.UserAuthApiController
 import com.olympos.tripbook.src.user.view.UserAuthView
 import com.olympos.tripbook.utils.*
 
 
-class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, GetTripCountView,
+class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
+    GetTripCountView,
     UserAuthView {
     private val homeService = TripApiController()
     private val userAuthApiController = UserAuthApiController()
