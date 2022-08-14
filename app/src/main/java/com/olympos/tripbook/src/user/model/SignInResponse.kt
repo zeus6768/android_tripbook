@@ -1,12 +1,12 @@
 package com.olympos.tripbook.src.user.model
 
-data class SigninResponse(
+data class SignInResponse(
     val isSuccess : Boolean,
     val code : Int,
     val message : String,
-    val result : SigninResult?
+    val result : SignInResult?
 )
 
-data class SigninResult(
+data class SignInResult(
     val userIdx: Int
 )
