@@ -1,9 +1,10 @@
-package com.olympos.tripbook.src.user.model
+package com.olympos.tripbook.src.user
 
+import com.olympos.tripbook.src.user.model.*
 import retrofit2.Call
 import retrofit2.http.*
 
-interface UserRetrofitInterface {
+interface UserAuthApi {
     @GET("/app/autosignin")
     fun autoSignin(): Call<SigninResponse>
 

@@ -1,6 +1,6 @@
-package com.olympos.tripbook.src.user.model
+package com.olympos.tripbook.src.user
 
-interface UserView {
+interface UserAuthView {
     fun autoSigninSuccess()
     fun autoSigninFailure(code: Int)
 
