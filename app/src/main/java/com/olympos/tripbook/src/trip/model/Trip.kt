@@ -9,5 +9,8 @@ data class Trip(
     @SerializedName("tripTitle") var tripTitle: String = "",
     @SerializedName("departureDate") var departureDate: String = "",
     @SerializedName("arrivalDate") var arrivalDate: String = "",
-    @SerializedName("status") var status: String = ""
+    @SerializedName("status") var status: String = "",
+    @SerializedName("createdDate") val createdDate: String = "yyyy-mm-dd",
+    @SerializedName("lastModifiedDate") val lastModifiedDate: String = "yyyy-mm-dd",
+    @SerializedName("representativeImage") val representativeImage: String = ""
 )

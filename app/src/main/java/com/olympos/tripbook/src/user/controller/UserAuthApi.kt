@@ -1,4 +1,4 @@
-package com.olympos.tripbook.src.user
+package com.olympos.tripbook.src.user.controller
 
 import com.olympos.tripbook.src.user.model.*
 import retrofit2.Call
@@ -9,10 +9,10 @@ interface UserAuthApi {
     fun autoSignin(): Call<SigninResponse>
 
     @POST("/app/kakao/signup")
-    fun signUpUser(@Body kakaoAccessToken: HashMap<String, String>): Call<SignupResponse>
+    fun signUpUser(@Body kakaoAccessToken: HashMap<String, String>): Call<SignUpResponse>
 
     @POST("/app/kakao/signupprofile")
-    fun signUpProfile(@Body kakaoAccessToken: HashMap<String, String>): Call<SignupResponse>
+    fun signUpProfile(@Body kakaoAccessToken: HashMap<String, String>): Call<SignUpResponse>
 
     @POST("/app/kakao/signin")
     fun kakaoSignin(@Body params: HashMap<String, String>): Call<KakaoSigninResponse>

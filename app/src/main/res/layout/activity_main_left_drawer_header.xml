@@ -25,6 +25,7 @@
         android:text="무계획 여행러버"
         android:textSize="12sp"
         android:textColor="@color/white"
+        android:visibility="invisible"
         android:layout_marginStart="10dp"
         app:layout_constraintBottom_toTopOf="@id/main_drawer_header_name_tv"
         app:layout_constraintStart_toEndOf="@id/main_drawer_header_profile_iv" />

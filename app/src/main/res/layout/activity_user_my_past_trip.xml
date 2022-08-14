@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include
+        layout="@layout/layout_topbar_base"
+        android:id="@+id/mypasttrip_topbar_layout"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mypasttrip_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:listitem="@layout/item_user_my_past_trip"
+        app:layout_constraintTop_toBottomOf="@id/mypasttrip_topbar_layout"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

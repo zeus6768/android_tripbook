@@ -1,8 +1,8 @@
-package com.olympos.tripbook.src.user
+package com.olympos.tripbook.src.user.view
 
 interface UserAuthView {
-    fun autoSigninSuccess()
-    fun autoSigninFailure(code: Int)
+    fun autoSignInSuccess()
+    fun autoSignInFailure(code: Int)
 
     fun signUpUserSuccess()
     fun signUpUserFailure(code: Int)
@@ -10,8 +10,8 @@ interface UserAuthView {
     fun signUpProfileSuccess()
     fun signUpProfileFailure(code: Int)
 
-    fun kakaoSigninSuccess()
-    fun kakaoSigninFailure(code: Int)
+    fun kakaoSignInSuccess()
+    fun kakaoSignInFailure(code: Int)
 
     fun updateKakaoAccessTokenSuccess()
     fun updateKakaoAccessTokenFailure(code: Int)
