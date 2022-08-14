@@ -87,6 +87,7 @@
     <string name="trip_photo_upload">이곳을 눌러 사진을 첨부해주세요.</string>
 
 <!--    activity_main_left_drawer-->
+    <string name="drawer_menu_0">나의 활동</string>
     <string name="drawer_menu_1">나의 지난 여행</string>
     <string name="drawer_menu_2">모두의 여행기</string>
     <string name="drawer_menu_3">다이어리 테마</string>

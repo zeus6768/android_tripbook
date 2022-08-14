@@ -1,6 +1,7 @@
-package com.olympos.tripbook.src.user
+package com.olympos.tripbook.src.user.controller
 
 import android.util.Log
+import com.olympos.tripbook.src.user.view.UserAuthView
 import com.olympos.tripbook.src.user.model.*
 import com.olympos.tripbook.utils.*
 import com.olympos.tripbook.utils.ApplicationClass.Companion.retrofit
@@ -24,19 +25,19 @@ class UserAuthApiController {
                     call: Call<SigninResponse>,
                     response: Response<SigninResponse>
                 ) {
-                    Log.d("UserService.kt", "autoSignin()")
+                    Log.d("UserAuthApiController", "autoSignin()")
                     val body = response.body()!!
                     when (body.code) {
                         1001 -> {
                             saveUserIdx(body.result!!.userIdx)
-                            userAuthApiView.autoSigninSuccess()
+                            userAuthApiView.autoSignInSuccess()
                         }
-                        else -> userAuthApiView.autoSigninFailure(body.code)
+                        else -> userAuthApiView.autoSignInFailure(body.code)
                     }
                 }
                 override fun onFailure(call: Call<SigninResponse>, t: Throwable) {
-                    Log.e("UserService.kt", "autoSignin() $t")
-                    userAuthApiView.autoSigninFailure(400)
+                    Log.e("UserAuthApiController", "autoSignin() $t")
+                    userAuthApiView.autoSignInFailure(400)
                 }
             })
     }
@@ -50,7 +51,7 @@ class UserAuthApiController {
                     call: Call<SignupResponse>,
                     response: Response<SignupResponse>
                 ) {
-                    Log.d("UserService.kt", "signUpUser()")
+                    Log.d("UserAuthApiController", "signUpUser()")
                     val body = response.body()!!
                     when (body.code) {
                         1004 -> userAuthApiView.signUpUserSuccess()
@@ -58,7 +59,7 @@ class UserAuthApiController {
                     }
                 }
                 override fun onFailure(call: Call<SignupResponse>, t: Throwable) {
-                    Log.e("UserService.kt", "signUpUser() $t")
+                    Log.e("UserAuthApiController", "signUpUser() $t")
                     userAuthApiView.signUpUserFailure(400)
                 }
             })
@@ -73,7 +74,7 @@ class UserAuthApiController {
                     call: Call<SignupResponse>,
                     response: Response<SignupResponse>
                 ) {
-                    Log.d("UserService.kt", "signUpProfile()")
+                    Log.d("UserAuthApiController", "signUpProfile()")
                     val body = response.body()!!
                     when (body.code) {
                         1005 -> userAuthApiView.signUpProfileSuccess()
@@ -81,7 +82,7 @@ class UserAuthApiController {
                     }
                 }
                 override fun onFailure(call: Call<SignupResponse>, t: Throwable) {
-                    Log.e("UserService.kt", "signUpProfile() $t")
+                    Log.e("UserAuthApiController", "signUpProfile() $t")
                     userAuthApiView.signUpProfileFailure(400)
                 }
             })
@@ -96,21 +97,21 @@ class UserAuthApiController {
                     call: Call<KakaoSigninResponse>,
                     response: Response<KakaoSigninResponse>
                 ) {
-                    Log.d("UserService.kt", "kakaoSignin()")
+                    Log.d("UserAuthApiController", "kakaoSignin()")
                     val body = response.body()!!
                     when (body.code) {
                         1000 -> {
                             saveUserIdx(body.result!!.userIdx)
                             saveAccessToken(body.result.accessToken)
                             saveRefreshToken(body.result.refreshToken)
-                            userAuthApiView.kakaoSigninSuccess()
+                            userAuthApiView.kakaoSignInSuccess()
                         }
-                        else -> userAuthApiView.kakaoSigninFailure(body.code)
+                        else -> userAuthApiView.kakaoSignInFailure(body.code)
                     }
                 }
                 override fun onFailure(call: Call<KakaoSigninResponse>, t: Throwable) {
-                    Log.e("UserService.kt", "kakaoSignin() $t")
-                    userAuthApiView.kakaoSigninFailure(400)
+                    Log.e("UserAuthApiController", "kakaoSignin() $t")
+                    userAuthApiView.kakaoSignInFailure(400)
                 }
             })
     }
@@ -124,7 +125,7 @@ class UserAuthApiController {
                     call: Call<UpdateKakaoAccessTokenResponse>,
                     response: Response<UpdateKakaoAccessTokenResponse>
                 ) {
-                    Log.d("UserService.kt", "updateKakaoAccessToken()")
+                    Log.d("UserAuthApiController", "updateKakaoAccessToken()")
                     val body = response.body()!!
                     when (body.code) {
                         1000 -> {
@@ -135,7 +136,7 @@ class UserAuthApiController {
                     }
                 }
                 override fun onFailure(call: Call<UpdateKakaoAccessTokenResponse>, t: Throwable) {
-                    Log.e("UserService.kt", "updateKakaoAccessToken() $t")
+                    Log.e("UserAuthApiController", "updateKakaoAccessToken() $t")
                     userAuthApiView.updateAccessTokenFailure(400)
                 }
             })
@@ -150,7 +151,7 @@ class UserAuthApiController {
                     call: Call<UpdateProfileResponse>,
                     response: Response<UpdateProfileResponse>
                 ) {
-                    Log.d("UserService.kt", "updateProfile()")
+                    Log.d("UserAuthApiController", "updateProfile()")
                     val body = response.body()!!
                     when (body.code) {
                         1000 -> userAuthApiView.updateProfileSuccess()
@@ -158,7 +159,7 @@ class UserAuthApiController {
                     }
                 }
                 override fun onFailure(call: Call<UpdateProfileResponse>, t: Throwable) {
-                    Log.e("UserService.kt", "updateProfile() $t")
+                    Log.e("UserAuthApiController", "updateProfile() $t")
                     userAuthApiView.updateProfileFailure(400)
                 }
             })
@@ -173,7 +174,7 @@ class UserAuthApiController {
                     call: Call<GetProfileResponse>,
                     response: Response<GetProfileResponse>
                 ) {
-                    Log.d("UserService.kt", "updateProfile()")
+                    Log.d("UserAuthApiController", "updateProfile()")
                     val body = response.body()!!
                     when (body.code) {
                         1000 -> {
@@ -185,7 +186,7 @@ class UserAuthApiController {
                     }
                 }
                 override fun onFailure(call: Call<GetProfileResponse>, t: Throwable) {
-                    Log.e("UserService.kt", "getProfile() $t")
+                    Log.e("UserAuthApiController", "getProfile() $t")
                     userAuthApiView.getProfileFailure(400)
                 }
             })
@@ -200,7 +201,7 @@ class UserAuthApiController {
                     call: Call<UpdateAccessTokenResponse>,
                     response: Response<UpdateAccessTokenResponse>
                 ) {
-                    Log.d("UserService.kt", "updateAccessToken()")
+                    Log.d("UserAuthApiController", "updateAccessToken()")
                     val body = response.body()!!
                     when (body.code) {
                         1000 -> {
@@ -213,7 +214,7 @@ class UserAuthApiController {
                     }
                 }
                 override fun onFailure(call: Call<UpdateAccessTokenResponse>, t: Throwable) {
-                    Log.e("UserService.kt", "updateAccessToken() $t")
+                    Log.e("UserAuthApiController", "updateAccessToken() $t")
                     userAuthApiView.updateAccessTokenFailure(400)
                 }
             })

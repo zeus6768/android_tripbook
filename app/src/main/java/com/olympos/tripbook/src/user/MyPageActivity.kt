@@ -1,4 +1,4 @@
-package com.olympos.tripbook.src.mypage
+package com.olympos.tripbook.src.user
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -10,28 +10,27 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
-import com.olympos.tripbook.databinding.ActivityUserMypageBinding
+import com.olympos.tripbook.databinding.ActivityUserMyPageBinding
 import com.olympos.tripbook.src.home.MainActivity
-import com.olympos.tripbook.src.trip.GetTripCountView
 import com.olympos.tripbook.src.trip.GetAllTripsView
+import com.olympos.tripbook.src.trip.GetTripCountView
 import com.olympos.tripbook.src.trip.TripApiController
 import com.olympos.tripbook.src.trip.model.Trip
+import com.olympos.tripbook.src.user.view.MyPageRVAdapter
 import com.olympos.tripbook.utils.getNickname
 import com.olympos.tripbook.utils.getUserImage
-import java.util.*
-import kotlin.collections.ArrayList
 
 class MyPageActivity : BaseActivity(), GetTripCountView, GetAllTripsView {
 
     private val tripApiController = TripApiController()
 
-    private lateinit var binding: ActivityUserMypageBinding
+    private lateinit var binding: ActivityUserMyPageBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
 
-        binding = ActivityUserMypageBinding.inflate(layoutInflater)
+        binding = ActivityUserMyPageBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
 
@@ -61,7 +60,7 @@ class MyPageActivity : BaseActivity(), GetTripCountView, GetAllTripsView {
             .error(R.drawable.img_home_profile)
             .into(binding.mypageProfileIv)
 
-        binding.mypageTopbarLayout.topbarTitleTv.text = "나의 지난 여행"
+        binding.mypageTopbarLayout.topbarTitleTv.text = "마이페이지"
         binding.mypageTopbarLayout.topbarSubtitleTv.text = ""
 
         binding.mypageProfileNameTv.text = getNickname() + "님"
@@ -78,12 +77,10 @@ class MyPageActivity : BaseActivity(), GetTripCountView, GetAllTripsView {
     override fun onClick(v: View?) {
 
         when(v!!.id) {
-            R.id.topbar_back_ib ->
-                finish()
-            R.id.topbar_subbutton_ib ->
-                startMainActivity()
-            R.id.mypage_history_button_tv, R.id.mypage_history_button_view ->
-                startMainActivity()
+            R.id.topbar_back_ib -> finish()
+            R.id.topbar_subbutton_ib,
+            R.id.mypage_history_button_tv,
+            R.id.mypage_history_button_view -> startMainActivity()
         }
 
     }
@@ -99,7 +96,7 @@ class MyPageActivity : BaseActivity(), GetTripCountView, GetAllTripsView {
 
     override fun onGetTripCountFailure(code: Int, message: String) {
 
-        Log.e("MyPageActivity.kt", "onGetTripCountFailure() status code $code")
+        Log.e("MyPageActivity", "onGetTripCountFailure() status code $code")
         when(code) {
             400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
             // Todo(1500, 1504, 1507, 1509 -> userService.autoSignin())
@@ -114,17 +111,15 @@ class MyPageActivity : BaseActivity(), GetTripCountView, GetAllTripsView {
 
     override fun onGetAllTripsSuccess(result: ArrayList<Trip>) {
 
-        result.reverse()
+        val myPageRVAdapter = MyPageRVAdapter(result)
 
-        val tripHistoryRVAdapter = TripHistoryRVAdapter(result)
-
-        binding.mypageHistoryRecyclerview.adapter = tripHistoryRVAdapter
+        binding.mypageHistoryRecyclerview.adapter = myPageRVAdapter
         binding.mypageHistoryRecyclerview.layoutManager = LinearLayoutManager(this)
 
     }
 
     override fun onGetAllTripsFailure(code: Int, message: String) {
-        Log.e("MyPageActivity.kt", "onGetTripCountFailure() status code $code")
+        Log.e("MyPageActivity", "onGetTripCountFailure() status code $code")
     }
 
 }

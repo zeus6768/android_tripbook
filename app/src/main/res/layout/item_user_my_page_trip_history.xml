@@ -38,11 +38,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="7dp"
-        android:textSize="10sp"
+        android:textSize="@dimen/text_10"
         android:textColor="@color/black"
         android:fontFamily="@font/notosans_kr_bold"
         android:includeFontPadding="false"
-        android:text="2022년 1월 10일"
         app:layout_constraintTop_toTopOf="@id/mypage_history_circle_view"
         app:layout_constraintBottom_toBottomOf="@id/mypage_history_circle_view"
         app:layout_constraintStart_toEndOf="@id/mypage_history_circle_view"/>
@@ -52,11 +51,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textSize="10sp"
+        android:textSize="@dimen/text_10"
         android:textColor="@color/black_99"
         android:fontFamily="@font/notosans_kr_medium"
         android:includeFontPadding="false"
-        android:text="2022년 1월에 다녀온 경기도 파주 여행을 등록했어요."
         app:layout_constraintTop_toBottomOf="@id/mypage_history_title_tv"
         app:layout_constraintStart_toStartOf="@id/mypage_history_title_tv"/>
 

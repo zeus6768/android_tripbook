@@ -17,9 +17,27 @@ class ApplicationClass : Application() {
         const val TAG: String = "TRIPBOOK-APP"
         const val BASE_URL = "https://www.tripbook.shop"
 
+        enum class DateUnit{
+            YEAR, MONTH, DAY
+        }
+
         lateinit var mSharedPreferences: SharedPreferences
         lateinit var retrofit: Retrofit
         lateinit var retrofitWithoutAccessToken: Retrofit
+
+        fun parseStringDateToKorean(date: String, option: DateUnit): String{
+
+            val dateArr = date.split("-")
+
+            val result = when (option) {
+                DateUnit.DAY -> dateArr[0] + "년 " + dateArr[1].toInt().toString() + "월 " + dateArr[2].toInt().toString() + "일"
+                DateUnit.MONTH -> dateArr[0] + "년 " + dateArr[1].toInt().toString() + "월"
+                DateUnit.YEAR -> dateArr[0] + "년"
+            }
+
+            return result
+        }
+
     }
     override fun onCreate() {
         super.onCreate()

@@ -14,11 +14,9 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.TripBook">
-        <activity android:name="com.olympos.tripbook.src.home.MainActivity">
-
-        </activity>
+        <activity android:name=".src.home.MainActivity"/>
         <activity
-            android:name="com.olympos.tripbook.src.splash.SplashActivity"
+            android:name=".src.home.SplashActivity"
             android:exported="true">
 
             <intent-filter>
@@ -26,10 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".src.mypage.MyPageActivity"/>
-        <activity android:name="com.olympos.tripbook.src.trip.TripActivity"/>
-        <activity android:name="com.olympos.tripbook.src.trip.TripcourseActivity"/>
-        <activity android:name="com.olympos.tripbook.src.user.SigninActivity"/>
+        <activity android:name=".src.trip.TripActivity"/>
+        <activity android:name=".src.trip.TripcourseActivity"/>
+        <activity android:name=".src.user.SignInActivity"/>
+        <activity android:name=".src.user.MyPageActivity"/>
+        <activity android:name=".src.user.MyPastTripActivity"/>
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">

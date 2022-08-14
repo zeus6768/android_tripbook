@@ -17,16 +17,17 @@ import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityMainBinding
 import com.olympos.tripbook.src.trip.GetTripCountView
-import com.olympos.tripbook.src.mypage.MyPageActivity
-import com.olympos.tripbook.src.splash.SplashActivity
+import com.olympos.tripbook.src.user.MyPageActivity
 import com.olympos.tripbook.src.trip.TripActivity
 import com.olympos.tripbook.src.trip.TripApiController
-import com.olympos.tripbook.src.user.UserAuthApiController
-import com.olympos.tripbook.src.user.UserAuthView
+import com.olympos.tripbook.src.user.MyPastTripActivity
+import com.olympos.tripbook.src.user.controller.UserAuthApiController
+import com.olympos.tripbook.src.user.view.UserAuthView
 import com.olympos.tripbook.utils.*
 
 
-class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, GetTripCountView, UserAuthView {
+class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, GetTripCountView,
+    UserAuthView {
     private val homeService = TripApiController()
     private val userAuthApiController = UserAuthApiController()
     private lateinit var binding: ActivityMainBinding
@@ -64,7 +65,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val navUserImg = headerView.findViewById<View>(R.id.main_drawer_header_profile_iv) as ImageView
         val navUserLogout = headerView.findViewById<View>(R.id.main_drawer_header_logout_tv) as TextView
         navUserName.text = getNickname() + "님"
-        Glide.with(this).load(getUserImage()).circleCrop().into(navUserImg)
+
+        Glide.with(this)
+            .load(getUserImage())
+            .circleCrop()
+            .placeholder(R.drawable.img_home_profile)
+            .error(R.drawable.img_home_profile)
+            .into(navUserImg)
 
         navUserLogout.setOnClickListener(this)
     }
@@ -95,7 +102,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     //navigation item 별 actions
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu1 -> startMypageActivity()
+            R.id.menu0 -> startMyPageActivity()
+            R.id.menu1 -> startMyPastTripActivity()
             R.id.menu2 -> Toast.makeText(this, "다이어리 테마", Toast.LENGTH_SHORT).show()
             R.id.menu3 -> Toast.makeText(this, "모두의 여행기", Toast.LENGTH_SHORT).show()
             R.id.menu4 -> Toast.makeText(this, "새로운 소식", Toast.LENGTH_SHORT).show()
@@ -111,8 +119,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         startActivity(intent)
     }
 
-    private fun startMypageActivity() {
+    private fun startMyPageActivity() {
         val intent = Intent(this, MyPageActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun startMyPastTripActivity() {
+        val intent = Intent(this, MyPastTripActivity::class.java)
         startActivity(intent)
     }
 
@@ -127,7 +140,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun onGetTripCountSuccess(result: Int) {
-        Log.d("MainActivity.kt", "getTripCountSuccess()")
+        Log.d("MainActivity", "getTripCountSuccess()")
         binding.mainUserTripCountTv.text = result.toString()
 
         if(binding.mainUserTripCountTv.text == "0") {
@@ -142,7 +155,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun onGetTripCountFailure(code: Int, message: String) {
-        Log.e("MainActivity.kt", "getTripCountFailure() status code $code")
+        Log.e("MainActivity", "getTripCountFailure() status code $code")
         when(code) {
             400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
             1500, 1504, 1507, 1509 -> userAuthApiController.autoSignin()
@@ -150,9 +163,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
-    override fun autoSigninSuccess() {
+    override fun autoSignInSuccess() {
         Log.d(
-            "MainActivity.kt",
+            "MainActivity",
             " \nautoSigninSuccess()" +
                 "\nuserIdx: " + getUserIdx() +
                 "\nAT: " + getAccessToken() +
@@ -171,9 +184,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
-    override fun autoSigninFailure(code: Int) {
+    override fun autoSignInFailure(code: Int) {
         Log.e(
-            "MainActivity.kt",
+            "MainActivity",
             "autoSigninFailure() status code $code")
         when (code) {
             1500, 1504, 1507, 1509 -> {
@@ -196,7 +209,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun signUpUserSuccess() {
-        Log.d("MainActivity.kt", "signUpUserSuccess()")
+        Log.d("MainActivity", "signUpUserSuccess()")
         val kakaoAccessToken = getKakaoAccessToken()
         if (kakaoAccessToken != null) {
             val token = HashMap<String, String>()
@@ -209,13 +222,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun signUpUserFailure(code: Int) {
-        Log.e("MainActivity.kt", "signUpUserFailure() status code $code")
+        Log.e("MainActivity", "signUpUserFailure() status code $code")
         Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
         userLogout()
     }
 
     override fun signUpProfileSuccess() {
-        Log.d("MainActivity.kt", "signUpProfileSuccess()")
+        Log.d("MainActivity", "signUpProfileSuccess()")
         val accessToken = getAccessToken()
         val refreshToken = getRefreshToken()
         if (accessToken != null && refreshToken != null) {
@@ -230,16 +243,16 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun signUpProfileFailure(code: Int) {
-        Log.e("MainActivity.kt", "signUpProfileFailure() status code $code")
+        Log.e("MainActivity", "signUpProfileFailure() status code $code")
         Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
         userLogout()
     }
 
-    override fun kakaoSigninSuccess() {
+    override fun kakaoSignInSuccess() {
         val kat = getKakaoAccessToken()
         val krt = getKakaoRefreshToken()
-        Log.d("MainActivity.kt", "kakaoSigninSuccess()")
-        Log.d("MainActivity.kt", " \nKAT: $kat \nKRT: $krt")
+        Log.d("MainActivity", "kakaoSigninSuccess()")
+        Log.d("MainActivity", " \nKAT: $kat \nKRT: $krt")
         val accessToken = getAccessToken()
         if (accessToken != null) {
             userAuthApiController.autoSignin()
@@ -249,8 +262,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
-    override fun kakaoSigninFailure(code: Int) {
-        Log.e("MainActivity.kt", "kakaoSigninFailure() status code $code")
+    override fun kakaoSignInFailure(code: Int) {
+        Log.e("MainActivity", "kakaoSigninFailure() status code $code")
         when (code) {
             2052 -> {
                 val kakaoAccessToken = getKakaoAccessToken()
@@ -283,7 +296,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun updateKakaoAccessTokenSuccess() {
-        Log.d("MainActivity.kt", "updateKakaoAccessTokenSuccess()")
+        Log.d("MainActivity", "updateKakaoAccessTokenSuccess()")
         val kakaoAccessToken = getKakaoAccessToken()
         val kakaoRefreshToken = getKakaoRefreshToken()
         if (kakaoAccessToken != null && kakaoRefreshToken != null) {
@@ -298,34 +311,34 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun updateKakaoAccessTokenFailure(code: Int) {
-        Log.e("MainActivity.kt", "updateKakaoAccessTokenFailure() status code $code")
+        Log.e("MainActivity", "updateKakaoAccessTokenFailure() status code $code")
         Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
         userLogout()
     }
 
     override fun updateProfileSuccess() {
-        Log.d("MainActivity.kt", "updateProfileSuccess()")
+        Log.d("MainActivity", "updateProfileSuccess()")
         userAuthApiController.getProfile(getUserIdx())
     }
 
     override fun updateProfileFailure(code: Int) {
-        Log.e("MainActivity.kt", "updateProfileFailure() status code $code")
+        Log.e("MainActivity", "updateProfileFailure() status code $code")
     }
 
     override fun getProfileSuccess() {
         val nickname = getNickname()
         val userImg = getUserImage()
-        Log.d("MainActivity.kt", "getProfileSuccess()")
-        Log.d("MainActivity.kt", "nickname: $nickname, userImg: $userImg")
+        Log.d("MainActivity", "getProfileSuccess()")
+        Log.d("MainActivity", "nickname: $nickname, userImg: $userImg")
     }
 
     override fun getProfileFailure(code: Int) {
-        Log.e("MainActivity.kt", "getProfileFailure() status code $code")
+        Log.e("MainActivity", "getProfileFailure() status code $code")
         Toast.makeText(this, "프로필 업데이트에 실패했습니다.", Toast.LENGTH_SHORT).show()
     }
 
     override fun updateAccessTokenSuccess() {
-        Log.d("MainActivity.kt", "updateAccessTokenSuccess()")
+        Log.d("MainActivity", "updateAccessTokenSuccess()")
         val accessToken = getAccessToken()
         if (accessToken != null) {
             userAuthApiController.autoSignin()
@@ -336,7 +349,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun updateAccessTokenFailure(code: Int) {
-        Log.e("MainActivity.kt", "updateAccessTokenFailure() status code $code")
+        Log.e("MainActivity", "updateAccessTokenFailure() status code $code")
         when (code) {
             1505, 1509 -> {
                 val kakaoAccessToken = getKakaoAccessToken()

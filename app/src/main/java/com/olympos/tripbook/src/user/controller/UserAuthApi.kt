@@ -1,4 +1,4 @@
-package com.olympos.tripbook.src.user
+package com.olympos.tripbook.src.user.controller
 
 import com.olympos.tripbook.src.user.model.*
 import retrofit2.Call
