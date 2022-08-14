@@ -9,10 +9,10 @@ import com.google.gson.Gson
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripcourseBinding
-import com.olympos.tripbook.src.record.RecordActivity
+import com.olympos.tripbook.src.trip.RecordActivity
 import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.src.tripcourse.model.Tripcourse
-import com.olympos.tripbook.src.tripcourse.model.TripcourseRVAdapter
+import com.olympos.tripbook.src.tripcourse.view.TripcourseRVAdapter
 import com.olympos.tripbook.utils.*
 
 

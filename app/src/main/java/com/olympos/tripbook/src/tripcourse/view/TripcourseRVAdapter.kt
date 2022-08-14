@@ -1,4 +1,4 @@
-package com.olympos.tripbook.src.tripcourse.model
+package com.olympos.tripbook.src.tripcourse.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,6 +7,7 @@ import com.olympos.tripbook.databinding.ItemCardBinding
 import com.olympos.tripbook.databinding.ItemLine1Binding
 import com.olympos.tripbook.databinding.ItemLine2Binding
 import com.olympos.tripbook.databinding.ItemLine3Binding
+import com.olympos.tripbook.src.tripcourse.model.Tripcourse
 
 class TripcourseRVAdapter(private val courseList: ArrayList<Tripcourse>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val CARD = 0

@@ -1,4 +1,4 @@
-package com.olympos.tripbook.src.record
+package com.olympos.tripbook.src.trip
 
 import android.os.Bundle
 import android.text.Editable

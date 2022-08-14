@@ -1,7 +1,11 @@
-package com.olympos.tripbook.src.trip
+package com.olympos.tripbook.src.trip.controller
 
 import android.util.Log
 import com.olympos.tripbook.src.home.model.HomeResponse
+import com.olympos.tripbook.src.trip.view.GetAllTripsView
+import com.olympos.tripbook.src.trip.view.GetTripCountView
+import com.olympos.tripbook.src.trip.view.GetTripView
+import com.olympos.tripbook.src.trip.view.PostTripView
 import com.olympos.tripbook.src.trip.model.*
 import com.olympos.tripbook.utils.ApplicationClass.Companion.retrofit
 import com.olympos.tripbook.utils.getUserIdx
