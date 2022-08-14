@@ -7,9 +7,9 @@ import com.olympos.tripbook.databinding.ItemCardBinding
 import com.olympos.tripbook.databinding.ItemLine1Binding
 import com.olympos.tripbook.databinding.ItemLine2Binding
 import com.olympos.tripbook.databinding.ItemLine3Binding
-import com.olympos.tripbook.src.tripcourse.model.Tripcourse
+import com.olympos.tripbook.src.tripcourse.model.TripCourse
 
-class TripcourseRVAdapter(private val courseList: ArrayList<Tripcourse>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TripCourseRVAdapter(private val courseList: ArrayList<TripCourse>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val CARD = 0
     val LINE1 = 1
     val LINE2 = 2
@@ -17,7 +17,7 @@ class TripcourseRVAdapter(private val courseList: ArrayList<Tripcourse>) : Recyc
 
     //클릭 인터페이스 정의
     interface MyItemClickListener{
-        fun onItemClick(course : Tripcourse)
+        fun onItemClick(course : TripCourse)
 //        fun onRemoveAlbum(position : Int)
     }
 
@@ -89,7 +89,7 @@ class TripcourseRVAdapter(private val courseList: ArrayList<Tripcourse>) : Recyc
 
     //뷰홀더
     inner class ViewHolderCard(private val binding: ItemCardBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(course: Tripcourse) {
+        fun bind(course: TripCourse) {
             binding.itemTitleTv.text = course.courseTitle
             binding.itemDateTv.text = course.courseDate
             binding.itemContentTv.text = course.courseContent
@@ -109,7 +109,7 @@ class TripcourseRVAdapter(private val courseList: ArrayList<Tripcourse>) : Recyc
 //        notifyDataSetChanged()
 //    }
 //
-    fun addItem(course: Tripcourse) {
+    fun addItem(course: TripCourse) {
         courseList.add(course)
         courseList.add(course)
         notifyDataSetChanged()
