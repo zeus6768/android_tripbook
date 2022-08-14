@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.olympos.tripbook">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -13,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.TripBook">
+        android:theme="@style/Theme.TripBook"
+        tools:targetApi="m">
         <activity android:name=".src.home.MainActivity"/>
         <activity
             android:name=".src.home.SplashActivity"
@@ -25,6 +27,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".src.trip.TripActivity"/>
+        <activity android:name=".src.trip.RecordActivity"/>
         <activity android:name=".src.tripcourse.TripCourseActivity"/>
         <activity android:name=".src.user.SignInActivity"/>
         <activity android:name=".src.user.MyPageActivity"/>
