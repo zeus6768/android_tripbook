@@ -12,6 +12,9 @@ import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityTripBinding
 import com.olympos.tripbook.src.trip.model.Trip
+import com.olympos.tripbook.src.trip.model.TripPostProcess
+import com.olympos.tripbook.src.trip.model.TripService
+import com.olympos.tripbook.src.tripcourse.TripcourseActivity
 import com.olympos.tripbook.utils.getUserIdx
 import com.olympos.tripbook.utils.saveTripIdx
 

@@ -8,7 +8,7 @@
 
     <!-- 상단바 -->
     <include
-        android:id="@+id/tripcourse_record_topbar_layout"
+        android:id="@+id/record_topbar_layout"
         layout="@layout/layout_topbar_base" />
 
     <ScrollView
@@ -27,12 +27,12 @@
 
             <!--사진 선택 창-->
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/tripcourse_record_img_cl"
+                android:id="@+id/record_img_cl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/tripcourse_record_img_iv"
+                    android:id="@+id/record_img_iv"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@drawable/bg_base_gray_background"
@@ -44,7 +44,7 @@
                     app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
-                    android:id="@+id/tripcourse_record_img_tv"
+                    android:id="@+id/record_img_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -54,7 +54,7 @@
                     android:gravity="center_horizontal"
                     android:includeFontPadding="false"
                     android:padding="5dp"
-                    android:text="@string/tripcourse_record_request_picture"
+                    android:text="@string/record_request_picture"
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     app:layout_constraintTop_toTopOf="parent"
@@ -79,7 +79,7 @@
 
                     <!--여행 날짜 선택-->
                     <TextView
-                        android:id="@+id/tripcourse_record_select_date_btn"
+                        android:id="@+id/record_select_date_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/btn_tripcourse_arrow_down_green"
@@ -87,7 +87,7 @@
                         android:fontFamily="@font/notosans_kr_bold"
                         android:gravity="center"
                         android:includeFontPadding="false"
-                        android:text="@string/tripcourse_record_date"
+                        android:text="@string/record_date"
                         android:textColor="@color/black"
                         android:textSize="13sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -97,7 +97,7 @@
 
                     <!--여행 지역/도시 선택-->
                     <TextView
-                        android:id="@+id/tripcourse_record_select_country_btn"
+                        android:id="@+id/record_select_country_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/btn_tripcourse_arrow_down_green"
@@ -105,7 +105,7 @@
                         android:fontFamily="@font/notosans_kr_bold"
                         android:gravity="center"
                         android:includeFontPadding="false"
-                        android:text="@string/tripcourse_record_country"
+                        android:text="@string/record_country"
                         android:textColor="@color/black"
                         android:textSize="13sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -116,13 +116,13 @@
 
                 <!--제목 입력-->
                 <EditText
-                    android:id="@+id/tripcourse_record_title_et"
+                    android:id="@+id/record_title_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:background="@null"
                     android:fontFamily="@font/notosans_kr_bold"
-                    android:hint="@string/tripcourse_record_request_title"
+                    android:hint="@string/record_request_title"
                     android:includeFontPadding="false"
                     android:inputType="text"
                     android:textSize="20sp" />
@@ -141,11 +141,11 @@
                     android:layout_marginTop="15dp">
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/tripcourse_record_hashtag_add_btn"
+                        android:id="@+id/record_hashtag_add_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:background="@drawable/bg_base_main_4_empty"
-                        android:text="@string/tripcourse_record_request_hashtag"
+                        android:text="@string/record_request_hashtag"
                         android:textColor="@color/black"
                         android:textSize="11sp"
                         android:fontFamily="@font/notosans_kr_regular"
@@ -168,12 +168,12 @@
                     android:layout_marginBottom="30dp">
 
                     <EditText
-                        android:id="@+id/tripcourse_record_body_et"
+                        android:id="@+id/record_body_et"
                         android:layout_width="match_parent"
                         android:layout_height="170dp"
                         android:background="@drawable/bg_base_main_4_empty"
                         android:inputType="textMultiLine"
-                        android:hint="@string/tripcourse_record_request_body"
+                        android:hint="@string/record_request_body"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black"
                         android:textSize="12sp"
@@ -184,7 +184,7 @@
                         android:paddingVertical="10dp"/>
 
                     <TextView
-                        android:id="@+id/tripcourse_record_content_wordcount_tv"
+                        android:id="@+id/record_content_wordcount_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|bottom"
@@ -199,7 +199,7 @@
     </ScrollView>
     <!--로딩 바-->
     <ProgressBar
-        android:id="@+id/tripcourse_record_loading_pb"
+        android:id="@+id/record_loading_pb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminateTint="@color/tripbook_main_2"

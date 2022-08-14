@@ -1,4 +1,4 @@
-package com.olympos.tripbook.src.trip.model
+package com.olympos.tripbook.src.tripcourse.model
 
 import com.google.gson.annotations.SerializedName
 
