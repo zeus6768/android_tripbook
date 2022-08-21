@@ -94,7 +94,8 @@ class SplashActivity : AppCompatActivity(), UserAuthView {
                 "\nAT: " + getAccessToken() +
                 "\nRT: " + getRefreshToken() +
                 "\nKAT: " + getKakaoAccessToken() +
-                "\nKRT: " + getKakaoRefreshToken()
+                "\nKRT: " + getKakaoRefreshToken() +
+                "\nimageUri: " + getUserImage()
         )
         val kakaoAccessToken = getKakaoAccessToken()
         if (kakaoAccessToken != null) {

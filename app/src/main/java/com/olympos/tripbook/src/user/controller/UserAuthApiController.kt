@@ -89,28 +89,29 @@ class UserAuthApiController {
     }
 
     fun kakaoSignIn(kakaoTokens: HashMap<String, String>) {
-        val kakaoSigninRetrofit = retrofit.create(UserAuthApi::class.java)
-        kakaoSigninRetrofit
+        val kakaoSignInRetrofit = retrofit.create(UserAuthApi::class.java)
+        kakaoSignInRetrofit
             .kakaoSignIn(kakaoTokens)
             .enqueue(object : Callback<KakaoSignInResponse> {
                 override fun onResponse(
                     call: Call<KakaoSignInResponse>,
                     response: Response<KakaoSignInResponse>
                 ) {
-                    Log.d("UserAuthApiController", "kakaoSignin()")
+                    Log.d("UserAuthApiController", "kakaoSignIn()")
                     val body = response.body()!!
                     when (body.code) {
                         1000 -> {
-                            saveUserIdx(body.result!!.userIdx)
-                            saveAccessToken(body.result.accessToken)
-                            saveRefreshToken(body.result.refreshToken)
+                            val res = body.result!!
+                            saveUserIdx(res.userIdx)
+                            saveAccessToken(res.accessToken)
+                            saveRefreshToken(res.refreshToken)
                             userAuthApiView.kakaoSignInSuccess()
                         }
                         else -> userAuthApiView.kakaoSignInFailure(body.code)
                     }
                 }
                 override fun onFailure(call: Call<KakaoSignInResponse>, t: Throwable) {
-                    Log.e("UserAuthApiController", "kakaoSignin() $t")
+                    Log.e("UserAuthApiController", "kakaoSignIn() $t")
                     userAuthApiView.kakaoSignInFailure(400)
                 }
             })
