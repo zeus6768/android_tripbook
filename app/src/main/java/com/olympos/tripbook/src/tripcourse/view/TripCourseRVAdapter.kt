@@ -3,17 +3,15 @@ package com.olympos.tripbook.src.tripcourse.view
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.olympos.tripbook.databinding.ItemCardBinding
-import com.olympos.tripbook.databinding.ItemLine1Binding
-import com.olympos.tripbook.databinding.ItemLine2Binding
-import com.olympos.tripbook.databinding.ItemLine3Binding
+import com.olympos.tripbook.databinding.*
 import com.olympos.tripbook.src.tripcourse.model.TripCourse
 
 class TripCourseRVAdapter(private val courseList: ArrayList<TripCourse>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    val CARD = 0
-    val LINE1 = 1
-    val LINE2 = 2
-    val LINE3 = 3
+    val EMPT_CARD = 0
+    val FILL_CARD = 1
+    val LINE1 = 2
+    val LINE2 = 3
+    val LINE3 = 4
 
     //클릭 인터페이스 정의
     interface MyItemClickListener{
@@ -30,7 +28,8 @@ class TripCourseRVAdapter(private val courseList: ArrayList<TripCourse>) : Recyc
 
     override fun getItemViewType(position: Int): Int {
         return when {
-            position % 2 == 0 -> CARD
+            (position % 2 == 0) && (courseList[position].courseTitle.isEmpty()) -> EMPT_CARD
+            (position % 2 == 0) && (courseList[position].courseTitle.isNotEmpty()) -> FILL_CARD
             position % 8 == 1 -> LINE1
             position % 4 == 3 -> LINE2
             position % 8 == 5 -> LINE3
@@ -41,9 +40,13 @@ class TripCourseRVAdapter(private val courseList: ArrayList<TripCourse>) : Recyc
     //뷰홀더를 생성해줘야 할 때 호출되는 함수 => 아이템 뷰 객체를 만들어서 뷰홀더에 던져준다.
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(viewType) {
-            CARD -> {
+            FILL_CARD -> {
                 val binding: ItemCardBinding = ItemCardBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
-                ViewHolderCard(binding)
+                ViewHolderCardFill(binding)
+            }
+            EMPT_CARD -> {
+                val binding: ItemCardEmptyBinding = ItemCardEmptyBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+                ViewHolderCardEmpty(binding)
             }
             LINE1 -> {
                 val binding: ItemLine1Binding = ItemLine1Binding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
@@ -66,7 +69,7 @@ class TripCourseRVAdapter(private val courseList: ArrayList<TripCourse>) : Recyc
     //뷰홀더에 데이터를 바인딩해줘야 할 때마다 호출되는 함수 => 엄청나게 많이 호출
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder) {
-            is ViewHolderCard -> {
+            is ViewHolderCardFill -> {
                 holder.bind(courseList[position])
                 holder.setIsRecyclable(false)
             }
@@ -88,13 +91,16 @@ class TripCourseRVAdapter(private val courseList: ArrayList<TripCourse>) : Recyc
     override fun getItemCount(): Int = courseList.size
 
     //뷰홀더
-    inner class ViewHolderCard(private val binding: ItemCardBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolderCardFill(private val binding: ItemCardBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(course: TripCourse) {
             binding.itemTitleTv.text = course.courseTitle
             binding.itemDateTv.text = course.courseDate
             binding.itemContentTv.text = course.courseContent
             course.courseImg?.let { binding.itemCardPicIv.setImageResource(it) }
         }
+    }
+    inner class ViewHolderCardEmpty(val binding : ItemCardEmptyBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind() { }
     }
     inner class ViewHolderLine1(binding: ItemLine1Binding): RecyclerView.ViewHolder(binding.root) {
     }
