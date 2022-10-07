@@ -1,4 +1,4 @@
-package com.olympos.tripbook.src.trip
+package com.olympos.tripbook.src.tripcourse
 
 import android.os.Bundle
 import android.text.Editable
@@ -27,7 +27,7 @@ class RecordActivity : BaseActivity() {
         binding.recordTopbarLayout.topbarTitleTv.setText(R.string.record_title)
         binding.recordTopbarLayout.topbarSubbuttonIb.setImageResource(R.drawable.btn_base_check_black)
         //todo 여행제목 가져오기
-        //  binding.recordTopbarLayout.topbarSubtitleTv.setText()
+        //binding.recordTopbarLayout.topbarSubtitleTv.setText()
 
         //저장된 내용이 있다면 보여주기
         if(intent.hasExtra("courseData")) {
