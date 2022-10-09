@@ -77,16 +77,20 @@ class MyPageActivity : BaseActivity(), GetTripCountView, GetAllTripsView {
     override fun onClick(v: View?) {
 
         when(v!!.id) {
-            R.id.topbar_back_ib -> finish()
-            R.id.topbar_subbutton_ib,
-            R.id.mypage_history_button_tv,
-            R.id.mypage_history_button_view -> startMainActivity()
+            R.id.topbar_subbutton_ib, R.id.topbar_back_ib -> finish()
+
+            R.id.mypage_history_button_view -> startMyPastTripActivity()
         }
 
     }
 
     private fun startMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun startMyPastTripActivity() {
+        val intent = Intent(this, MyPastTripActivity::class.java)
         startActivity(intent)
     }
 
