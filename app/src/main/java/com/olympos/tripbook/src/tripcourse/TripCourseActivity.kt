@@ -105,7 +105,8 @@ class TripCourseActivity : BaseActivity() {
             R.id.topbar_back_ib -> {
                 showDialog("홈으로 이동","아직 저장된 발자국 기록이 없습니다.\n여행 작성을 취소하시겠습니까?","확인")
             }
-        }    }
+        }
+    }
 
     override fun onOKClicked() {
         super.onOKClicked()

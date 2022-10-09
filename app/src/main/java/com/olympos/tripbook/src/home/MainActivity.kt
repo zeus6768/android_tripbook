@@ -376,7 +376,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onBackPressed() {
         val dlg = BaseDialog(this)
         dlg.listener = CancleDialog()
-        dlg.show("트립북 종료", "어플리케이션을 하시겠습니까?", "확인")
+        dlg.show("트립북 종료", "어플리케이션을 종료하시겠습니까?", "확인")
     }
 
     inner class CancleDialog(): BaseDialog.BaseDialogClickListener {

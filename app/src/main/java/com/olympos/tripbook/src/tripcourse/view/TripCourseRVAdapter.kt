@@ -160,6 +160,7 @@ class TripCourseRVAdapter(private val mContext: Context, private val courseList:
 
 @SuppressLint("NotifyDataSetChanged")
     fun addItem(course: TripCourse) {
+        if( courseList.size >= 29 ) Toast.makeText(mContext, "카드는 최대 15개까지 만들 수 있습니다.", Toast.LENGTH_SHORT).show()
         courseList.add(course)
         courseList.add(course)
         notifyDataSetChanged()
