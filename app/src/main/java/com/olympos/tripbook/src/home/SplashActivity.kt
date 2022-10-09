@@ -16,7 +16,7 @@ import com.olympos.tripbook.src.user.SignInActivity
 import com.olympos.tripbook.src.user.controller.UserAuthApiController
 import com.olympos.tripbook.src.user.view.UserAuthView
 import com.olympos.tripbook.utils.*
-import com.kakao.sdk.common.util.Utility
+
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity(), UserAuthView {
 
@@ -31,8 +31,6 @@ class SplashActivity : AppCompatActivity(), UserAuthView {
         binding = ActivitySplashBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-        var keyHash = Utility.getKeyHash(this)
-        Log.d("wtfisthis", keyHash)
 
         userAuthApiController.setUserView(this)
 
