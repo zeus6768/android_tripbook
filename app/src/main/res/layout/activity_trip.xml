@@ -48,7 +48,8 @@
                 android:includeFontPadding="false"
                 android:inputType="text"
                 android:textColor="@color/black"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:maxLength="14"/>
 
             <View
                 android:id="@+id/trip_title_view"
@@ -309,7 +310,6 @@
                 android:text="@string/trip_theme_tv"
                 android:textColor="@color/black" />
 
-            <!-- 다음 단계로 이동 버튼 -->
             <TextView
                 android:id="@+id/trip_theme_list_tv"
                 android:layout_width="wrap_content"

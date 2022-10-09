@@ -8,7 +8,7 @@
 
     <!-- 상단바 -->
     <include
-        android:id="@+id/record_topbar_layout"
+        android:id="@+id/record_view_topbar_layout"
         layout="@layout/layout_topbar_base" />
 
     <ScrollView
@@ -27,12 +27,12 @@
 
             <!--사진 선택 창-->
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/record_img_cl"
+                android:id="@+id/record_view_img_cl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/record_img_iv"
+                    android:id="@+id/record_view_img_iv"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@drawable/bg_base_gray_background"
@@ -42,26 +42,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
-
-                <TextView
-                    android:id="@+id/record_img_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:drawableTop="@drawable/img_tripcourse_camera"
-                    android:drawablePadding="0dp"
-                    android:fontFamily="@font/notosans_kr_bold"
-                    android:gravity="center_horizontal"
-                    android:includeFontPadding="false"
-                    android:padding="5dp"
-                    android:text="@string/record_request_picture"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    tools:ignore="UseCompatTextViewDrawableXml" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!--여행 세부사항 선택 창-->
@@ -79,11 +59,9 @@
 
                     <!--여행 날짜 선택-->
                     <TextView
-                        android:id="@+id/record_select_date_btn"
+                        android:id="@+id/record_view_select_date_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/btn_tripcourse_arrow_down_green"
-                        android:drawablePadding="0dp"
                         android:fontFamily="@font/notosans_kr_bold"
                         android:gravity="center"
                         android:includeFontPadding="false"
@@ -96,44 +74,42 @@
                         tools:ignore="UseCompatTextViewDrawableXml" />
 
                     <!--여행 지역/도시 선택-->
-<!--                    <TextView-->
-<!--                        android:id="@+id/record_select_country_btn"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:drawableEnd="@drawable/btn_tripcourse_arrow_down_green"-->
-<!--                        android:drawablePadding="0dp"-->
-<!--                        android:fontFamily="@font/notosans_kr_bold"-->
-<!--                        android:gravity="center"-->
-<!--                        android:includeFontPadding="false"-->
-<!--                        android:text="@string/record_country"-->
-<!--                        android:textColor="@color/black"-->
-<!--                        android:textSize="13sp"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent"-->
-<!--                        tools:ignore="UseCompatTextViewDrawableXml" />-->
+                    <TextView
+                        android:id="@+id/record_view_select_country_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/notosans_kr_bold"
+                        android:gravity="center"
+                        android:includeFontPadding="false"
+                        android:text="@string/record_country"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="UseCompatTextViewDrawableXml" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!--제목 입력-->
-                <EditText
-                    android:id="@+id/record_title_et"
+                <TextView
+                    android:id="@+id/record_view_title_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:background="@null"
                     android:fontFamily="@font/notosans_kr_bold"
-                    android:hint="@string/record_request_title"
+                    android:text="제목"
+                    android:textColor="@color/black"
                     android:includeFontPadding="false"
-                    android:inputType="text"
-                    android:textSize="20sp" />
+                    android:textSize="26sp" />
 
-<!--                <View-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="1dp"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:background="@color/gray" />-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/gray" />
 
-<!--                &lt;!&ndash;해시태그 선택(임시), 이후에 리사이클러뷰로 수정할 예정&ndash;&gt;-->
+                <!--해시태그 선택(임시), 이후에 리사이클러뷰로 수정할 예정-->
 <!--                <LinearLayout-->
 <!--                    android:layout_width="match_parent"-->
 <!--                    android:layout_height="80dp"-->
@@ -141,7 +117,7 @@
 <!--                    android:layout_marginTop="15dp">-->
 
 <!--                    <androidx.appcompat.widget.AppCompatButton-->
-<!--                        android:id="@+id/record_hashtag_add_btn"-->
+<!--                        android:id="@+id/tripcourse_record_view_hashtag_add_btn"-->
 <!--                        android:layout_width="wrap_content"-->
 <!--                        android:layout_height="25dp"-->
 <!--                        android:background="@drawable/bg_base_main_4_empty"-->
@@ -154,11 +130,11 @@
 <!--                        android:paddingHorizontal="8dp" />-->
 <!--                </LinearLayout>-->
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/gray" />
+<!--                <View-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="1dp"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:background="@color/gray" />-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -167,13 +143,12 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="30dp">
 
-                    <EditText
-                        android:id="@+id/record_body_et"
+                    <TextView
+                        android:id="@+id/record_view_body_tv"
                         android:layout_width="match_parent"
-                        android:layout_height="170dp"
+                        android:layout_height="133dp"
                         android:background="@drawable/bg_base_main_4_empty"
-                        android:inputType="textMultiLine"
-                        android:hint="@string/record_request_body"
+                        android:text="내용"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black"
                         android:textSize="12sp"
@@ -184,7 +159,7 @@
                         android:paddingVertical="10dp"/>
 
                     <TextView
-                        android:id="@+id/record_content_wordcount_tv"
+                        android:id="@+id/record_view_content_wordcount_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|bottom"
@@ -194,18 +169,8 @@
                         android:textSize="10sp"
                         android:textColor="@color/gray_text"/>
                 </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-    <!--로딩 바-->
-    <ProgressBar
-        android:id="@+id/record_loading_pb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateTint="@color/tripbook_main_2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:visibility="visible"/>
 </LinearLayout>

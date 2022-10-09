@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
+import com.olympos.tripbook.config.BaseDialog
 import com.olympos.tripbook.databinding.ActivityMainBinding
 import com.olympos.tripbook.src.home.view.HomeRVAdapter
 import com.olympos.tripbook.src.trip.TripActivity
