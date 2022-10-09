@@ -158,14 +158,8 @@ class TripCourseRVAdapter(private val mContext: Context, private val courseList:
     inner class ViewHolderLine3(binding: ItemLine3Binding): RecyclerView.ViewHolder(binding.root) {
     }
 
-//    fun addItems(albums: ArrayList<Album>) {
-//        albumList.clear()
-//        albumList.addAll(albums)
-//        notifyDataSetChanged()
-//    }
-//
 @SuppressLint("NotifyDataSetChanged")
-fun addItem(course: TripCourse) {
+    fun addItem(course: TripCourse) {
         courseList.add(course)
         courseList.add(course)
         notifyDataSetChanged()
@@ -175,23 +169,25 @@ fun addItem(course: TripCourse) {
     private fun onRemoveCard(position: Int){
 //        deleteImage(tripCards[focusedCardPosition].imgUrl) //firebase 이미지 삭제
 
-        courseList.removeAt(position)
-        courseList.removeAt(position-1)
-//        notifyItemRemoved(position)
-//        notifyItemRemoved(position-1)
-//        notifyItemRangeChanged(position, courseList.size);
+        if(position == 0) {
+            if(courseList.size <= 1) {
+                Toast.makeText(mContext, "카드는 최소 1개 이상 있어야 합니다.", Toast.LENGTH_SHORT).show()
+                return
+            } else {
+                courseList.removeAt(0)
+                courseList.removeAt(0)
+            }
+        }
+        else {
+            courseList.removeAt(position)
+            courseList.removeAt(position-1)
+        }
+
         notifyDataSetChanged()
     }
-//
+
 //    fun removeItems() {
 //        albumList.clear()
 //        notifyDataSetChanged()
 //    }
-//
-//    fun removeItem(position: Int) {
-//        albumList.removeAt(position)
-//        notifyDataSetChanged()
-//    }
-
-
 }
