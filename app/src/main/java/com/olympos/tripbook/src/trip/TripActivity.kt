@@ -16,6 +16,7 @@ import com.olympos.tripbook.src.trip.controller.TripApiController
 import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.src.trip.view.PostTripView
 import com.olympos.tripbook.src.tripcourse.TripCourseActivity
+import com.olympos.tripbook.src.tripcourse.model.TripCourse
 import com.olympos.tripbook.utils.getUserIdx
 import com.olympos.tripbook.utils.saveTripIdx
 
@@ -32,15 +33,14 @@ class TripActivity : BaseActivity(), PostTripView {
 
         initView()
 
-        //click 리스너
-        binding.tripTopbarLayout.topbarBackIb.setOnClickListener(this)
-        binding.tripTopbarLayout.topbarSubbuttonIb.setOnClickListener(this)
-//        binding.tripThemeTheme1Ll.setOnClickListener(this)
-//        binding.tripThemeTheme2Ll.setOnClickListener(this)
-//        binding.tripThemeTheme3Ll.setOnClickListener(this)
-//        binding.tripThemeTheme4Ll.setOnClickListener(this)
-        binding.tripNextStepBtnTv.setOnClickListener(this)
-        binding.tripCalendarMcv.setOnClickListener(this)
+        //여행 정보 가져옴
+        if(intent.hasExtra("tripDataFromTripcourse")) {
+            val gson = Gson()
+            val json = intent.getStringExtra("tripDataFromTripcourse")
+            val tripData = gson.fromJson(json, Trip::class.java)
+
+            initTripDataView(tripData)
+        }
     }
 
     private fun initView() {
@@ -92,16 +92,41 @@ class TripActivity : BaseActivity(), PostTripView {
             trip.arrivalDate = arrivalDate
 
         }
-//        calendar.setOnDateChangedListener(this)
-//        calendar.addDecorator(decorator)
+
+        //click 리스너
+        binding.tripTopbarLayout.topbarBackIb.setOnClickListener(this)
+        binding.tripTopbarLayout.topbarSubbuttonIb.setOnClickListener(this)
+//        binding.tripThemeTheme1Ll.setOnClickListener(this)
+//        binding.tripThemeTheme2Ll.setOnClickListener(this)
+//        binding.tripThemeTheme3Ll.setOnClickListener(this)
+//        binding.tripThemeTheme4Ll.setOnClickListener(this)
+        binding.tripNextStepBtnTv.setOnClickListener(this)
+        binding.tripCalendarMcv.setOnClickListener(this)
+    }
+
+    private fun initTripDataView(tripData: Trip) {
+        //상단바
+        binding.tripTopbarLayout.topbarTitleTv.setText("여행 수정하기")
+
+        binding.tripTitleEt.hint = tripData.tripTitle
+
+        //출발일
+        binding.tripDateDepartureMonthTv.text = tripData.departureDate.split("-")[1]
+        binding.tripDateDepartureDayTv.text = tripData.departureDate.split("-")[2]
+        //도착일
+        binding.tripDateArrivalMonthTv.text = tripData.arrivalDate.split("-")[1]
+        binding.tripDateArrivalDayTv.text = tripData.arrivalDate.split("-")[2]
     }
 
     override fun onClick(v: View?) {
         super.onClick(v)
 
         when (v!!.id) {
-            R.id.topbar_back_ib ->
-                finish()
+            R.id.topbar_back_ib -> {
+                val dlg = BaseDialog(this)
+                dlg.listener = CancleDialog()
+                dlg.show("여행 작성 취소", "여행 작성을 취소하시겠습니까?\n 입력 내용은 저장되지않습니다.", "확인")
+            }
 //            R.id.trip_theme_theme1_ll, R.id.trip_theme_theme2_ll, R.id.trip_theme_theme3_ll ->
 //                themeSelected(v)
 //            R.id.trip_theme_theme4_ll ->
@@ -109,6 +134,10 @@ class TripActivity : BaseActivity(), PostTripView {
             R.id.trip_next_step_btn_tv -> {
                 //제목 입력
                 trip.tripTitle = binding.tripTitleEt.text.toString()
+
+                if(intent.hasExtra("tripDataFromTripcourse")) {
+                    startTripcourseActivity()
+                }
 
                 postTrip(trip)
 

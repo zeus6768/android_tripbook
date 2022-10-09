@@ -10,6 +10,7 @@ import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.config.BaseDialog
 import com.olympos.tripbook.databinding.ActivityTripcourseBinding
+import com.olympos.tripbook.src.trip.TripActivity
 import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.src.tripcourse.model.TripCourse
 import com.olympos.tripbook.src.tripcourse.view.TripCourseRVAdapter
@@ -26,7 +27,14 @@ class TripCourseActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityTripcourseBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initView() // Trip init
+//        initView() // Trip init
+//        sampleData() // 더미데이터
+//        initRecyclerView() // 현재는 더미데이터 기반
+    }
+
+    override fun onStart() {
+        super.onStart()
+        initView()
         sampleData() // 더미데이터
         initRecyclerView() // 현재는 더미데이터 기반
     }
@@ -69,8 +77,8 @@ class TripCourseActivity : BaseActivity() {
         binding.tripcourseTopbarLayout.topbarBackIb.setOnClickListener(this)
         binding.tripcourseTopbarLayout.topbarSubbuttonIb.setOnClickListener(this)
 
-        //타이틀바 길게 클릭 - 여행 삭제하기
-//        registerForContextMenu(binding.tripcourseTitleFl)
+        //타이틀바 선택
+        binding.tripcourseTitleFl.setOnClickListener(this)
     }
 
     fun initRecyclerView() {
@@ -104,6 +112,14 @@ class TripCourseActivity : BaseActivity() {
             }
             R.id.topbar_back_ib -> {
                 showDialog("홈으로 이동","아직 저장된 발자국 기록이 없습니다.\n여행 작성을 취소하시겠습니까?","확인")
+            }
+            R.id.tripcourse_title_fl -> {
+                val intent = Intent(this, TripActivity::class.java)
+                val gson = Gson()
+                val tripData = gson.toJson(tripData)
+
+                intent.putExtra("tripDataFromTripcourse", tripData)
+                startActivity(intent)
             }
         }
     }
