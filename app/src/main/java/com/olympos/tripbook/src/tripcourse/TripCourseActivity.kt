@@ -93,6 +93,7 @@ class TripCourseActivity : BaseActivity() {
             add(TripCourse(2, "유채꽃 예뻤다", "2021년 03월 10일", "서울은 엄청 추운데 여긴 벌써 노랗게 꽃이 피고 따땃했다~ 너무 예쁘다 제주도는 어딜가나 노란 빛으로 물들어있다 내용내용내용"))
         }
     }
+
     override fun onClick(v: View?) {
         super.onClick(v)
 

@@ -25,7 +25,7 @@ class ApplicationClass : Application() {
         lateinit var retrofit: Retrofit
         lateinit var retrofitWithoutAccessToken: Retrofit
 
-        fun parseStringDateToKorean(date: String, option: DateUnit): String{
+        fun parseDateToKorean(date: String, option: DateUnit): String{
 
             val dateArr = date.split("-")
 

@@ -69,8 +69,6 @@
     <string name="mypage_history_ea_default">개</string>
     <string name="mypage_history_content_default">OOO님의 활동 히스토리</string>
 
-
-
 <!--    activity_trip-->
     <string name="trip_title">여행 기록하기</string>
     <string name="trip_title_tv">제목을 입력해주세요.</string>

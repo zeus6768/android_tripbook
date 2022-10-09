@@ -67,7 +67,7 @@ class RecordActivity : BaseActivity() {
 
     private fun setCourse(course: TripCourse) {
         binding.recordTitleEt.hint = course.courseTitle
-        binding.recordBodyEt.hint = course.courseContent
+        binding.recordBodyEt.hint = course.courseComment
         binding.recordSelectDateBtn.text = course.courseDate
     }
 

@@ -92,8 +92,8 @@ class TripCourseRVAdapter(private val courseList: ArrayList<TripCourse>) : Recyc
         fun bind(course: TripCourse) {
             binding.itemTitleTv.text = course.courseTitle
             binding.itemDateTv.text = course.courseDate
-            binding.itemContentTv.text = course.courseContent
-            course.courseImg?.let { binding.itemCardPicIv.setImageResource(it) }
+            binding.itemContentTv.text = course.courseComment
+//            course.courseImg?.let { binding.itemCardPicIv.setImageResource(it) }
         }
     }
     inner class ViewHolderLine1(binding: ItemLine1Binding): RecyclerView.ViewHolder(binding.root) {

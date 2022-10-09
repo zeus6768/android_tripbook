@@ -34,8 +34,8 @@ class MyPageActivity : BaseActivity(), GetTripCountView, GetAllTripsView {
 
         setContentView(binding.root)
 
-        tripApiController.setGetTripCountView(this)
-        tripApiController.setGetAllTripsView(this)
+        tripApiController.setTripCountView(this)
+        tripApiController.setAllTripsView(this)
 
         initView()
 
@@ -103,10 +103,6 @@ class MyPageActivity : BaseActivity(), GetTripCountView, GetAllTripsView {
             2105 -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
 
-    }
-
-    override fun onGetAllTripsLoading() {
-        // TODO("Not yet implemented")
     }
 
     override fun onGetAllTripsSuccess(result: ArrayList<Trip>) {
