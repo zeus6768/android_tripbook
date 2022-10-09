@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.gson.Gson
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
+import com.olympos.tripbook.config.BaseDialog
 import com.olympos.tripbook.databinding.ActivityTripcourseBinding
 import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.src.tripcourse.model.TripCourse
@@ -102,7 +103,7 @@ class TripCourseActivity : BaseActivity() {
                 tripcourseRVAdapter.addItem(TripCourse())
             }
             R.id.topbar_back_ib -> {
-                showDialog("뒤로가기","아직 저장된 발자국 기록이 없습니다.\n뒤로 가시겠습니까?","확인")
+                showDialog("홈으로 이동","아직 저장된 발자국 기록이 없습니다.\n여행 작성을 취소하시겠습니까?","확인")
             }
         }    }
 
@@ -117,6 +118,23 @@ class TripCourseActivity : BaseActivity() {
         val itemSelected = gson.toJson(course)
         intent.putExtra("courseData", itemSelected)
         startActivity(intent)
+    }
+
+    override fun onBackPressed() {
+        val dlg = BaseDialog(this)
+        dlg.listener = CancleDialog()
+        dlg.show("여행 작성 취소", "여행 작성을 취소하시겠습니까?\n 입력 내용은 저장되지않습니다.", "확인")
+    }
+
+    inner class CancleDialog(): BaseDialog.BaseDialogClickListener {
+        override fun onOKClicked() {
+            //todo 카드 내용 삭제
+            finish()
+        }
+
+        override fun onCancelClicked() {
+
+        }
     }
 
 //    private fun startTripcourseActivity() {

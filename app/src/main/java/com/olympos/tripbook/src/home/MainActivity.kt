@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
+import com.olympos.tripbook.config.BaseDialog
 import com.olympos.tripbook.databinding.ActivityMainBinding
 import com.olympos.tripbook.src.trip.view.GetTripCountView
 import com.olympos.tripbook.src.user.MyPageActivity
@@ -369,6 +370,22 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 Toast.makeText(this, "로그아웃되었습니다. 재로그인 해주세요.", Toast.LENGTH_SHORT).show()
                 userLogout()
             }
+        }
+    }
+
+    override fun onBackPressed() {
+        val dlg = BaseDialog(this)
+        dlg.listener = CancleDialog()
+        dlg.show("트립북 종료", "어플리케이션을 하시겠습니까?", "확인")
+    }
+
+    inner class CancleDialog(): BaseDialog.BaseDialogClickListener {
+        override fun onOKClicked() {
+            finishAndRemoveTask()
+        }
+
+        override fun onCancelClicked() {
+
         }
     }
 }

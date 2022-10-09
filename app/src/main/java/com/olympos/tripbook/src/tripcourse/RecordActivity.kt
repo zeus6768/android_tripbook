@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.google.gson.Gson
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
+import com.olympos.tripbook.config.BaseDialog
 import com.olympos.tripbook.databinding.ActivityRecordBinding
 import com.olympos.tripbook.src.tripcourse.model.TripCourse
 
@@ -87,5 +88,22 @@ class RecordActivity : BaseActivity() {
     override fun onOKClicked() {
         super.onOKClicked()
         finish()
+    }
+
+    override fun onBackPressed() {
+        val dlg = BaseDialog(this)
+        dlg.listener = CancleDialog()
+        dlg.show("카드 작성 취소", "카드 작성을 취소하시겠습니까?\n 입력 내용은 저장되지않습니다.", "확인")
+    }
+
+    inner class CancleDialog(): BaseDialog.BaseDialogClickListener {
+        override fun onOKClicked() {
+            //todo 카드 내용 삭제
+            finish()
+        }
+
+        override fun onCancelClicked() {
+
+        }
     }
 }
