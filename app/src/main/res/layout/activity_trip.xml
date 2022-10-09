@@ -299,164 +299,163 @@
                 android:background="@color/gray" />
 
             <!-- 여행 발자국 테마 -->
-            <TextView
-                android:id="@+id/trip_theme_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/notosans_kr_bold"
-                android:includeFontPadding="false"
-                android:text="@string/trip_theme_tv"
-                android:textColor="@color/black" />
+<!--            <TextView-->
+<!--                android:id="@+id/trip_theme_tv"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:fontFamily="@font/notosans_kr_bold"-->
+<!--                android:includeFontPadding="false"-->
+<!--                android:text="@string/trip_theme_tv"-->
+<!--                android:textColor="@color/black" />-->
 
-            <!-- 다음 단계로 이동 버튼 -->
-            <TextView
-                android:id="@+id/trip_theme_list_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/notosans_kr_medium"
-                android:includeFontPadding="false"
-                android:text="@string/trip_theme_list"
-                android:textSize="12sp" />
+<!--            <TextView-->
+<!--                android:id="@+id/trip_theme_list_tv"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:fontFamily="@font/notosans_kr_medium"-->
+<!--                android:includeFontPadding="false"-->
+<!--                android:text="@string/trip_theme_list"-->
+<!--                android:textSize="12sp" />-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:gravity="center"-->
+<!--                android:orientation="horizontal">-->
 
-                <LinearLayout
-                    android:id="@+id/trip_theme_theme1_ll"
-                    android:layout_width="56dp"
-                    android:layout_height="96dp"
-                    android:layout_marginEnd="20dp"
-                    android:orientation="vertical">
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/trip_theme_theme1_ll"-->
+<!--                    android:layout_width="56dp"-->
+<!--                    android:layout_height="96dp"-->
+<!--                    android:layout_marginEnd="20dp"-->
+<!--                    android:orientation="vertical">-->
 
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/trip_theme_theme1_cv"
-                        android:layout_width="56dp"
-                        android:layout_height="77dp"
-                        app:cardCornerRadius="10dp"
-                        app:strokeColor="@color/tripbook_main_1"
-                        app:strokeWidth="2dp">
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/img_basic_theme1" />
-                    </com.google.android.material.card.MaterialCardView>
+<!--                    <com.google.android.material.card.MaterialCardView-->
+<!--                        android:id="@+id/trip_theme_theme1_cv"-->
+<!--                        android:layout_width="56dp"-->
+<!--                        android:layout_height="77dp"-->
+<!--                        app:cardCornerRadius="10dp"-->
+<!--                        app:strokeColor="@color/tripbook_main_1"-->
+<!--                        app:strokeWidth="2dp">-->
+<!--                        <ImageView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:src="@drawable/img_basic_theme1" />-->
+<!--                    </com.google.android.material.card.MaterialCardView>-->
 
-                    <TextView
-                        android:id="@+id/trip_theme_theme1_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/notosans_kr_medium"
-                        android:includeFontPadding="false"
-                        android:text="@string/trip_theme_1"
-                        android:textColor="@color/tripbook_main_1"
-                        android:textSize="12sp" />
-                </LinearLayout>
+<!--                    <TextView-->
+<!--                        android:id="@+id/trip_theme_theme1_tv"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:fontFamily="@font/notosans_kr_medium"-->
+<!--                        android:includeFontPadding="false"-->
+<!--                        android:text="@string/trip_theme_1"-->
+<!--                        android:textColor="@color/tripbook_main_1"-->
+<!--                        android:textSize="12sp" />-->
+<!--                </LinearLayout>-->
 
-                <LinearLayout
-                    android:id="@+id/trip_theme_theme2_ll"
-                    android:layout_width="56dp"
-                    android:layout_height="96dp"
-                    android:layout_marginEnd="20dp"
-                    android:orientation="vertical">
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/trip_theme_theme2_ll"-->
+<!--                    android:layout_width="56dp"-->
+<!--                    android:layout_height="96dp"-->
+<!--                    android:layout_marginEnd="20dp"-->
+<!--                    android:orientation="vertical">-->
 
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/trip_theme_theme2_cv"
-                        android:layout_width="56dp"
-                        android:layout_height="77dp"
-                        app:cardCornerRadius="10dp"
-                        app:strokeColor="@color/dark_gray"
-                        app:strokeWidth="2dp">
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/img_basic_theme2" />
-                    </com.google.android.material.card.MaterialCardView>
+<!--                    <com.google.android.material.card.MaterialCardView-->
+<!--                        android:id="@+id/trip_theme_theme2_cv"-->
+<!--                        android:layout_width="56dp"-->
+<!--                        android:layout_height="77dp"-->
+<!--                        app:cardCornerRadius="10dp"-->
+<!--                        app:strokeColor="@color/dark_gray"-->
+<!--                        app:strokeWidth="2dp">-->
+<!--                        <ImageView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:src="@drawable/img_basic_theme2" />-->
+<!--                    </com.google.android.material.card.MaterialCardView>-->
 
-                    <TextView
-                        android:id="@+id/trip_theme_theme2_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/notosans_kr_medium"
-                        android:includeFontPadding="false"
-                        android:text="@string/trip_theme_2"
-                        android:textColor="@color/dark_gray"
-                        android:textSize="12sp" />
-                </LinearLayout>
+<!--                    <TextView-->
+<!--                        android:id="@+id/trip_theme_theme2_tv"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:fontFamily="@font/notosans_kr_medium"-->
+<!--                        android:includeFontPadding="false"-->
+<!--                        android:text="@string/trip_theme_2"-->
+<!--                        android:textColor="@color/dark_gray"-->
+<!--                        android:textSize="12sp" />-->
+<!--                </LinearLayout>-->
 
-                <LinearLayout
-                    android:id="@+id/trip_theme_theme3_ll"
-                    android:layout_width="56dp"
-                    android:layout_height="96dp"
-                    android:layout_marginEnd="20dp"
-                    android:orientation="vertical">
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/trip_theme_theme3_ll"-->
+<!--                    android:layout_width="56dp"-->
+<!--                    android:layout_height="96dp"-->
+<!--                    android:layout_marginEnd="20dp"-->
+<!--                    android:orientation="vertical">-->
 
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/trip_theme_theme3_cv"
-                        android:layout_width="56dp"
-                        android:layout_height="77dp"
-                        app:cardCornerRadius="10dp"
-                        app:strokeColor="@color/dark_gray"
-                        app:strokeWidth="2dp">
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/img_basic_theme3" />
-                    </com.google.android.material.card.MaterialCardView>
+<!--                    <com.google.android.material.card.MaterialCardView-->
+<!--                        android:id="@+id/trip_theme_theme3_cv"-->
+<!--                        android:layout_width="56dp"-->
+<!--                        android:layout_height="77dp"-->
+<!--                        app:cardCornerRadius="10dp"-->
+<!--                        app:strokeColor="@color/dark_gray"-->
+<!--                        app:strokeWidth="2dp">-->
+<!--                        <ImageView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:src="@drawable/img_basic_theme3" />-->
+<!--                    </com.google.android.material.card.MaterialCardView>-->
 
-                    <TextView
-                        android:id="@+id/trip_theme_theme3_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/notosans_kr_medium"
-                        android:includeFontPadding="false"
-                        android:text="@string/trip_theme_3"
-                        android:textColor="@color/dark_gray"
-                        android:textSize="12sp" />
-                </LinearLayout>
+<!--                    <TextView-->
+<!--                        android:id="@+id/trip_theme_theme3_tv"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:fontFamily="@font/notosans_kr_medium"-->
+<!--                        android:includeFontPadding="false"-->
+<!--                        android:text="@string/trip_theme_3"-->
+<!--                        android:textColor="@color/dark_gray"-->
+<!--                        android:textSize="12sp" />-->
+<!--                </LinearLayout>-->
 
-                <LinearLayout
-                    android:id="@+id/trip_theme_theme4_ll"
-                    android:layout_width="56dp"
-                    android:layout_height="96dp"
-                    android:orientation="vertical">
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/trip_theme_theme4_ll"-->
+<!--                    android:layout_width="56dp"-->
+<!--                    android:layout_height="96dp"-->
+<!--                    android:orientation="vertical">-->
 
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/trip_theme_theme4_cv"
-                        android:layout_width="56dp"
-                        android:layout_height="77dp"
-                        app:cardBackgroundColor="@color/gray"
-                        app:cardCornerRadius="10dp"
-                        app:strokeColor="@color/dark_gray"
-                        app:strokeWidth="2dp">
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/img_trip_plus" />
-                    </com.google.android.material.card.MaterialCardView>
+<!--                    <com.google.android.material.card.MaterialCardView-->
+<!--                        android:id="@+id/trip_theme_theme4_cv"-->
+<!--                        android:layout_width="56dp"-->
+<!--                        android:layout_height="77dp"-->
+<!--                        app:cardBackgroundColor="@color/gray"-->
+<!--                        app:cardCornerRadius="10dp"-->
+<!--                        app:strokeColor="@color/dark_gray"-->
+<!--                        app:strokeWidth="2dp">-->
+<!--                        <ImageView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center"-->
+<!--                            android:src="@drawable/img_trip_plus" />-->
+<!--                    </com.google.android.material.card.MaterialCardView>-->
 
-                    <TextView
-                        android:id="@+id/trip_theme_theme4_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/notosans_kr_medium"
-                        android:includeFontPadding="false"
-                        android:text="@string/trip_theme_4"
-                        android:textColor="@color/dark_gray"
-                        android:textSize="8sp" />
-                </LinearLayout>
-            </LinearLayout>
+<!--                    <TextView-->
+<!--                        android:id="@+id/trip_theme_theme4_tv"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:layout_marginTop="5dp"-->
+<!--                        android:fontFamily="@font/notosans_kr_medium"-->
+<!--                        android:includeFontPadding="false"-->
+<!--                        android:text="@string/trip_theme_4"-->
+<!--                        android:textColor="@color/dark_gray"-->
+<!--                        android:textSize="8sp" />-->
+<!--                </LinearLayout>-->
+<!--            </LinearLayout>-->
 
             <View
                 android:id="@+id/trip_theme_view"
