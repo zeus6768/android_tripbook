@@ -84,11 +84,6 @@ class MyPageActivity : BaseActivity(), GetTripCountView, GetAllTripsView {
 
     }
 
-    private fun startMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-    }
-
     private fun startMyPastTripActivity() {
         val intent = Intent(this, MyPastTripActivity::class.java)
         startActivity(intent)
