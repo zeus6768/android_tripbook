@@ -96,22 +96,22 @@
                         tools:ignore="UseCompatTextViewDrawableXml" />
 
                     <!--여행 지역/도시 선택-->
-                    <TextView
-                        android:id="@+id/record_select_country_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/btn_tripcourse_arrow_down_green"
-                        android:drawablePadding="0dp"
-                        android:fontFamily="@font/notosans_kr_bold"
-                        android:gravity="center"
-                        android:includeFontPadding="false"
-                        android:text="@string/record_country"
-                        android:textColor="@color/black"
-                        android:textSize="13sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="UseCompatTextViewDrawableXml" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/record_select_country_btn"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:drawableEnd="@drawable/btn_tripcourse_arrow_down_green"-->
+<!--                        android:drawablePadding="0dp"-->
+<!--                        android:fontFamily="@font/notosans_kr_bold"-->
+<!--                        android:gravity="center"-->
+<!--                        android:includeFontPadding="false"-->
+<!--                        android:text="@string/record_country"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="13sp"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent"-->
+<!--                        tools:ignore="UseCompatTextViewDrawableXml" />-->
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!--제목 입력-->
@@ -127,32 +127,32 @@
                     android:inputType="text"
                     android:textSize="20sp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/gray" />
+<!--                <View-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="1dp"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:background="@color/gray" />-->
 
-                <!--해시태그 선택(임시), 이후에 리사이클러뷰로 수정할 예정-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="15dp">
+<!--                &lt;!&ndash;해시태그 선택(임시), 이후에 리사이클러뷰로 수정할 예정&ndash;&gt;-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="80dp"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:layout_marginTop="15dp">-->
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/record_hashtag_add_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:background="@drawable/bg_base_main_4_empty"
-                        android:text="@string/record_request_hashtag"
-                        android:textColor="@color/black"
-                        android:textSize="11sp"
-                        android:fontFamily="@font/notosans_kr_regular"
-                        android:includeFontPadding="false"
-                        android:layout_gravity="start|top"
-                        android:paddingHorizontal="8dp" />
-                </LinearLayout>
+<!--                    <androidx.appcompat.widget.AppCompatButton-->
+<!--                        android:id="@+id/record_hashtag_add_btn"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="25dp"-->
+<!--                        android:background="@drawable/bg_base_main_4_empty"-->
+<!--                        android:text="@string/record_request_hashtag"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="11sp"-->
+<!--                        android:fontFamily="@font/notosans_kr_regular"-->
+<!--                        android:includeFontPadding="false"-->
+<!--                        android:layout_gravity="start|top"-->
+<!--                        android:paddingHorizontal="8dp" />-->
+<!--                </LinearLayout>-->
 
                 <View
                     android:layout_width="match_parent"
