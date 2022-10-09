@@ -48,7 +48,8 @@
                 android:includeFontPadding="false"
                 android:inputType="text"
                 android:textColor="@color/black"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:maxLength="14"/>
 
             <View
                 android:id="@+id/trip_title_view"
@@ -457,12 +458,12 @@
 <!--                </LinearLayout>-->
 <!--            </LinearLayout>-->
 
-            <View
-                android:id="@+id/trip_theme_view"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
-                android:background="@color/gray" />
+<!--            <View-->
+<!--                android:id="@+id/trip_theme_view"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:background="@color/gray" />-->
 
             <TextView
                 android:id="@+id/trip_next_step_btn_tv"

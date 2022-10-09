@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.gson.Gson
 import com.olympos.tripbook.R
@@ -23,18 +25,25 @@ class TripCourseActivity : BaseActivity() {
     private var tripData = Trip()
     val mCourses = ArrayList<TripCourse>()
 
+    val gson = Gson()
+
+    val tripResultLauncher : ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ){
+        // Trip에서 결과를 받아옴
+        if(it.resultCode == 999981){ //임시로 할당한 숫자
+            val intent = it.data
+            val rawTripData = intent!!.getStringExtra("modifiedTrip")
+            tripData = gson.fromJson(rawTripData, Trip::class.java)
+            setTitleDate()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTripcourseBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        initView() // Trip init
-//        sampleData() // 더미데이터
-//        initRecyclerView() // 현재는 더미데이터 기반
-    }
-
-    override fun onStart() {
-        super.onStart()
-        initView()
+        initView() // Trip init
         sampleData() // 더미데이터
         initRecyclerView() // 현재는 더미데이터 기반
     }
@@ -44,33 +53,10 @@ class TripCourseActivity : BaseActivity() {
         binding.tripcourseTopbarLayout.topbarTitleTv.setText(R.string.tripcourse_title)
         binding.tripcourseTopbarLayout.topbarSubbuttonIb.setImageResource(R.drawable.btn_base_check_black)
 
-        val gson = Gson()
         //여행 정보 가져옴
         tripData = gson.fromJson(intent.getStringExtra("tripData"), Trip::class.java)
 
-        //출발일
-        val dDate = tripData.departureDate.split("-")
-        val dYear = dDate[0].substring(2,4)
-        val dMonth = dDate[1]
-        val dDay = dDate[2]
-        saveDepartureYear(dYear.toInt())
-        saveDepartureMonth(dMonth.toInt())
-        saveDepartureDay(dDay.toInt())
-
-        //도착일
-        val aDate = tripData.arrivalDate.split("-")
-        val aYear = aDate[0].substring(2,4)
-        val aMonth = aDate[1]
-        val aDay = aDate[2]
-        saveArrivalYear(aYear.toInt())
-        saveArrivalMonth(aMonth.toInt())
-        saveArrivalDay(aDay.toInt())
-
-        val period = dYear + "년 " + dMonth + "월 " + dDay + "일 ~ " + aYear + "년 " + aMonth + "월 " + aDay + "일"
-
-        //여행 제목 띄우기
-        binding.tripcoursePeriodTv.text = period
-        binding.tripcourseTitleTv.text = tripData.tripTitle
+        setTitleDate()
 
         //click 리스너
         binding.tripcourseAddBtn.setOnClickListener(this)
@@ -79,6 +65,33 @@ class TripCourseActivity : BaseActivity() {
 
         //타이틀바 선택
         binding.tripcourseTitleFl.setOnClickListener(this)
+    }
+
+    private fun setTitleDate() {
+        //출발일
+        val dDate = tripData.departureDate.split("-")
+        val dYear = dDate[0].substring(2, 4)
+        val dMonth = dDate[1]
+        val dDay = dDate[2]
+        saveDepartureYear(dYear.toInt())
+        saveDepartureMonth(dMonth.toInt())
+        saveDepartureDay(dDay.toInt())
+
+        //도착일
+        val aDate = tripData.arrivalDate.split("-")
+        val aYear = aDate[0].substring(2, 4)
+        val aMonth = aDate[1]
+        val aDay = aDate[2]
+        saveArrivalYear(aYear.toInt())
+        saveArrivalMonth(aMonth.toInt())
+        saveArrivalDay(aDay.toInt())
+
+        val period =
+            dYear + "년 " + dMonth + "월 " + dDay + "일 ~ " + aYear + "년 " + aMonth + "월 " + aDay + "일"
+
+        //여행 제목 띄우기
+        binding.tripcoursePeriodTv.text = period
+        binding.tripcourseTitleTv.text = tripData.tripTitle
     }
 
     fun initRecyclerView() {
@@ -114,12 +127,9 @@ class TripCourseActivity : BaseActivity() {
                 showDialog("홈으로 이동","아직 저장된 발자국 기록이 없습니다.\n여행 작성을 취소하시겠습니까?","확인")
             }
             R.id.tripcourse_title_fl -> {
-                val intent = Intent(this, TripActivity::class.java)
-                val gson = Gson()
-                val tripData = gson.toJson(tripData)
-
-                intent.putExtra("tripDataFromTripcourse", tripData)
-                startActivity(intent)
+                val intent= Intent(this@TripCourseActivity, TripActivity::class.java)
+                intent.putExtra("tripDataFromTripcourse", gson.toJson(tripData))
+                tripResultLauncher.launch(intent)
             }
         }
     }
@@ -131,7 +141,6 @@ class TripCourseActivity : BaseActivity() {
 
     private fun startRecordActivity(course: TripCourse) {
         val intent = Intent(this, RecordActivity::class.java)
-        val gson = Gson()
         val itemSelected = gson.toJson(course)
         intent.putExtra("courseData", itemSelected)
         startActivity(intent)
@@ -143,7 +152,7 @@ class TripCourseActivity : BaseActivity() {
         dlg.show("여행 작성 취소", "여행 작성을 취소하시겠습니까?\n 입력 내용은 저장되지않습니다.", "확인")
     }
 
-    inner class CancleDialog(): BaseDialog.BaseDialogClickListener {
+    inner class CancleDialog: BaseDialog.BaseDialogClickListener {
         override fun onOKClicked() {
             //todo 카드 내용 삭제
             finish()

@@ -1,12 +1,12 @@
 package com.olympos.tripbook.src.trip
 
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
@@ -16,7 +16,6 @@ import com.olympos.tripbook.src.trip.controller.TripApiController
 import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.src.trip.view.PostTripView
 import com.olympos.tripbook.src.tripcourse.TripCourseActivity
-import com.olympos.tripbook.src.tripcourse.model.TripCourse
 import com.olympos.tripbook.utils.getUserIdx
 import com.olympos.tripbook.utils.saveTripIdx
 
@@ -24,6 +23,7 @@ class TripActivity : BaseActivity(), PostTripView {
     private lateinit var binding: ActivityTripBinding
 
     private var trip = Trip()
+    val gson = Gson()
 //    private var decorator = RangeDayDecorator(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,11 +35,10 @@ class TripActivity : BaseActivity(), PostTripView {
 
         //여행 정보 가져옴
         if(intent.hasExtra("tripDataFromTripcourse")) {
-            val gson = Gson()
             val json = intent.getStringExtra("tripDataFromTripcourse")
-            val tripData = gson.fromJson(json, Trip::class.java)
+            trip = gson.fromJson(json, Trip::class.java)
 
-            initTripDataView(tripData)
+            initTripDataView(trip)
         }
     }
 
@@ -49,26 +48,25 @@ class TripActivity : BaseActivity(), PostTripView {
         binding.tripTopbarLayout.topbarSubtitleTv.visibility = View.GONE
         binding.tripTopbarLayout.topbarSubbuttonIb.visibility = View.GONE
 
+        //제목 글자수 제한
+        binding.tripTitleEt.addTextChangedListener(object : TextWatcher {
+            var userInput = binding.tripTitleEt
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (userInput.isFocused && userInput.length() > 200) {
+                    userInput.setText(s.toString().substring(0, 200))
+                    userInput.setSelection(s!!.length - 1)
+                    Toast.makeText(this@TripActivity, "14자까지 입력 가능합니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+
         //캘린더
         val calendar = binding.tripCalendarMcv
-//        val year = binding.tripDatePickerYear
-//        val month = binding.tripDatePickerMonth
-
-        //년, 월 최대 최소 값 및 현재값 세팅
-//        year.maxValue = getCurrentDate().split(".")[0].toInt()
-//        year.minValue = 1980
-//        month.maxValue = 12
-//        month.minValue = 1
-//        year.value = getCurrentDate().split(".")[0].toInt()
-//        month.value = getCurrentDate().split(".")[1].toInt()
-//
-//        //Number Picker 순환안되도록
-//        year.wrapSelectorWheel = false
-//        month.wrapSelectorWheel = false
-
-
-//        val jwt = getJwt(this)
-//        trip.userIdx = jwt.toString()
         trip.userIdx = getUserIdx().toString()
 
         //날짜 선택
@@ -132,19 +130,46 @@ class TripActivity : BaseActivity(), PostTripView {
 //            R.id.trip_theme_theme4_ll ->
 //                Toast.makeText(this, "추후 추가 예정", Toast.LENGTH_SHORT).show()
             R.id.trip_next_step_btn_tv -> {
+                if(intent.hasExtra("tripDataFromTripcourse")) {
+                    if( binding.tripTitleEt.text.isNotEmpty() ) {
+                        trip.tripTitle = binding.tripTitleEt.text.toString()
+                    }
+                    val returnIntent = Intent(this@TripActivity, TripCourseActivity::class.java)
+                    returnIntent.putExtra("modifiedTrip", gson.toJson(trip))
+                    setResult(999981, returnIntent) //임시 코드
+                    finish()
+                    return
+                }
+
+                if( !checkValidation() ) { return }
                 //제목 입력
                 trip.tripTitle = binding.tripTitleEt.text.toString()
 
-                if(intent.hasExtra("tripDataFromTripcourse")) {
-                    startTripcourseActivity()
-                }
+                startTripcourseActivity()
 
-                postTrip(trip)
+                //postTrip(trip)
 
                 Log.d("api test 확인용", " userIdx: " + trip.userIdx + " tripTitle: " + trip.tripTitle +
                         " departureDate: " + trip.departureDate + " arrivalDate: " + trip.arrivalDate + " themeIdx: " + trip.themeIdx)
             }
         }
+    }
+
+    //성공시 true 리턴
+    private fun checkValidation(): Boolean {
+        if( binding.tripTitleEt.text.isEmpty() ) {
+            Toast.makeText(this, "제목을 입력해주세요", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if( trip.departureDate == "" ) {
+            Toast.makeText(this, "출발일을 지정해주세요.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if( trip.arrivalDate == "" ) {
+            Toast.makeText(this, "도착일을 지정해주세요.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
     }
 
     //테마 선택 시 글씨색 변경 및 테두리색 변경
@@ -218,7 +243,6 @@ class TripActivity : BaseActivity(), PostTripView {
 
     private fun startTripcourseActivity() {
         val intent = Intent(this, TripCourseActivity::class.java)
-        val gson = Gson()
         val tripData = gson.toJson(trip)
 
         intent.putExtra("tripData", tripData)
@@ -235,7 +259,7 @@ class TripActivity : BaseActivity(), PostTripView {
         dlg.show("여행 작성 취소", "여행 작성을 취소하시겠습니까?\n 입력 내용은 저장되지않습니다.", "확인")
     }
 
-    inner class CancleDialog(): BaseDialog.BaseDialogClickListener {
+    inner class CancleDialog: BaseDialog.BaseDialogClickListener {
         override fun onOKClicked() {
             //todo Trip 내용 삭제
             finish()
