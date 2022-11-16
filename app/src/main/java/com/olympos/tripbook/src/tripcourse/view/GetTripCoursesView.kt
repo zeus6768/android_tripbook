@@ -4,5 +4,5 @@ import com.olympos.tripbook.src.tripcourse.model.TripCourse
 
 interface GetTripCoursesView {
     fun onGetTripCoursesSuccess(result: ArrayList<TripCourse>)
-    fun onGetTripCoursesFailure(code: Int)
+    fun onGetTripCoursesFailure(code: Int, message: String)
 }

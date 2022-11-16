@@ -6,7 +6,10 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.model.ClientError
+import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.kakao.sdk.user.model.Profile
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityUserSignInBinding
@@ -39,24 +42,25 @@ class SignInActivity : BaseActivity(), UserAuthView {
 
     override fun onClick(v: View?) {
         when (v!!.id) {
-            R.id.signin_signin_btn_iv -> signInByKakaoTalk()
+            R.id.signin_signin_btn_iv -> logInWithKakaoTalk()
         }
     }
 
-    private fun signInByKakaoTalk() {
+
+    private fun logInWithKakaoTalk() {
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
-                Log.e("SignInActivity", error.toString())
+                Log.e("SignInActivity", "signInWithKakaoTalk() $error")
             } else if (token != null) {
-                Log.d("SignInActivity", "SignInByKakaoTalk()")
+                Log.d("SignInActivity", "signInWithKakaoTalk()")
                 UserApiClient.instance.me { user, _ ->
                     if (user!!.kakaoAccount?.emailNeedsAgreement == true) {
                         requireEmailNeedsAgreement()
                     } else {
 
                         val profile = HashMap<String, String?>()
-                        profile["nickname"] = user.kakaoAccount!!.profile!!.nickname!!
-                        profile["profileImageUrl"] = user.kakaoAccount!!.profile!!.profileImageUrl!!
+                        profile["nickname"] = user.kakaoAccount!!.profile!!.nickname
+                        profile["profileImageUrl"] = user.kakaoAccount!!.profile!!.profileImageUrl
 
                         val kakaoTokens = HashMap<String, String?>()
                         kakaoTokens["kakaoAccessToken"] = token.accessToken
@@ -67,11 +71,15 @@ class SignInActivity : BaseActivity(), UserAuthView {
                 }
             }
         }
+
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(this@SignInActivity)) {
-            UserApiClient.instance.loginWithKakaoTalk(this@SignInActivity, callback = callback)
-        } else {
-            UserApiClient.instance.loginWithKakaoAccount(this@SignInActivity, callback = callback)
-        }
+            UserApiClient.instance.loginWithKakaoTalk(this@SignInActivity) { token, error ->
+                if (error != null) {
+                    if (error is ClientError && error.reason == ClientErrorCause.Cancelled) return@loginWithKakaoTalk
+                    UserApiClient.instance.loginWithKakaoAccount(this@SignInActivity, callback = callback)
+                }
+            }
+        } else UserApiClient.instance.loginWithKakaoAccount(this@SignInActivity, callback = callback)
     }
 
     @Suppress("NAME_SHADOWING")
@@ -112,9 +120,7 @@ class SignInActivity : BaseActivity(), UserAuthView {
     private fun startMainActivity() {
 
         val intent = Intent(this, MainActivity::class.java)
-
         startActivity(intent)
-
         finish()
 
     }

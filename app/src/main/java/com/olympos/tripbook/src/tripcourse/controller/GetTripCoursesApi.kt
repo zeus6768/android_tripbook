@@ -6,6 +6,9 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface GetTripCoursesApi {
-    @GET("/app/trip/latest/{userIdx}/courses")
-    fun getTripCourses(@Path("userIdx") userIdx: Int): Call<GetTripCoursesResponse>
+    @GET("/app/trip/{userIdx}/{tripIdx}/courses")
+    fun getTripCourses(
+        @Path("userIdx") userIdx: Int,
+        @Path("tripIdx") tripIdx: Int
+    ): Call<GetTripCoursesResponse>
 }

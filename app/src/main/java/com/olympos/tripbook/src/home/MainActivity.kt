@@ -11,21 +11,17 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
-import com.olympos.tripbook.config.BaseDialog
 import com.olympos.tripbook.databinding.ActivityMainBinding
-import com.olympos.tripbook.src.home.view.HomeRVAdapter
+import com.olympos.tripbook.src.home.view.MainVPAdapter
 import com.olympos.tripbook.src.trip.TripActivity
 import com.olympos.tripbook.src.trip.controller.TripApiController
 import com.olympos.tripbook.src.trip.model.Trip
+import com.olympos.tripbook.src.trip.view.GetAllTripsView
 import com.olympos.tripbook.src.trip.view.GetTripCountView
-import com.olympos.tripbook.src.trip.view.GetTripView
-import com.olympos.tripbook.src.tripcourse.model.TripCourse
-import com.olympos.tripbook.src.tripcourse.view.GetTripCoursesView
 import com.olympos.tripbook.src.user.MyPageActivity
 import com.olympos.tripbook.src.user.MyPastTripActivity
 import com.olympos.tripbook.src.user.controller.UserAuthApiController
@@ -33,15 +29,15 @@ import com.olympos.tripbook.src.user.view.UserAuthView
 import com.olympos.tripbook.utils.*
 
 
-class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, GetTripView, GetTripCountView, GetTripCoursesView, UserAuthView {
-
-    private lateinit var binding: ActivityMainBinding
+class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, GetAllTripsView, GetTripCountView, UserAuthView {
 
     private val tripApiController = TripApiController()
     private val userAuthApiController = UserAuthApiController()
 
     private var isDialogShown = false
     private var tripCount = 0
+
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,8 +73,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     @SuppressLint("SetTextI18n")
     private fun initView() {
+        tripApiController.setAllTripsView(this)
         tripApiController.setTripCountView(this)
-        tripApiController.setTripView(this)
         userAuthApiController.setUserView(this)
         binding.mainLeftDrawerBtn.setOnClickListener(this)
         binding.mainContentRecordBtnTv.setOnClickListener(this)
@@ -107,27 +103,24 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         navUserLogout.setOnClickListener(this)
     }
 
-    private fun initHomeFragment(trip: Trip) {
+    private fun initHomeFragment(trips: ArrayList<Trip>) {
         if (tripCount == 0) {
             setEmptyHomeFragment()
             showHomeDialog()
-        } else {
-            setHomeFragment(trip)
-            tripApiController.getTripCourses()
-        }
+        } else binding.mainHomeViewpager.adapter = MainVPAdapter(this, trips)
     }
 
-    private fun setHomeFragment(trip: Trip) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.main_home_cl, HomeFragment(trip))
-            .commitAllowingStateLoss()
-    }
+//    private fun setHomeFragment(trip: Trip) {
+//        supportFragmentManager
+//            .beginTransaction()
+//            .replace(R.id.main_home_cl, HomeFragment(trip))
+//            .commitAllowingStateLoss()
+//    }
 
     private fun setEmptyHomeFragment() {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.main_home_cl, EmptyHomeFragment())
+            .replace(R.id.main_home_constraint_layout, EmptyHomeFragment())
             .commitAllowingStateLoss()
     }
 
@@ -168,25 +161,29 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         startSplashActivity()
     }
 
-    override fun onGetTripSuccess(result: Trip) {
-        Log.d("MainActivity", "onGetTripSuccess() tripCount $result")
-        initHomeFragment(result)
-    }
-
-    override fun onGetTripFailure(code: Int, message: String) {
-        Log.e("MainActivity", "onGetTripFailure() status code $code")
-
-        when(code) {
-            400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
-            1500, 1504, 1507, 1509 -> userAuthApiController.autoSignIn()
-            2105 -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-        }
-    }
+//    override fun onGetTripSuccess(result: Trip) {  // Todo("getAllTrips로 변경")
+//        Log.d("MainActivity", "onGetTripSuccess() tripCount $result")
+//        setHomeFragment(result)
+//    }
+//
+//    override fun onGetTripFailure(code: Int, message: String) {
+//        Log.e("MainActivity", "onGetTripFailure() status code $code")
+//
+//        when(code) {
+//            400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
+//            1500, 1504, 1507, 1509 -> userAuthApiController.autoSignIn()
+//            2105 -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+//            2107 -> { // 기록된 여행이 없는 경우
+//                setEmptyHomeFragment()
+//                showHomeDialog()
+//            }
+//        }
+//    }
 
     override fun onGetTripCountSuccess(result: Int) {
         Log.d("MainActivity", "onGetTripCountSuccess() tripCount $result")
         tripCount = result
-        tripApiController.getTrip()
+        tripApiController.getAllTrips()
     }
 
     override fun onGetTripCountFailure(code: Int, message: String) {
@@ -200,20 +197,35 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
-    override fun onGetTripCoursesSuccess(result: ArrayList<TripCourse>) {
-        Log.d("MainActivity", "onGetTripCoursesSuccess() tripCount $result")
-        binding.mainHomeRv.adapter = HomeRVAdapter(this, result)
-        binding.mainHomeRv.layoutManager = LinearLayoutManager(this)
+    override fun onGetAllTripsSuccess(result: ArrayList<Trip>) {
+        Log.d("MainActivity", "onGetAllTripsSuccess()")
+        initHomeFragment(result)
     }
 
-    override fun onGetTripCoursesFailure(code: Int) {
-        Log.e("MainActivity", "onGetTripCoursesFailure() status code $code")
-        when (code) {
+    override fun onGetAllTripsFailure(code: Int, message: String) {
+        Log.e("MainActivity", "onGetAllTripsFailure() status code $code")
+
+        when(code) {
             400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
             1500, 1504, 1507, 1509 -> userAuthApiController.autoSignIn()
-            2105 -> Toast.makeText(this, code.toString(), Toast.LENGTH_SHORT).show()
+            2105 -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }
+
+//    override fun onGetTripCoursesSuccess(result: ArrayList<TripCourse>) {
+//        Log.d("MainActivity", "onGetTripCoursesSuccess() tripCount $result")
+//        binding.mainHomeRv.adapter = HomeRVAdapter(this, result)
+//        binding.mainHomeRv.layoutManager = LinearLayoutManager(this)
+//    }
+//
+//    override fun onGetTripCoursesFailure(code: Int) {
+//        Log.e("MainActivity", "onGetTripCoursesFailure() status code $code")
+//        when (code) {
+//            400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
+//            1500, 1504, 1507, 1509 -> userAuthApiController.autoSignIn()
+//            2105 -> Toast.makeText(this, code.toString(), Toast.LENGTH_SHORT).show()
+//        }
+//    }
 
     override fun autoSignInSuccess() {
 
