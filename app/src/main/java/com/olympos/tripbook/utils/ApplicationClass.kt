@@ -25,10 +25,9 @@ class ApplicationClass : Application() {
         lateinit var retrofit: Retrofit
         lateinit var retrofitWithoutAccessToken: Retrofit
 
-        fun parseDateToKorean(date: String, option: DateUnit): String{
+        fun dateToKorean(date: String, option: DateUnit): String{
 
             val dateArr = date.split("-")
-
             val result = when (option) {
                 DateUnit.DAY -> dateArr[0] + "년 " + dateArr[1].toInt().toString() + "월 " + dateArr[2].toInt().toString() + "일"
                 DateUnit.MONTH -> dateArr[0] + "년 " + dateArr[1].toInt().toString() + "월"
@@ -37,6 +36,8 @@ class ApplicationClass : Application() {
 
             return result
         }
+
+        fun generatePeriod(start: String, end: String): String = dateToKorean(start, DateUnit.DAY) + " ~ " + dateToKorean(end, DateUnit.DAY)
 
     }
     override fun onCreate() {

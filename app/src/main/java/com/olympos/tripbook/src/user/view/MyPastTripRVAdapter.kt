@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.olympos.tripbook.R
 import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.utils.ApplicationClass.Companion.DateUnit.DAY
-import com.olympos.tripbook.utils.ApplicationClass.Companion.parseDateToKorean
+import com.olympos.tripbook.utils.ApplicationClass.Companion.dateToKorean
 
 class MyPastTripRVAdapter(private val context: Context, private val tripList : ArrayList<Trip>): RecyclerView.Adapter<MyPastTripRVAdapter.ViewHolder>() {
 
@@ -39,7 +39,7 @@ class MyPastTripRVAdapter(private val context: Context, private val tripList : A
                 .error(testImage)
                 .into(image)
 
-            date.text = parseDateToKorean(tripList[position].departureDate, DAY)
+            date.text = dateToKorean(tripList[position].departureDate, DAY)
             title.text = tripList[position].tripTitle
 
         }

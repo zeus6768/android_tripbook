@@ -52,10 +52,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         tripApiController.getTripCount()
     }
 
-    override fun onClick(v: View?) {
-        super.onClick(v)
+    override fun onClick(view: View?) {
+        super.onClick(view)
 
-        when (v!!.id) {
+        when (view!!.id) {
             R.id.main_left_drawer_btn -> binding.mainDrawerLayout.openDrawer(GravityCompat.START)
             R.id.main_content_record_btn_tv -> startTripActivity()
             R.id.main_drawer_header_logout_tv -> userLogout()
@@ -133,11 +133,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun startSplashActivity() = startActivity(Intent(this, SplashActivity::class.java))
 
-
     private fun startMyPageActivity() = startActivity(Intent(this, MyPageActivity::class.java))
 
     private fun startMyPastTripActivity() = startActivity(Intent(this, MyPastTripActivity::class.java))
-
 
     private fun startTripActivity() = startActivity(Intent(this, TripActivity::class.java))
 
