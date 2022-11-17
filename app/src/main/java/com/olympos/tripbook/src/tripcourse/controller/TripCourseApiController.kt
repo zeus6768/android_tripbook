@@ -50,7 +50,7 @@ class TripCourseApiController {
     }
 
     // 2-2. 특정 발자국 조회
-    fun geTripCourses(tripIdx: Int) {
+    fun getTripCourses(tripIdx: Int) {
 
         val retrofit = retrofit.create(GetTripCoursesApi::class.java)
         retrofit.getTripCourses(getUserIdx(), tripIdx).enqueue(object : Callback<GetTripCoursesResponse> {
@@ -60,7 +60,7 @@ class TripCourseApiController {
             ) {
                 if (response.isSuccessful) {
                     val res = response.body()!!
-                    Log.d("TripCourseApiController", "geTripCourses()")
+                    Log.d("TripCourseApiController", "getTripCourses()")
                     when (res.code) {
                         1000 -> getTripCoursesView.onGetTripCoursesSuccess(res.result)
                         else -> getTripCoursesView.onGetTripCoursesFailure(res.code, res.message)

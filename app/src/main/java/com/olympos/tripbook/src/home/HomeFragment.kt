@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.olympos.tripbook.config.BaseFragment
 import com.olympos.tripbook.databinding.FragmentMainHomeBinding
 import com.olympos.tripbook.src.home.view.HomeRVAdapter
-import com.olympos.tripbook.src.trip.controller.TripApiController
 import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.src.tripcourse.controller.TripCourseApiController
 import com.olympos.tripbook.src.tripcourse.model.TripCourse
@@ -38,7 +37,7 @@ class HomeFragment(val trip: Trip) : BaseFragment(), GetTripCoursesView {
         binding.mainPeriodTv.text = parseDateToKorean(trip.departureDate, DateUnit.DAY) + " ~ " + parseDateToKorean(trip.departureDate, DateUnit.DAY)
         binding.mainTitleTv.text = trip.tripTitle
 
-        tripCourseApiController.geTripCourses(trip.tripIdx)
+        tripCourseApiController.getTripCourses(trip.tripIdx)
 
         return binding.root
     }

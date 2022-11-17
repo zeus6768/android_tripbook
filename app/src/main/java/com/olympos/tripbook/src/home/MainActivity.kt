@@ -107,15 +107,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         if (tripCount == 0) {
             setEmptyHomeFragment()
             showHomeDialog()
-        } else binding.mainHomeViewpager.adapter = MainVPAdapter(this, trips)
+        } else {
+            binding.mainHomeViewpager.adapter = MainVPAdapter(this, trips)
+        }
     }
-
-//    private fun setHomeFragment(trip: Trip) {
-//        supportFragmentManager
-//            .beginTransaction()
-//            .replace(R.id.main_home_cl, HomeFragment(trip))
-//            .commitAllowingStateLoss()
-//    }
 
     private fun setEmptyHomeFragment() {
         supportFragmentManager
@@ -136,49 +131,20 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
-    private fun startSplashActivity() {
-        val intent = Intent(this, SplashActivity::class.java)
-        startActivity(intent)
-    }
+    private fun startSplashActivity() = startActivity(Intent(this, SplashActivity::class.java))
 
-    private fun startMyPageActivity() {
-        val intent = Intent(this, MyPageActivity::class.java)
-        startActivity(intent)
-    }
 
-    private fun startMyPastTripActivity() {
-        val intent = Intent(this, MyPastTripActivity::class.java)
-        startActivity(intent)
-    }
+    private fun startMyPageActivity() = startActivity(Intent(this, MyPageActivity::class.java))
 
-    private fun startTripActivity() {
-        val intent = Intent(this, TripActivity::class.java)
-        startActivity(intent)
-    }
+    private fun startMyPastTripActivity() = startActivity(Intent(this, MyPastTripActivity::class.java))
+
+
+    private fun startTripActivity() = startActivity(Intent(this, TripActivity::class.java))
 
     private fun userLogout() {
         logout()
         startSplashActivity()
     }
-
-//    override fun onGetTripSuccess(result: Trip) {  // Todo("getAllTrips로 변경")
-//        Log.d("MainActivity", "onGetTripSuccess() tripCount $result")
-//        setHomeFragment(result)
-//    }
-//
-//    override fun onGetTripFailure(code: Int, message: String) {
-//        Log.e("MainActivity", "onGetTripFailure() status code $code")
-//
-//        when(code) {
-//            400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
-//            1500, 1504, 1507, 1509 -> userAuthApiController.autoSignIn()
-//            2105 -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-//            2107 -> { // 기록된 여행이 없는 경우
-//                setEmptyHomeFragment()
-//                showHomeDialog()
-//            }
-//        }
-//    }
 
     override fun onGetTripCountSuccess(result: Int) {
         Log.d("MainActivity", "onGetTripCountSuccess() tripCount $result")
@@ -211,21 +177,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             2105 -> Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }
-
-//    override fun onGetTripCoursesSuccess(result: ArrayList<TripCourse>) {
-//        Log.d("MainActivity", "onGetTripCoursesSuccess() tripCount $result")
-//        binding.mainHomeRv.adapter = HomeRVAdapter(this, result)
-//        binding.mainHomeRv.layoutManager = LinearLayoutManager(this)
-//    }
-//
-//    override fun onGetTripCoursesFailure(code: Int) {
-//        Log.e("MainActivity", "onGetTripCoursesFailure() status code $code")
-//        when (code) {
-//            400 -> Toast.makeText(this, "네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show()
-//            1500, 1504, 1507, 1509 -> userAuthApiController.autoSignIn()
-//            2105 -> Toast.makeText(this, code.toString(), Toast.LENGTH_SHORT).show()
-//        }
-//    }
 
     override fun autoSignInSuccess() {
 
@@ -371,8 +322,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun getProfileSuccess() {
-        Log.d("MainActivity", "getProfileSuccess()")
-        Log.d("MainActivity", "nickname: " + getNickname() + "\nuserImg: " + getUserImage())
+        Log.d("MainActivity",
+            "getProfileSuccess()\n" + "nickname: " + getNickname() + "\nuserImg: " + getUserImage())
     }
 
     override fun getProfileFailure(code: Int) {
