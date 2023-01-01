@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 상단바 -->
+    <include
+        android:id="@+id/tripcourse_topbar_layout"
+        layout="@layout/layout_topbar_base" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_base_main_3_empty"
+        android:text="- 여행했던 지역과 도시를 선택해주세요.\n\n- 선택한 지역을 바탕으로 메뉴바에서\n특정 장소에 대한 나의 지난 여행을 모아볼 수 있어요."
+        android:textSize="9sp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:fontFamily="@font/notosans_kr_regular"
+        android:includeFontPadding="false"
+        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="34dp"
+        android:paddingHorizontal="25dp"
+        android:paddingVertical="10dp"
+        app:layout_constraintTop_toBottomOf="@id/tripcourse_topbar_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
