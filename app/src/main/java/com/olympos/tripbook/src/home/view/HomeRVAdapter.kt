@@ -19,11 +19,9 @@ class HomeRVAdapter(private val context: Context, private val tripCourses: Array
         fun getType() = this.ordinal
     }
 
-    interface ItemClickListener {
-        fun onClick(course : TripCourse)
-    }
-
-    private lateinit var itemClickListener : ItemClickListener
+//    interface ItemClickListener {
+//        fun onClick(course : TripCourse)
+//    }
 
     override fun getItemViewType(position: Int): Int {
         return when {
@@ -90,7 +88,7 @@ class HomeRVAdapter(private val context: Context, private val tripCourses: Array
             else -> holder.setIsRecyclable(false)
         }
 
-        holder.itemView.setOnClickListener { itemClickListener.onClick(tripCourses[position]) }
+//        holder.itemView.setOnClickListener { itemClickListener.onClick(tripCourses[position]) }
     }
 
     override fun getItemCount(): Int = tripCourses.size

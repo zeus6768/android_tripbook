@@ -2,6 +2,7 @@ package com.olympos.tripbook.src.home
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -10,10 +11,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.olympos.tripbook.config.BaseFragment
 import com.olympos.tripbook.databinding.FragmentMainHomeBinding
 import com.olympos.tripbook.src.home.view.HomeRVAdapter
 import com.olympos.tripbook.src.trip.model.Trip
+import com.olympos.tripbook.src.tripcourse.RecordActivity
+import com.olympos.tripbook.src.tripcourse.TripCourseActivity
 import com.olympos.tripbook.src.tripcourse.controller.TripCourseApiController
 import com.olympos.tripbook.src.tripcourse.model.TripCourse
 import com.olympos.tripbook.src.tripcourse.view.GetTripCoursesView
@@ -24,9 +28,11 @@ import com.olympos.tripbook.utils.ApplicationClass.Companion.generatePeriod
 class HomeFragment(val trip: Trip) : BaseFragment(), GetTripCoursesView {
 
     private val tripCourseApiController = TripCourseApiController()
+    private val gson = Gson()
 
-    lateinit var binding: FragmentMainHomeBinding
-    lateinit var mainActivity: MainActivity
+    private lateinit var binding: FragmentMainHomeBinding
+    private lateinit var mainActivity: MainActivity
+    private lateinit var tripCourseActivity: TripCourseActivity
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -68,6 +74,5 @@ class HomeFragment(val trip: Trip) : BaseFragment(), GetTripCoursesView {
         val emptyTripCourse = tripCourseApiController.generateEmptyTripCourseList()
         initRecyclerView(emptyTripCourse)
     }
-
 
 }

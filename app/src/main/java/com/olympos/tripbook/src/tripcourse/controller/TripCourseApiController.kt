@@ -87,10 +87,11 @@ class TripCourseApiController {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun generateEmptyTripCourseList(): ArrayList<TripCourse> {
+
         val emptyTripCourseList = ArrayList<TripCourse>()
         val emptyTripCourse = TripCourse(
             0,
-            "빈 여행",
+            "발자국을 기록해주세요",
             ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDate().toString(),
             "발자국을 기록해주세요",
             null
