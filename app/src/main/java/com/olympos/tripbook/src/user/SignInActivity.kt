@@ -48,6 +48,7 @@ class SignInActivity : BaseActivity(), UserAuthView {
 
 
     private fun logInWithKakaoTalk() {
+
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
                 Log.e("SignInActivity", "signInWithKakaoTalk() $error")
@@ -66,6 +67,9 @@ class SignInActivity : BaseActivity(), UserAuthView {
                         kakaoTokens["kakaoAccessToken"] = token.accessToken
                         kakaoTokens["kakaoRefreshToken"] = token.refreshToken
 
+                        Log.d("SignInActivity", "logInWithKakaoTalk()\n" +
+                                "tokens:" + kakaoTokens)
+
                         userAuthApiController.kakaoSignIn(profile, kakaoTokens)
                     }
                 }
@@ -73,7 +77,7 @@ class SignInActivity : BaseActivity(), UserAuthView {
         }
 
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(this@SignInActivity)) {
-            UserApiClient.instance.loginWithKakaoTalk(this@SignInActivity) { token, error ->
+            UserApiClient.instance.loginWithKakaoTalk(this@SignInActivity) { _, error ->
                 if (error != null) {
                     if (error is ClientError && error.reason == ClientErrorCause.Cancelled) return@loginWithKakaoTalk
                     UserApiClient.instance.loginWithKakaoAccount(this@SignInActivity, callback = callback)
