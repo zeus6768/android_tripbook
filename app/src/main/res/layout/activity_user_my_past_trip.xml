@@ -13,6 +13,7 @@
         android:id="@+id/mypasttrip_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginHorizontal="10dp"
         tools:listitem="@layout/item_user_my_past_trip"
         app:layout_constraintTop_toBottomOf="@id/mypasttrip_topbar_layout"
         app:layout_constraintBottom_toBottomOf="parent"/>

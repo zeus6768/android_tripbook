@@ -9,9 +9,10 @@ import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityUserMyPastTripBinding
 import com.olympos.tripbook.src.home.MainActivity
-import com.olympos.tripbook.src.trip.view.GetAllTripsView
 import com.olympos.tripbook.src.trip.controller.TripApiController
 import com.olympos.tripbook.src.trip.model.Trip
+import com.olympos.tripbook.src.trip.view.GetAllTripsView
+import com.olympos.tripbook.src.user.view.GridSpaceItemDecoration
 import com.olympos.tripbook.src.user.view.MyPastTripRVAdapter
 
 class MyPastTripActivity : BaseActivity(), GetAllTripsView {
@@ -28,7 +29,7 @@ class MyPastTripActivity : BaseActivity(), GetAllTripsView {
 
         setContentView(binding.root)
 
-        tripApiController.setGetAllTripsView(this)
+        tripApiController.setAllTripsView(this)
 
         initView()
     }
@@ -60,20 +61,22 @@ class MyPastTripActivity : BaseActivity(), GetAllTripsView {
         startActivity(intent)
     }
 
-    override fun onGetAllTripsLoading() {
-        // TODO("Not yet implemented")
-    }
-
     override fun onGetAllTripsSuccess(result: ArrayList<Trip>) {
 
-        val myPastTripRVAdapter = MyPastTripRVAdapter(this, result)
+        Log.d("MyPastTripActivity", "onGetTripCountFailure()")
 
-        binding.mypasttripRecyclerview.adapter = myPastTripRVAdapter
-        binding.mypasttripRecyclerview.layoutManager = StaggeredGridLayoutManager(2, 1)
+        val recyclerView = binding.mypasttripRecyclerview
+
+        recyclerView.adapter = MyPastTripRVAdapter(this, result)
+        recyclerView.layoutManager = StaggeredGridLayoutManager(2, 1)
+            .apply {
+                gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
+            }
+        recyclerView.addItemDecoration(GridSpaceItemDecoration())
 
     }
 
     override fun onGetAllTripsFailure(code: Int, message: String) {
-        Log.e("MyPageActivity", "onGetTripCountFailure() status code $code")
+        Log.e("MyPastTripActivity", "onGetTripCountFailure() status code $code")
     }
 }

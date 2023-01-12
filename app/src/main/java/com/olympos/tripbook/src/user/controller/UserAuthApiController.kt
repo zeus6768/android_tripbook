@@ -42,7 +42,7 @@ class UserAuthApiController {
             })
     }
 
-    fun signUpUser(kakaoAccessToken: HashMap<String, String>) {
+    fun signUpUser(kakaoAccessToken: HashMap<String, String?>) {
         val signUpUserRetrofit = retrofit.create(UserAuthApi::class.java)
         signUpUserRetrofit
             .signUpUser(kakaoAccessToken)
@@ -65,7 +65,7 @@ class UserAuthApiController {
             })
     }
 
-    fun signUpProfile(kakaoAccessToken: HashMap<String, String>) {
+    fun signUpProfile(kakaoAccessToken: HashMap<String, String?>) {
         val signUpProfileRetrofit = retrofit.create(UserAuthApi::class.java)
         signUpProfileRetrofit
             .signUpProfile(kakaoAccessToken)
@@ -88,7 +88,7 @@ class UserAuthApiController {
             })
     }
 
-    fun kakaoSignIn(kakaoTokens: HashMap<String, String>) {
+    fun kakaoSignIn(profile: HashMap<String, String?>, kakaoTokens: HashMap<String, String?>) {
         val kakaoSignInRetrofit = retrofit.create(UserAuthApi::class.java)
         kakaoSignInRetrofit
             .kakaoSignIn(kakaoTokens)
@@ -101,11 +101,19 @@ class UserAuthApiController {
                     val body = response.body()!!
                     when (body.code) {
                         1000 -> {
-                            val res = body.result!!
-                            saveUserIdx(res.userIdx)
-                            saveAccessToken(res.accessToken)
-                            saveRefreshToken(res.refreshToken)
+
+                            profile["nickname"]?.let { saveNickname(it) }
+                            profile["profileImageUrl"]?.let { saveUserImage(it) }
+
+                            kakaoTokens["kakaoAccessToken"]?.let { saveKakaoAccessToken(it) }
+                            kakaoTokens["kakaoRefreshToken"]?.let { saveKakaoRefreshToken(it) }
+
+                            body.result?.userIdx?.let { saveUserIdx(it) }
+                            body.result?.accessToken?.let { saveAccessToken(it) }
+                            body.result?.refreshToken?.let { saveRefreshToken(it) }
+
                             userAuthApiView.kakaoSignInSuccess()
+
                         }
                         else -> userAuthApiView.kakaoSignInFailure(body.code)
                     }
@@ -117,7 +125,7 @@ class UserAuthApiController {
             })
     }
 
-    fun updateKakaoAccessToken(kakaoRefreshToken: HashMap<String, String>, userIdx: Int) {
+    fun updateKakaoAccessToken(kakaoRefreshToken: HashMap<String, String?>, userIdx: Int) {
         val updateKakaoAccessTokenRetrofit = retrofit.create(UserAuthApi::class.java)
         updateKakaoAccessTokenRetrofit
             .updateKakaoAccessToken(kakaoRefreshToken, userIdx)
@@ -143,7 +151,7 @@ class UserAuthApiController {
             })
     }
 
-    fun updateProfile(kakaoAccessToken: HashMap<String, String>, userIdx: Int) {
+    fun updateProfile(kakaoAccessToken: HashMap<String, String?>, userIdx: Int) {
         val updateProfileRetrofit = retrofit.create(UserAuthApi::class.java)
         updateProfileRetrofit
             .updateProfile(kakaoAccessToken, userIdx)
@@ -193,7 +201,7 @@ class UserAuthApiController {
             })
     }
 
-    fun updateAccessToken(refreshToken: HashMap<String, String>, userIdx: Int) {
+    fun updateAccessToken(refreshToken: HashMap<String, String?>, userIdx: Int) {
         val updateAccessTokenRetrofit = retrofitWithoutAccessToken.create(UserAuthApi::class.java)
         updateAccessTokenRetrofit
             .updateAccessToken(refreshToken, userIdx)

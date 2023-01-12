@@ -6,7 +6,10 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.model.ClientError
+import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.kakao.sdk.user.model.Profile
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityUserSignInBinding
@@ -39,38 +42,48 @@ class SignInActivity : BaseActivity(), UserAuthView {
 
     override fun onClick(v: View?) {
         when (v!!.id) {
-            R.id.signin_signin_btn_iv -> signInByKakaoTalk()
+            R.id.signin_signin_btn_iv -> logInWithKakaoTalk()
         }
     }
 
-    private fun signInByKakaoTalk() {
+
+    private fun logInWithKakaoTalk() {
+
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
-                Log.e("SignInActivity", error.toString())
+                Log.e("SignInActivity", "signInWithKakaoTalk() $error")
             } else if (token != null) {
-                Log.d("SignInActivity", "SignInByKakaoTalk()")
+                Log.d("SignInActivity", "signInWithKakaoTalk()")
                 UserApiClient.instance.me { user, _ ->
                     if (user!!.kakaoAccount?.emailNeedsAgreement == true) {
                         requireEmailNeedsAgreement()
                     } else {
-                        saveNickname(user.kakaoAccount!!.profile!!.nickname!!)
-                        saveUserImage(user.kakaoAccount!!.profile!!.profileImageUrl!!)
-                        saveKakaoAccessToken(token.accessToken)
-                        saveKakaoRefreshToken(token.refreshToken)
 
-                        val tokens = HashMap<String, String>()
-                        tokens["kakaoAccessToken"] = token.accessToken
-                        tokens["kakaoRefreshToken"] = token.refreshToken
-                        userAuthApiController.kakaoSignIn(tokens)
+                        val profile = HashMap<String, String?>()
+                        profile["nickname"] = user.kakaoAccount!!.profile!!.nickname
+                        profile["profileImageUrl"] = user.kakaoAccount!!.profile!!.profileImageUrl
+
+                        val kakaoTokens = HashMap<String, String?>()
+                        kakaoTokens["kakaoAccessToken"] = token.accessToken
+                        kakaoTokens["kakaoRefreshToken"] = token.refreshToken
+
+                        Log.d("SignInActivity", "logInWithKakaoTalk()\n" +
+                                "tokens:" + kakaoTokens)
+
+                        userAuthApiController.kakaoSignIn(profile, kakaoTokens)
                     }
                 }
             }
         }
+
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(this@SignInActivity)) {
-            UserApiClient.instance.loginWithKakaoTalk(this@SignInActivity, callback = callback)
-        } else {
-            UserApiClient.instance.loginWithKakaoAccount(this@SignInActivity, callback = callback)
-        }
+            UserApiClient.instance.loginWithKakaoTalk(this@SignInActivity) { _, error ->
+                if (error != null) {
+                    if (error is ClientError && error.reason == ClientErrorCause.Cancelled) return@loginWithKakaoTalk
+                    UserApiClient.instance.loginWithKakaoAccount(this@SignInActivity, callback = callback)
+                }
+            }
+        } else UserApiClient.instance.loginWithKakaoAccount(this@SignInActivity, callback = callback)
     }
 
     @Suppress("NAME_SHADOWING")
@@ -91,14 +104,17 @@ class SignInActivity : BaseActivity(), UserAuthView {
                     if (error != null) {
                         Log.e(TAG, "사용자 정보 요청 실패", error)
                     } else if (user != null) {
-                        saveNickname(user.kakaoAccount!!.profile!!.nickname!!)
-                        saveKakaoAccessToken(token.accessToken)
-                        saveKakaoRefreshToken(token.refreshToken)
 
-                        val tokens = HashMap<String, String>()
+                        val profile = HashMap<String, String?>()
+                        profile["nickname"] = user.kakaoAccount!!.profile!!.nickname!!
+                        profile["profileImageUrl"] = user.kakaoAccount!!.profile!!.profileImageUrl!!
+
+                        val tokens = HashMap<String, String?>()
                         tokens["kakaoAccessToken"] = token.accessToken
                         tokens["kakaoRefreshToken"] = token.refreshToken
-                        userAuthApiController.kakaoSignIn(tokens)
+
+                        userAuthApiController.kakaoSignIn(profile, tokens)
+
                     }
                 }
             }
@@ -115,7 +131,7 @@ class SignInActivity : BaseActivity(), UserAuthView {
 
     override fun autoSignInSuccess() {
 
-        Log.d("SignInActivity", " \nautoSignInSuccess()" +
+        Log.d("SignInActivity", " autoSignInSuccess()" +
                 "\nuserIdx: " + getUserIdx() +
                 "\nprofileImage: " + getUserImage() +
                 "\nAT: " + getAccessToken() +
@@ -123,6 +139,7 @@ class SignInActivity : BaseActivity(), UserAuthView {
                 "\nKAT: " + getKakaoAccessToken() +
                 "\nKRT: " + getKakaoRefreshToken()
         )
+
         startMainActivity()
 
     }
@@ -130,15 +147,12 @@ class SignInActivity : BaseActivity(), UserAuthView {
     override fun autoSignInFailure(code: Int) {
 
         Log.e("SignInActivity", "autoSignInFailure() status code: $code")
+
         when (code) {
             1504, 1507, 1509 -> {
-                val refreshToken = getRefreshToken()
-                val userIdx = getUserIdx()
-                if (refreshToken != null && userIdx != 0) {
-                    val tokens = HashMap<String, String>()
-                    tokens["refreshToken"] = refreshToken
-                    userAuthApiController.updateAccessToken(tokens, userIdx)
-                }
+                val tokens = HashMap<String, String?>()
+                tokens["refreshToken"] = getRefreshToken()
+                userAuthApiController.updateAccessToken(tokens, getUserIdx())
             }
         }
 
@@ -147,12 +161,10 @@ class SignInActivity : BaseActivity(), UserAuthView {
     override fun signUpUserSuccess() {
 
         Log.d("SignInActivity", "signUpUserSuccess()")
-        val kakaoAccessToken = getKakaoAccessToken()
-        if (kakaoAccessToken != null) {
-            val token = HashMap<String, String>()
-            token["kakaoAccessToken"] = kakaoAccessToken
-            userAuthApiController.signUpProfile(token)
-        }
+
+        val token = HashMap<String, String?>()
+        token["kakaoAccessToken"] = getKakaoAccessToken()
+        userAuthApiController.signUpProfile(token)
 
     }
 
@@ -163,15 +175,16 @@ class SignInActivity : BaseActivity(), UserAuthView {
     override fun signUpProfileSuccess() {
 
         Log.d("SignInActivity", "signUpProfileSuccess()")
-        val kakaoAccessToken = getKakaoAccessToken()
-        val kakaoRefreshToken = getKakaoRefreshToken()
-        Log.e("SignInActivity", " \nKAT: $kakaoAccessToken \nKRT: $kakaoRefreshToken")
-        if (kakaoAccessToken != null && kakaoRefreshToken != null) {
-            val tokens = HashMap<String, String>()
-            tokens["accessToken"] = kakaoAccessToken
-            tokens["refreshToken"] = kakaoRefreshToken
-            userAuthApiController.kakaoSignIn(tokens)
-        }
+        Log.e("SignInActivity", " \nKAT: " + getKakaoAccessToken() + "\nKRT: " + getKakaoRefreshToken())
+
+        val profile = HashMap<String, String?>()
+        profile["nickname"] = getNickname()
+        profile["profileImageUrl"] = getUserImage()
+
+        val tokens = HashMap<String, String?>()
+        tokens["kakaoAccessToken"] = getKakaoAccessToken()
+        tokens["kakaoRefreshToken"] = getKakaoRefreshToken()
+        userAuthApiController.kakaoSignIn(profile, tokens)
 
     }
 
@@ -180,15 +193,8 @@ class SignInActivity : BaseActivity(), UserAuthView {
     }
 
     override fun kakaoSignInSuccess() {
-
         Log.d("SignInActivity", "kakaoSignInSuccess()")
-
-        val accessToken = getAccessToken()
-
-        if (accessToken != null) {
-            userAuthApiController.autoSignIn()
-        }
-
+        userAuthApiController.autoSignIn()
     }
 
     override fun kakaoSignInFailure(code: Int) {
@@ -197,33 +203,29 @@ class SignInActivity : BaseActivity(), UserAuthView {
         when (code) {
 
             2050 -> {
-                val kakaoAccessToken = getKakaoAccessToken()
-                val kakaoRefreshToken = getKakaoRefreshToken()
-                if (kakaoAccessToken != null && kakaoRefreshToken != null) {
-                    val token = HashMap<String, String>()
-                    token["kakaoAccessToken"] = kakaoAccessToken
-                    token["kakaoRefreshToken"] = kakaoRefreshToken
-                    userAuthApiController.kakaoSignIn(token)
-                }
+
+                val profile = HashMap<String, String?>()
+                profile["nickname"] = getNickname()
+                profile["profileImageUrl"] = getUserImage()
+
+                val tokens = HashMap<String, String?>()
+                tokens["kakaoAccessToken"] = getKakaoAccessToken()
+                tokens["kakaoRefreshToken"] = getKakaoRefreshToken()
+
+                userAuthApiController.kakaoSignIn(profile, tokens)
+
             }
 
             2052 -> {
-                val kakaoAccessToken = getKakaoAccessToken()
-                if (kakaoAccessToken != null) {
-                    val token = HashMap<String, String>()
-                    token["kakaoAccessToken"] = kakaoAccessToken
-                    userAuthApiController.signUpUser(token)
-                }
+                val token = HashMap<String, String?>()
+                token["kakaoAccessToken"] = getKakaoAccessToken()
+                userAuthApiController.signUpUser(token)
             }
 
             2057 -> {
-                val userIdx = getUserIdx()
-                val kakaoRefreshToken = getKakaoRefreshToken()
-                if (kakaoRefreshToken != null) {
-                    val token = HashMap<String, String>()
-                    token["kakaoRefreshToken"] = kakaoRefreshToken
-                    userAuthApiController.updateKakaoAccessToken(token, userIdx)
-                }
+                val token = HashMap<String, String?>()
+                token["kakaoRefreshToken"] = getKakaoRefreshToken()
+                userAuthApiController.updateKakaoAccessToken(token, getUserIdx())
             }
         }
 
@@ -232,14 +234,15 @@ class SignInActivity : BaseActivity(), UserAuthView {
     override fun updateKakaoAccessTokenSuccess() {
 
         Log.d("SignInActivity", "updateKakaoAccessTokenSuccess()")
-        val kakaoAccessToken = getKakaoAccessToken()
-        val kakaoRefreshToken = getKakaoRefreshToken()
-        if (kakaoAccessToken != null && kakaoRefreshToken != null) {
-            val tokens = HashMap<String, String>()
-            tokens["kakaoAccessToken"] = kakaoAccessToken
-            tokens["kakaoRefreshToken"] = kakaoRefreshToken
-            userAuthApiController.kakaoSignIn(tokens)
-        }
+
+        val profile = HashMap<String, String?>()
+        profile["nickname"] = getNickname()
+        profile["profileImageUrl"] = getUserImage()
+
+        val tokens = HashMap<String, String?>()
+        tokens["kakaoAccessToken"] = getKakaoAccessToken()
+        tokens["kakaoRefreshToken"] = getKakaoRefreshToken()
+        userAuthApiController.kakaoSignIn(profile, tokens)
 
     }
 
@@ -257,12 +260,8 @@ class SignInActivity : BaseActivity(), UserAuthView {
     }
 
     override fun getProfileSuccess() {
-
-        val nickname = getNickname()
-        val userImg = getUserImage()
         Log.d("SignInActivity", "getProfileSuccess()")
-        Log.d("SignInActivity", "nickname: $nickname, userImg: $userImg")
-
+        Log.d("SignInActivity", "nickname: " + getNickname() + "userImg: " + getUserImage())
     }
 
     override fun getProfileFailure(code: Int) {
@@ -271,30 +270,30 @@ class SignInActivity : BaseActivity(), UserAuthView {
     }
 
     override fun updateAccessTokenSuccess() {
-
         Log.d("SignInActivity", "updateAccessTokenSuccess()")
-        val accessToken = getAccessToken()
-        if (accessToken != null) {
-            userAuthApiController.autoSignIn()
-        }
-
+        userAuthApiController.autoSignIn()
     }
 
     override fun updateAccessTokenFailure(code: Int) {
 
         Log.e("SignInActivity", "updateAccessTokenFailure() status code $code")
+
         when (code) {
+
             1505, 1509 -> {
-                val kakaoAccessToken = getKakaoAccessToken()
-                val kakaoRefreshToken = getKakaoRefreshToken()
-                if (kakaoAccessToken != null && kakaoRefreshToken != null) {
-                    val tokens = HashMap<String, String>()
-                    tokens["kakaoAccessToken"] = kakaoAccessToken
-                    tokens["kakaoRefreshToken"] = kakaoRefreshToken
-                    userAuthApiController.kakaoSignIn(tokens)
-                }
+
+                val profile = HashMap<String, String?>()
+                profile["nickname"] = getNickname()
+                profile["profileImageUrl"] = getUserImage()
+
+                val tokens = HashMap<String, String?>()
+                tokens["kakaoAccessToken"] = getKakaoAccessToken()
+                tokens["kakaoRefreshToken"] = getKakaoRefreshToken()
+
+                userAuthApiController.kakaoSignIn(profile, tokens)
+
             }
         }
-    }
 
+    }
 }

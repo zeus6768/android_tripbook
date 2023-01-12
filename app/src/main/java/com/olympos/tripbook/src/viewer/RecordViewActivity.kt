@@ -32,7 +32,7 @@ class RecordViewActivity : BaseActivity() {
         //todo 서버에서 이 카드 데이터 가져와야 함
 
         if( tripCourse != null ) {
-            binding.recordViewBodyTv.text = tripCourse.courseContent
+            binding.recordViewBodyTv.text = tripCourse.courseComment
             binding.recordViewTitleTv.text = tripCourse.courseTitle
 
             binding.recordViewSelectDateBtn.text = tripCourse.courseDate

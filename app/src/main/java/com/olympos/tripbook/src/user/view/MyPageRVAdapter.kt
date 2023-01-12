@@ -7,7 +7,7 @@ import com.olympos.tripbook.databinding.ItemUserMyPageTripHistoryBinding
 import com.olympos.tripbook.src.trip.model.Trip
 import com.olympos.tripbook.utils.ApplicationClass.Companion.DateUnit.DAY
 import com.olympos.tripbook.utils.ApplicationClass.Companion.DateUnit.MONTH
-import com.olympos.tripbook.utils.ApplicationClass.Companion.parseStringDateToKorean
+import com.olympos.tripbook.utils.ApplicationClass.Companion.dateToKorean
 
 class MyPageRVAdapter(private val tripList : ArrayList<Trip>): RecyclerView.Adapter<MyPageRVAdapter.ViewHolder>() {
 
@@ -29,9 +29,9 @@ class MyPageRVAdapter(private val tripList : ArrayList<Trip>): RecyclerView.Adap
     inner class ViewHolder(private val binding: ItemUserMyPageTripHistoryBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(trip: Trip) {
 
-            val historyContentText = parseStringDateToKorean(trip.departureDate, MONTH) + "에 다녀온 " + trip.tripTitle + " 여행을 등록했어요."
+            val historyContentText = dateToKorean(trip.departureDate, MONTH) + "에 다녀온 " + trip.tripTitle + " 여행을 등록했어요."
 
-            binding.mypageHistoryTitleTv.text = parseStringDateToKorean(trip.createdDate, DAY)
+            binding.mypageHistoryTitleTv.text = dateToKorean(trip.createdDate, DAY)
             binding.mypageHistoryContentTv.text = historyContentText
 
         }

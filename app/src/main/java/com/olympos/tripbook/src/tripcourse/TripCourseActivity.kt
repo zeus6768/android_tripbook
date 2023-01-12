@@ -116,6 +116,7 @@ class TripCourseActivity : BaseActivity() {
             add(TripCourse(2, "????", "!!!!!!!", "adsfasdfasdfsadfasdfasdfasdf"))
         }
     }
+
     override fun onClick(v: View?) {
         super.onClick(v)
 

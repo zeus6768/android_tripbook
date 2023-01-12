@@ -11,11 +11,10 @@ import com.bumptech.glide.Glide
 import com.olympos.tripbook.R
 import com.olympos.tripbook.config.BaseActivity
 import com.olympos.tripbook.databinding.ActivityUserMyPageBinding
-import com.olympos.tripbook.src.home.MainActivity
-import com.olympos.tripbook.src.trip.view.GetAllTripsView
-import com.olympos.tripbook.src.trip.view.GetTripCountView
 import com.olympos.tripbook.src.trip.controller.TripApiController
 import com.olympos.tripbook.src.trip.model.Trip
+import com.olympos.tripbook.src.trip.view.GetAllTripsView
+import com.olympos.tripbook.src.trip.view.GetTripCountView
 import com.olympos.tripbook.src.user.view.MyPageRVAdapter
 import com.olympos.tripbook.utils.getNickname
 import com.olympos.tripbook.utils.getUserImage
@@ -34,8 +33,8 @@ class MyPageActivity : BaseActivity(), GetTripCountView, GetAllTripsView {
 
         setContentView(binding.root)
 
-        tripApiController.setGetTripCountView(this)
-        tripApiController.setGetAllTripsView(this)
+        tripApiController.setTripCountView(this)
+        tripApiController.setAllTripsView(this)
 
         initView()
 
@@ -104,14 +103,9 @@ class MyPageActivity : BaseActivity(), GetTripCountView, GetAllTripsView {
 
     }
 
-    override fun onGetAllTripsLoading() {
-        // TODO("Not yet implemented")
-    }
-
     override fun onGetAllTripsSuccess(result: ArrayList<Trip>) {
-
+        Log.d("MyPageActivity", "onGetAllTripsSuccess()")
         val myPageRVAdapter = MyPageRVAdapter(result)
-
         binding.mypageHistoryRecyclerview.adapter = myPageRVAdapter
         binding.mypageHistoryRecyclerview.layoutManager = LinearLayoutManager(this)
 

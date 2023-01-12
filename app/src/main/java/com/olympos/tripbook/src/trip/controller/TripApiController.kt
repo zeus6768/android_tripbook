@@ -1,107 +1,77 @@
 package com.olympos.tripbook.src.trip.controller
 
 import android.util.Log
-import com.olympos.tripbook.src.home.model.HomeResponse
-import com.olympos.tripbook.src.trip.view.GetAllTripsView
-import com.olympos.tripbook.src.trip.view.GetTripCountView
-import com.olympos.tripbook.src.trip.view.GetTripView
-import com.olympos.tripbook.src.trip.view.PostTripView
 import com.olympos.tripbook.src.trip.model.*
+import com.olympos.tripbook.src.trip.view.GetAllTripsView
+import com.olympos.tripbook.src.trip.view.GetRecentTripView
+import com.olympos.tripbook.src.trip.view.GetTripCountView
+import com.olympos.tripbook.src.trip.view.PostTripView
 import com.olympos.tripbook.utils.ApplicationClass.Companion.retrofit
 import com.olympos.tripbook.utils.getUserIdx
-import retrofit2.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class TripApiController {
 
-    private lateinit var getAllTripsView: GetAllTripsView
-    private lateinit var getTripView: GetTripView
+    private lateinit var getRecentTripView: GetRecentTripView
     private lateinit var getTripCountView: GetTripCountView
     private lateinit var postTripView: PostTripView
+    private lateinit var getAllTripsView: GetAllTripsView
 
-    fun setGetAllTripsView(getAllTripsView: GetAllTripsView) {
-        this.getAllTripsView = getAllTripsView
+    fun setRecentTripView(view: GetRecentTripView) {
+        this.getRecentTripView = view
     }
 
-    fun setGetTripView(getTripView: GetTripView) {
-        this.getTripView = getTripView
+    fun setTripCountView(view: GetTripCountView) {
+        this.getTripCountView = view
     }
 
-    fun setGetTripCountView(getTripCountView: GetTripCountView) {
-        this.getTripCountView = getTripCountView
+    fun setPostTripView(view: PostTripView) {
+        this.postTripView = view
     }
 
-    fun setPostTripView(postTripView: PostTripView) {
-        this.postTripView = postTripView
+    fun setAllTripsView(view: GetAllTripsView) {
+        this.getAllTripsView = view
     }
 
-    fun getAllTrips() {
+    // 1-1. 최근 여행 조회
+    fun getRecentTrip() {
 
-        val tripRetrofitService = retrofit.create(GetAllTripsApi::class.java)
+        val retrofit = retrofit.create(GetRecentTripApi::class.java)
 
-        getAllTripsView.onGetAllTripsLoading()
-
-        tripRetrofitService.getAllTrips(getUserIdx()).enqueue(object : Callback<GetAllTripsResponse> {
+        retrofit.getRecentTrip(getUserIdx()).enqueue(object : Callback<GetRecentTripResponse> {
 
             override fun onResponse(
-                call: Call<GetAllTripsResponse>,
-                response: Response<GetAllTripsResponse>
-            ) {
-               if (response.isSuccessful) {
-                   val res = response.body()!!
-                   Log.d("TripApiController", "getAllTrips()")
-                   when (res.code) {
-                       1000 -> getAllTripsView.onGetAllTripsSuccess(res.result)
-                       else -> getAllTripsView.onGetAllTripsFailure(res.code, res.message)
-                   }
-               }
-            }
-
-            override fun onFailure(call: Call<GetAllTripsResponse>, t: Throwable) {
-                Log.e("TripApiController", "getAllTrips() failure $t")
-                getAllTripsView.onGetAllTripsFailure(400, t.message.toString())
-            }
-
-        })
-
-    }
-
-    fun getTrip() {
-
-        val tripRetrofitService = retrofit.create(GetTripApi::class.java)
-
-        getTripView.onGetTripLoading()
-
-        tripRetrofitService.getTrip(getUserIdx()).enqueue(object : Callback<GetTripResponse> {
-
-            override fun onResponse(
-                call: Call<GetTripResponse>,
-                response: Response<GetTripResponse>
+                call: Call<GetRecentTripResponse>,
+                response: Response<GetRecentTripResponse>
             ) {
                 if (response.isSuccessful) {
                     val res = response.body()!!
                     Log.d("TripApiController", "getTrip()")
                     when (res.code) {
-                        1000 -> getTripView.onGetTripSuccess(res.result)
-                        else -> getTripView.onGetTripFailure(res.code, res.message)
+                        1000 -> getRecentTripView.onGetRecentTripSuccess(res.result)
+                        else -> getRecentTripView.onGetRecentTripFailure(res.code, res.message)
                     }
                 }
             }
 
-            override fun onFailure(call: Call<GetTripResponse>, t: Throwable) {
+            override fun onFailure(call: Call<GetRecentTripResponse>, t: Throwable) {
                 Log.e("TripApiController", "getTrip() failure $t")
-                getTripView.onGetTripFailure(400, t.message.toString())
+                getRecentTripView.onGetRecentTripFailure(400, t.message.toString())
             }
         })
 
     }
 
+    // 1-3. 전체 여행 수 조회 API
     fun getTripCount() {
         Log.d("TripApiController", "getTripCount()")
-        val homeRetrofitService = retrofit.create(GetTripCountApi::class.java)
+        val retrofit = retrofit.create(GetTripCountApi::class.java)
 
-        homeRetrofitService.getTripCount(getUserIdx().toString()).enqueue(object : Callback<HomeResponse> {
+        retrofit.getTripCount(getUserIdx().toString()).enqueue(object : Callback<GetTripCountResponse> {
 
-            override fun onResponse(call: Call<HomeResponse>, response: Response<HomeResponse>) {
+            override fun onResponse(call: Call<GetTripCountResponse>, response: Response<GetTripCountResponse>) {
                 if (response.isSuccessful) {
                     val res = response.body()!!
                     when (res.code) {
@@ -111,20 +81,21 @@ class TripApiController {
                 }
             }
 
-            override fun onFailure(call: Call<HomeResponse>, t: Throwable) {
+            override fun onFailure(call: Call<GetTripCountResponse>, t: Throwable) {
                 Log.e("TripApiController", "getTripCount() $t")
                 getTripCountView.onGetTripCountFailure(400, t.message.toString())
             }
         })
     }
 
+    // 2-3. 여행 생성
     fun postTrip(trip: Trip) {
 
-        val tripRetrofitService = retrofit.create(PostTripApi::class.java)
+        val retrofit = retrofit.create(PostTripApi::class.java)
 
         postTripView.onPostTripLoading()
 
-        tripRetrofitService.postTrip(trip).enqueue(object : Callback<PostTripResponse> {
+        retrofit.postTrip(trip).enqueue(object : Callback<PostTripResponse> {
 
             override fun onResponse(
                 call: Call<PostTripResponse>,
@@ -144,6 +115,35 @@ class TripApiController {
                 Log.e("TripApiController", "postTrip() failure $t")
                 postTripView.onPostTripFailure(400, t.message.toString())
             }
+        })
+    }
+
+    // 3-1. 유저 전체 여행 조회
+    fun getAllTrips() {
+
+        val retrofit = retrofit.create(GetAllTripsApi::class.java)
+
+        retrofit.getAllTrips(getUserIdx()).enqueue(object : Callback<GetAllTripsResponse> {
+
+            override fun onResponse(
+                call: Call<GetAllTripsResponse>,
+                response: Response<GetAllTripsResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val res = response.body()!!
+                    Log.d("TripApiController", "getAllTrips()")
+                    when (res.code) {
+                        1000 -> getAllTripsView.onGetAllTripsSuccess(res.result)
+                        else -> getAllTripsView.onGetAllTripsFailure(res.code, res.message)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<GetAllTripsResponse>, t: Throwable) {
+                Log.e("TripApiController", "getAllTrips() failure $t")
+                getAllTripsView.onGetAllTripsFailure(400, t.message.toString())
+            }
+
         })
 
     }

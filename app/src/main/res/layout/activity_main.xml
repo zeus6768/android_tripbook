@@ -20,7 +20,7 @@
             android:layout_height="?attr/actionBarSize">
 
             <ImageView
-                android:id="@+id/home_left_drawer_btn"
+                android:id="@+id/main_left_drawer_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/btn_home_menu"
@@ -37,10 +37,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- 여행기록하기 메뉴바 -->
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_user_cl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_home_trip_record"
@@ -117,30 +119,20 @@
 
             </LinearLayout>
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- 여행 콘텐츠 스와이프 -->
-        <FrameLayout
-            android:id="@+id/main_content_fl"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_home_constraint_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/main_content_vp"
-                android:layout_gravity="center"
-                android:clipToPadding="false"
-                android:clipChildren="false"
-                android:scaleType="fitXY"
+                android:id="@+id/main_home_viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
-            <me.relex.circleindicator.CircleIndicator3
-                android:id="@+id/main_content_ci"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_gravity="bottom"/>
-        </FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </LinearLayout>
 
     <!--자식 레이아웃. Navigation Drawer-->
@@ -151,4 +143,5 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/activity_main_left_drawer_header"
         app:menu="@menu/activity_main_left_drawer" />
+
 </androidx.drawerlayout.widget.DrawerLayout>

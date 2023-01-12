@@ -9,23 +9,23 @@ interface UserAuthApi {
     fun autoSignIn(): Call<SignInResponse>
 
     @POST("/app/kakao/signup")
-    fun signUpUser(@Body kakaoAccessToken: HashMap<String, String>): Call<SignUpResponse>
+    fun signUpUser(@Body kakaoAccessToken: HashMap<String, String?>): Call<SignUpResponse>
 
     @POST("/app/kakao/signupprofile")
-    fun signUpProfile(@Body kakaoAccessToken: HashMap<String, String>): Call<SignUpResponse>
+    fun signUpProfile(@Body kakaoAccessToken: HashMap<String, String?>): Call<SignUpResponse>
 
     @POST("/app/kakao/signin")
-    fun kakaoSignIn(@Body params: HashMap<String, String>): Call<KakaoSignInResponse>
+    fun kakaoSignIn(@Body params: HashMap<String, String?>): Call<KakaoSignInResponse>
 
     @POST("/app/user/kakao/updateTokens/{userIdx}")
     fun updateKakaoAccessToken(
-        @Body kakaoRefreshToken: HashMap<String, String>,
+        @Body kakaoRefreshToken: HashMap<String, String?>,
         @Path("userIdx") userIdx: Int
     ): Call<UpdateKakaoAccessTokenResponse>
 
     @POST("/app/user/kakao/updateUserProfile/{userIdx}")
     fun updateProfile(
-        @Body kakaoAccessToken: HashMap<String, String>,
+        @Body kakaoAccessToken: HashMap<String, String?>,
         @Path("userIdx") userIdx: Int
     ): Call<UpdateProfileResponse>
 
@@ -34,7 +34,7 @@ interface UserAuthApi {
 
     @POST("/app/user/updateTokens/{userIdx}")
     fun updateAccessToken(
-        @Body refreshToken: HashMap<String, String>,
+        @Body refreshToken: HashMap<String, String?>,
         @Path("userIdx") userIdx: Int
     ): Call<UpdateAccessTokenResponse>
 }

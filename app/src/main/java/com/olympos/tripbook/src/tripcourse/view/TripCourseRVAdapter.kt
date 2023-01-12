@@ -132,7 +132,8 @@ class TripCourseRVAdapter(private val mContext: Context, private val courseList:
 
             binding.itemTitleTv.text = course.courseTitle
             binding.itemDateTv.text = course.courseDate
-            binding.itemContentTv.text = course.courseContent
+//            course.courseImg?.let { binding.itemCardPicIv.setImageResource(it) }
+            binding.itemContentTv.text = course.courseComment
             course.courseImg?.let { binding.itemCardPicIv.setImageResource(it) }
 
             binding.root.setOnCreateContextMenuListener(this)
